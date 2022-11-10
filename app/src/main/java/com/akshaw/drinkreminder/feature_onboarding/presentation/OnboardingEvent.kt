@@ -1,0 +1,20 @@
+package com.akshaw.drinkreminder.feature_onboarding.presentation
+
+import com.akshaw.drinkreminder.core.domain.model.Gender
+import com.akshaw.drinkreminder.core.util.TimeUnit
+import com.akshaw.drinkreminder.core.util.WeightUnit
+
+sealed class OnboardingEvent{
+    object OnNextClick: OnboardingEvent()
+    data class OnGenderClick(val gender: Gender): OnboardingEvent()
+    data class OnAgeChange(val age: Int): OnboardingEvent()
+    data class OnWeightChange(val weight: Int): OnboardingEvent()
+    data class OnWeightUnitChange(val unit: WeightUnit): OnboardingEvent()
+    data class OnBedTimeHourChange(val hour: String): OnboardingEvent()
+    data class OnBedTimeMinuteChange(val minute: String): OnboardingEvent()
+    data class OnBedTimeUnitChange(val unit: TimeUnit): OnboardingEvent()
+    data class OnWakeupTimeHourChange(val hour: String): OnboardingEvent()
+    data class OnWakeupTimeMinuteChange(val minute: String): OnboardingEvent()
+    data class OnWakeupTimeUnitChange(val unit: TimeUnit): OnboardingEvent()
+    object OnSkipClick: OnboardingEvent()
+}
