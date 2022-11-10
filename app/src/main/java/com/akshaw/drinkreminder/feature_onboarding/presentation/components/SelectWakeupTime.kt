@@ -48,7 +48,7 @@ fun SelectWakeupTime(viewModel: OnboardingViewModel, modifier: Modifier){
                     setDividerThickness(Utility.getFloatFromDp(context, 0.5f).roundToInt())
                     dividerColor = context.getColor(R.color.on_background).apply { alpha = 0.5f }
                     fadingEdgeStrength = 1f
-                    maxValue = 13
+                    maxValue = 12
                     minValue = 1
                     selectedTextColor = context.getColor(R.color.on_background)
                     selectedTextSize = Utility.getFloatFromSp(context, 48f)
