@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.feature_onboarding.presentation.components
 
+import android.content.ClipData.Item
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -40,8 +41,10 @@ private fun Preview() {
             text = "Male",
             drawableRes = R.drawable.ic_icon_awesome_male,
             isSelected = selected.value,
-            color = MaterialTheme.colorScheme.secondary.copy(alpha = .15f),
-            selectedColor = MaterialTheme.colorScheme.primary.copy(alpha = .5f),
+            cardColor = MaterialTheme.colorScheme.primary.copy(alpha = .15f),
+            selectedCardColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+            itemColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+            selectedItemColor = MaterialTheme.colorScheme.onBackground,
             onClick = { selected.value = !selected.value },
             modifier = Modifier
                 .fillMaxWidth()
@@ -66,8 +69,10 @@ fun GenderSelectable(
     text: String,
     drawableRes: Int,
     isSelected: Boolean,
-    color: Color,
-    selectedColor: Color,
+    cardColor: Color,
+    selectedCardColor: Color,
+    itemColor: Color,
+    selectedItemColor: Color,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = MaterialTheme.typography.bodyLarge
@@ -75,7 +80,7 @@ fun GenderSelectable(
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
-            containerColor = if (isSelected) selectedColor else color
+            containerColor = if (isSelected) selectedCardColor else cardColor
         ),
         onClick = onClick,
         shape = RoundedCornerShape(16.dp)
@@ -85,14 +90,21 @@ fun GenderSelectable(
                 painter = painterResource(drawableRes),
                 contentDescription = text,
                 modifier = Modifier.padding(24.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSecondary)
+                colorFilter = ColorFilter.tint(
+                    if (isSelected)
+                        selectedItemColor
+                    else
+                        itemColor
+                )
             )
             Text(
                 text = text,
                 modifier = Modifier
                     .weight(1f)
                     .align(CenterVertically),
-                style = textStyle
+                style = textStyle.copy(
+                    color = if(isSelected) selectedItemColor else itemColor
+                )
             )
             if (isSelected) {
                 Image(

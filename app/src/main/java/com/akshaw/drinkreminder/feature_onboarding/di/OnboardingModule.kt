@@ -1,6 +1,6 @@
 package com.akshaw.drinkreminder.feature_onboarding.di
 
-import com.akshaw.drinkreminder.feature_onboarding.domain.use_case.GetLocalTime
+import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +13,7 @@ object OnboardingModule {
 
     @Provides
     @ViewModelScoped
-    fun provideGetLocalTime(): GetLocalTime{
+    fun provideGetLocalTime(): GetLocalTime {
         return GetLocalTime()
     }
 

@@ -1,4 +1,4 @@
-package com.akshaw.drinkreminder.feature_onboarding.domain.use_case
+package com.akshaw.drinkreminder.core.domain.use_case
 
 import com.akshaw.drinkreminder.core.util.TimeUnit
 import java.time.LocalTime

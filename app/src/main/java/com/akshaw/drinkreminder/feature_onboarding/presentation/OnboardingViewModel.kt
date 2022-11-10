@@ -7,20 +7,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akshaw.drinkreminder.R
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
+import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import com.akshaw.drinkreminder.core.util.UiEvent
 import com.akshaw.drinkreminder.core.util.UiText
-import com.akshaw.drinkreminder.feature_onboarding.domain.use_case.GetLocalTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
-    val preferences: Preferences,
-    val getLocalTime: GetLocalTime
+    private val preferences: Preferences,
+    private val getLocalTime: GetLocalTime
 ) : ViewModel() {
 
     var state by mutableStateOf(OnboardingState())
@@ -87,6 +86,9 @@ class OnboardingViewModel @Inject constructor(
                     weightUnit = event.unit
                 )
             }
+            OnboardingEvent.OnBackClick -> {
+                navigateToPreviousPage()
+            }
         }
     }
 
@@ -94,38 +96,28 @@ class OnboardingViewModel @Inject constructor(
         when (state.page) {
             OnboardingPage.GENDER -> {
                 preferences.saveGender(state.gender)
-                state = state.copy(
-                    page = OnboardingPage.AGE
-                )
+                navigateToNextPage()
             }
 
             OnboardingPage.AGE -> {
                 preferences.saveAge(state.age)
-                state = state.copy(
-                    page = OnboardingPage.WEIGHT
-                )
+                navigateToNextPage()
             }
 
             OnboardingPage.WEIGHT -> {
                 preferences.saveWeight(state.weight)
                 preferences.saveWeightUnit(state.weightUnit)
-                state = state.copy(
-                    page = OnboardingPage.BED_TIME
-                )
+                navigateToNextPage()
             }
 
             OnboardingPage.BED_TIME -> {
                 getLocalTime(state.bedTimeHour, state.bedTimeMinute, state.bedTimeUnit)
                     .onSuccess { time ->
                         preferences.saveBedTime(time)
-                        state = state.copy(
-                            page = OnboardingPage.WAKEUP_TIME
-                        )
+                        navigateToNextPage()
                     }
                     .onFailure {
-                        _uiEvent.send(
-                            UiEvent.ShowSnackBar(UiText.StringResource(R.string.error_something_went_wrong))
-                        )
+                        triggerErrorEvent()
                     }
             }
 
@@ -133,15 +125,37 @@ class OnboardingViewModel @Inject constructor(
                 getLocalTime(state.wakeupTimeHour, state.wakeupTimeMinute, state.wakeupTimeUnit)
                     .onSuccess { time ->
                         preferences.saveWakeupTime(time)
-                        _uiEvent.send(UiEvent.Success)
+                        navigateToNextPage()
                     }
                     .onFailure {
-                        _uiEvent.send(
-                            UiEvent.ShowSnackBar(UiText.StringResource(R.string.error_something_went_wrong))
-                        )
+                        triggerErrorEvent()
                     }
             }
         }
+    }
+
+    private suspend fun navigateToNextPage() {
+        if (state.page.nextPage() != null) {
+            state = state.copy(
+                page = state.page.nextPage()!!
+            )
+        } else {
+            _uiEvent.send(UiEvent.Success)
+        }
+    }
+
+    private fun navigateToPreviousPage(){
+        if (state.page.previousPage() != null){
+            state = state.copy(
+                page = state.page.previousPage()!!
+            )
+        }
+    }
+
+    private suspend fun triggerErrorEvent() {
+        _uiEvent.send(
+            UiEvent.ShowSnackBar(UiText.StringResource(R.string.error_something_went_wrong))
+        )
     }
 
 }

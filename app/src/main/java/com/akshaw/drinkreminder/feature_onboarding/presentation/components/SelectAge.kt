@@ -7,6 +7,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -31,18 +33,18 @@ fun SelectAge(viewModel: OnboardingViewModel, modifier: Modifier) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         AndroidView(
-            modifier = Modifier,
+            modifier = Modifier.width(100.dp),
             factory = { context ->
                 NumberPicker(context).apply {
                     setDividerDistance(Utility.getFloatFromDp(context, 60f).roundToInt())
                     setDividerThickness(Utility.getFloatFromDp(context, 0.5f).roundToInt())
-                    dividerColor = Color.parseColor("#A3B4C4")
+                    dividerColor = context.getColor(R.color.on_background).apply { alpha = 0.5f }
                     fadingEdgeStrength = 1f
                     maxValue = 150
                     minValue = 10
-                    selectedTextColor = Color.parseColor("#152F48")
+                    selectedTextColor = context.getColor(R.color.on_background)
                     selectedTextSize = Utility.getFloatFromSp(context, 48f)
-                    textColor = Color.parseColor("#A3B4C4")
+                    textColor = context.getColor(R.color.on_background).apply { alpha = 0.5f }
                     textSize = Utility.getFloatFromSp(context, 36f)
                     wheelItemCount = 3
                     value = 20
@@ -60,7 +62,7 @@ fun SelectAge(viewModel: OnboardingViewModel, modifier: Modifier) {
         Text(
             text = stringResource(id = R.string.years),
             style = TextStyle(
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 24.sp,
                 fontFamily = FontFamily(Font(R.font.ubuntu_medium, FontWeight.Medium))
             ),

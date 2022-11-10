@@ -12,7 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.R
-import com.akshaw.drinkreminder.core.domain.model.Gender
+import com.akshaw.drinkreminder.core.util.Gender
 import com.akshaw.drinkreminder.feature_onboarding.presentation.OnboardingEvent
 import com.akshaw.drinkreminder.feature_onboarding.presentation.OnboardingViewModel
 
@@ -25,8 +25,10 @@ fun SelectGender(viewModel: OnboardingViewModel, modifier: Modifier) {
             text = stringResource(id = R.string.female),
             drawableRes = R.drawable.ic_icon_awesome_female,
             isSelected = viewModel.state.gender is Gender.Female,
-            color = MaterialTheme.colorScheme.secondary.copy(alpha = .15f),
-            selectedColor = MaterialTheme.colorScheme.secondary.copy(alpha = .5f),
+            cardColor = MaterialTheme.colorScheme.primary.copy(alpha = .15f),
+            selectedCardColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+            itemColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+            selectedItemColor = MaterialTheme.colorScheme.onBackground,
             onClick = {
                 viewModel.onEvent(OnboardingEvent.OnGenderClick(Gender.Female))
             },
@@ -49,8 +51,10 @@ fun SelectGender(viewModel: OnboardingViewModel, modifier: Modifier) {
             text = stringResource(id = R.string.male),
             drawableRes = R.drawable.ic_icon_awesome_male,
             isSelected = viewModel.state.gender is Gender.Male,
-            color = MaterialTheme.colorScheme.secondary.copy(alpha = .15f),
-            selectedColor = MaterialTheme.colorScheme.secondary.copy(alpha = .5f),
+            cardColor = MaterialTheme.colorScheme.primary.copy(alpha = .15f),
+            selectedCardColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+            itemColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+            selectedItemColor = MaterialTheme.colorScheme.onBackground,
             onClick = {
                 viewModel.onEvent(OnboardingEvent.OnGenderClick(Gender.Male))
             },
