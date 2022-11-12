@@ -6,13 +6,13 @@ import java.time.format.DateTimeFormatter
 
 class GetLocalTime {
 
-    operator fun invoke(hour: String, minute: String, unit: TimeUnit): Result<LocalTime> {
-        val h = hour.toIntOrNull()
-        val m = minute.toIntOrNull()
+    operator fun invoke(hour: Int, minute: Int, unit: TimeUnit): Result<LocalTime> {
+        val h = hour
+        val m = minute
 
-        if (h == null || m == null) {
-            return Result.failure(NullPointerException())
-        }
+//        if (h == null || m == null) {
+//            return Result.failure(NullPointerException())
+//        }
 
         val hourString = if (h in 0..9) "0$h" else h.toString()
         val minuteString = if (m in 0..9) "0$m" else m.toString()

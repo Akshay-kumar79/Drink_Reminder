@@ -17,44 +17,26 @@ class GetLocalTimeTest {
     }
 
     @Test
-    fun `get time with alphaNumeric hour, returns failure`() {
-        val time = getLocalTime("3b", "32", TimeUnit.AM)
-        assertThat(time.isFailure).isTrue()
-    }
-
-    @Test
-    fun `get time with alphaNumeric minute, returns failure`() {
-        val time = getLocalTime("32", "d2", TimeUnit.AM)
-        assertThat(time.isFailure).isTrue()
-    }
-
-    @Test
-    fun `get time with alphaNumeric hour and minute, returns failure`() {
-        val time = getLocalTime("m2", "d2", TimeUnit.AM)
-        assertThat(time.isFailure).isTrue()
-    }
-
-    @Test
     fun `get time with unParsable hour, returns failure`() {
-        val time = getLocalTime("13", "22", TimeUnit.AM)
+        val time = getLocalTime(13, 22, TimeUnit.AM)
         assertThat(time.isFailure).isTrue()
     }
 
     @Test
     fun `get time with unParsable minute, returns failure`() {
-        val time = getLocalTime("11", "60", TimeUnit.AM)
+        val time = getLocalTime(11, 60, TimeUnit.AM)
         assertThat(time.isFailure).isTrue()
     }
 
     @Test
     fun `get time with unParsable hour and minute, returns failure`() {
-        val time = getLocalTime("00", "60", TimeUnit.AM)
+        val time = getLocalTime(0, 60, TimeUnit.AM)
         assertThat(time.isFailure).isTrue()
     }
 
     @Test
     fun `get time with valid hour and minute using AM, returns success`() {
-        val time = getLocalTime("11", "59", TimeUnit.AM)
+        val time = getLocalTime(11, 59, TimeUnit.AM)
         assertThat(time.isSuccess).isTrue()
         assertThat(time.getOrNull()?.hour).isEqualTo(11)
         assertThat(time.getOrNull()?.minute).isEqualTo(59)
@@ -62,7 +44,7 @@ class GetLocalTimeTest {
 
     @Test
     fun `get time with valid hour and minute using PM, returns success`() {
-        val time = getLocalTime("11", "59", TimeUnit.PM)
+        val time = getLocalTime(11, 59, TimeUnit.PM)
         assertThat(time.isSuccess).isTrue()
         assertThat(time.getOrNull()?.hour).isEqualTo(23)
         assertThat(time.getOrNull()?.minute).isEqualTo(59)
@@ -70,7 +52,7 @@ class GetLocalTimeTest {
 
     @Test
     fun `get time with single digit hour and minute using PM, returns success`() {
-        val time = getLocalTime("1", "5", TimeUnit.PM)
+        val time = getLocalTime(1, 5, TimeUnit.PM)
         assertThat(time.isSuccess).isTrue()
         assertThat(time.getOrNull()?.hour).isEqualTo(13)
         assertThat(time.getOrNull()?.minute).isEqualTo(5)
@@ -78,7 +60,7 @@ class GetLocalTimeTest {
 
     @Test
     fun `get time with single digit hour and minute using AM, returns success`() {
-        val time = getLocalTime("1", "5", TimeUnit.AM)
+        val time = getLocalTime(1, 5, TimeUnit.AM)
         assertThat(time.isSuccess).isTrue()
         assertThat(time.getOrNull()?.hour).isEqualTo(1)
         assertThat(time.getOrNull()?.minute).isEqualTo(5)
@@ -86,13 +68,13 @@ class GetLocalTimeTest {
 
     @Test
     fun `get time with negative hour and minute using PM, returns failure`() {
-        val time = getLocalTime("-1", "-5", TimeUnit.PM)
+        val time = getLocalTime(-1, -5, TimeUnit.PM)
         assertThat(time.isFailure).isTrue()
     }
 
     @Test
     fun `get time with negative hour and minute using AM, returns failure`() {
-        val time = getLocalTime("-1", "-5", TimeUnit.AM)
+        val time = getLocalTime(-1, -5, TimeUnit.AM)
         assertThat(time.isFailure).isTrue()
     }
 

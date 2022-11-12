@@ -5,9 +5,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.akshaw.drinkreminder.core.data.preferences.DefaultPreference
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
+import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -29,6 +31,12 @@ object AppModule {
         sharedPref: SharedPreferences
     ): Preferences {
         return DefaultPreference(sharedPref)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetLocalTime(): GetLocalTime {
+        return GetLocalTime()
     }
 
 }

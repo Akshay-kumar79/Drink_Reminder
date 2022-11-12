@@ -10,6 +10,9 @@ import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import com.akshaw.drinkreminder.core.util.UiEvent
 import com.akshaw.drinkreminder.core.util.UiText
+import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.feature_onboarding.domain.use_case.GetNextPage
+import com.akshaw.drinkreminder.feature_onboarding.domain.use_case.GetPreviousPage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -19,7 +22,9 @@ import javax.inject.Inject
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
     private val preferences: Preferences,
-    private val getLocalTime: GetLocalTime
+    private val getLocalTime: GetLocalTime,
+    private val getNextPage: GetNextPage,
+    private val getPreviousPage: GetPreviousPage
 ) : ViewModel() {
 
     var state by mutableStateOf(OnboardingState())
@@ -105,9 +110,13 @@ class OnboardingViewModel @Inject constructor(
             }
 
             OnboardingPage.WEIGHT -> {
-                preferences.saveWeight(state.weight)
-                preferences.saveWeightUnit(state.weightUnit)
-                navigateToNextPage()
+                if (state.weightUnit != WeightUnit.INVALID) {
+                    preferences.saveWeight(state.weight)
+                    preferences.saveWeightUnit(state.weightUnit)
+                    navigateToNextPage()
+                } else {
+                    triggerErrorEvent()
+                }
             }
 
             OnboardingPage.BED_TIME -> {
@@ -135,21 +144,24 @@ class OnboardingViewModel @Inject constructor(
     }
 
     private suspend fun navigateToNextPage() {
-        if (state.page.nextPage() != null) {
-            state = state.copy(
-                page = state.page.nextPage()!!
-            )
-        } else {
-            _uiEvent.send(UiEvent.Success)
-        }
+        getNextPage(state.page)
+            .onSuccess { nextPage ->
+                state = state.copy(
+                    page = nextPage
+                )
+            }
+            .onFailure {
+                _uiEvent.send(UiEvent.Success)
+            }
     }
 
-    private fun navigateToPreviousPage(){
-        if (state.page.previousPage() != null){
-            state = state.copy(
-                page = state.page.previousPage()!!
-            )
-        }
+    private fun navigateToPreviousPage() {
+        getPreviousPage(state.page)
+            .onSuccess { previousPage ->
+                state = state.copy(
+                    page = previousPage
+                )
+            }
     }
 
     private suspend fun triggerErrorEvent() {

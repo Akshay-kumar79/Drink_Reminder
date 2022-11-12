@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import com.akshaw.drinkreminder.R
+import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.util.Utility
 import com.akshaw.drinkreminder.feature_onboarding.presentation.OnboardingEvent
 import com.akshaw.drinkreminder.feature_onboarding.presentation.OnboardingViewModel
@@ -40,14 +41,14 @@ fun SelectAge(viewModel: OnboardingViewModel, modifier: Modifier) {
                     setDividerThickness(Utility.getFloatFromDp(context, 0.5f).roundToInt())
                     dividerColor = context.getColor(R.color.on_background).apply { alpha = 0.5f }
                     fadingEdgeStrength = 1f
-                    maxValue = 150
-                    minValue = 10
+                    minValue = Constants.MIN_AGE
+                    maxValue = Constants.MAX_AGE
                     selectedTextColor = context.getColor(R.color.on_background)
                     selectedTextSize = Utility.getFloatFromSp(context, 48f)
                     textColor = context.getColor(R.color.on_background).apply { alpha = 0.5f }
                     textSize = Utility.getFloatFromSp(context, 36f)
                     wheelItemCount = 3
-                    value = 20
+                    value = viewModel.state.age
                     typeface = ResourcesCompat.getFont(context, R.font.ubuntu_medium)
                     setSelectedTypeface(ResourcesCompat.getFont(context, R.font.ubuntu_medium))
                     setOnValueChangedListener { picker, oldVal, newVal ->

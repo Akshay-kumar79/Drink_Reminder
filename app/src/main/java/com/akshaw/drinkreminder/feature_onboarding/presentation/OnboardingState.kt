@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.feature_onboarding.presentation
 
+import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.util.Gender
 import com.akshaw.drinkreminder.core.util.TimeUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
@@ -8,16 +9,16 @@ import java.time.format.DateTimeFormatter
 
 data class OnboardingState(
     val page: OnboardingPage = OnboardingPage.GENDER,
-    val gender: Gender = Gender.Female,
-    val age: Int = 20,
-    val weight: Float = 75.0f,
-    val weightUnit: WeightUnit = WeightUnit.KG,
-    val bedTimeHour: String = "10",
-    val bedTimeMinute: String = "00",
-    val bedTimeUnit: TimeUnit = TimeUnit.PM,
-    val wakeupTimeHour: String = "07",
-    val wakeupTimeMinute: String = "00",
-    val wakeupTimeUnit: TimeUnit = TimeUnit.AM
+    val gender: Gender = Constants.DEFAULT_GENDER,
+    val age: Int = Constants.DEFAULT_AGE,
+    val weight: Float = Constants.DEFAULT_WEIGHT.toFloat(),
+    val weightUnit: WeightUnit = Constants.DEFAULT_WEIGHT_UNIT,
+    val bedTimeHour: Int = Constants.BED_TIME_DEFAULT_HOUR,
+    val bedTimeMinute: Int = Constants.BED_TIME_DEFAULT_MINUTE,
+    val bedTimeUnit: TimeUnit = Constants.BED_TIME_DEFAULT_UNIT,
+    val wakeupTimeHour: Int = Constants.WAKE_TIME_DEFAULT_HOUR,
+    val wakeupTimeMinute: Int = Constants.WAKE_TIME_DEFAULT_MINUTE,
+    val wakeupTimeUnit: TimeUnit = Constants.WAKE_TIME_DEFAULT_UNIT
 )
 
 enum class OnboardingPage{

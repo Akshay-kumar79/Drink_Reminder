@@ -55,11 +55,11 @@ fun SelectBedTime(viewModel: OnboardingViewModel, modifier: Modifier) {
                     textColor = context.getColor(R.color.on_background).apply { alpha = 0.5f }
                     textSize = Utility.getFloatFromSp(context, 36f)
                     wheelItemCount = 3
-                    value = 10
+                    value = viewModel.state.bedTimeHour
                     typeface = ResourcesCompat.getFont(context, R.font.ubuntu_medium)
                     setSelectedTypeface(ResourcesCompat.getFont(context, R.font.ubuntu_medium))
                     setOnValueChangedListener { picker, oldVal, newVal ->
-                        viewModel.onEvent(OnboardingEvent.OnBedTimeHourChange(value.toString()))
+                        viewModel.onEvent(OnboardingEvent.OnBedTimeHourChange(value))
                     }
                 }
             }
@@ -108,46 +108,40 @@ fun SelectBedTime(viewModel: OnboardingViewModel, modifier: Modifier) {
                     textColor = context.getColor(R.color.on_background).apply { alpha = 0.5f }
                     textSize = Utility.getFloatFromSp(context, 36f)
                     wheelItemCount = 3
-                    value = 0
+                    value = viewModel.state.bedTimeMinute
                     typeface = ResourcesCompat.getFont(context, R.font.ubuntu_medium)
                     setSelectedTypeface(ResourcesCompat.getFont(context, R.font.ubuntu_medium))
                     setOnValueChangedListener { picker, oldVal, newVal ->
-                        viewModel.onEvent(OnboardingEvent.OnBedTimeMinuteChange(value.toString()))
+                        viewModel.onEvent(OnboardingEvent.OnBedTimeMinuteChange(value))
                     }
                 }
             }
         )
         AndroidView(
-            modifier = Modifier,
+            modifier = Modifier.width(75.dp),
             factory = { context ->
                 NumberPicker(context).apply {
                     formatter = NumberPicker.Formatter {
-                        if (it == 100)
-                            TimeUnit.AM.name
-                        else
-                            TimeUnit.PM.name
+                        TimeUnit.fromIdToName(it)
                     }
                     setDividerDistance(Utility.getFloatFromDp(context, 60f).roundToInt())
                     setDividerThickness(Utility.getFloatFromDp(context, 0.5f).roundToInt())
                     dividerColor = context.getColor(R.color.on_background).apply { alpha = 0.5f }
                     fadingEdgeStrength = 1f
-                    maxValue = 101
-                    minValue = 100
+                    minValue = TimeUnit.minID()
+                    maxValue = TimeUnit.maxID()
                     selectedTextColor = context.getColor(R.color.on_background)
                     selectedTextSize = Utility.getFloatFromSp(context, 32f)
                     textColor = context.getColor(R.color.on_background).apply { alpha = 0.5f }
                     textSize = Utility.getFloatFromSp(context, 24f)
                     wheelItemCount = 3
-                    value = 101
+                    value = viewModel.state.bedTimeUnit.id
                     typeface = ResourcesCompat.getFont(context, R.font.ubuntu_medium)
                     setSelectedTypeface(ResourcesCompat.getFont(context, R.font.ubuntu_medium))
                     setOnValueChangedListener { picker, oldVal, newVal ->
                         viewModel.onEvent(
                             OnboardingEvent.OnBedTimeUnitChange(
-                                if (value == 100)
-                                    TimeUnit.AM
-                                else
-                                    TimeUnit.PM
+                                TimeUnit.fromId(value)
                             )
                         )
                     }

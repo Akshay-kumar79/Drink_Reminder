@@ -3,11 +3,12 @@ package com.akshaw.drinkreminder.core.data.preferences
 import android.content.SharedPreferences
 import com.akshaw.drinkreminder.core.util.Gender
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
+import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-class DefaultPreference(val sharedPref: SharedPreferences) : Preferences {
+class DefaultPreference(private val sharedPref: SharedPreferences) : Preferences {
 
     override fun saveGender(gender: Gender) {
         sharedPref.edit().putString(Preferences.KEY_GENDER, gender.name).apply()
@@ -40,19 +41,19 @@ class DefaultPreference(val sharedPref: SharedPreferences) : Preferences {
     }
 
     override fun loadGender(): Gender {
-        return Gender.fromString(sharedPref.getString(Preferences.KEY_GENDER, null))
+        return Gender.fromString(sharedPref.getString(Preferences.KEY_GENDER, Constants.DEFAULT_GENDER.name)!!)
     }
 
     override fun loadAge(): Int {
-        return sharedPref.getInt(Preferences.KEY_AGE, 20)
+        return sharedPref.getInt(Preferences.KEY_AGE, Constants.DEFAULT_AGE)
     }
 
     override fun loadWeight(): Float {
-        return sharedPref.getFloat(Preferences.KEY_WEIGHT, 75f)
+        return sharedPref.getFloat(Preferences.KEY_WEIGHT, Constants.DEFAULT_WEIGHT.toFloat())
     }
 
     override fun loadWeightUnit(): WeightUnit {
-        return WeightUnit.fromString(sharedPref.getString(Preferences.KEY_WEIGHT_UNIT, WeightUnit.KG.name))
+        return WeightUnit.fromString(sharedPref.getString(Preferences.KEY_WEIGHT_UNIT, Constants.DEFAULT_WEIGHT_UNIT.name))
     }
 
     override fun loadBedTime(): LocalTime {
