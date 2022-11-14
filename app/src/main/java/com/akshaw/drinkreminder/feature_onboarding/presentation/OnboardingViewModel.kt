@@ -64,7 +64,9 @@ class OnboardingViewModel @Inject constructor(
                 onNextClick()
             }
             OnboardingEvent.OnSkipClick -> {
-
+                viewModelScope.launch {
+                    _uiEvent.send(UiEvent.Success)
+                }
             }
             is OnboardingEvent.OnWakeupTimeHourChange -> {
                 state = state.copy(

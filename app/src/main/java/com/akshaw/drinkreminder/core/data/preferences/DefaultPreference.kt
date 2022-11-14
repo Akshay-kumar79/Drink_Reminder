@@ -56,6 +56,9 @@ class DefaultPreference(private val sharedPref: SharedPreferences) : Preferences
         return WeightUnit.fromString(sharedPref.getString(Preferences.KEY_WEIGHT_UNIT, Constants.DEFAULT_WEIGHT_UNIT.name))
     }
 
+    //TODO change time to sync from Constants files
+    //TODO catch parsing exception
+
     override fun loadBedTime(): LocalTime {
         return LocalTime.parse(sharedPref.getString(Preferences.KEY_BED_TIME, "22:00"))
     }

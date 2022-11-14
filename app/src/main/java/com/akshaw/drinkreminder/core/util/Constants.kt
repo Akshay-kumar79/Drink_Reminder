@@ -7,13 +7,13 @@ object Constants {
     /** Gender */
     val DEFAULT_GENDER = Gender.Female
 
-    // Weight
+    /** Weight */
     const val MAX_WEIGHT = 350
     const val MIN_WEIGHT = 20
     const val DEFAULT_WEIGHT = 75
     val DEFAULT_WEIGHT_UNIT = WeightUnit.KG
 
-    // Age
+    /** Age */
     const val MAX_AGE = 125
     const val MIN_AGE = 13
     const val DEFAULT_AGE = 20
