@@ -1,3 +1,117 @@
 <resources>
     <string name="app_name">Drink Reminder</string>
+
+    <string name="error_something_went_wrong">Oops, Something Went Wrong</string>
+
+    <string name="kg">kg</string>
+    <string name="lbs">lbs</string>
+    <string name="pm">PM</string>
+    <string name="am">AM</string>
+    <string name="ml">ml</string>
+    <string name="fl_oz">fl oz</string>
+
+
+    <string name="skip">SKIP</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="next">Next</string>
+    <string name="what_s_your_gender">What\'s your Gender?</string>
+    <string name="what_s_your_age">What\'s your Age?</string>
+    <string name="what_s_your_weight">What\'s your weight?</string>
+    <string name="what_s_your_bed_time">What\'s your bed time?</string>
+    <string name="what_s_your_wake_up_time">What\'s your wake-up time?</string>
+    <string name="let_us_know_you_better">Let us know you better</string>
+    <string name="let_us_know_you_for_better_goals">Let us know you for better goals</string>
+    <string name="let_us_know_you_for_better_goals_calculation">Let us know you for better goals calculation</string>
+    <string name="let_us_know_you_for_better_reminder_settings">Let us know you for better reminder settings</string>
+    <string name="years">years</string>
+    <string name="done">Done</string>
+    <string name="water">Water</string>
+    <string name="drink_now">Drink Now</string>
+    <string name="home">Home</string>
+    <string name="report">Report</string>
+    <string name="settings">Settings</string>
+
+    <string name="reminder_settings">REMINDER SETTINGS</string>
+    <string name="reminders">Reminders</string>
+    <string name="general_settings">GENERAL SETTINGS</string>
+    <string name="personal_information">PERSONAL INFORMATION</string>
+    <string name="other">OTHER</string>
+    <string name="critical">CRITICAL</string>
+    <string name="swipe_to_delete_reminders">Swipe to delete reminders</string>
+
+    <string name="repeat">Repeat</string>
+    <string name="units">Units</string>
+    <string name="water_unit">Water Unit</string>
+    <string name="weight_unit">Weight Unit</string>
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
+    <string name="daily_intake">Daily Water Intake</string>
+    <string name="age">Age</string>
+    <string name="gender">Gender</string>
+    <string name="weight">Weight</string>
+    <string name="bed_time">Bed Time</string>
+    <string name="wake_up_time">Wake-up Time</string>
+    <string name="reminder_mode">Reminder Mode</string>
+    <string name="q_why_doesn_t_the_reminder_work">Q: Why doesn’t the Reminder work?</string>
+    <string name="question_1_answer">A: There are several reasons. You may check settings as follows:
+        \n\n1. Is your bed time and wake-up time set appropriately?
+        \n2. Have you enabled Drink Water Reminder to auto start on your phone?
+        \n3. Have you installed third-party apps like "Clean Master" which may prohibit Drink Water Reminder running in background and send notifications?
+        \n4. Have you turned off the reminder?
+        \n5. Make sure all days are selected for your reminder
+        \n6. May be your battery optimization is on for this app. please turn off battery optimization for "Drink Water Reminder".</string>
+    <string name="q_why_does_the_reminder_have_no_sound">Q: Why does the Reminder have no sound?</string>
+    <string name="question_2_answer">A: Please check settings as follows:
+        \n\n1. Have you mute your phone?
+        \n2. Have you turned off the Reminder sound or set the Reminder volume to 0 in the Reminder option of Water Drink Reminder?</string>
+    <string name="q_what_happens_if_i_change_my_personal_information">Q: What happens if I change my personal information</string>
+    <string name="question_3_answer">A: default value of daily water intake will change depending on your weight, age and other factors.</string>
+    <string name="faq">FAQ</string>
+    <string name="go_to_settings">Go to Settings</string>
+    <string name="note">Note: </string>
+    <string name="if_you_still_getting_problem_than_your_can_report_us">If you still getting problem than your can report us.</string>
+    <string name="system">System:</string>
+    <string name="please_explain_in_brief_so_it_helps_us_to_find_bug">Please explain in brief so it helps us to find bug</string>
+    <string name="enter_you_feedback">enter you feedback…</string>
+    <string name="send">Send</string>
+    <string name="bug_report_and_feedback"><![CDATA[Bug Report & Feedback]]></string>
+    <string name="reset_data">Reset Data</string>
+    <string name="reset_data_description">you will loose all progress till now and cannot recover it later. Are you sure to reset data</string>
+    <string name="forgot_to_add">forgot to add?</string>
+    <string name="today_">Today :</string>
+    <string name="delete">Delete</string>
+    <string name="add_quantity">Add Quantity</string>
+    <string name="quantity">quantity</string>
+    <string name="add_forgotten_drink">Add Forgotten Drink</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="average_completion">Average completion</string>
+    <string name="weekly_average">Weekly average</string>
+    <string name="w">W</string>
+    <string name="m">M</string>
+    <string name="y">Y</string>
+    <string name="percentage_sign">%</string>
+    <string name="frequency">Frequency</string>
+    <string name="successfully_added_drink">Successfully Added Drink</string>
+    <string name="enter_some_value">enter some value…</string>
+    <string name="successfully_added_quantity">Successfully Added Quantity</string>
+    <string name="successfully_deleted">Successfully deleted</string>
+    <string name="add_another_one_before_deleting">Add another one before deleting</string>
+    <string name="completed">Completed</string>
+    <string name="everyday">Everyday</string>
+    <string name="none">none</string>
+    <string name="daily_water_intake_goal">Daily water intake goal</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="version">Version</string>
+    <string name="have_a_nice_day">Have a nice day</string>
+    <string name="close">close</string>
+    <string name="add_reminder">Add Reminder</string>
+    <string name="times_day">times / day</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="light_mode">Light Mode</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="system_default">System Default</string>
+    <string name="app_theme">App Theme</string>
+    <string name="please_explain_in_brief">Please explain in brief</string>
 </resources>
