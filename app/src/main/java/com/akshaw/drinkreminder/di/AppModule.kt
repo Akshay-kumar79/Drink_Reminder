@@ -3,6 +3,8 @@ package com.akshaw.drinkreminder.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.room.Room
+import com.akshaw.drinkreminder.core.data.local.MyDatabase
 import com.akshaw.drinkreminder.core.data.preferences.DefaultPreference
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
@@ -37,6 +39,16 @@ object AppModule {
     @Singleton
     fun provideGetLocalTime(): GetLocalTime {
         return GetLocalTime()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMyDatabase(app: Application): MyDatabase {
+        return Room.databaseBuilder(
+            app,
+            MyDatabase::class.java,
+            MyDatabase.DATABASE_NAME
+        ).build()
     }
 
 }

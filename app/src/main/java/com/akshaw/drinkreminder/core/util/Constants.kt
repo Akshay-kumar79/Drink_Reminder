@@ -2,7 +2,10 @@ package com.akshaw.drinkreminder.core.util
 
 object Constants {
 
-    const val KG_TO_POUND = 2.20462262185
+    const val KG_TO_LBS = 2.20462262185
+    const val LBS_TO_KG = 0.45359237
+    const val ML_TO_FLOZ = 0.033814022701843
+    const val FLOZ_TO_ML = 29.5735295625
 
     /** Gender */
     val DEFAULT_GENDER = Gender.Female
@@ -27,5 +30,8 @@ object Constants {
     const val WAKE_TIME_DEFAULT_HOUR = 6   // 1..12
     const val WAKE_TIME_DEFAULT_MINUTE = 0  // 0..59
     val WAKE_TIME_DEFAULT_UNIT = TimeUnit.AM
+
+    /** Water */
+    val DEFAULT_WATER_UNIT = WaterUnit.ML
 
 }

@@ -1,9 +1,10 @@
 package com.akshaw.drinkreminder.core.data.preferences
 
 import android.content.SharedPreferences
-import com.akshaw.drinkreminder.core.util.Gender
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.util.Constants
+import com.akshaw.drinkreminder.core.util.Gender
+import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -40,6 +41,10 @@ class DefaultPreference(private val sharedPref: SharedPreferences) : Preferences
         sharedPref.edit().putString(Preferences.KEY_WAKEUP_TIME, timeString).apply()
     }
 
+    override fun saveWaterUnit(unit: WaterUnit) {
+        sharedPref.edit().putString(Preferences.KEY_WATER_UNIT, unit.name).apply()
+    }
+
     override fun loadGender(): Gender {
         return Gender.fromString(sharedPref.getString(Preferences.KEY_GENDER, Constants.DEFAULT_GENDER.name)!!)
     }
@@ -65,5 +70,9 @@ class DefaultPreference(private val sharedPref: SharedPreferences) : Preferences
 
     override fun loadWakeupTime(): LocalTime {
         return LocalTime.parse(sharedPref.getString(Preferences.KEY_WAKEUP_TIME, "07:00"))
+    }
+
+    override fun loadWaterUnit(): WaterUnit {
+        return WaterUnit.fromString(sharedPref.getString(Preferences.KEY_WATER_UNIT, Constants.DEFAULT_WATER_UNIT.name))
     }
 }
