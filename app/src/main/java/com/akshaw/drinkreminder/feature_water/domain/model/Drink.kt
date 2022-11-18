@@ -16,7 +16,7 @@ fun Drink.convertUnit(newUnit: WaterUnit): Drink {
     return when (newUnit) {
         WaterUnit.ML -> {
             when (unit) {
-                WaterUnit.ML -> this
+                WaterUnit.ML -> this.copy()
                 WaterUnit.FL_OZ -> {
                     this.copy(
                         waterIntake = waterIntake * Constants.FLOZ_TO_ML,
@@ -39,7 +39,7 @@ fun Drink.convertUnit(newUnit: WaterUnit): Drink {
                         unit = WaterUnit.FL_OZ
                     )
                 }
-                WaterUnit.FL_OZ -> this
+                WaterUnit.FL_OZ -> this.copy()
                 WaterUnit.INVALID -> {
                     this.copy(
                         waterIntake = 0.0,

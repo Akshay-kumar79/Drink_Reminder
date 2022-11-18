@@ -1,9 +1,12 @@
 package com.akshaw.drinkreminder.feature_water.data.repository
 
 import com.akshaw.drinkreminder.core.data.local.MyDatabase
-import com.akshaw.drinkreminder.feature_water.data.mapper.toDrink
-import com.akshaw.drinkreminder.feature_water.data.mapper.toDrinkEntity
+import com.akshaw.drinkreminder.feature_water.domain.mapper.toDrink
+import com.akshaw.drinkreminder.feature_water.domain.mapper.toDrinkEntity
+import com.akshaw.drinkreminder.feature_water.domain.mapper.toTrackableDrink
+import com.akshaw.drinkreminder.feature_water.domain.mapper.toTrackableDrinkEntity
 import com.akshaw.drinkreminder.feature_water.domain.model.Drink
+import com.akshaw.drinkreminder.feature_water.domain.model.TrackableDrink
 import com.akshaw.drinkreminder.feature_water.domain.repository.WaterRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -14,6 +17,9 @@ class WaterRepositoryImpl @Inject constructor(
 ) : WaterRepository {
 
     private val drinkDao = database.drinkDao
+    private val trackableDrinkDao = database.trackableDrinkDao
+
+
     override suspend fun insertDrink(drink: Drink): Long {
         return drinkDao.insert(drink.toDrinkEntity())
     }
@@ -30,8 +36,29 @@ class WaterRepositoryImpl @Inject constructor(
         drinkDao.removeDrink(drink.toDrinkEntity())
     }
 
-    override suspend fun clear() {
+    override suspend fun clearDrink() {
         drinkDao.clear()
+    }
+
+
+    override suspend fun insertTrackableDrink(trackableDrink: TrackableDrink): Long {
+        return trackableDrinkDao.insert(trackableDrink.toTrackableDrinkEntity())
+    }
+
+    override fun getAllTrackableDrinks(): Flow<List<TrackableDrink>> {
+        return trackableDrinkDao.getAllTrackableDrinks().map {
+            it.map { trackableDrinkEntity ->
+                trackableDrinkEntity.toTrackableDrink()
+            }
+        }
+    }
+
+    override suspend fun removeTrackableDrink(trackableDrink: TrackableDrink) {
+        trackableDrinkDao.removeTrackableDrink(trackableDrink.toTrackableDrinkEntity())
+    }
+
+    override suspend fun clearTrackableDrink() {
+        trackableDrinkDao.clear()
     }
 
 }

@@ -14,9 +14,6 @@ interface DrinkDao {
     @Insert
     suspend fun insert(drink: DrinkEntity): Long
 
-//    @Query("select * from drinks_table where id = :key")
-//    suspend fun getDrinkById(key: Long): DrinkEntity
-
     @Query("select * from drinks_table order by milli desc")
     fun getAllDrinks(): Flow<List<DrinkEntity>>
 

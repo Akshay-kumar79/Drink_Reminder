@@ -3,6 +3,7 @@ package com.akshaw.drinkreminder.core.data.preferences
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.util.Gender
+import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -13,6 +14,7 @@ class FakePreference : Preferences {
     private var age: Int = Constants.DEFAULT_AGE
     private var weight: Float = Constants.DEFAULT_WEIGHT.toFloat()
     private var weightUnit: String = Constants.DEFAULT_WEIGHT_UNIT.name
+    private var waterUnit: String = Constants.DEFAULT_WATER_UNIT.name
 
     //TODO change time to sync from Constants files
     private var bedTime: String = "22:00"
@@ -49,6 +51,10 @@ class FakePreference : Preferences {
         this.wakeupTime = timeString
     }
 
+    override fun saveWaterUnit(unit: WaterUnit) {
+        this.waterUnit = unit.name
+    }
+
 
     override fun loadGender(): Gender {
         return Gender.fromString(gender)
@@ -72,5 +78,9 @@ class FakePreference : Preferences {
 
     override fun loadWakeupTime(): LocalTime {
         return LocalTime.parse(wakeupTime)
+    }
+
+    override fun loadWaterUnit(): WaterUnit {
+        return WaterUnit.fromString(waterUnit)
     }
 }

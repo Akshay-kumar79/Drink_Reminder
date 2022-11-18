@@ -6,6 +6,7 @@ import com.akshaw.drinkreminder.feature_water.data.repository.WaterRepositoryImp
 import com.akshaw.drinkreminder.feature_water.domain.repository.WaterRepository
 import com.akshaw.drinkreminder.feature_water.domain.use_case.GetADayDrinks
 import com.akshaw.drinkreminder.feature_water.domain.use_case.GetDrinkProgress
+import com.akshaw.drinkreminder.feature_water.domain.use_case.GetTrackableDrinks
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,6 +33,12 @@ object WaterModule {
     @Singleton
     fun providesGetDrinkProgress(preferences: Preferences): GetDrinkProgress {
         return GetDrinkProgress(preferences)
+    }
+
+    @Provides
+    @Singleton
+    fun providesGetTrackableDrinks(preferences: Preferences, waterRepository: WaterRepository): GetTrackableDrinks {
+        return GetTrackableDrinks(preferences, waterRepository)
     }
 
 }

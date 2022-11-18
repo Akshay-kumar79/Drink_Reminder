@@ -1,4 +1,4 @@
-package com.akshaw.drinkreminder.feature_water.data.mapper
+package com.akshaw.drinkreminder.feature_water.domain.mapper
 
 import com.akshaw.drinkreminder.core.data.local.entity.DrinkEntity
 import com.akshaw.drinkreminder.core.util.WaterUnit

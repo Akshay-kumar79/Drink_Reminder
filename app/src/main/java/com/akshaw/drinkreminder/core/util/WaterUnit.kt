@@ -10,8 +10,8 @@ sealed class WaterUnit(val name: String, val id: Int) {
     companion object {
         fun fromString(text: String?): WaterUnit {
             return when (text) {
-                "kg" -> ML
-                "lbs" -> FL_OZ
+                "ml" -> ML
+                "fl_oz" -> FL_OZ
                 else -> INVALID
             }
         }
