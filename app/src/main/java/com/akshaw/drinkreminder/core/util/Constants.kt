@@ -34,4 +34,7 @@ object Constants {
     /** Water */
     val DEFAULT_WATER_UNIT = WaterUnit.ML
 
+    /** Selected trackable drink id **/
+    const val DEFAULT_SELECTED_TRACKABLE_DRINK_ID = -1L
+
 }

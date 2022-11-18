@@ -15,6 +15,7 @@ class FakePreference : Preferences {
     private var weight: Float = Constants.DEFAULT_WEIGHT.toFloat()
     private var weightUnit: String = Constants.DEFAULT_WEIGHT_UNIT.name
     private var waterUnit: String = Constants.DEFAULT_WATER_UNIT.name
+    private var selectedTrackableDrinkId: Long = Constants.DEFAULT_SELECTED_TRACKABLE_DRINK_ID
 
     //TODO change time to sync from Constants files
     private var bedTime: String = "22:00"
@@ -55,6 +56,10 @@ class FakePreference : Preferences {
         this.waterUnit = unit.name
     }
 
+    override fun saveSelectedTrackableDrinkId(id: Long) {
+        this.selectedTrackableDrinkId = id
+    }
+
 
     override fun loadGender(): Gender {
         return Gender.fromString(gender)
@@ -82,5 +87,9 @@ class FakePreference : Preferences {
 
     override fun loadWaterUnit(): WaterUnit {
         return WaterUnit.fromString(waterUnit)
+    }
+
+    override fun loadSelectedTrackableDrinkId(): Long {
+        return selectedTrackableDrinkId
     }
 }

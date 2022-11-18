@@ -19,9 +19,4 @@ object Utility {
         )
     }
 
-//    fun Double.toMl(): Double = this * Constants.FLOZ_TO_ML
-//    fun Double.toFLOZ(): Double = this * Constants.ML_TO_FLOZ
-//    fun Double.toKG(): Double = this * Constants.LBS_TO_KG
-//    fun Double.toLBS(): Double = this * Constants.KG_TO_LBS
-
 }

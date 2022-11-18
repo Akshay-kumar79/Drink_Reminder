@@ -80,6 +80,8 @@ class GetDrinkProgressTest {
             Drink(0, LocalDateTime.now(), 23.0, WaterUnit.ML),
             Drink(0, LocalDateTime.now(), 2.0, WaterUnit.FL_OZ),
             Drink(0, LocalDateTime.now(), 532.0, WaterUnit.ML),
+            Drink(0, LocalDateTime.now(), 87.0, WaterUnit.INVALID),
+            Drink(0, LocalDateTime.now(), 532.0, WaterUnit.INVALID),
             Drink(0, LocalDateTime.now(), 87.0, WaterUnit.FL_OZ),
             Drink(0, LocalDateTime.now(), 129.0, WaterUnit.ML)
         )
@@ -93,10 +95,53 @@ class GetDrinkProgressTest {
             Drink(0, LocalDateTime.now(), 23.0, WaterUnit.ML),
             Drink(0, LocalDateTime.now(), 2.0, WaterUnit.FL_OZ),
             Drink(0, LocalDateTime.now(), 532.0, WaterUnit.ML),
+            Drink(0, LocalDateTime.now(), 532.0, WaterUnit.INVALID),
             Drink(0, LocalDateTime.now(), 87.0, WaterUnit.FL_OZ),
+            Drink(0, LocalDateTime.now(), 87.0, WaterUnit.INVALID),
             Drink(0, LocalDateTime.now(), 129.0, WaterUnit.ML)
         )
         preference.saveWaterUnit(WaterUnit.FL_OZ)
         assertThat(getDrinkProgress(drinks).roundToInt()).isEqualTo(112.1287915280606.roundToInt())
     }
+
+    @Test
+    fun `0 drinks and preference waterUnit FL_OZ, returns 0 progress in FL_OZ`(){
+        val drinks = mutableListOf<Drink>()
+        preference.saveWaterUnit(WaterUnit.FL_OZ)
+        assertThat(getDrinkProgress(drinks).roundToInt()).isEqualTo(0.0.roundToInt())
+    }
+
+    @Test
+    fun `0 drinks and preference waterUnit ML, returns 0 progress in ML`(){
+        val drinks = mutableListOf<Drink>()
+        preference.saveWaterUnit(WaterUnit.ML)
+        assertThat(getDrinkProgress(drinks).roundToInt()).isEqualTo(0.0.roundToInt())
+    }
+
+    @Test
+    fun `water unit type INVALID only and preference waterUnit FL_OZ, returns 0 progress in FL_OZ`(){
+        val drinks = mutableListOf(
+            Drink(0, LocalDateTime.now(), 23.0, WaterUnit.INVALID),
+            Drink(0, LocalDateTime.now(), 2.0, WaterUnit.INVALID),
+            Drink(0, LocalDateTime.now(), 532.0, WaterUnit.INVALID),
+            Drink(0, LocalDateTime.now(), 87.0, WaterUnit.INVALID),
+            Drink(0, LocalDateTime.now(), 129.0, WaterUnit.INVALID)
+        )
+        preference.saveWaterUnit(WaterUnit.FL_OZ)
+        assertThat(getDrinkProgress(drinks).roundToInt()).isEqualTo(0.0.roundToInt())
+    }
+
+    @Test
+    fun `water unit type INVALID only and preference waterUnit ML, returns 0 progress in ML`(){
+        val drinks = mutableListOf(
+            Drink(0, LocalDateTime.now(), 23.0, WaterUnit.INVALID),
+            Drink(0, LocalDateTime.now(), 2.0, WaterUnit.INVALID),
+            Drink(0, LocalDateTime.now(), 532.0, WaterUnit.INVALID),
+            Drink(0, LocalDateTime.now(), 87.0, WaterUnit.INVALID),
+            Drink(0, LocalDateTime.now(), 129.0, WaterUnit.INVALID)
+        )
+        preference.saveWaterUnit(WaterUnit.ML)
+        assertThat(getDrinkProgress(drinks).roundToInt()).isEqualTo(0.0.roundToInt())
+    }
+
 }

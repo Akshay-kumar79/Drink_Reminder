@@ -45,6 +45,11 @@ class DefaultPreference(private val sharedPref: SharedPreferences) : Preferences
         sharedPref.edit().putString(Preferences.KEY_WATER_UNIT, unit.name).apply()
     }
 
+    override fun saveSelectedTrackableDrinkId(id: Long) {
+        sharedPref.edit().putLong(Preferences.KEY_SELECTED_TRACKABLE_DRINK_ID, id).apply()
+    }
+
+
     override fun loadGender(): Gender {
         return Gender.fromString(sharedPref.getString(Preferences.KEY_GENDER, Constants.DEFAULT_GENDER.name)!!)
     }
@@ -74,5 +79,9 @@ class DefaultPreference(private val sharedPref: SharedPreferences) : Preferences
 
     override fun loadWaterUnit(): WaterUnit {
         return WaterUnit.fromString(sharedPref.getString(Preferences.KEY_WATER_UNIT, Constants.DEFAULT_WATER_UNIT.name))
+    }
+
+    override fun loadSelectedTrackableDrinkId(): Long {
+        return sharedPref.getLong(Preferences.KEY_SELECTED_TRACKABLE_DRINK_ID, Constants.DEFAULT_SELECTED_TRACKABLE_DRINK_ID)
     }
 }
