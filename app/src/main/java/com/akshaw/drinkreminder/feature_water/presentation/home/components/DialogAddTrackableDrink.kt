@@ -6,7 +6,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.Font
@@ -18,19 +17,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.akshaw.drinkreminder.R
-import com.akshaw.drinkreminder.feature_water.presentation.home.WaterHomeEvent
+import com.akshaw.drinkreminder.feature_water.presentation.home.events.WaterHomeEvent
 import com.akshaw.drinkreminder.feature_water.presentation.home.WaterHomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddTrackableDrinkDialog(
+fun DialogAddTrackableDrink(
     modifier: Modifier = Modifier,
-    viewModel: WaterHomeViewModel
+    isDialogShowing: Boolean,
+    quantity: String,
+    onCancel: () -> Unit,
+    onConfirm: () -> Unit,
+    onQuantityChange: (amount: String) -> Unit
 ) {
-    if (viewModel.state.isAddTrackableDrinkDialogShowing)
+    if (isDialogShowing)
         Dialog(
             onDismissRequest = {
-                viewModel.onEvent(WaterHomeEvent.OnAddTrackableDrinkCancel)
+                onCancel()
             }
         ) {
             Card(
@@ -40,7 +43,7 @@ fun AddTrackableDrinkDialog(
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(24.dp),
+                        .padding(top = 24.dp, start = 24.dp, end = 24.dp, bottom = 16.dp),
                     text = "Add Quantity",
                     fontFamily = FontFamily(Font(R.font.ubuntu_bold, FontWeight.Bold)),
                     fontSize = 20.sp,
@@ -49,10 +52,10 @@ fun AddTrackableDrinkDialog(
                 TextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 24.dp, end = 24.dp, start = 24.dp),
-                    value = viewModel.state.addQuantityAmount,
+                        .padding(bottom = 20.dp, end = 24.dp, start = 24.dp),
+                    value = quantity,
                     onValueChange = {
-                        viewModel.onEvent(WaterHomeEvent.OnAddQuantityAmountChange(it))
+                        onQuantityChange(it)
                     },
                     label = {
                         Text(text = "quantity")
@@ -71,10 +74,9 @@ fun AddTrackableDrinkDialog(
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(end = 16.dp)
                             .clip(RoundedCornerShape(10.dp))
                             .clickable {
-                                viewModel.onEvent(WaterHomeEvent.OnAddTrackableDrinkCancel)
+                                onCancel()
                             }
                             .padding(4.dp),
                         text = "CANCEL",
@@ -89,7 +91,7 @@ fun AddTrackableDrinkDialog(
                             .padding(end = 16.dp)
                             .clip(RoundedCornerShape(10.dp))
                             .clickable {
-                                viewModel.onEvent(WaterHomeEvent.OnAddTrackableDrinkConfirm)
+                                onConfirm()
                             }
                             .padding(4.dp),
                         text = "OK",

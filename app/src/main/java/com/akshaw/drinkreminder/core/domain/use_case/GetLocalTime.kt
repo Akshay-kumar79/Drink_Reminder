@@ -25,4 +25,22 @@ class GetLocalTime {
         }
     }
 
+    operator fun invoke(clock24Hour: Int, clock24minute: Int): Result<LocalTime> {
+
+        val hourString = if (clock24Hour in 0..9) "0$clock24Hour" else clock24Hour.toString()
+        val minuteString = if (clock24minute in 0..9) "0$clock24minute" else clock24minute.toString()
+        val timeString24Hour = "$hourString:$minuteString"
+
+        return try {
+            Result.success(
+                LocalTime.parse(
+                    timeString24Hour,
+                    DateTimeFormatter.ofPattern("H:mm", Locale.ENGLISH)
+                )
+            )
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
 }

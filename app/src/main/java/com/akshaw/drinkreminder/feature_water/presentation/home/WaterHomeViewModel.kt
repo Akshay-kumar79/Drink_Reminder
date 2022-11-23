@@ -6,13 +6,20 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
-import com.akshaw.drinkreminder.core.domain.use_case.FilterOutDigits
+import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import com.akshaw.drinkreminder.core.util.UiEvent
 import com.akshaw.drinkreminder.core.util.UiText
 import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.feature_water.domain.model.Drink
 import com.akshaw.drinkreminder.feature_water.domain.model.TrackableDrink
 import com.akshaw.drinkreminder.feature_water.domain.repository.WaterRepository
 import com.akshaw.drinkreminder.feature_water.domain.use_case.*
+import com.akshaw.drinkreminder.feature_water.presentation.home.events.DialogAddForgottenDrinkEvent
+import com.akshaw.drinkreminder.feature_water.presentation.home.events.DialogAddTrackableDrinkEvent
+import com.akshaw.drinkreminder.feature_water.presentation.home.events.WaterHomeEvent
+import com.akshaw.drinkreminder.feature_water.presentation.home.state.DialogAddForgottenDrinkState
+import com.akshaw.drinkreminder.feature_water.presentation.home.state.DialogAddTrackableDrinkState
+import com.akshaw.drinkreminder.feature_water.presentation.home.state.WaterHomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.launchIn
@@ -20,6 +27,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,53 +39,40 @@ class WaterHomeViewModel @Inject constructor(
     private val getDrinkProgress: GetDrinkProgress,
     private val getTrackableDrinks: GetTrackableDrinks,
     private val getSelectedTrackableDrink: GetSelectedTrackableDrink,
-    private val filterOutDigits: FilterOutDigits,
+    private val getLocalTime: GetLocalTime,
     private val validateQuantity: ValidateQuantity,
     private val drinkNow: DrinkNow
 ) : ViewModel() {
 
-    var state by mutableStateOf(WaterHomeState())
+    var screenState by mutableStateOf(WaterHomeState())
         private set
 
-    var maxValue by mutableStateOf(7)
+    var addForgottenDrinkDialogState by mutableStateOf(DialogAddForgottenDrinkState())
         private set
+
+    var addTrackableDrinkDialogState by mutableStateOf(DialogAddTrackableDrinkState())
+        private set
+
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    //TODO calculate goal
+    // TODO calculate goal
+    // TODO listen to preference changes
     init {
-//        viewModelScope.launch {
-//            for (amount in 1..7)
-//                waterRepository.insertTrackableDrink(
-//                    TrackableDrink(
-//                        amount = amount * 100.0,
-//                        unit = WaterUnit.ML
-//                    )
-//                )
-//
-//            for (amount in 1..7)
-//                waterRepository.insertTrackableDrink(
-//                    TrackableDrink(
-//                        amount = amount * 10.0,
-//                        unit = WaterUnit.FL_OZ
-//                    )
-//                )
-//        }
-
         preferences.saveWaterUnit(WaterUnit.ML)
-        state = state.copy(
+        screenState = screenState.copy(
             waterUnit = preferences.loadWaterUnit()
         )
         getADayDrinks(LocalDate.now()).onEach { drinks ->
-            state = state.copy(
+            screenState = screenState.copy(
                 progress = getDrinkProgress(drinks),
                 drinks = drinks
             )
         }.launchIn(viewModelScope)
 
         getTrackableDrinks().onEach { trackableDrinks ->
-            state = state.copy(
+            screenState = screenState.copy(
                 trackableDrinks = trackableDrinks,
                 selectedTrackableDrink = getSelectedTrackableDrink(trackableDrinks)
             )
@@ -89,24 +85,111 @@ class WaterHomeViewModel @Inject constructor(
 
             }
             WaterHomeEvent.OnDrinkClick -> {
-                drinkNow(state.selectedTrackableDrink)
+                drinkNow(screenState.selectedTrackableDrink)
                     .onSuccess {
                         // Do nothing for now
                     }
                     .onFailure {
-                        showMessage(UiText.DynamicString(it.message ?: "Add some drinks"))
+                        showSnackbar(UiText.DynamicString(it.message ?: "Add some drinks"))
                     }
             }
             is WaterHomeEvent.OnTrackableDrinkChange -> {
-                state = state.copy(
+                screenState = screenState.copy(
                     selectedTrackableDrink = event.drink
                 )
             }
-            is WaterHomeEvent.OnAddQuantityAmountChange -> {
+
+            WaterHomeEvent.OnRemoveTrackableDrinkClick -> {
+                screenState = screenState.copy(
+                    isRemoveTrackableDrinkDialogShowing = true
+                )
+            }
+            WaterHomeEvent.OnRemoveTrackableDrinkConfirm -> {
+                waterRepository.removeTrackableDrink(screenState.selectedTrackableDrink)
+                screenState = screenState.copy(
+                    isRemoveTrackableDrinkDialogShowing = false
+                )
+            }
+            WaterHomeEvent.OnRemoveTrackableDrinkCancel -> {
+                screenState = screenState.copy(
+                    isRemoveTrackableDrinkDialogShowing = false
+                )
+            }
+
+
+        }
+    }
+
+    fun onEvent(event: DialogAddForgottenDrinkEvent) = viewModelScope.launch {
+        when (event) {
+            DialogAddForgottenDrinkEvent.OnAddForgotDrinkClick -> {
+                addForgottenDrinkDialogState = addForgottenDrinkDialogState.copy(
+                    isDialogShowing = true
+                )
+            }
+            DialogAddForgottenDrinkEvent.OnConfirmClick -> {
+                getLocalTime(
+                    addForgottenDrinkDialogState.hour,
+                    addForgottenDrinkDialogState.minute
+                )
+                    .onSuccess { localTime ->
+                        waterRepository.insertDrink(
+                            Drink(
+                                dateTime = LocalDateTime.of(
+                                    LocalDate.now(),
+                                    localTime
+                                ),
+                                waterIntake = addForgottenDrinkDialogState.quantity.toDoubleOrNull() ?: 0.0,
+                                unit = screenState.waterUnit
+                            )
+                        )
+                    }
+                    .onFailure {
+                        showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
+                    }
+                addForgottenDrinkDialogState = addForgottenDrinkDialogState.copy(
+                    isDialogShowing = false,
+                    quantity = "",
+                    hour = LocalTime.now().hour,
+                    minute = LocalTime.now().minute
+                )
+            }
+            DialogAddForgottenDrinkEvent.OnCancelClick -> {
+                addForgottenDrinkDialogState = addForgottenDrinkDialogState.copy(
+                    isDialogShowing = false,
+                    quantity = "",
+                    hour = LocalTime.now().hour,
+                    minute = LocalTime.now().minute
+                )
+            }
+            is DialogAddForgottenDrinkEvent.OnHourChange -> {
+                addForgottenDrinkDialogState = addForgottenDrinkDialogState.copy(
+                    hour = event.hour
+                )
+            }
+            is DialogAddForgottenDrinkEvent.OnMinuteChange -> {
+                addForgottenDrinkDialogState = addForgottenDrinkDialogState.copy(
+                    minute = event.minute
+                )
+            }
+            is DialogAddForgottenDrinkEvent.OnQuantityAmountChange -> {
                 validateQuantity(event.amount)
                     .onSuccess {
-                        state = state.copy(
-                            addQuantityAmount = it
+                        addForgottenDrinkDialogState = addForgottenDrinkDialogState.copy(
+                            quantity = it
+                        )
+                    }
+            }
+        }
+    }
+
+    fun onEvent(event: DialogAddTrackableDrinkEvent) = viewModelScope.launch {
+        when (event) {
+            is DialogAddTrackableDrinkEvent.OnQuantityAmountChange -> {
+                validateQuantity(event.amount)
+                    .onSuccess {
+                        addTrackableDrinkDialogState = addTrackableDrinkDialogState.copy(
+                            quantity = it
                         )
                     }
                     .onFailure {
@@ -114,67 +197,33 @@ class WaterHomeViewModel @Inject constructor(
                     }
 
             }
-            WaterHomeEvent.OnAddTrackableDrinkClick -> {
-                state = state.copy(
-                    isAddTrackableDrinkDialogShowing = true
+            DialogAddTrackableDrinkEvent.OnAddTrackableDrinkClick -> {
+                addTrackableDrinkDialogState = addTrackableDrinkDialogState.copy(
+                    isDialogShowing = true
                 )
             }
-            is WaterHomeEvent.OnAddTrackableDrinkConfirm -> {
+            is DialogAddTrackableDrinkEvent.OnConfirmClick -> {
                 waterRepository.insertTrackableDrink(
                     TrackableDrink(
-                        amount = state.addQuantityAmount.toDoubleOrNull() ?: 0.0,
-                        unit = state.waterUnit
+                        amount = addTrackableDrinkDialogState.quantity.toDoubleOrNull() ?: 0.0,
+                        unit = screenState.waterUnit
                     )
                 )
-                state = state.copy(
-                    addQuantityAmount = "",
-                    isAddTrackableDrinkDialogShowing = false
+                addTrackableDrinkDialogState = addTrackableDrinkDialogState.copy(
+                    quantity = "",
+                    isDialogShowing = false
                 )
             }
-            WaterHomeEvent.OnAddTrackableDrinkCancel -> {
-                state = state.copy(
-                    addQuantityAmount = "",
-                    isAddTrackableDrinkDialogShowing = false
-                )
-            }
-
-            WaterHomeEvent.OnRemoveTrackableDrinkClick -> {
-                state = state.copy(
-                    isRemoveTrackableDrinkDialogShowing = true
-                )
-            }
-            WaterHomeEvent.OnRemoveTrackableDrinkConfirm -> {
-                waterRepository.removeTrackableDrink(state.selectedTrackableDrink)
-                state = state.copy(
-                    isRemoveTrackableDrinkDialogShowing = false
-                )
-            }
-            WaterHomeEvent.OnRemoveTrackableDrinkCancel -> {
-                state = state.copy(
-                    isRemoveTrackableDrinkDialogShowing = false
-                )
-            }
-
-            WaterHomeEvent.OnAddForgotDrinkClick -> {
-                state = state.copy(
-                    isAddForgotDrinkDialogShowing = true
-                )
-            }
-            is WaterHomeEvent.OnAddForgotDrinkConfirm -> {
-                waterRepository.insertDrink(event.drink)
-                state = state.copy(
-                    isAddForgotDrinkDialogShowing = false
-                )
-            }
-            WaterHomeEvent.OnAddForgotDrinkCancel -> {
-                state = state.copy(
-                    isAddForgotDrinkDialogShowing = false
+            DialogAddTrackableDrinkEvent.OnCancelClick -> {
+                addTrackableDrinkDialogState = addTrackableDrinkDialogState.copy(
+                    quantity = "",
+                    isDialogShowing = false
                 )
             }
         }
     }
 
-    private suspend fun showMessage(message: UiText) {
+    private suspend fun showSnackbar(message: UiText) {
         _uiEvent.send(
             UiEvent.ShowSnackBar(message)
         )

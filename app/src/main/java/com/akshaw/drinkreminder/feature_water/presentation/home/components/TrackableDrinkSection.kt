@@ -20,8 +20,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import com.akshaw.drinkreminder.R
 import com.akshaw.drinkreminder.core.util.Utility
-import com.akshaw.drinkreminder.feature_water.presentation.home.WaterHomeEvent
+import com.akshaw.drinkreminder.feature_water.presentation.home.events.WaterHomeEvent
 import com.akshaw.drinkreminder.feature_water.presentation.home.WaterHomeViewModel
+import com.akshaw.drinkreminder.feature_water.presentation.home.events.DialogAddTrackableDrinkEvent
 import com.shawnlin.numberpicker.NumberPicker
 import kotlin.math.roundToInt
 
@@ -55,7 +56,7 @@ fun TrackableDrinkSection(
             )
         }
 
-        RemoveTrackableDrinkDialog(viewModel = viewModel)
+        DialogRemoveTrackableDrink(viewModel = viewModel)
 
         Box {
             Box(
@@ -69,7 +70,7 @@ fun TrackableDrinkSection(
 
             val surfaceVariant = MaterialTheme.colorScheme.onSurfaceVariant.toArgb()
             val primary = MaterialTheme.colorScheme.primary.toArgb()
-            key(viewModel.state.trackableDrinks.size) {
+            key(viewModel.screenState.trackableDrinks.size) {
                 AndroidView(
                     modifier = Modifier
                         .align(Alignment.Center),
@@ -79,27 +80,28 @@ fun TrackableDrinkSection(
                             setDividerThickness(Utility.getFloatFromDp(context, 0f).roundToInt())
                             fadingEdgeStrength = 0.3f
                             minValue = 0
-                            maxValue = viewModel.state.trackableDrinks.lastIndex.let { if (it < 0) 0 else it }
+                            maxValue = viewModel.screenState.trackableDrinks.lastIndex.let { if (it < 0) 0 else it }
                             selectedTextColor = surfaceVariant
                             selectedTextSize = Utility.getFloatFromSp(context, 16f)
                             textColor = primary
-                            displayedValues = viewModel.state.trackableDrinks.map {
-                                "${it.amount.toInt()} ${viewModel.state.waterUnit.name}"
+                            displayedValues = viewModel.screenState.trackableDrinks.map {
+                                "${it.amount.toInt()} ${viewModel.screenState.waterUnit.name}"
                             }.toTypedArray().let {
                                 if (it.isEmpty())
                                     arrayOf("")
                                 else
                                     it
                             }
+                            wrapSelectorWheel = viewModel.screenState.trackableDrinks.size >= 5
                             textSize = Utility.getFloatFromSp(context, 16f)
                             wheelItemCount = 5
-                            value = viewModel.state.trackableDrinks.indexOf(viewModel.state.selectedTrackableDrink).let { if (it < 0) 0 else it}
-                            typeface = ResourcesCompat.getFont(context, R.font.ubuntu_medium)
-                            setSelectedTypeface(ResourcesCompat.getFont(context, R.font.ubuntu_medium))
+                            value = viewModel.screenState.trackableDrinks.indexOf(viewModel.screenState.selectedTrackableDrink).let { if (it < 0) 0 else it}
+                            typeface = ResourcesCompat.getFont(context, R.font.roboto_medium)
+                            setSelectedTypeface(ResourcesCompat.getFont(context, R.font.roboto_medium))
                             setOnValueChangedListener { picker, oldVal, newVal ->
                                 viewModel.onEvent(
                                     WaterHomeEvent.OnTrackableDrinkChange(
-                                        viewModel.state.trackableDrinks[newVal]
+                                        viewModel.screenState.trackableDrinks[newVal]
                                     )
                                 )
                             }
@@ -116,7 +118,7 @@ fun TrackableDrinkSection(
                 .align(Alignment.CenterVertically)
                 .clip(RoundedCornerShape(10.dp))
                 .clickable {
-                    viewModel.onEvent(WaterHomeEvent.OnAddTrackableDrinkClick)
+                    viewModel.onEvent(DialogAddTrackableDrinkEvent.OnAddTrackableDrinkClick)
                 }
                 .height(34.dp)
                 .width(52.dp)
@@ -131,6 +133,18 @@ fun TrackableDrinkSection(
             )
         }
 
-        AddTrackableDrinkDialog(viewModel = viewModel)
+        DialogAddTrackableDrink(
+            isDialogShowing = viewModel.addTrackableDrinkDialogState.isDialogShowing,
+            quantity = viewModel.addTrackableDrinkDialogState.quantity,
+            onCancel = {
+                viewModel.onEvent(DialogAddTrackableDrinkEvent.OnCancelClick)
+            },
+            onQuantityChange = {
+                viewModel.onEvent(DialogAddTrackableDrinkEvent.OnQuantityAmountChange(it))
+            },
+            onConfirm = {
+                viewModel.onEvent(DialogAddTrackableDrinkEvent.OnConfirmClick)
+            }
+        )
     }
 }

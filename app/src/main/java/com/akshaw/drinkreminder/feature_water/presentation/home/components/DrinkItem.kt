@@ -1,8 +1,6 @@
 package com.akshaw.drinkreminder.feature_water.presentation.home.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -46,7 +44,7 @@ fun DrinkItem(
                 .weight(1f)
                 .align(Alignment.CenterVertically)
                 .padding(start = 32.dp),
-            text = "${ceil(drink.convertUnit(viewModel.state.waterUnit).waterIntake).roundToInt()} ${viewModel.state.waterUnit.name}",
+            text = "${ceil(drink.convertUnit(viewModel.screenState.waterUnit).waterIntake).roundToInt()} ${viewModel.screenState.waterUnit.name}",
             fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.Normal)),
             fontSize = 16.sp,
             color = MaterialTheme.colorScheme.onBackground

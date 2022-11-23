@@ -16,15 +16,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.akshaw.drinkreminder.R
-import com.akshaw.drinkreminder.feature_water.presentation.home.WaterHomeEvent
+import com.akshaw.drinkreminder.feature_water.presentation.home.events.WaterHomeEvent
 import com.akshaw.drinkreminder.feature_water.presentation.home.WaterHomeViewModel
 
 @Composable
-fun RemoveTrackableDrinkDialog(
+fun DialogRemoveTrackableDrink(
     modifier: Modifier = Modifier,
     viewModel: WaterHomeViewModel
 ) {
-    if (viewModel.state.isRemoveTrackableDrinkDialogShowing)
+    if (viewModel.screenState.isRemoveTrackableDrinkDialogShowing)
         Dialog(
             onDismissRequest = {
                 viewModel.onEvent(WaterHomeEvent.OnRemoveTrackableDrinkCancel)
@@ -37,7 +37,7 @@ fun RemoveTrackableDrinkDialog(
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(24.dp),
+                        .padding(bottom = 16.dp, end = 24.dp, start = 24.dp, top = 24.dp),
                     text = "Remove Quantity",
                     fontFamily = FontFamily(Font(R.font.ubuntu_bold, FontWeight.Bold)),
                     fontSize = 20.sp,
@@ -46,7 +46,7 @@ fun RemoveTrackableDrinkDialog(
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 24.dp, end = 24.dp, start = 24.dp),
+                        .padding(bottom = 20.dp, end = 24.dp, start = 24.dp),
                     text = "Are you sure, you want to remove this quantity",
                     fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.Medium)),
                     color = MaterialTheme.colorScheme.onBackground,
@@ -61,7 +61,6 @@ fun RemoveTrackableDrinkDialog(
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(end = 16.dp)
                             .clip(RoundedCornerShape(10.dp))
                             .clickable {
                                 viewModel.onEvent(WaterHomeEvent.OnRemoveTrackableDrinkCancel)

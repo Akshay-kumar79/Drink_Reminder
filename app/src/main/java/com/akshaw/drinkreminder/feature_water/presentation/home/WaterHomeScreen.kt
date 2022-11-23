@@ -22,13 +22,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.R
 import com.akshaw.drinkreminder.core.util.UiEvent
-import com.akshaw.drinkreminder.core.util.WaterUnit
-import com.akshaw.drinkreminder.feature_water.domain.model.Drink
-import com.akshaw.drinkreminder.feature_water.presentation.home.components.AddTrackableDrinkDialog
+import com.akshaw.drinkreminder.feature_water.presentation.home.components.DialogAddForgottenDrink
 import com.akshaw.drinkreminder.feature_water.presentation.home.components.DrinkItem
 import com.akshaw.drinkreminder.feature_water.presentation.home.components.TrackableDrinkSection
+import com.akshaw.drinkreminder.feature_water.presentation.home.events.DialogAddForgottenDrinkEvent
+import com.akshaw.drinkreminder.feature_water.presentation.home.events.WaterHomeEvent
 import kotlinx.coroutines.flow.collectLatest
-import java.time.LocalDateTime
 import kotlin.math.roundToInt
 
 @Composable
@@ -75,7 +74,7 @@ fun WaterHomeScreen(
 
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    text = "${viewModel.state.goal.roundToInt()} ${viewModel.state.waterUnit.name}",
+                    text = "${viewModel.screenState.goal.roundToInt()} ${viewModel.screenState.waterUnit.name}",
                     fontSize = 44.sp,
                     fontFamily = FontFamily(Font(R.font.ubuntu_bold, FontWeight.Bold)),
                     color = MaterialTheme.colorScheme.onBackground,
@@ -85,7 +84,7 @@ fun WaterHomeScreen(
 
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Completed: ${viewModel.state.progress.roundToInt()} ${viewModel.state.waterUnit.name}",
+                    text = "Completed: ${viewModel.screenState.progress.roundToInt()} ${viewModel.screenState.waterUnit.name}",
                     fontSize = 14.sp,
                     fontFamily = FontFamily(Font(R.font.roboto_medium, FontWeight.Medium)),
                     color = MaterialTheme.colorScheme.onBackground,
@@ -95,7 +94,7 @@ fun WaterHomeScreen(
 
                 Spacer(modifier = Modifier.height(32.dp))
                 LinearProgressIndicator(
-                    progress = (viewModel.state.progress / viewModel.state.goal).toFloat(),
+                    progress = (viewModel.screenState.progress / viewModel.screenState.goal).toFloat(),
                     modifier = Modifier
                         .padding(horizontal = 36.dp)
                         .fillMaxWidth()
@@ -138,13 +137,35 @@ fun WaterHomeScreen(
                         .padding(end = 16.dp)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            viewModel.onEvent(WaterHomeEvent.OnAddForgotDrinkClick)
+                            viewModel.onEvent(DialogAddForgottenDrinkEvent.OnAddForgotDrinkClick)
                         }
                         .padding(4.dp),
                     text = "forgot to add?",
                     fontFamily = FontFamily(Font(R.font.roboto_bold, FontWeight.Bold)),
                     fontSize = 12.sp,
                     color = MaterialTheme.colorScheme.onBackground
+                )
+
+                DialogAddForgottenDrink(
+                    isDialogShowing = viewModel.addForgottenDrinkDialogState.isDialogShowing,
+                    quantity = viewModel.addForgottenDrinkDialogState.quantity,
+                    hour = viewModel.addForgottenDrinkDialogState.hour,
+                    minute = viewModel.addForgottenDrinkDialogState.minute,
+                    onConfirm = {
+                        viewModel.onEvent(DialogAddForgottenDrinkEvent.OnConfirmClick)
+                    },
+                    onCancel = {
+                        viewModel.onEvent(DialogAddForgottenDrinkEvent.OnCancelClick)
+                    },
+                    onQuantityChange = {
+                        viewModel.onEvent(DialogAddForgottenDrinkEvent.OnQuantityAmountChange(it))
+                    },
+                    onHourChange = {
+                        viewModel.onEvent(DialogAddForgottenDrinkEvent.OnHourChange(it))
+                    },
+                    onMinuteChange = {
+                        viewModel.onEvent(DialogAddForgottenDrinkEvent.OnMinuteChange(it))
+                    }
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -161,7 +182,7 @@ fun WaterHomeScreen(
 
         }
 
-        items(viewModel.state.drinks) { drink ->
+        items(viewModel.screenState.drinks) { drink ->
             DrinkItem(
                 modifier = Modifier
                     .fillMaxWidth()
