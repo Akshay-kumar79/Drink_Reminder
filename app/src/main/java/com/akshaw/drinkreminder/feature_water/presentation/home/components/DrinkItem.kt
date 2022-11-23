@@ -26,7 +26,7 @@ import kotlin.math.roundToInt
 fun DrinkItem(
     modifier: Modifier = Modifier,
     drink: Drink,
-    viewModel: WaterHomeViewModel,
+    viewModel: WaterHomeViewModel
 ) {
     Row(
         modifier = modifier

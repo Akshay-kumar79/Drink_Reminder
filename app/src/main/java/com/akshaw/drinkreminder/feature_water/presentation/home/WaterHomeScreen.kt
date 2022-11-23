@@ -3,7 +3,7 @@ package com.akshaw.drinkreminder.feature_water.presentation.home
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -182,7 +182,7 @@ fun WaterHomeScreen(
 
         }
 
-        items(viewModel.screenState.drinks) { drink ->
+        itemsIndexed(viewModel.screenState.drinks) { index, drink ->
             DrinkItem(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -193,6 +193,8 @@ fun WaterHomeScreen(
                 drink = drink,
                 viewModel = viewModel
             )
+            mutableListOf<String>().hashCode()
+
         }
 
     }
