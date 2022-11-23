@@ -6,6 +6,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\Akshay kumar shaw\\OneDrive\\Desktop\\DrinkReminder.jks')
+            storePassword 'hdrnfutv'
+            keyAlias 'key0'
+            keyPassword 'hdrnfutv'
+        }
+    }
     namespace 'com.akshaw.drinkreminder'
     compileSdk 33
 
@@ -23,9 +31,15 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            applicationIdSuffix ".debug"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {

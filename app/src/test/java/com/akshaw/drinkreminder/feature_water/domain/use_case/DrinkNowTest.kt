@@ -11,24 +11,24 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-class AddDrinkTest {
+class DrinkNowTest {
 
     private lateinit var waterRepository: WaterRepository
     private lateinit var preferences: Preferences
-    private lateinit var addDrink: AddDrink
+    private lateinit var drinkNow: DrinkNow
 
     @Before
     fun setUp() {
         waterRepository = FakeWaterRepository()
         preferences = FakePreference()
-        addDrink = AddDrink(waterRepository, preferences)
+        drinkNow = DrinkNow(waterRepository, preferences)
     }
 
     @Test
     fun `trackableDrink with id -1, returns failure`(){
         runBlocking {
             assertThat(
-                addDrink(
+                drinkNow(
                     TrackableDrink(-1L, 0.0, WaterUnit.ML)
                 ).isFailure
             ).isTrue()
@@ -38,7 +38,7 @@ class AddDrinkTest {
     @Test
     fun `genuine trackableDrink, returns success with id`(){
         runBlocking {
-            val result = addDrink(
+            val result = drinkNow(
                 TrackableDrink(0L, 0.0, WaterUnit.ML)
             )
             assertThat(result.isSuccess).isTrue()

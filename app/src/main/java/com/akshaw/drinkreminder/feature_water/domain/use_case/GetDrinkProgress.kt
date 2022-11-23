@@ -4,6 +4,7 @@ import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.feature_water.domain.model.Drink
 import com.akshaw.drinkreminder.feature_water.domain.model.convertUnit
 import javax.inject.Inject
+import kotlin.math.ceil
 
 class GetDrinkProgress @Inject constructor(
     private val preferences: Preferences
@@ -13,7 +14,7 @@ class GetDrinkProgress @Inject constructor(
         val waterUnit = preferences.loadWaterUnit()
 
         return drinks.sumOf {
-            it.convertUnit(waterUnit).waterIntake
+            ceil(it.convertUnit(waterUnit).waterIntake)
         }
     }
 

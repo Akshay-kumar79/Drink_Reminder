@@ -4,14 +4,14 @@ sealed class WaterUnit(val name: String, val id: Int) {
 
     /** ids should not have number gap except INVALID WeightUnit */
     object ML : WaterUnit("ml", 100)
-    object FL_OZ : WaterUnit("fl_oz", 101)
+    object FL_OZ : WaterUnit("fl oz", 101)
     object INVALID : WaterUnit("invalid", -1)
 
     companion object {
         fun fromString(text: String?): WaterUnit {
             return when (text) {
                 "ml" -> ML
-                "fl_oz" -> FL_OZ
+                "fl oz" -> FL_OZ
                 else -> INVALID
             }
         }

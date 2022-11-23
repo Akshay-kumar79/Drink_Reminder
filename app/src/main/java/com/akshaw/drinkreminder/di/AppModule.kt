@@ -7,6 +7,7 @@ import androidx.room.Room
 import com.akshaw.drinkreminder.core.data.local.MyDatabase
 import com.akshaw.drinkreminder.core.data.preferences.DefaultPreference
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
+import com.akshaw.drinkreminder.core.domain.use_case.FilterOutDigits
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import dagger.Module
 import dagger.Provides
@@ -37,18 +38,24 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGetLocalTime(): GetLocalTime {
-        return GetLocalTime()
-    }
-
-    @Provides
-    @Singleton
     fun provideMyDatabase(app: Application): MyDatabase {
         return Room.databaseBuilder(
             app,
             MyDatabase::class.java,
             MyDatabase.DATABASE_NAME
         ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetLocalTime(): GetLocalTime {
+        return GetLocalTime()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFilterOutDigits(): FilterOutDigits{
+        return FilterOutDigits()
     }
 
 }

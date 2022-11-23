@@ -10,7 +10,7 @@ import javax.inject.Inject
  * -> returns failure, if trackable drink id is -1
  * -> returns success with id, it trackable drink is genuine
  */
-class AddDrink @Inject constructor(
+class DrinkNow @Inject constructor(
     private val waterRepository: WaterRepository,
     private val preferences: Preferences
 ) {

@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import com.akshaw.drinkreminder.feature_onboarding.presentation.OnBoardingScreen
+import com.akshaw.drinkreminder.feature_water.presentation.home.WaterHomeScreen
 import com.akshaw.drinkreminder.ui.theme.DrinkReminderTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -35,17 +36,19 @@ class MainActivity : ComponentActivity() {
                             .background(MaterialTheme.colorScheme.background)
                     ) {
 
-                        OnBoardingScreen(
-                            snackbarHostState = snackbarHostState,
-                            onProcessFinish = {
-                                lifecycleScope.launch {
-                                    snackbarHostState.showSnackbar(
-                                        message = "Navigating to home...",
-                                        duration = SnackbarDuration.Short
-                                    )
-                                }
-                            }
-                        )
+//                        OnBoardingScreen(
+//                            snackbarHostState = snackbarHostState,
+//                            onProcessFinish = {
+//                                lifecycleScope.launch {
+//                                    snackbarHostState.showSnackbar(
+//                                        message = "Navigating to home...",
+//                                        duration = SnackbarDuration.Short
+//                                    )
+//                                }
+//                            }
+//                        )
+
+                        WaterHomeScreen(snackbarHostState = snackbarHostState)
                     }
                 }
             }

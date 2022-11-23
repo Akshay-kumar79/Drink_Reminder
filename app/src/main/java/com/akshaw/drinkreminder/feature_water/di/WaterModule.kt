@@ -2,6 +2,7 @@ package com.akshaw.drinkreminder.feature_water.di
 
 import com.akshaw.drinkreminder.core.data.local.MyDatabase
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
+import com.akshaw.drinkreminder.core.domain.use_case.FilterOutDigits
 import com.akshaw.drinkreminder.feature_water.data.repository.WaterRepositoryImpl
 import com.akshaw.drinkreminder.feature_water.domain.repository.WaterRepository
 import com.akshaw.drinkreminder.feature_water.domain.use_case.*
@@ -47,8 +48,14 @@ object WaterModule {
 
     @Provides
     @Singleton
-    fun providesAddDrink(repository: WaterRepository): AddDrink{
-        return AddDrink(repository)
+    fun providesAddDrink(repository: WaterRepository, preferences: Preferences): DrinkNow{
+        return DrinkNow(repository, preferences)
+    }
+
+    @Provides
+    @Singleton
+    fun provideValidateQuantity(preferences: Preferences, filterOutDigits: FilterOutDigits): ValidateQuantity{
+        return ValidateQuantity(preferences, filterOutDigits)
     }
 
 }
