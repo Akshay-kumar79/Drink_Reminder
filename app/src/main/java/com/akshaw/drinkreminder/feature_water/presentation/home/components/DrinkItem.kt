@@ -28,6 +28,8 @@ fun DrinkItem(
     drink: Drink,
     viewModel: WaterHomeViewModel
 ) {
+
+    // updating successfully
     Row(
         modifier = modifier
     ) {
