@@ -12,5 +12,5 @@ data class WaterHomeState(
     val selectedTrackableDrink: TrackableDrink = TrackableDrink(-1, 0.0, WaterUnit.ML),
     val trackableDrinks: List<TrackableDrink> = emptyList(),
     val drinks: List<Drink> = emptyList(),
-    val isRemoveTrackableDrinkDialogShowing: Boolean = false
+    val recentlyDeleteDrink: Drink? = null
 )

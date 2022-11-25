@@ -7,8 +7,6 @@ sealed interface WaterHomeEvent{
     object OnReminderClick: WaterHomeEvent
     data class OnTrackableDrinkChange(val drink: TrackableDrink): WaterHomeEvent
     object OnDrinkClick: WaterHomeEvent
-    object OnRemoveTrackableDrinkClick: WaterHomeEvent
-    object OnRemoveTrackableDrinkConfirm: WaterHomeEvent
-    object OnRemoveTrackableDrinkCancel: WaterHomeEvent
-
+    data class OnDrinkDeleteClick(val drink: Drink): WaterHomeEvent
+    object RestoreDrink: WaterHomeEvent
 }

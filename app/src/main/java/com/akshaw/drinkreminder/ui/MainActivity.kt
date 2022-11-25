@@ -40,6 +40,7 @@ class MainActivity : ComponentActivity() {
 //                            snackbarHostState = snackbarHostState,
 //                            onProcessFinish = {
 //                                lifecycleScope.launch {
+//                        snackbarHostState.currentSnackbarData?.dismiss()
 //                                    snackbarHostState.showSnackbar(
 //                                        message = "Navigating to home...",
 //                                        duration = SnackbarDuration.Short

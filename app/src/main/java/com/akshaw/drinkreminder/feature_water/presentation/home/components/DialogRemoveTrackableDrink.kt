@@ -22,12 +22,15 @@ import com.akshaw.drinkreminder.feature_water.presentation.home.WaterHomeViewMod
 @Composable
 fun DialogRemoveTrackableDrink(
     modifier: Modifier = Modifier,
-    viewModel: WaterHomeViewModel
+    isDialogShowing: Boolean,
+    onCancel: () -> Unit,
+    onConfirm: () -> Unit
+
 ) {
-    if (viewModel.screenState.isRemoveTrackableDrinkDialogShowing)
+    if (isDialogShowing)
         Dialog(
             onDismissRequest = {
-                viewModel.onEvent(WaterHomeEvent.OnRemoveTrackableDrinkCancel)
+                onCancel()
             }
         ) {
             Card(
@@ -63,7 +66,7 @@ fun DialogRemoveTrackableDrink(
                         modifier = Modifier
                             .clip(RoundedCornerShape(10.dp))
                             .clickable {
-                                viewModel.onEvent(WaterHomeEvent.OnRemoveTrackableDrinkCancel)
+                                onCancel()
                             }
                             .padding(4.dp),
                         text = "CANCEL",
@@ -78,7 +81,7 @@ fun DialogRemoveTrackableDrink(
                             .padding(end = 16.dp)
                             .clip(RoundedCornerShape(10.dp))
                             .clickable {
-                                viewModel.onEvent(WaterHomeEvent.OnRemoveTrackableDrinkConfirm)
+                                onConfirm()
                             }
                             .padding(4.dp),
                         text = "OK",

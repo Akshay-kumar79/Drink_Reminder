@@ -23,6 +23,7 @@ import com.akshaw.drinkreminder.core.util.Utility
 import com.akshaw.drinkreminder.feature_water.presentation.home.events.WaterHomeEvent
 import com.akshaw.drinkreminder.feature_water.presentation.home.WaterHomeViewModel
 import com.akshaw.drinkreminder.feature_water.presentation.home.events.DialogAddTrackableDrinkEvent
+import com.akshaw.drinkreminder.feature_water.presentation.home.events.DialogRemoveTrackableDrinkEvent
 import com.shawnlin.numberpicker.NumberPicker
 import kotlin.math.roundToInt
 
@@ -41,7 +42,7 @@ fun TrackableDrinkSection(
                 .align(Alignment.CenterVertically)
                 .clip(RoundedCornerShape(10.dp))
                 .clickable {
-                    viewModel.onEvent(WaterHomeEvent.OnRemoveTrackableDrinkClick)
+                    viewModel.onEvent(DialogRemoveTrackableDrinkEvent.OnRemoveTrackableDrinkClick)
                 }
                 .height(34.dp)
                 .width(52.dp)
@@ -56,7 +57,15 @@ fun TrackableDrinkSection(
             )
         }
 
-        DialogRemoveTrackableDrink(viewModel = viewModel)
+        DialogRemoveTrackableDrink(
+            isDialogShowing = viewModel.removeTrackableDrinkDialogState.isDialogShowing,
+            onCancel = {
+                viewModel.onEvent(DialogRemoveTrackableDrinkEvent.OnDismiss)
+            },
+            onConfirm = {
+                viewModel.onEvent(DialogRemoveTrackableDrinkEvent.OnConfirmClick)
+            }
+        )
 
         Box {
             Box(
@@ -137,7 +146,7 @@ fun TrackableDrinkSection(
             isDialogShowing = viewModel.addTrackableDrinkDialogState.isDialogShowing,
             quantity = viewModel.addTrackableDrinkDialogState.quantity,
             onCancel = {
-                viewModel.onEvent(DialogAddTrackableDrinkEvent.OnCancelClick)
+                viewModel.onEvent(DialogAddTrackableDrinkEvent.OnDismiss)
             },
             onQuantityChange = {
                 viewModel.onEvent(DialogAddTrackableDrinkEvent.OnQuantityAmountChange(it))

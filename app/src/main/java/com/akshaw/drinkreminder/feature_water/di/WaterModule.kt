@@ -48,7 +48,7 @@ object WaterModule {
 
     @Provides
     @Singleton
-    fun providesAddDrink(repository: WaterRepository, preferences: Preferences): DrinkNow{
+    fun providesDrinkNow(repository: WaterRepository, preferences: Preferences): DrinkNow{
         return DrinkNow(repository, preferences)
     }
 
@@ -58,4 +58,29 @@ object WaterModule {
         return ValidateQuantity(preferences, filterOutDigits)
     }
 
+    @Provides
+    @Singleton
+    fun provideAddDrink(waterRepository: WaterRepository): AddDrink{
+        return AddDrink(waterRepository)
+    }
+    
+    @Provides
+    @Singleton
+    fun provideAddTrackableDrink(waterRepository: WaterRepository): AddTrackableDrink{
+        return AddTrackableDrink(waterRepository)
+    }
+    
+    @Provides
+    @Singleton
+    fun provideDeleteDrink(waterRepository: WaterRepository): DeleteDrink{
+        return DeleteDrink(waterRepository)
+    }
+    
+    @Provides
+    @Singleton
+    fun provideDeleteTrackableDrink(waterRepository: WaterRepository): DeleteTrackableDrink{
+        return DeleteTrackableDrink(waterRepository)
+    }
+    
+    
 }
