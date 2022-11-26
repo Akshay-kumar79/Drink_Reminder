@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import com.akshaw.drinkreminder.feature_onboarding.presentation.OnBoardingScreen
 import com.akshaw.drinkreminder.feature_water.presentation.home.WaterHomeScreen
+import com.akshaw.drinkreminder.feature_water.presentation.report.WaterReportScreen
 import com.akshaw.drinkreminder.ui.theme.DrinkReminderTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -49,7 +50,9 @@ class MainActivity : ComponentActivity() {
 //                            }
 //                        )
 
-                        WaterHomeScreen(snackbarHostState = snackbarHostState)
+//                        WaterHomeScreen(snackbarHostState = snackbarHostState)
+                        
+                        WaterReportScreen()
                     }
                 }
             }
