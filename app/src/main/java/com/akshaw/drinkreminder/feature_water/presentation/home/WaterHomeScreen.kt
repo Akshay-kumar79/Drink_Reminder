@@ -6,9 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,6 +38,28 @@ fun WaterHomeScreen(
     
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    
+    // Screen State
+    val goal by viewModel.goal.collectAsState()
+    val waterUnit by viewModel.waterUnit.collectAsState()
+    val progress by viewModel.progress.collectAsState()
+    val todayDrinks by viewModel.todayDrinks.collectAsState()
+    val trackableDrinks by viewModel.trackableDrinks.collectAsState()
+    val selectedTrackableDrink by viewModel.selectedTrackableDrink.collectAsState()
+    
+    // Add Forgotten Drink Dialog State
+    val isAddForgottenDrinkDialogShowing by viewModel.isAddForgottenDrinkDialogShowing.collectAsState()
+    val addForgottenDrinkDialogQuantity by viewModel.addForgottenDrinkDialogQuantity.collectAsState()
+    val addForgottenDrinkDialogHour by viewModel.addForgottenDrinkDialogHour.collectAsState()
+    val addForgottenDrinkDialogMinute by viewModel.addForgottenDrinkDialogMinute.collectAsState()
+    
+    // Add Trackable Drink Dialog State
+    val isAddTrackableDrinkDialogShowing by viewModel.isAddTrackableDrinkDialogShowing.collectAsState()
+    val addTrackableDrinkDialogQuantity by viewModel.addTrackableDrinkDialogQuantity.collectAsState()
+    
+    // Remove Trackable Drink Dialog State
+    val isRemoveTrackableDrinkDialogShowing by viewModel.isRemoveTrackableDrinkDialogShowing.collectAsState()
+    
     
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collectLatest { event ->
@@ -80,7 +100,7 @@ fun WaterHomeScreen(
                 
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    text = "${viewModel.screenState.goal.roundToInt()} ${viewModel.screenState.waterUnit.name}",
+                    text = "${goal.roundToInt()} ${waterUnit.name}",
                     fontSize = 44.sp,
                     fontFamily = FontFamily(
                         Font(
@@ -95,7 +115,7 @@ fun WaterHomeScreen(
                 
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Completed: ${viewModel.screenState.progress.roundToInt()} ${viewModel.screenState.waterUnit.name}",
+                    text = "Completed: ${progress.roundToInt()} ${waterUnit.name}",
                     fontSize = 14.sp,
                     fontFamily = FontFamily(
                         Font(
@@ -109,7 +129,7 @@ fun WaterHomeScreen(
                 
                 Spacer(modifier = Modifier.height(32.dp))
                 LinearProgressIndicator(
-                    progress = (viewModel.screenState.progress / viewModel.screenState.goal).toFloat(),
+                    progress = (progress / goal).toFloat(),
                     modifier = Modifier
                         .padding(horizontal = 36.dp)
                         .fillMaxWidth()
@@ -122,7 +142,13 @@ fun WaterHomeScreen(
                 TrackableDrinkSection(
                     modifier = Modifier.fillMaxWidth(),
                     context = context,
-                    viewModel = viewModel
+                    viewModel = viewModel,
+                    trackableDrinks = trackableDrinks,
+                    selectedTrackableDrink = selectedTrackableDrink,
+                    waterUnit = waterUnit,
+                    isAddTrackableDrinkDialogShowing = isAddTrackableDrinkDialogShowing,
+                    addTrackableDrinkDialogQuantity = addTrackableDrinkDialogQuantity,
+                    isRemoveTrackableDrinkDialogShowing = isRemoveTrackableDrinkDialogShowing
                 )
                 
                 Spacer(modifier = Modifier.height(24.dp))
@@ -170,10 +196,10 @@ fun WaterHomeScreen(
                     color = MaterialTheme.colorScheme.onBackground)
                 
                 DialogAddForgottenDrink(
-                    isDialogShowing = viewModel.addForgottenDrinkDialogState.isDialogShowing,
-                    quantity = viewModel.addForgottenDrinkDialogState.quantity,
-                    hour = viewModel.addForgottenDrinkDialogState.hour,
-                    minute = viewModel.addForgottenDrinkDialogState.minute,
+                    isDialogShowing = isAddForgottenDrinkDialogShowing,
+                    quantity = addForgottenDrinkDialogQuantity,
+                    hour = addForgottenDrinkDialogHour,
+                    minute = addForgottenDrinkDialogMinute,
                     onConfirm = {
                         viewModel.onEvent(DialogAddForgottenDrinkEvent.OnConfirmClick)
                     },
@@ -208,14 +234,14 @@ fun WaterHomeScreen(
             
         }
         
-        itemsIndexed(viewModel.screenState.drinks) { index, drink ->
+        itemsIndexed(todayDrinks) { index, drink ->
             DrinkItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {}
                     .padding(vertical = 14.dp),
                 drink = drink,
-                waterUnit = viewModel.screenState.waterUnit,
+                waterUnit = waterUnit,
                 onDeleteClick = {
                     viewModel.onEvent(WaterHomeEvent.OnDrinkDeleteClick(drink))
                     snackbarHostState.currentSnackbarData?.dismiss()

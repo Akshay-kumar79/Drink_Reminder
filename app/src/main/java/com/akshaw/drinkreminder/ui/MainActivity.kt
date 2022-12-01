@@ -50,9 +50,9 @@ class MainActivity : ComponentActivity() {
 //                            }
 //                        )
 
-//                        WaterHomeScreen(snackbarHostState = snackbarHostState)
+                        WaterHomeScreen(snackbarHostState = snackbarHostState)
                         
-                        WaterReportScreen()
+//                        WaterReportScreen()
                     }
                 }
             }

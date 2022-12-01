@@ -22,11 +22,6 @@ object WaterModule {
         return WaterRepositoryImpl(database)
     }
 
-    @Provides
-    @Singleton
-    fun providesGetADayDrinks(repository: WaterRepository): GetADayDrinks {
-        return GetADayDrinks(repository)
-    }
 
     @Provides
     @Singleton
@@ -36,8 +31,8 @@ object WaterModule {
 
     @Provides
     @Singleton
-    fun providesGetTrackableDrinks(preferences: Preferences, waterRepository: WaterRepository): GetTrackableDrinks {
-        return GetTrackableDrinks(preferences, waterRepository)
+    fun providesGetTrackableDrinks(): FilterTrackableDrinksByUnit {
+        return FilterTrackableDrinksByUnit()
     }
 
     @Provides
@@ -82,5 +77,15 @@ object WaterModule {
         return DeleteTrackableDrink(waterRepository)
     }
     
+    @Provides
+    @Singleton
+    fun provideFilterADayDrinks(): FilterADayDrinks{
+        return FilterADayDrinks()
+    }
     
+    @Provides
+    @Singleton
+    fun provideFilterAMonthDrinks(): FilterAMonthDrink{
+        return FilterAMonthDrink()
+    }
 }
