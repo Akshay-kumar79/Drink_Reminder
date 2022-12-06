@@ -88,4 +88,18 @@ object WaterModule {
     fun provideFilterAMonthDrinks(): FilterAMonthDrink{
         return FilterAMonthDrink()
     }
+    
+    @Provides
+    @Singleton
+    fun provideIsReportChartLeftAvailable(): IsReportChartLeftAvailable{
+        return IsReportChartLeftAvailable()
+    }
+    
+    @Provides
+    @Singleton
+    fun provideIsReportChartRightAvailable(): IsReportChartRightAvailable{
+        return IsReportChartRightAvailable()
+    }
+    
+    
 }

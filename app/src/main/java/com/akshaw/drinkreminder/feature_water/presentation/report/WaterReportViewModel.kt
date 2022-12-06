@@ -3,13 +3,11 @@ package com.akshaw.drinkreminder.feature_water.presentation.report
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
-import com.akshaw.drinkreminder.feature_water.domain.use_case.FilterADayDrinks
-import com.akshaw.drinkreminder.feature_water.domain.use_case.FilterAMonthDrink
-import com.akshaw.drinkreminder.feature_water.domain.use_case.GetAllDrinks
-import com.akshaw.drinkreminder.feature_water.domain.use_case.GetDrinkProgress
+import com.akshaw.drinkreminder.feature_water.domain.use_case.*
 import com.akshaw.drinkreminder.feature_water.utils.ChartType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import java.time.*
 import java.time.temporal.TemporalAdjusters
 import javax.inject.Inject
@@ -18,15 +16,17 @@ import javax.inject.Inject
 class WaterReportViewModel @Inject constructor(
     preferences: Preferences,
     filterADayDrinks: FilterADayDrinks,
-    filterAMonthDrink: FilterAMonthDrink,
     getDrinkProgress: GetDrinkProgress,
     getAllDrinks: GetAllDrinks,
+    getReportChartData: GetReportChartData,
+    isReportChartLeftAvailable: IsReportChartLeftAvailable,
+    isReportChartRightAvailable: IsReportChartRightAvailable
 ) : ViewModel() {
     
     private val _goal = MutableStateFlow(2343.0)
     val goal = _goal.asStateFlow()
     
-    val allDrinks = getAllDrinks().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+    private val allDrinks = getAllDrinks().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     
     val todayProgress = allDrinks.map {
         getDrinkProgress(filterADayDrinks(LocalDate.now(), it))
@@ -40,46 +40,90 @@ class WaterReportViewModel @Inject constructor(
         getDrinkProgress(filterADayDrinks(LocalDate.now().minusDays(2), it))
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
     
+    
+    // Chart states
     private val _selectedChart = MutableStateFlow(ChartType.WEEK)
     val selectedChart = _selectedChart.asStateFlow()
     
-    private val _chartCurrentWeeksFirstDay = MutableStateFlow(LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)))
-    val chartCurrentWeeksFirstDay = _chartCurrentWeeksFirstDay.asStateFlow()
+    private val _chartSelectedWeeksFirstDay = MutableStateFlow(LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)))
+    val chartSelectedWeeksFirstDay = _chartSelectedWeeksFirstDay.asStateFlow()
     
-    private val _chartCurrentYear = MutableStateFlow(Year.now())
-    val chartCurrentYear = _chartCurrentYear.asStateFlow()
+    private val _chartSelectedYear = MutableStateFlow(Year.now())
+    val chartSelectedYear = _chartSelectedYear.asStateFlow()
     
-    val chartData = combine(allDrinks, selectedChart, chartCurrentWeeksFirstDay, chartCurrentYear) { allDrinks, selectedChart, chartCurrentWeeksFirstDay, chartCurrentYear ->
+    val chartData = combine(
+        allDrinks,
+        selectedChart,
+        chartSelectedWeeksFirstDay,
+        chartSelectedYear
+    ) { allDrinks, selectedChart, chartSelectedWeeksFirstDay, chartSelectedYear ->
         
-        val data = mutableListOf<Double>()
-        when (selectedChart) {
-            ChartType.WEEK -> {
-                DayOfWeek.values().forEach {
-                    data.add(
-                        getDrinkProgress(filterADayDrinks(
-                            chartCurrentWeeksFirstDay.plusDays(it.value - 1L), allDrinks
-                        ))
-                    )
-                }
-            }
-            ChartType.YEAR -> {
-                Month.values().forEach {
-                    data.add(
-                        getDrinkProgress(filterAMonthDrink(
-                            YearMonth.of(chartCurrentYear.value, it), allDrinks
-                        ))
-                    )
-                }
-            }
-        }
-        data
+        getReportChartData(
+            allDrinks,
+            selectedChart,
+            chartSelectedWeeksFirstDay,
+            chartSelectedYear
+        )
         
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList<Double>())
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+    
+    val isChartLeftAvailable = combine(
+        selectedChart,
+        chartSelectedYear,
+        chartSelectedWeeksFirstDay
+    ) { selectedChart, chartSelectedYear, chartSelectedWeeksFirstDay ->
+        
+        isReportChartLeftAvailable(
+            allDrinks.value,
+            selectedChart,
+            chartSelectedWeeksFirstDay,
+            chartSelectedYear
+        )
+        
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
+    
+    val isChartRightAvailable = combine(
+        selectedChart,
+        chartSelectedYear,
+        chartSelectedWeeksFirstDay
+    ) { selectedChart, chartSelectedYear, chartSelectedWeeksFirstDay ->
+        
+        isReportChartRightAvailable(
+            allDrinks.value,
+            selectedChart,
+            chartSelectedWeeksFirstDay,
+            chartSelectedYear
+        )
+        
+    }
     
     // TODO get live changes from preferences
     // TODO load goal from preferences
     init {
     
+    }
+    
+    fun onEvent(event: WaterReportEvent) = viewModelScope.launch {
+        when (event) {
+            is WaterReportEvent.OnADayProgressClick -> {
+                //TODO navigate to A Day Drinks Screen
+            }
+            is WaterReportEvent.OnChartTypeChange -> {
+                _selectedChart.value = event.chartType
+            }
+            WaterReportEvent.OnChartLeftClick -> {
+                when(selectedChart.value){
+                    ChartType.WEEK -> _chartSelectedWeeksFirstDay.value = chartSelectedWeeksFirstDay.value.minusWeeks(1)
+                    ChartType.YEAR -> _chartSelectedYear.value = chartSelectedYear.value.minusYears(1)
+                }
+            }
+            WaterReportEvent.OnChartRightClick -> {
+                when(selectedChart.value){
+                    ChartType.WEEK -> _chartSelectedWeeksFirstDay.value = chartSelectedWeeksFirstDay.value.plusWeeks(1)
+                    ChartType.YEAR -> _chartSelectedYear.value = chartSelectedYear.value.plusYears(1)
+                }
+            }
+        }
     }
     
 }

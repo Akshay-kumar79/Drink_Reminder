@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.R
 import kotlin.math.ceil
+import kotlin.math.floor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,7 +59,7 @@ fun ADayProgressCard(
                     .fillMaxWidth()
                     .height(8.dp)
                     .clip(RoundedCornerShape(45.dp)),
-                progress = (progress / goal).toFloat(),
+                progress = (progress/goal).coerceIn(0.0, 1.0).toFloat(),
                 trackColor = MaterialTheme.colorScheme.background
             )
             
@@ -69,7 +70,7 @@ fun ADayProgressCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "${ceil(progress).toInt()} / ${ceil(goal).toInt()}",
+                    text = "${ceil((progress).coerceIn(0.0, goal)).toInt()} / ${ceil(goal).toInt()}",
                     fontSize = 12.sp,
                     fontFamily = FontFamily(
                         Font(
@@ -81,9 +82,7 @@ fun ADayProgressCard(
                 )
                 
                 Text(
-                    text = "${(progress*100/goal).let {
-                        if (it <= 100) ceil(it).toInt() else 100
-                    }}%",
+                    text = "${(progress*100/goal).coerceIn(0.0, 100.0).toInt()}%",
                     fontSize = 16.sp,
                     fontFamily = FontFamily(
                         Font(

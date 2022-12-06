@@ -1,15 +1,20 @@
 package com.akshaw.drinkreminder.feature_water.presentation.report
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
@@ -17,15 +22,30 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.R
 import com.akshaw.drinkreminder.feature_water.presentation.report.components.ADayProgressCard
 import com.akshaw.drinkreminder.feature_water.presentation.report.components.AverageReports
 import com.akshaw.drinkreminder.feature_water.presentation.report.components.ChartSelector
 import com.akshaw.drinkreminder.feature_water.presentation.report.components.WaterReportChart
 import com.akshaw.drinkreminder.feature_water.utils.ChartType
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 @Composable
-fun WaterReportScreen() {
+fun WaterReportScreen(
+    viewModel: WaterReportViewModel = hiltViewModel()
+) {
+    
+    val goal by viewModel.goal.collectAsState()
+    val todayProgress by viewModel.todayProgress.collectAsState()
+    val yesterdayProgress by viewModel.yesterdayProgress.collectAsState()
+    val dayBeforeYesterdayProgress by viewModel.dayBeforeYesterdayProgress.collectAsState()
+    
+    val selectedChart by viewModel.selectedChart.collectAsState()
+    val chartSelectedWeeksFirstDay by viewModel.chartSelectedWeeksFirstDay.collectAsState()
+    val chartSelectedYear by viewModel.chartSelectedYear.collectAsState()
     
     Column(
         modifier = Modifier
@@ -77,8 +97,8 @@ fun WaterReportScreen() {
                     
                     },
                     dayText = "Today",
-                    progress = 938.0,
-                    goal = 2350.0
+                    progress = todayProgress,
+                    goal = goal
                 )
                 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -92,8 +112,8 @@ fun WaterReportScreen() {
                     
                     },
                     dayText = "Yesterday",
-                    progress = 1508.0,
-                    goal = 2350.0
+                    progress = yesterdayProgress,
+                    goal = goal
                 )
                 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -107,9 +127,11 @@ fun WaterReportScreen() {
                     onClick = {
                     
                     },
-                    dayText = "12 Nov, 2022",
-                    progress = 308.0,
-                    goal = 2350.0
+                    dayText = LocalDate.now().minusDays(2).format(
+                        DateTimeFormatter.ofPattern("dd LLL, yyyy", Locale.ENGLISH)
+                    ),
+                    progress = dayBeforeYesterdayProgress,
+                    goal = goal
                 )
             }
         }
@@ -118,16 +140,29 @@ fun WaterReportScreen() {
         ChartSelector(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally),
-            selectedChart = ChartType.WEEK,
+            selectedChart = selectedChart,
             onSelect = {
-            
+                viewModel.onEvent(WaterReportEvent.OnChartTypeChange(it))
             }
         )
-    
+        
         Spacer(modifier = Modifier.height(16.dp))
         WaterReportChart(
-            chartType = ChartType.WEEK,
-            data = listOf(23, 54, 34, 69, 100, 22, 10)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .background(MaterialTheme.colorScheme.primary.copy(alpha = .15f)),
+            selectedChart = ChartType.WEEK,
+            data = listOf(23, 54, 34, 67, 100, 22, 10),
+            onChartLeftClick = {
+                viewModel.onEvent(WaterReportEvent.OnChartLeftClick)
+            },
+            onChartRightClick = {
+                viewModel.onEvent(WaterReportEvent.OnChartRightClick)
+            },
+            chartSelectedWeeksFirstDay = chartSelectedWeeksFirstDay,
+            chartSelectedYear = chartSelectedYear
         )
         
         Spacer(modifier = Modifier.height(16.dp))
@@ -136,7 +171,7 @@ fun WaterReportScreen() {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
         )
-    
+        
         Spacer(modifier = Modifier.height(16.dp))
     }
 }
