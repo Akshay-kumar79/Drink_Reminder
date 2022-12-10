@@ -1,7 +1,6 @@
 package com.akshaw.drinkreminder.feature_water.presentation.report.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -32,9 +31,11 @@ fun WaterReportChart(
     selectedChart: ChartType,
     chartSelectedWeeksFirstDay: LocalDate,
     chartSelectedYear: Year,
-    data: List<Int>,
     onChartLeftClick: () -> Unit,
-    onChartRightClick: () -> Unit
+    onChartRightClick: () -> Unit,
+    chartData: List<Int>,
+    isChartLeftAvailable: Boolean,
+    isChartRightAvailable: Boolean
 ) {
     
     Column(
@@ -55,7 +56,7 @@ fun WaterReportChart(
                 onClick = {
                     onChartLeftClick()
                 },
-                enabled = false
+                enabled = isChartLeftAvailable
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.left_arrow_icon),
@@ -67,7 +68,7 @@ fun WaterReportChart(
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterVertically),
-                text = when(selectedChart){                         // "20 Nov - 26 Nov"  Or  "2022"
+                text = when (selectedChart) {                         // "20 Nov - 26 Nov"  Or  "2022"
                     ChartType.WEEK -> {
                         val formatter = DateTimeFormatter.ofPattern("dd LLL", Locale.ENGLISH)
                         val firstDay = chartSelectedWeeksFirstDay.format(formatter)
@@ -85,14 +86,15 @@ fun WaterReportChart(
                 ),
                 color = MaterialTheme.colorScheme.onBackground
             )
-    
+            
             IconButton(
                 modifier = Modifier
                     .size(24.dp)
                     .padding(start = 16.dp),
                 onClick = {
                     onChartRightClick()
-                }
+                },
+                enabled = isChartRightAvailable
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.right_arrow_icon),
@@ -103,12 +105,15 @@ fun WaterReportChart(
         
         Spacer(modifier = Modifier.height(8.dp))
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .height(216.dp)
                 .padding(horizontal = 16.dp)
         ) {
-            data.forEachIndexed { index, it ->
+            val days = listOf("Mo", "Tu", "We", "Th", "Fr", "Sa", "Su")
+            val months = listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+            
+            chartData.forEachIndexed { index, it ->
                 
                 Box(
                     modifier = Modifier
@@ -130,7 +135,23 @@ fun WaterReportChart(
                             modifier = Modifier
                                 .height(16.dp)
                                 .align(Alignment.CenterHorizontally),
-                            text = "Su",
+                            text = when (selectedChart) {
+                                ChartType.WEEK -> {
+                                    try {
+                                        days[index]
+                                    } catch (e: Exception) {
+                                        ""
+                                    }
+                                }
+                                
+                                ChartType.YEAR -> {
+                                    try {
+                                        months[index]
+                                    }catch (e: Exception){
+                                        ""
+                                    }
+                                }
+                            },
                             fontSize = 16.sp,
                             fontFamily = FontFamily(
                                 Font(
@@ -163,7 +184,7 @@ fun WaterReportChart(
                 }
                 
                 
-                if (data.lastIndex != index) {
+                if (chartData.lastIndex != index) {
                     Spacer(modifier = Modifier.width(8.dp))
                 }
                 

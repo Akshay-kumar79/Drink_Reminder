@@ -16,10 +16,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.R
+import com.akshaw.drinkreminder.feature_water.domain.use_case.GetWeeklyAverageCompletion
+import com.akshaw.drinkreminder.feature_water.domain.use_case.GetWeeklyAverageFrequency
+import kotlin.math.ceil
 
 @Composable
 fun AverageReports(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    goal: Double,
+    weeklyAverageProgress: Double,
+    weeklyAverageCompletion: Double,
+    weeklyAverageFrequency: Int
 ) {
     
     Column(modifier = modifier) {
@@ -50,7 +57,7 @@ fun AverageReports(
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     modifier = Modifier,
-                    text = "1,312 ml",
+                    text = "${ceil(weeklyAverageProgress).toInt()} ml",
                     fontSize = 20.sp,
                     fontFamily = FontFamily(
                         Font(
@@ -66,7 +73,7 @@ fun AverageReports(
                 CircularProgressIndicator(
                     modifier = Modifier
                         .size(64.dp),
-                    progress = 1f,
+                    progress = (weeklyAverageProgress/goal).toFloat().coerceIn(0f, 1f),
                     strokeWidth = 6.dp,
                     color = MaterialTheme.colorScheme.primary.copy(alpha = .6f)
                 )
@@ -75,7 +82,7 @@ fun AverageReports(
                     modifier = Modifier
                         .align(Alignment.Center)
                         .padding(start = 6.dp),
-                    text = "92%",
+                    text = "${ceil(weeklyAverageProgress*100/goal).toInt()}%",
                     fontSize = 16.sp,
                     fontFamily = FontFamily(
                         Font(
@@ -118,7 +125,7 @@ fun AverageReports(
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     modifier = Modifier,
-                    text = "48%",
+                    text = "${ceil(weeklyAverageCompletion).toInt()}%",
                     fontSize = 20.sp,
                     fontFamily = FontFamily(
                         Font(
@@ -151,7 +158,7 @@ fun AverageReports(
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     modifier = Modifier,
-                    text = "1 time / day",
+                    text = "$weeklyAverageFrequency time / day",
                     fontSize = 20.sp,
                     fontFamily = FontFamily(
                         Font(

@@ -43,9 +43,18 @@ fun WaterReportScreen(
     val yesterdayProgress by viewModel.yesterdayProgress.collectAsState()
     val dayBeforeYesterdayProgress by viewModel.dayBeforeYesterdayProgress.collectAsState()
     
+    // chart
     val selectedChart by viewModel.selectedChart.collectAsState()
     val chartSelectedWeeksFirstDay by viewModel.chartSelectedWeeksFirstDay.collectAsState()
     val chartSelectedYear by viewModel.chartSelectedYear.collectAsState()
+    val chartData by viewModel.chartData.collectAsState()
+    val isChartLeftAvailable by viewModel.isChartLeftAvailable.collectAsState()
+    val isChartRightAvailable by viewModel.isChartRightAvailable.collectAsState()
+    
+    // weekly average
+    val weeklyAverageProgress by viewModel.weeklyAverageProgress.collectAsState()
+    val weeklyAverageCompletion by viewModel.weeklyAverageCompletion.collectAsState()
+    val weeklyAverageFrequency by viewModel.weeklyAverageFrequency.collectAsState()
     
     Column(
         modifier = Modifier
@@ -153,8 +162,7 @@ fun WaterReportScreen(
                 .padding(horizontal = 16.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .background(MaterialTheme.colorScheme.primary.copy(alpha = .15f)),
-            selectedChart = ChartType.WEEK,
-            data = listOf(23, 54, 34, 67, 100, 22, 10),
+            selectedChart = selectedChart,
             onChartLeftClick = {
                 viewModel.onEvent(WaterReportEvent.OnChartLeftClick)
             },
@@ -162,14 +170,21 @@ fun WaterReportScreen(
                 viewModel.onEvent(WaterReportEvent.OnChartRightClick)
             },
             chartSelectedWeeksFirstDay = chartSelectedWeeksFirstDay,
-            chartSelectedYear = chartSelectedYear
+            chartSelectedYear = chartSelectedYear,
+            chartData = chartData,
+            isChartLeftAvailable = isChartLeftAvailable,
+            isChartRightAvailable = isChartRightAvailable
         )
         
         Spacer(modifier = Modifier.height(16.dp))
         AverageReports(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp),
+            goal = goal,
+            weeklyAverageProgress = weeklyAverageProgress,
+            weeklyAverageCompletion = weeklyAverageCompletion,
+            weeklyAverageFrequency = weeklyAverageFrequency
         )
         
         Spacer(modifier = Modifier.height(16.dp))

@@ -2,25 +2,28 @@ package com.akshaw.drinkreminder.feature_water.presentation.report
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.feature_water.domain.use_case.*
 import com.akshaw.drinkreminder.feature_water.utils.ChartType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.time.*
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.Year
 import java.time.temporal.TemporalAdjusters
 import javax.inject.Inject
 
 @HiltViewModel
 class WaterReportViewModel @Inject constructor(
-    preferences: Preferences,
     filterADayDrinks: FilterADayDrinks,
     getDrinkProgress: GetDrinkProgress,
     getAllDrinks: GetAllDrinks,
     getReportChartData: GetReportChartData,
     isReportChartLeftAvailable: IsReportChartLeftAvailable,
-    isReportChartRightAvailable: IsReportChartRightAvailable
+    isReportChartRightAvailable: IsReportChartRightAvailable,
+    getWeeklyAverageProgress: GetWeeklyAverageProgress,
+    getWeeklyAverageCompletion: GetWeeklyAverageCompletion,
+    getWeeklyAverageFrequency: GetWeeklyAverageFrequency
 ) : ViewModel() {
     
     private val _goal = MutableStateFlow(2343.0)
@@ -41,7 +44,7 @@ class WaterReportViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
     
     
-    // Chart states
+    // Chart States
     private val _selectedChart = MutableStateFlow(ChartType.WEEK)
     val selectedChart = _selectedChart.asStateFlow()
     
@@ -55,14 +58,16 @@ class WaterReportViewModel @Inject constructor(
         allDrinks,
         selectedChart,
         chartSelectedWeeksFirstDay,
-        chartSelectedYear
-    ) { allDrinks, selectedChart, chartSelectedWeeksFirstDay, chartSelectedYear ->
+        chartSelectedYear,
+        goal
+    ) { allDrinks, selectedChart, chartSelectedWeeksFirstDay, chartSelectedYear, goal ->
         
         getReportChartData(
             allDrinks,
             selectedChart,
             chartSelectedWeeksFirstDay,
-            chartSelectedYear
+            chartSelectedYear,
+            goal
         )
         
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
@@ -95,13 +100,27 @@ class WaterReportViewModel @Inject constructor(
             chartSelectedYear
         )
         
-    }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
+    
+    // Average Report States
+    val weeklyAverageProgress = allDrinks.map { allDrinks ->
+        getWeeklyAverageProgress(allDrinks)
+        
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
+    
+    val weeklyAverageCompletion = combine(allDrinks, goal) { allDrinks, goal ->
+        getWeeklyAverageCompletion(allDrinks, goal)
+        
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
+    
+    val weeklyAverageFrequency = allDrinks.map { allDrinks ->
+        getWeeklyAverageFrequency(allDrinks)
+        
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0)
+    
     
     // TODO get live changes from preferences
     // TODO load goal from preferences
-    init {
-    
-    }
     
     fun onEvent(event: WaterReportEvent) = viewModelScope.launch {
         when (event) {
@@ -112,13 +131,13 @@ class WaterReportViewModel @Inject constructor(
                 _selectedChart.value = event.chartType
             }
             WaterReportEvent.OnChartLeftClick -> {
-                when(selectedChart.value){
+                when (selectedChart.value) {
                     ChartType.WEEK -> _chartSelectedWeeksFirstDay.value = chartSelectedWeeksFirstDay.value.minusWeeks(1)
                     ChartType.YEAR -> _chartSelectedYear.value = chartSelectedYear.value.minusYears(1)
                 }
             }
             WaterReportEvent.OnChartRightClick -> {
-                when(selectedChart.value){
+                when (selectedChart.value) {
                     ChartType.WEEK -> _chartSelectedWeeksFirstDay.value = chartSelectedWeeksFirstDay.value.plusWeeks(1)
                     ChartType.YEAR -> _chartSelectedYear.value = chartSelectedYear.value.plusYears(1)
                 }
