@@ -5,6 +5,17 @@ import com.akshaw.drinkreminder.feature_water.utils.ChartType
 import java.time.LocalDate
 import java.time.Year
 
+/**
+ *  returns
+ *
+ *  true,
+ *      -> any drinks available before current year and selected chart is YEAR
+ *      -> any drink is available before current week and selected chart is WEEK
+ *
+ *  false,
+ *      -> no drink is available before current year and selected chart is YEAR
+ *      -> no drink is available before current week and selected chart is WEEK
+ */
 class IsReportChartLeftAvailable {
     
     operator fun invoke(
@@ -16,19 +27,19 @@ class IsReportChartLeftAvailable {
         return when (selectedChart) {
             ChartType.WEEK -> {
                 var isAvailable = false
-                allDrinks.forEach {
-                    isAvailable = it.dateTime.toLocalDate().isBefore(chartSelectedWeeksFirstDay)
+                for (drink in allDrinks){
+                    isAvailable = drink.dateTime.toLocalDate().isBefore(chartSelectedWeeksFirstDay)
                     if (isAvailable)
-                        return@forEach
+                        break
                 }
                 isAvailable
             }
             ChartType.YEAR -> {
                 var isAvailable = false
-                allDrinks.forEach {
-                    isAvailable = Year.of(it.dateTime.year).isBefore(chartSelectedYear)
+                for (drink in allDrinks){
+                    isAvailable = Year.of(drink.dateTime.year).isBefore(chartSelectedYear)
                     if (isAvailable)
-                        return@forEach
+                        break
                 }
                 isAvailable
             }

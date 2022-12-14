@@ -3,6 +3,9 @@ package com.akshaw.drinkreminder.feature_water.domain.use_case
 import com.akshaw.drinkreminder.feature_water.domain.model.Drink
 import java.time.LocalDate
 
+/**
+ * returns list of drinks on provided date after filtering allDrinks
+ */
 class FilterADayDrinks {
     
     operator fun invoke(date: LocalDate, allDrinks: List<Drink>): List<Drink> {

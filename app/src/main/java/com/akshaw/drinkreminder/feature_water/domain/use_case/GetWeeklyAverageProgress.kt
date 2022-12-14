@@ -5,6 +5,12 @@ import com.akshaw.drinkreminder.feature_water.domain.model.Drink
 import java.time.LocalDate
 import javax.inject.Inject
 
+/**
+ *  return the average to progress made in last week
+ *  i.e (total progress in last week / 7)
+ *
+ *  if today is 24-Nov-2022 then last week would be considered from 18-Nov-2022 to 24-Nov-2022
+ */
 class GetWeeklyAverageProgress @Inject constructor(
     private val getDrinkProgress: GetDrinkProgress,
     private val filterADayDrinks: FilterADayDrinks

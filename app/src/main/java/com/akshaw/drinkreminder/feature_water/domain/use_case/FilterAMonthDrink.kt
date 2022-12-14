@@ -5,6 +5,9 @@ import java.time.LocalDate
 import java.time.Month
 import java.time.YearMonth
 
+/**
+ * returns list of drinks on provided yearMonth after filtering allDrinks
+ */
 class FilterAMonthDrink {
     
     operator fun invoke(yearMonth: YearMonth, allDrinks: List<Drink>): List<Drink> {

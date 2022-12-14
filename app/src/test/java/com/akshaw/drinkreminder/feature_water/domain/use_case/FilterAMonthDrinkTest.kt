@@ -3,24 +3,26 @@ package com.akshaw.drinkreminder.feature_water.domain.use_case
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.feature_water.domain.model.Drink
 import com.google.common.truth.Truth.assertThat
+
 import org.junit.Before
 import org.junit.Test
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Month
+import java.time.YearMonth
 
-class FilterADayDrinksTest {
+class FilterAMonthDrinkTest {
     
-    private lateinit var filterADayDrinks: FilterADayDrinks
+    private lateinit var filterAMonthDrink: FilterAMonthDrink
     private lateinit var allDrinks: List<Drink>
     
     @Before
     fun setUp() {
-        filterADayDrinks = FilterADayDrinks()
-        
+        filterAMonthDrink = FilterAMonthDrink()
+    
         val localDateTimes = mutableListOf<LocalDateTime>()
         localDateTimes.apply {
-            
+        
             add(LocalDateTime.of(LocalDate.now().year, Month.JANUARY, 4, 2, 3))
             add(LocalDateTime.of(LocalDate.now().year, Month.JANUARY, 14, 2, 3))
             add(LocalDateTime.of(LocalDate.now().year, Month.FEBRUARY, 16, 2, 3))
@@ -45,7 +47,7 @@ class FilterADayDrinksTest {
             add(LocalDateTime.of(LocalDate.now().year, Month.NOVEMBER, 19, 2, 3))
             add(LocalDateTime.of(LocalDate.now().year, Month.DECEMBER, 14, 2, 3))
             add(LocalDateTime.of(LocalDate.now().year, Month.DECEMBER, 5, 2, 3))
-            
+        
             add(LocalDateTime.of(LocalDate.now().year - 1, Month.JANUARY, 4, 2, 3))
             add(LocalDateTime.of(LocalDate.now().year - 1, Month.JANUARY, 14, 2, 3))
             add(LocalDateTime.of(LocalDate.now().year - 1, Month.FEBRUARY, 16, 2, 3))
@@ -70,18 +72,9 @@ class FilterADayDrinksTest {
             add(LocalDateTime.of(LocalDate.now().year - 1, Month.NOVEMBER, 19, 2, 3))
             add(LocalDateTime.of(LocalDate.now().year - 1, Month.DECEMBER, 14, 2, 3))
             add(LocalDateTime.of(LocalDate.now().year - 1, Month.DECEMBER, 5, 2, 3))
-            
-            
-            removeIf { it.year == LocalDate.now().year && it.month == LocalDate.now().minusMonths(1).month }
-            removeIf { it.year == LocalDate.now().year && it.month == LocalDate.now().month }
-            
-            add(LocalDateTime.now())
-            add(LocalDateTime.now().minusDays(1))
-            add(LocalDateTime.now().minusDays(2))
-            add(LocalDateTime.now().minusDays(3))
-            
-        }
         
+        }
+    
         val drinksToInsert = mutableListOf<Drink>()
         localDateTimes.forEachIndexed { index, dateTime ->
             drinksToInsert.add(
@@ -93,50 +86,58 @@ class FilterADayDrinksTest {
                 )
             )
         }
-        
+    
         allDrinks = drinksToInsert
     }
     
     @Test
-    fun `today date, return today's drinks only`() {
-        val filteredDrinks = filterADayDrinks(LocalDate.now(), allDrinks)
-        
+    fun `current month, return this months drinks`(){
+        val filteredDrinks = filterAMonthDrink(YearMonth.now(), allDrinks)
+    
         assertThat(filteredDrinks.size).isGreaterThan(0)
         filteredDrinks.forEach {
-            assertThat(it.dateTime.toLocalDate()).isEqualTo(LocalDate.now())
+            val dateTime = it.dateTime
+            assertThat(YearMonth.of(dateTime.year, dateTime.month)).isEqualTo(YearMonth.now())
         }
     }
     
     @Test
-    fun `yesterday date, return yesterday's drinks only`() {
-        val filteredDrinks = filterADayDrinks(LocalDate.now().minusDays(1), allDrinks)
+    fun `previous month, return that months drinks only`(){
+        val filteredDrinks = filterAMonthDrink(YearMonth.now().minusMonths(1), allDrinks)
+    
         assertThat(filteredDrinks.size).isGreaterThan(0)
         filteredDrinks.forEach {
-            assertThat(it.dateTime.toLocalDate()).isEqualTo(LocalDate.now().minusDays(1))
+            val dateTime = it.dateTime
+            assertThat(YearMonth.of(dateTime.year, dateTime.month)).isEqualTo(YearMonth.now().minusMonths(1))
         }
     }
     
     @Test
-    fun `day before yesterday date, return day before yesterday's drink only`() {
-        val filteredDrinks = filterADayDrinks(LocalDate.now().minusDays(2), allDrinks)
+    fun `2 month back, return that months drinks only`(){
+        val filteredDrinks = filterAMonthDrink(YearMonth.now().minusMonths(2), allDrinks)
+    
         assertThat(filteredDrinks.size).isGreaterThan(0)
         filteredDrinks.forEach {
-            assertThat(it.dateTime.toLocalDate()).isEqualTo(LocalDate.now().minusDays(2))
+            val dateTime = it.dateTime
+            assertThat(YearMonth.of(dateTime.year, dateTime.month)).isEqualTo(YearMonth.now().minusMonths(2))
         }
     }
     
     @Test
-    fun `previous year date, return that's days drink only`() {
-        val filteredDrinks = filterADayDrinks(LocalDate.of(LocalDate.now().year - 1, Month.AUGUST, 31), allDrinks)
+    fun `previous year same month, return that months drinks only`(){
+        val filteredDrinks = filterAMonthDrink(YearMonth.now().minusYears(1), allDrinks)
+    
         assertThat(filteredDrinks.size).isGreaterThan(0)
         filteredDrinks.forEach {
-            assertThat(it.dateTime.toLocalDate()).isEqualTo(LocalDate.of(LocalDate.now().year - 1, Month.AUGUST, 31))
+            val dateTime = it.dateTime
+            assertThat(YearMonth.of(dateTime.year, dateTime.month)).isEqualTo(YearMonth.now().minusYears(1))
         }
     }
     
     @Test
-    fun `date have 0 drink, returns 0 drink`() {
-        val filteredDrinks = filterADayDrinks(LocalDate.now().minusDays(5), allDrinks)
+    fun `month with 0 drink, return 0 drinks`(){
+        val filteredDrinks = filterAMonthDrink(YearMonth.now().plusYears(1), allDrinks)
+    
         assertThat(filteredDrinks.size).isEqualTo(0)
     }
     

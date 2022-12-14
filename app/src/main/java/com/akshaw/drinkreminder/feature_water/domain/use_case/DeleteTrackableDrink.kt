@@ -4,6 +4,9 @@ import com.akshaw.drinkreminder.feature_water.domain.model.TrackableDrink
 import com.akshaw.drinkreminder.feature_water.domain.repository.WaterRepository
 import javax.inject.Inject
 
+/**
+ *  Delete TrackableDrink from database
+ */
 class DeleteTrackableDrink @Inject constructor(
     private val waterRepository: WaterRepository
 ) {

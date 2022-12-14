@@ -6,6 +6,9 @@ import com.akshaw.drinkreminder.feature_water.domain.model.convertUnit
 import javax.inject.Inject
 import kotlin.math.ceil
 
+/**
+ *  Provides sum of drink amount after converting given drinks to current waterUnit type
+ */
 class GetDrinkProgress @Inject constructor(
     private val preferences: Preferences
 ) {
@@ -14,7 +17,7 @@ class GetDrinkProgress @Inject constructor(
         val waterUnit = preferences.loadWaterUnit()
 
         return drinks.sumOf {
-            ceil(it.convertUnit(waterUnit).waterIntake)
+            it.convertUnit(waterUnit).waterIntake
         }
     }
 

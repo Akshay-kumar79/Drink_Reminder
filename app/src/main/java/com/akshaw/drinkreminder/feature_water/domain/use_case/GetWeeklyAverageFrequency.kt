@@ -5,6 +5,12 @@ import java.time.LocalDate
 import javax.inject.Inject
 import kotlin.math.ceil
 
+/**
+ *  returns average number of drinks in last week on daily basis
+ *  i.e ceiling of (total number of drink in last week) / 7
+ *
+ *  if today is 24-Nov-2022 then last week would be considered from 18-Nov-2022 to 24-Nov-2022
+ */
 class GetWeeklyAverageFrequency @Inject constructor(
     private val filterADayDrinks: FilterADayDrinks
 ) {

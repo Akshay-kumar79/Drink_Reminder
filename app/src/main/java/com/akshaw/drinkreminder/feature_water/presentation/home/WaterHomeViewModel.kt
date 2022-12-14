@@ -115,7 +115,7 @@ class WaterHomeViewModel @Inject constructor(
                         // Do nothing for now
                     }
                     .onFailure {
-                        showSnackbar(UiText.DynamicString(it.message ?: "Add some drinks"))
+                        showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
                     }
             }
             is WaterHomeEvent.OnTrackableDrinkChange -> {
@@ -127,6 +127,9 @@ class WaterHomeViewModel @Inject constructor(
             }
             WaterHomeEvent.RestoreDrink -> {
                 addDrink(recentlyDeleteDrink ?: return@launch)
+                    .onFailure {
+                        showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
+                    }
                 recentlyDeleteDrink = null
             }
         }
@@ -155,7 +158,9 @@ class WaterHomeViewModel @Inject constructor(
                                 waterIntake = addForgottenDrinkDialogQuantity.value.toDoubleOrNull() ?: 0.0,
                                 unit = waterUnit.value
                             )
-                        )
+                        ).onFailure {
+                            showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
+                        }
                     }
                     .onFailure {
                         showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
@@ -202,7 +207,9 @@ class WaterHomeViewModel @Inject constructor(
                         amount = addTrackableDrinkDialogQuantity.value.toDoubleOrNull() ?: 0.0,
                         unit = waterUnit.value
                     )
-                )
+                ).onFailure {
+                    showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
+                }
                 _isAddTrackableDrinkDialogShowing.value = false
             }
             DialogAddTrackableDrinkEvent.OnDismiss -> {

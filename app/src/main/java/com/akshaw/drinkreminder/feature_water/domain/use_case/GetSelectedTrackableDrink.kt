@@ -5,7 +5,8 @@ import com.akshaw.drinkreminder.feature_water.domain.model.TrackableDrink
 import javax.inject.Inject
 import kotlin.math.floor
 
-/** returns
+/**
+ * returns
 -> TrackableDrink with id -1, when there is 0 trackable drinks
 -> TrackableDrink with default selected id, when trackableDrinks contains TrackableDrink with default selected id
 -> TrackableDrink with middle indexed trackable drink id, when default selected id does not exist

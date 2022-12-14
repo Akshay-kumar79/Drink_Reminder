@@ -6,6 +6,11 @@ import java.time.*
 import javax.inject.Inject
 import kotlin.math.ceil
 
+/**
+ *  returns
+ *  -> list of size 7 with progress of the week in percentage (0..100), if selectedChart is of type WEEK
+ *  -> list of size 12 with progress of the year in percentage (0..100), if selectedChart is of type YEAR
+ */
 class GetReportChartData @Inject constructor(
     private val getDrinkProgress: GetDrinkProgress,
     private val filterADayDrinks: FilterADayDrinks,

@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
@@ -134,7 +135,11 @@ fun WaterReportChart(
                         Text(
                             modifier = Modifier
                                 .height(16.dp)
-                                .align(Alignment.CenterHorizontally),
+                                .align(Alignment.CenterHorizontally)
+                                .rotate(when(selectedChart) {
+                                    ChartType.WEEK -> 0f
+                                    ChartType.YEAR -> -20f
+                                }),
                             text = when (selectedChart) {
                                 ChartType.WEEK -> {
                                     try {
@@ -152,7 +157,10 @@ fun WaterReportChart(
                                     }
                                 }
                             },
-                            fontSize = 16.sp,
+                            fontSize = when(selectedChart){
+                                ChartType.WEEK -> 16.sp
+                                ChartType.YEAR -> 10.sp
+                            },
                             fontFamily = FontFamily(
                                 Font(
                                     R.font.ubuntu_medium,
