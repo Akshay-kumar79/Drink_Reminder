@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.feature_water.presentation.report
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akshaw.drinkreminder.feature_water.domain.use_case.*
@@ -73,13 +74,14 @@ class WaterReportViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     
     val isChartLeftAvailable = combine(
+        allDrinks,
         selectedChart,
-        chartSelectedYear,
-        chartSelectedWeeksFirstDay
-    ) { selectedChart, chartSelectedYear, chartSelectedWeeksFirstDay ->
+        chartSelectedWeeksFirstDay,
+        chartSelectedYear
+    ) { allDrinks, selectedChart, chartSelectedWeeksFirstDay, chartSelectedYear ->
         
         isReportChartLeftAvailable(
-            allDrinks.value,
+            allDrinks,
             selectedChart,
             chartSelectedWeeksFirstDay,
             chartSelectedYear
@@ -88,13 +90,14 @@ class WaterReportViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
     
     val isChartRightAvailable = combine(
+        allDrinks,
         selectedChart,
-        chartSelectedYear,
-        chartSelectedWeeksFirstDay
-    ) { selectedChart, chartSelectedYear, chartSelectedWeeksFirstDay ->
+        chartSelectedWeeksFirstDay,
+        chartSelectedYear
+    ) { allDrinks, selectedChart, chartSelectedWeeksFirstDay, chartSelectedYear ->
         
         isReportChartRightAvailable(
-            allDrinks.value,
+            allDrinks,
             selectedChart,
             chartSelectedWeeksFirstDay,
             chartSelectedYear

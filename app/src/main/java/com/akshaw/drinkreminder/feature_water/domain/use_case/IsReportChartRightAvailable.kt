@@ -33,6 +33,7 @@ class IsReportChartRightAvailable {
                     .minusDays(1)
                 for (drink in allDrinks) {
                     isAvailable = drink.dateTime.toLocalDate().isAfter(lastDayOfWeek)
+                            || lastDayOfWeek.isBefore(LocalDate.now())
                     if (isAvailable)
                         break
                 }
@@ -42,6 +43,7 @@ class IsReportChartRightAvailable {
                 var isAvailable = false
                 for (drink in allDrinks) {
                     isAvailable = Year.of(drink.dateTime.year).isAfter(chartSelectedYear)
+                            || chartSelectedYear.isBefore(Year.now())
                     if (isAvailable)
                         break
                 }

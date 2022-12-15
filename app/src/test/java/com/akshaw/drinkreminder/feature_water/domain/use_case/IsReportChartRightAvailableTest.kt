@@ -160,6 +160,28 @@ class IsReportChartRightAvailableTest {
     }
     
     @Test
+    fun `all drinks are after before weeks last day, chart type WEEK, week first day 12 days back, current year, return true`(){
+        val allDrinks = mutableListOf<Drink>().apply {
+            add(Drink(0, LocalDateTime.now().minusDays(12), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(10), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(20), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(30), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(40), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(50), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(20), 20.0, WaterUnit.ML))
+        }
+        
+        val isAvailable = isReportChartRightAvailable(
+            allDrinks,
+            ChartType.WEEK,
+            LocalDate.now().minusDays(12),
+            Year.now()
+        )
+        
+        assertThat(isAvailable).isTrue()
+    }
+    
+    @Test
     fun `0 drinks, chart type YEAR, week first day today, current year, return false`(){
         val allDrinks = emptyList<Drink>()
         
@@ -322,6 +344,34 @@ class IsReportChartRightAvailableTest {
             ChartType.YEAR,
             LocalDate.now(),
             Year.now()
+        )
+        
+        assertThat(isAvailable).isTrue()
+    }
+    
+    @Test
+    fun `all drinks are before current year, chart type YEAR, week first day today, 5 year back year, return true`(){
+        val allDrinks = mutableListOf<Drink>().apply {
+            add(Drink(0, LocalDateTime.now().minusYears(6), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.of(Year.now().minusYears(5).value, Month.JANUARY, 23,23,23), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.of(Year.now().minusYears(6).value, Month.FEBRUARY, 23,23,23), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.of(Year.now().minusYears(6).value, Month.MARCH, 23,23,23), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.of(Year.now().minusYears(6).value, Month.APRIL, 23,23,23), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.of(Year.now().minusYears(6).value, Month.MAY, 23,23,23), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.of(Year.now().minusYears(6).value, Month.JUNE, 23,23,23), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.of(Year.now().minusYears(6).value, Month.JULY, 23,23,23), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.of(Year.now().minusYears(6).value, Month.AUGUST, 23,23,23), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.of(Year.now().minusYears(6).value, Month.SEPTEMBER, 23,23,23), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.of(Year.now().minusYears(6).value, Month.OCTOBER, 23,23,23), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.of(Year.now().minusYears(6).value, Month.NOVEMBER, 23,23,23), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.of(Year.now().minusYears(7).value, Month.DECEMBER, 23,23,23), 20.0, WaterUnit.ML))
+        }
+        
+        val isAvailable = isReportChartRightAvailable(
+            allDrinks,
+            ChartType.YEAR,
+            LocalDate.now(),
+            Year.now().minusYears(5)
         )
         
         assertThat(isAvailable).isTrue()
