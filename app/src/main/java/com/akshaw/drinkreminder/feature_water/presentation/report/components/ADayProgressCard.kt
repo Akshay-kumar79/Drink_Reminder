@@ -82,7 +82,7 @@ fun ADayProgressCard(
                 )
                 
                 Text(
-                    text = "${(progress*100/goal).coerceIn(0.0, 100.0).toInt()}%",
+                    text = "${ceil(progress*100/goal).coerceIn(0.0, 100.0).toInt()}%",
                     fontSize = 16.sp,
                     fontFamily = FontFamily(
                         Font(
