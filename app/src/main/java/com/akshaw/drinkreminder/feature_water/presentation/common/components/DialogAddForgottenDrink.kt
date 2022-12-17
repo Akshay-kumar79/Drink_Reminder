@@ -1,4 +1,4 @@
-package com.akshaw.drinkreminder.feature_water.presentation.home.components
+package com.akshaw.drinkreminder.feature_water.presentation.common.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,15 +15,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.res.ResourcesCompat
 import com.akshaw.drinkreminder.R
 import com.akshaw.drinkreminder.core.util.Utility
-import com.akshaw.drinkreminder.feature_water.presentation.home.WaterHomeViewModel
-import com.akshaw.drinkreminder.feature_water.presentation.home.events.DialogAddForgottenDrinkEvent
 import com.shawnlin.numberpicker.NumberPicker
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,4 +1,4 @@
-package com.akshaw.drinkreminder.feature_water.presentation.home.components
+package com.akshaw.drinkreminder.feature_water.presentation.common.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row

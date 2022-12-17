@@ -10,7 +10,7 @@ import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.feature_water.domain.model.Drink
 import com.akshaw.drinkreminder.feature_water.domain.model.TrackableDrink
 import com.akshaw.drinkreminder.feature_water.domain.use_case.*
-import com.akshaw.drinkreminder.feature_water.presentation.home.events.DialogAddForgottenDrinkEvent
+import com.akshaw.drinkreminder.feature_water.presentation.common.events.DialogAddForgottenDrinkEvent
 import com.akshaw.drinkreminder.feature_water.presentation.home.events.DialogAddTrackableDrinkEvent
 import com.akshaw.drinkreminder.feature_water.presentation.home.events.DialogRemoveTrackableDrinkEvent
 import com.akshaw.drinkreminder.feature_water.presentation.home.events.WaterHomeEvent

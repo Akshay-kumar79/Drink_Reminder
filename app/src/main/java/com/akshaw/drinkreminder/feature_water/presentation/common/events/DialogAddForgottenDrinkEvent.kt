@@ -1,4 +1,4 @@
-package com.akshaw.drinkreminder.feature_water.presentation.home.events
+package com.akshaw.drinkreminder.feature_water.presentation.common.events
 
 sealed interface DialogAddForgottenDrinkEvent {
     object OnAddForgotDrinkClick : DialogAddForgottenDrinkEvent

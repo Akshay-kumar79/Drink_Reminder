@@ -21,10 +21,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.R
 import com.akshaw.drinkreminder.core.util.UiEvent
-import com.akshaw.drinkreminder.feature_water.presentation.home.components.DialogAddForgottenDrink
-import com.akshaw.drinkreminder.feature_water.presentation.home.components.DrinkItem
+import com.akshaw.drinkreminder.feature_water.presentation.common.components.DialogAddForgottenDrink
+import com.akshaw.drinkreminder.feature_water.presentation.common.components.DrinkItem
 import com.akshaw.drinkreminder.feature_water.presentation.home.components.TrackableDrinkSection
-import com.akshaw.drinkreminder.feature_water.presentation.home.events.DialogAddForgottenDrinkEvent
+import com.akshaw.drinkreminder.feature_water.presentation.common.events.DialogAddForgottenDrinkEvent
 import com.akshaw.drinkreminder.feature_water.presentation.home.events.WaterHomeEvent
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

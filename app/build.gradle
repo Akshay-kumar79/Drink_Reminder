@@ -8,10 +8,10 @@ plugins {
 android {
     signingConfigs {
         release {
-            storeFile file('C:\\Users\\Akshay kumar shaw\\OneDrive\\Desktop\\DrinkReminder.jks')
-            storePassword 'hdrnfutv'
+            storeFile file('C:\\Users\\Khushbu kumari\\Desktop\\drink_reminder_test.jks')
+            storePassword 'qazxswedc'
             keyAlias 'key0'
-            keyPassword 'hdrnfutv'
+            keyPassword 'qazxswedc'
         }
     }
     namespace 'com.akshaw.drinkreminder'
@@ -73,6 +73,9 @@ dependencies {
     // Compose
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+
+    //Navigation
+    implementation("androidx.navigation:navigation-compose:2.5.3")
 
     // Dagger - Hilt
     implementation "com.google.dagger:hilt-android:2.44"

@@ -35,7 +35,8 @@ import java.util.*
 
 @Composable
 fun WaterReportScreen(
-    viewModel: WaterReportViewModel = hiltViewModel()
+    viewModel: WaterReportViewModel = hiltViewModel(),
+    onADayDrinkClick: (date: LocalDate) -> Unit
 ) {
     
     val goal by viewModel.goal.collectAsState()
@@ -103,7 +104,7 @@ fun WaterReportScreen(
                         .offset(x = (-20).dp),
                     cardBackground = CardDefaults.cardColors(MaterialTheme.colorScheme.primary.copy(alpha = .15f)),
                     onClick = {
-                    
+                        onADayDrinkClick(LocalDate.now())
                     },
                     dayText = "Today",
                     progress = todayProgress,
@@ -118,7 +119,7 @@ fun WaterReportScreen(
                         .padding(start = 0.dp, end = 16.dp),
                     cardBackground = CardDefaults.cardColors(MaterialTheme.colorScheme.primary.copy(alpha = .15f)),
                     onClick = {
-                    
+                        onADayDrinkClick(LocalDate.now().minusDays(1))
                     },
                     dayText = "Yesterday",
                     progress = yesterdayProgress,
@@ -134,7 +135,7 @@ fun WaterReportScreen(
                         .offset(x = (-10).dp),
                     cardBackground = CardDefaults.cardColors(MaterialTheme.colorScheme.primary.copy(alpha = .15f)),
                     onClick = {
-                    
+                        onADayDrinkClick(LocalDate.now().minusDays(2))
                     },
                     dayText = LocalDate.now().minusDays(2).format(
                         DateTimeFormatter.ofPattern("dd LLL, yyyy", Locale.ENGLISH)
