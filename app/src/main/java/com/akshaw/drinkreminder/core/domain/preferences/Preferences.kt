@@ -1,6 +1,7 @@
 package com.akshaw.drinkreminder.core.domain.preferences
 
 import com.akshaw.drinkreminder.core.util.Gender
+import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import java.time.LocalTime
 
@@ -13,6 +14,8 @@ interface Preferences {
     fun saveWeightUnit(unit: WeightUnit)
     fun saveBedTime(time: LocalTime)
     fun saveWakeupTime(time: LocalTime)
+    fun saveWaterUnit(unit: WaterUnit)
+    fun saveSelectedTrackableDrinkId(id: Long)
 
     fun loadGender(): Gender
     fun loadAge(): Int
@@ -20,6 +23,8 @@ interface Preferences {
     fun loadWeightUnit(): WeightUnit
     fun loadBedTime(): LocalTime
     fun loadWakeupTime(): LocalTime
+    fun loadWaterUnit(): WaterUnit
+    fun loadSelectedTrackableDrinkId(): Long
 
     companion object{
 
@@ -29,6 +34,8 @@ interface Preferences {
         const val KEY_WEIGHT_UNIT = "weight_unit"
         const val KEY_BED_TIME = "bed_time"
         const val KEY_WAKEUP_TIME = "wakeup_time"
+        const val KEY_WATER_UNIT = "water_unit"
+        const val KEY_SELECTED_TRACKABLE_DRINK_ID = "selected_trackable_drink_id"
 
     }
 
