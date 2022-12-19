@@ -28,7 +28,6 @@ import com.akshaw.drinkreminder.feature_water.presentation.report.components.ADa
 import com.akshaw.drinkreminder.feature_water.presentation.report.components.AverageReports
 import com.akshaw.drinkreminder.feature_water.presentation.report.components.ChartSelector
 import com.akshaw.drinkreminder.feature_water.presentation.report.components.WaterReportChart
-import com.akshaw.drinkreminder.feature_water.utils.ChartType
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
