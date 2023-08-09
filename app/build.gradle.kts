@@ -1,66 +1,16 @@
+import com.akshaw.convention.appDefaultConfig
+import com.akshaw.convention.applicationBuildTypes
+
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    id("custom.android.application")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
 }
 
 android {
-    signingConfigs {
-        create("release") {
-            storeFile = file("C:\\Users\\Khushbu kumari\\Desktop\\drink_reminder_test.jks")
-            storePassword = "qazxswedc"
-            keyAlias = "key0"
-            keyPassword = "qazxswedc"
-        }
-    }
     namespace = "com.akshaw.drinkreminder"
-    compileSdk = 33
-    
-    defaultConfig {
-        applicationId = "com.akshaw.drinkreminder"
-        minSdk = 26
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0.0"
-        
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-    }
-    
-    buildTypes {
-        getByName("debug") {
-            applicationIdSuffix = ".debug"
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-        getByName("release") {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("release")
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
-    }
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/LICENSE.md"
-            excludes += "/META-INF/LICENSE-notice.md"
-        }
-    }
+    appDefaultConfig()
+    applicationBuildTypes()
 }
 
 dependencies {
