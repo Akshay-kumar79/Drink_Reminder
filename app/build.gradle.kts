@@ -1,5 +1,6 @@
 import com.akshaw.convention.appDefaultConfig
 import com.akshaw.convention.applicationBuildTypes
+import com.akshaw.convention.appNamespace
 
 plugins {
     id("custom.android.application")
@@ -8,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.akshaw.drinkreminder"
+    appNamespace()
     appDefaultConfig()
     applicationBuildTypes()
 }

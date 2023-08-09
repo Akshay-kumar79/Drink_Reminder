@@ -61,6 +61,10 @@ fun CommonExtension<*, *, *, *>.composeOptions() {
     }
 }
 
+fun BaseAppModuleExtension.appNamespace() {
+    namespace = "com.akshaw.drinkreminder"
+}
+
 fun BaseAppModuleExtension.applicationSigningConfigs() {
     signingConfigs {
         create("release") {
@@ -71,6 +75,7 @@ fun BaseAppModuleExtension.applicationSigningConfigs() {
         }
     }
 }
+
 
 fun BaseAppModuleExtension.applicationBuildTypes() {
     buildTypes {
