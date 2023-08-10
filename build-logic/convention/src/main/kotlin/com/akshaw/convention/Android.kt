@@ -58,7 +58,7 @@ fun CommonExtension<*, *, *, *>.packagingOptions() {
 
 fun CommonExtension<*, *, *, *>.composeOptions() {
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.5"
+        kotlinCompilerExtensionVersion = "1.4.8"
     }
 }
 
