@@ -1,3 +1,4 @@
+import com.akshaw.convention.Projects
 import com.akshaw.convention.appDefaultConfig
 import com.akshaw.convention.applicationBuildTypes
 import com.akshaw.convention.appNamespace
@@ -14,6 +15,9 @@ android {
 }
 
 dependencies {
+    
+    // Modules
+    implementation(project(Projects.Implementation.CORE))
 
     // Android Materials
     implementation(libs.androidx.core.ktx)

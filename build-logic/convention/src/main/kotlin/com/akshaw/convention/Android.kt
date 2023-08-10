@@ -67,7 +67,7 @@ fun BaseAppModuleExtension.appNamespace() {
 }
 
 fun LibraryExtension.libNamespace(moduleName: String) {
-    namespace = Android.NAMESPACE_PREFIX + moduleName.namespace()
+    namespace = Android.APPLICATION_ID + moduleName.namespace()
 }
 
 internal fun String.namespace() = this.substringAfterLast(":")
@@ -123,7 +123,6 @@ fun LibraryExtension.libDefaultConfig() {
 object Android {
     
     const val APPLICATION_ID = "com.akshaw.drinkreminder"
-    const val NAMESPACE_PREFIX = "com.akshaw"
     
     object Extension {
         const val KOTLIN_OPTIONS = "kotlinOptions"
