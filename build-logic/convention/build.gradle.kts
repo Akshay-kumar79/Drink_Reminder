@@ -11,10 +11,18 @@ dependencies {
 }
 
 gradlePlugin {
+    
     plugins {
+        
         register("androidApplication") {
             id = "custom.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
+        
+        register("androidLibrary") {
+            id = "custom.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
     }
+    
 }

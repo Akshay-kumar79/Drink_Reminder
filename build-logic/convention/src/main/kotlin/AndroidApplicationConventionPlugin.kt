@@ -1,14 +1,8 @@
+import com.akshaw.convention.Android
 import com.akshaw.convention.configureKotlinAndroid
-import com.android.build.api.dsl.ApplicationBuildType
 import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.api.dsl.CommonExtension
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import org.gradle.api.JavaVersion
-import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.plugins.ExtensionAware
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -16,6 +10,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
+                apply("kotlin-kapt")
             }
             
             extensions.configure(ApplicationExtension::class.java) {
@@ -28,7 +23,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 }
 
 fun ApplicationExtension.targetSdk() {
-    defaultConfig.targetSdk = 33
+    defaultConfig.targetSdk = Android.Sdk.TARGET
 }
 
 

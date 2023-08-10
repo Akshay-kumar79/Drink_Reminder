@@ -2,6 +2,7 @@ package com.akshaw.convention
 
 import com.android.build.api.dsl.ApplicationBuildType
 import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.NamedDomainObjectContainer
@@ -57,13 +58,19 @@ fun CommonExtension<*, *, *, *>.packagingOptions() {
 
 fun CommonExtension<*, *, *, *>.composeOptions() {
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = "1.4.5"
     }
 }
 
 fun BaseAppModuleExtension.appNamespace() {
-    namespace = "com.akshaw.drinkreminder"
+    namespace = Android.APPLICATION_ID
 }
+
+fun LibraryExtension.libNamespace(moduleName: String) {
+    namespace = Android.NAMESPACE_PREFIX + moduleName.namespace()
+}
+
+internal fun String.namespace() = this.substringAfterLast(":")
 
 fun BaseAppModuleExtension.applicationSigningConfigs() {
     signingConfigs {
@@ -85,7 +92,7 @@ fun BaseAppModuleExtension.applicationBuildTypes() {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
         named("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 //            signingConfig = signingConfigs.getByName("release")
         }
@@ -94,7 +101,7 @@ fun BaseAppModuleExtension.applicationBuildTypes() {
 
 fun BaseAppModuleExtension.appDefaultConfig() {
     defaultConfig {
-        applicationId = "com.akshaw.drinkreminder"
+        applicationId = Android.APPLICATION_ID
         versionCode = 1
         versionName = "1.0.0"
         
@@ -105,8 +112,18 @@ fun BaseAppModuleExtension.appDefaultConfig() {
     }
 }
 
+fun LibraryExtension.libDefaultConfig() {
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
+    }
+}
+
 
 object Android {
+    
+    const val APPLICATION_ID = "com.akshaw.drinkreminder"
+    const val NAMESPACE_PREFIX = "com.akshaw"
     
     object Extension {
         const val KOTLIN_OPTIONS = "kotlinOptions"

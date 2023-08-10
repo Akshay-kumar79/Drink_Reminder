@@ -4,7 +4,6 @@ import com.akshaw.convention.appNamespace
 
 plugins {
     id("custom.android.application")
-    id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
 }
 
@@ -15,7 +14,7 @@ android {
 }
 
 dependencies {
-    
+
     // Android Materials
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
