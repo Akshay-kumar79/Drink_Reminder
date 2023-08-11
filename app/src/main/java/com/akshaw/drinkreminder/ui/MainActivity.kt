@@ -16,10 +16,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.akshaw.drinkreminder.feature_water.presentation.a_day_drink.WaterADayDrinkScreen
-import com.akshaw.drinkreminder.feature_water.presentation.a_day_drink.WaterADayDrinkViewModel
-import com.akshaw.drinkreminder.feature_water.presentation.home.WaterHomeScreen
-import com.akshaw.drinkreminder.feature_water.presentation.report.WaterReportScreen
+import com.akshaw.drinkreminder.waterpresentation.a_day_drink.WaterADayDrinkScreen
+import com.akshaw.drinkreminder.waterpresentation.a_day_drink.WaterADayDrinkViewModel
+import com.akshaw.drinkreminder.waterpresentation.home.WaterHomeScreen
+import com.akshaw.drinkreminder.waterpresentation.report.WaterReportScreen
 import com.akshaw.drinkreminder.navigation.Route
 import com.akshaw.drinkreminder.core.ui.theme.DrinkReminderTheme
 import com.akshaw.drinkreminder.onboarding_presentation.OnBoardingScreen
@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
                     
                     val navController = rememberNavController()
                     
-                    NavHost(navController = navController, startDestination = Route.OnboardingScreen.route) {
+                    NavHost(navController = navController, startDestination = Route.WaterReportScreen.route) {
                         
                         composable(route = Route.OnboardingScreen.route) {
                             OnBoardingScreen(
