@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.akshaw.drinkreminder.R
+import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.feature_water.domain.use_case.GetWeeklyAverageCompletion
 import com.akshaw.drinkreminder.feature_water.domain.use_case.GetWeeklyAverageFrequency
 import kotlin.math.ceil

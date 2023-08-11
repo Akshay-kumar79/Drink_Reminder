@@ -1,6 +1,6 @@
 package com.akshaw.drinkreminder.feature_water.domain.use_case
 
-import com.akshaw.drinkreminder.core.data.preferences.FakePreference
+import com.akshaw.drinkreminder.core.FakePreference
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.FilterOutDigits
 import com.akshaw.drinkreminder.core.util.WaterUnit
@@ -17,7 +17,7 @@ class ValidateQuantityTest {
     
     @Before
     fun setUp() {
-        preferences = FakePreference()
+        preferences = com.akshaw.drinkreminder.core.FakePreference()
         filterOutDigits = FilterOutDigits()
         validateQuantity = ValidateQuantity(
             preferences,

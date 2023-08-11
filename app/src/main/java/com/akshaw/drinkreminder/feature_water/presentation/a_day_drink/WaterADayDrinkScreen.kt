@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.akshaw.drinkreminder.R
+import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.UiEvent
 import com.akshaw.drinkreminder.feature_water.presentation.common.components.DialogAddForgottenDrink
 import com.akshaw.drinkreminder.feature_water.presentation.common.components.DrinkItem

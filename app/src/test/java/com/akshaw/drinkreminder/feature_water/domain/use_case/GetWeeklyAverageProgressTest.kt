@@ -1,6 +1,6 @@
 package com.akshaw.drinkreminder.feature_water.domain.use_case
 
-import com.akshaw.drinkreminder.core.data.preferences.FakePreference
+import com.akshaw.drinkreminder.core.FakePreference
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.feature_water.domain.model.Drink
@@ -18,7 +18,7 @@ class GetWeeklyAverageProgressTest {
     
     @Before
     fun setUp() {
-        preference = FakePreference()
+        preference = com.akshaw.drinkreminder.core.FakePreference()
         getDrinkProgress = GetDrinkProgress(preference)
         filterADayDrinks = FilterADayDrinks()
         getWeeklyAverageProgress = GetWeeklyAverageProgress(

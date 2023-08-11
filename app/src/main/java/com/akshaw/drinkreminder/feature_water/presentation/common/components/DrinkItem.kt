@@ -18,11 +18,10 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.akshaw.drinkreminder.R
+import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.feature_water.domain.model.Drink
 import com.akshaw.drinkreminder.feature_water.domain.model.convertUnit
-import com.akshaw.drinkreminder.feature_water.presentation.home.WaterHomeViewModel
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 

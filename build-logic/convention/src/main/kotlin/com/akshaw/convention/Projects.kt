@@ -5,6 +5,7 @@ object Projects {
     object Implementation {
         
         const val CORE = ":core"
+        const val CORE_TEST = ":core-test"
         
         object Feature {
             const val ONBOARDING_DOMAIN = ":onboarding:onboarding_domain"

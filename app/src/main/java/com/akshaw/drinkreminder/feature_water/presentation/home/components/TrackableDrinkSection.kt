@@ -18,7 +18,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
-import com.akshaw.drinkreminder.R
+import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.Utility
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.feature_water.domain.model.TrackableDrink

@@ -18,6 +18,7 @@ dependencies {
     
     // Modules
     implementation(project(Projects.Implementation.CORE))
+    implementation(project(Projects.Implementation.Feature.ONBOARDING_PRESENTATION))
 
     // Android Materials
     implementation(libs.androidx.core.ktx)

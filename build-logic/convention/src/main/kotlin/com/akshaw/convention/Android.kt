@@ -67,10 +67,10 @@ fun BaseAppModuleExtension.appNamespace() {
 }
 
 fun LibraryExtension.libNamespace(moduleName: String) {
-    namespace = Android.APPLICATION_ID + moduleName.namespace()
+    namespace = Android.APPLICATION_ID + "." + moduleName.namespace()
 }
 
-internal fun String.namespace() = this.substringAfterLast(":")
+internal fun String.namespace() = this.substringAfterLast(":").replace("-", ".")
 
 fun BaseAppModuleExtension.applicationSigningConfigs() {
     signingConfigs {
@@ -129,7 +129,7 @@ object Android {
     }
     
     object Sdk {
-        const val MIN = 24
+        const val MIN = 26
         const val TARGET = 33
         const val COMPILE = 33
     }

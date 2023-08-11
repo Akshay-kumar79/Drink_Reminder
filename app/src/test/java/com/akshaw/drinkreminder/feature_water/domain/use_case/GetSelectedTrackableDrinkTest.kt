@@ -1,6 +1,6 @@
 package com.akshaw.drinkreminder.feature_water.domain.use_case
 
-import com.akshaw.drinkreminder.core.data.preferences.FakePreference
+import com.akshaw.drinkreminder.core.FakePreference
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.feature_water.domain.model.TrackableDrink
@@ -15,7 +15,7 @@ class GetSelectedTrackableDrinkTest {
 
     @Before
     fun setUp() {
-        preferences = FakePreference()
+        preferences = com.akshaw.drinkreminder.core.FakePreference()
         getSelectedTrackableDrink = GetSelectedTrackableDrink(preferences)
     }
 
