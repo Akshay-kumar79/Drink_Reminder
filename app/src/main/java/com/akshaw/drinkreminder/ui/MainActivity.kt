@@ -10,18 +10,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.akshaw.drinkreminder.feature_water.presentation.a_day_drink.WaterADayDrinkScreen
-import com.akshaw.drinkreminder.feature_water.presentation.a_day_drink.WaterADayDrinkViewModel
-import com.akshaw.drinkreminder.feature_water.presentation.home.WaterHomeScreen
-import com.akshaw.drinkreminder.feature_water.presentation.report.WaterReportScreen
+import com.akshaw.drinkreminder.waterpresentation.a_day_drink.WaterADayDrinkScreen
+import com.akshaw.drinkreminder.waterpresentation.a_day_drink.WaterADayDrinkViewModel
+import com.akshaw.drinkreminder.waterpresentation.home.WaterHomeScreen
+import com.akshaw.drinkreminder.waterpresentation.report.WaterReportScreen
 import com.akshaw.drinkreminder.navigation.Route
-import com.akshaw.drinkreminder.ui.theme.DrinkReminderTheme
+import com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme
+import com.akshaw.drinkreminder.onboarding_presentation.OnBoardingScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -31,7 +34,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            DrinkReminderTheme {
+            com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme {
                 val snackbarHostState = remember { SnackbarHostState() }
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
@@ -43,15 +46,30 @@ class MainActivity : ComponentActivity() {
                             .padding(it)
                             .background(MaterialTheme.colorScheme.background)
                     )
-                    
+            
                     val navController = rememberNavController()
-                    
+            
                     NavHost(navController = navController, startDestination = Route.WaterReportScreen.route) {
-                        
-                        composable(route = Route.WaterHomeScreen.route){
+                
+                        composable(route = Route.OnboardingScreen.route) {
+                            OnBoardingScreen(
+                                snackbarHostState = snackbarHostState,
+                                onProcessFinish = {
+                                    lifecycleScope.launch {
+                                        snackbarHostState.currentSnackbarData?.dismiss()
+                                        snackbarHostState.showSnackbar(
+                                            message = "Navigating to home...",
+                                            duration = SnackbarDuration.Short
+                                        )
+                                    }
+                                }
+                            )
+                        }
+                
+                        composable(route = Route.WaterHomeScreen.route) {
                             WaterHomeScreen(snackbarHostState = snackbarHostState)
                         }
-                        
+                
                         composable(route = Route.WaterReportScreen.route) {
                             WaterReportScreen(
                                 onADayDrinkClick = { date ->
@@ -59,7 +77,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-                        
+                
                         composable(
                             route = Route.WaterADayDrinkScreen.route + "/{${WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT}}",
                             arguments = listOf(
@@ -77,27 +95,6 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
-
-//                        OnBoardingScreen(
-//                            snackbarHostState = snackbarHostState,
-//                            onProcessFinish = {
-//                                lifecycleScope.launch {
-//                        snackbarHostState.currentSnackbarData?.dismiss()
-//                                    snackbarHostState.showSnackbar(
-//                                        message = "Navigating to home...",
-//                                        duration = SnackbarDuration.Short
-//                                    )
-//                                }
-//                            }
-//                        )
-
-//                        WaterHomeScreen(snackbarHostState = snackbarHostState)
-
-//                        WaterReportScreen()
-
-//                    WaterADayDrinkScreen(snackbarHostState) {
-//
-//                    }
                 }
             }
         }
