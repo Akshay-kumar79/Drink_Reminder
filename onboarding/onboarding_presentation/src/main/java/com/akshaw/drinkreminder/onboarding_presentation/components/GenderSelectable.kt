@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.akshaw.drinkreminder.core.ui.theme.DrinkReminderTheme
+import com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme
 import com.akshaw.drinkreminder.core.R
 
 @Composable
@@ -31,7 +31,7 @@ private fun Preview() {
         val selected = remember {
             mutableStateOf(true)
         }
-
+        
         GenderSelectable(
             text = "Male",
             drawableRes = R.drawable.ic_icon_awesome_male,

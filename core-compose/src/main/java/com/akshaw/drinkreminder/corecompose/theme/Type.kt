@@ -1,4 +1,4 @@
-package com.akshaw.drinkreminder.core.ui.theme
+package com.akshaw.drinkreminder.corecompose.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

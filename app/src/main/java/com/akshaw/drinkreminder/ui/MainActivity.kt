@@ -21,7 +21,7 @@ import com.akshaw.drinkreminder.waterpresentation.a_day_drink.WaterADayDrinkView
 import com.akshaw.drinkreminder.waterpresentation.home.WaterHomeScreen
 import com.akshaw.drinkreminder.waterpresentation.report.WaterReportScreen
 import com.akshaw.drinkreminder.navigation.Route
-import com.akshaw.drinkreminder.core.ui.theme.DrinkReminderTheme
+import com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme
 import com.akshaw.drinkreminder.onboarding_presentation.OnBoardingScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            DrinkReminderTheme {
+            com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme {
                 val snackbarHostState = remember { SnackbarHostState() }
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
@@ -46,11 +46,11 @@ class MainActivity : ComponentActivity() {
                             .padding(it)
                             .background(MaterialTheme.colorScheme.background)
                     )
-                    
+            
                     val navController = rememberNavController()
-                    
+            
                     NavHost(navController = navController, startDestination = Route.WaterReportScreen.route) {
-                        
+                
                         composable(route = Route.OnboardingScreen.route) {
                             OnBoardingScreen(
                                 snackbarHostState = snackbarHostState,
@@ -65,11 +65,11 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-                        
+                
                         composable(route = Route.WaterHomeScreen.route) {
                             WaterHomeScreen(snackbarHostState = snackbarHostState)
                         }
-                        
+                
                         composable(route = Route.WaterReportScreen.route) {
                             WaterReportScreen(
                                 onADayDrinkClick = { date ->
@@ -77,7 +77,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-                        
+                
                         composable(
                             route = Route.WaterADayDrinkScreen.route + "/{${WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT}}",
                             arguments = listOf(

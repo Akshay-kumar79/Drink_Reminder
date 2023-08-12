@@ -3,7 +3,7 @@ import com.akshaw.convention.libDefaultConfig
 import com.akshaw.convention.Projects
 
 plugins {
-    id("custom.android.library")
+    id("custom.android.library.compose")
 }
 
 android {
@@ -15,6 +15,7 @@ dependencies {
     
     // Module
     implementation(project(Projects.Implementation.CORE))
+    implementation(project(Projects.Implementation.CORE_COMPOSE))
     implementation(project(Projects.Implementation.Feature.WATER_DOMAIN))
     
     // Android Materials

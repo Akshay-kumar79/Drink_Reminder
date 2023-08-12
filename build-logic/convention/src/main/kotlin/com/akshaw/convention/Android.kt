@@ -15,21 +15,15 @@ internal fun Project.configureKotlinAndroid(
 ) {
     commonExtension.apply {
         commonSdk()
-        buildFeatures()
         compileOptions()
         kotlinOptions()
         packagingOptions()
-        composeOptions()
     }
 }
 
 fun CommonExtension<*, *, *, *>.commonSdk() {
     defaultConfig.minSdk = Android.Sdk.MIN
     compileSdk = Android.Sdk.COMPILE
-}
-
-fun CommonExtension<*, *, *, *>.buildFeatures() {
-    buildFeatures.compose = true
 }
 
 fun CommonExtension<*, *, *, *>.compileOptions() {
@@ -53,12 +47,6 @@ fun CommonExtension<*, *, *, *>.packagingOptions() {
                 "/META-INF/LICENSE-notice.md"
             )
         }
-    }
-}
-
-fun CommonExtension<*, *, *, *>.composeOptions() {
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.8"
     }
 }
 
