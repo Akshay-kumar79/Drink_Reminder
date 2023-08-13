@@ -14,6 +14,7 @@ androidxNavigationCompose = "2.5.3"
 daggerHiltAndroid = "2.44"
 daggerHiltNavigationCompose = "1.0.0"
 androidxRoom = "2.4.3"
+androidxDatastore = "1.0.0"
 kotlinxCoroutinesTest = "1.6.4"
 mockk = "1.13.2"
 mockkAndroid = "1.13.2"
@@ -56,6 +57,8 @@ dagger-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigat
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidxRoom" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidxRoom" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidxRoom" }
+
+androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastore" }
 
 number-picker = { module = "io.github.ShawnLin013:number-picker", version.ref = "numberPicker" }
 

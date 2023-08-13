@@ -3,8 +3,12 @@ package com.akshaw.drinkreminder.waterpresentation.report
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.waterdomain.use_case.*
 import com.akshaw.drinkreminder.core.util.ChartType
+import com.akshaw.drinkreminder.core.util.Constants
+import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.waterdomain.model.Drink
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -16,6 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WaterReportViewModel @Inject constructor(
+    preferences: Preferences,
     filterADayDrinks: FilterADayDrinks,
     getDrinkProgress: GetDrinkProgress,
     getAllDrinks: GetAllDrinks,
@@ -27,21 +32,22 @@ class WaterReportViewModel @Inject constructor(
     getWeeklyAverageFrequency: GetWeeklyAverageFrequency
 ) : ViewModel() {
     
-    private val _goal = MutableStateFlow(2343.0)
-    val goal = _goal.asStateFlow()
+    val goal = preferences.getDailyWaterIntakeGoal().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL)
+    
+    val waterUnit = preferences.getWaterUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)
     
     private val allDrinks = getAllDrinks().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     
-    val todayProgress = allDrinks.map {
-        getDrinkProgress(filterADayDrinks(LocalDate.now(), it))
+    val todayProgress = combine(allDrinks, waterUnit) { allDrinks, waterUnit ->
+        getDrinkProgress(filterADayDrinks(LocalDate.now(), allDrinks), waterUnit)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
     
-    val yesterdayProgress = allDrinks.map {
-        getDrinkProgress(filterADayDrinks(LocalDate.now().minusDays(1), it))
+    val yesterdayProgress = combine(allDrinks, waterUnit) { allDrinks, waterUnit ->
+        getDrinkProgress(filterADayDrinks(LocalDate.now().minusDays(1), allDrinks), waterUnit)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
     
-    val dayBeforeYesterdayProgress = allDrinks.map {
-        getDrinkProgress(filterADayDrinks(LocalDate.now().minusDays(2), it))
+    val dayBeforeYesterdayProgress = combine(allDrinks, waterUnit) { allDrinks, waterUnit ->
+        getDrinkProgress(filterADayDrinks(LocalDate.now().minusDays(2), allDrinks), waterUnit)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
     
     
@@ -60,15 +66,24 @@ class WaterReportViewModel @Inject constructor(
         selectedChart,
         chartSelectedWeeksFirstDay,
         chartSelectedYear,
-        goal
-    ) { allDrinks, selectedChart, chartSelectedWeeksFirstDay, chartSelectedYear, goal ->
+        goal,
+        waterUnit
+    ) { values ->
+    
+        val allDrinks = values[0] as List<Drink>
+        val selectedChart = values[1] as ChartType
+        val chartSelectedWeeksFirstDay = values[2] as LocalDate
+        val chartSelectedYear = values[3] as Year
+        val goal = values[4] as Double
+        val waterUnit = values[5] as WaterUnit
         
         getReportChartData(
             allDrinks,
             selectedChart,
             chartSelectedWeeksFirstDay,
             chartSelectedYear,
-            goal
+            goal,
+            waterUnit
         )
         
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
@@ -106,13 +121,13 @@ class WaterReportViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
     
     // Average Report States
-    val weeklyAverageProgress = allDrinks.map { allDrinks ->
-        getWeeklyAverageProgress(allDrinks)
+    val weeklyAverageProgress = combine(allDrinks, waterUnit) { allDrinks, waterUnit ->
+        getWeeklyAverageProgress(allDrinks, waterUnit)
         
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
     
-    val weeklyAverageCompletion = combine(allDrinks, goal) { allDrinks, goal ->
-        getWeeklyAverageCompletion(allDrinks, goal)
+    val weeklyAverageCompletion = combine(allDrinks, goal, waterUnit) { allDrinks, goal, waterUnit ->
+        getWeeklyAverageCompletion(allDrinks, goal, waterUnit)
         
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
     

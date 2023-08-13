@@ -24,7 +24,6 @@ class DrinkNow @Inject constructor(
         if (trackableDrink.unit == WaterUnit.INVALID)
             return Result.failure(Exception("Invalid water unit"))
         
-        val id: Long
         addDrink(
             com.akshaw.drinkreminder.waterdomain.model.Drink(
                 waterIntake = trackableDrink.amount,

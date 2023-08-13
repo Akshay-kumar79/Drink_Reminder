@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
+import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.util.UiEvent
 import com.akshaw.drinkreminder.core.util.UiText
 import com.akshaw.drinkreminder.waterdomain.repository.WaterRepository
@@ -47,8 +48,7 @@ class WaterADayDrinkViewModel @Inject constructor(
         filterADayDrinks(currentDate, it)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     
-    private val _waterUnit = MutableStateFlow(preferences.loadWaterUnit())
-    val waterUnit = _waterUnit.asStateFlow()
+    val waterUnit = preferences.getWaterUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)
     
     var recentlyDeleteDrink: com.akshaw.drinkreminder.waterdomain.model.Drink? = null
     
@@ -70,12 +70,13 @@ class WaterADayDrinkViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
     
     
-    fun onEvent(event: com.akshaw.drinkreminder.waterpresentation.a_day_drink.WaterADayDrinkEvent) = viewModelScope.launch {
+    fun onEvent(event: WaterADayDrinkEvent) = viewModelScope.launch {
         when (event) {
-            is com.akshaw.drinkreminder.waterpresentation.a_day_drink.WaterADayDrinkEvent.OnDrinkDeleteClick -> {
+            is WaterADayDrinkEvent.OnDrinkDeleteClick -> {
                 deleteDrink(event.drink)
                 recentlyDeleteDrink = event.drink
             }
+            
             com.akshaw.drinkreminder.waterpresentation.a_day_drink.WaterADayDrinkEvent.RestoreDrink -> {
                 addDrink(recentlyDeleteDrink ?: return@launch)
                     .onFailure {
@@ -94,6 +95,7 @@ class WaterADayDrinkViewModel @Inject constructor(
                 _addForgottenDrinkDialogMinute.value = LocalTime.now().minute
                 _isAddForgottenDrinkDialogShowing.value = true
             }
+            
             DialogAddForgottenDrinkEvent.OnConfirmClick -> {
                 getLocalTime(
                     addForgottenDrinkDialogHour.value,
@@ -118,17 +120,21 @@ class WaterADayDrinkViewModel @Inject constructor(
                     }
                 _isAddForgottenDrinkDialogShowing.value = false
             }
+            
             DialogAddForgottenDrinkEvent.OnDismiss -> {
                 _isAddForgottenDrinkDialogShowing.value = false
             }
+            
             is DialogAddForgottenDrinkEvent.OnHourChange -> {
                 _addForgottenDrinkDialogHour.value = event.hour
             }
+            
             is DialogAddForgottenDrinkEvent.OnMinuteChange -> {
                 _addForgottenDrinkDialogMinute.value = event.minute
             }
+            
             is DialogAddForgottenDrinkEvent.OnQuantityAmountChange -> {
-                validateQuantity(event.amount)
+                validateQuantity(event.amount, waterUnit.value)
                     .onSuccess {
                         _addForgottenDrinkDialogQuantity.value = it
                     }

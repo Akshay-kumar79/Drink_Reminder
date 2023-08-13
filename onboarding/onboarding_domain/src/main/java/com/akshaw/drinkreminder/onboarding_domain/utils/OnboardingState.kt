@@ -9,7 +9,7 @@ data class OnboardingState(
     val page: OnboardingPage = OnboardingPage.GENDER,
     val gender: Gender = Constants.DEFAULT_GENDER,
     val age: Int = Constants.DEFAULT_AGE,
-    val weight: Float = Constants.DEFAULT_WEIGHT.toFloat(),
+    val weight: Float = Constants.DEFAULT_WEIGHT,
     val weightUnit: WeightUnit = Constants.DEFAULT_WEIGHT_UNIT,
     val bedTimeHour: Int = Constants.BED_TIME_DEFAULT_HOUR,
     val bedTimeMinute: Int = Constants.BED_TIME_DEFAULT_MINUTE,

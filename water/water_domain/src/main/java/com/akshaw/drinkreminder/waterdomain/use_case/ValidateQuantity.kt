@@ -19,9 +19,9 @@ class ValidateQuantity @Inject constructor(
     private val preferences: Preferences,
     private val filterOutDigits: FilterOutDigits
 ) {
-    operator fun invoke(amount: String): Result<String> {
+    operator fun invoke(amount: String, currentWaterUnit: WaterUnit): Result<String> {
 
-        val maxDigits = when (preferences.loadWaterUnit()) {
+        val maxDigits = when (currentWaterUnit) {
             WaterUnit.ML -> 3
             WaterUnit.FL_OZ -> 2
             WaterUnit.INVALID -> 0

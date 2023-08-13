@@ -1,6 +1,6 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
-import android.util.Log
+import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.waterdomain.model.Drink
 import java.time.LocalDate
 import javax.inject.Inject
@@ -16,14 +16,14 @@ class GetWeeklyAverageProgress @Inject constructor(
     private val filterADayDrinks: FilterADayDrinks
 ) {
     
-    operator fun invoke(allDrink: List<com.akshaw.drinkreminder.waterdomain.model.Drink>): Double{
+    operator fun invoke(allDrink: List<Drink>, currentWaterUnit: WaterUnit): Double{
         var totalAWeekProgress = 0.0
         val weekLastDay = LocalDate.now()
         val weekFirstDay = weekLastDay.minusWeeks(1).plusDays(1)
         
         var iteratingDay = weekFirstDay
         while (!iteratingDay.isEqual(weekLastDay.plusDays(1))) {
-            totalAWeekProgress += getDrinkProgress(filterADayDrinks(iteratingDay, allDrink))
+            totalAWeekProgress += getDrinkProgress(filterADayDrinks(iteratingDay, allDrink), currentWaterUnit)
             iteratingDay = iteratingDay.plusDays(1)
         }
         return totalAWeekProgress/7
