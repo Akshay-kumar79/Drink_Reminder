@@ -13,6 +13,10 @@ android {
 
 dependencies {
     
+    // Module
+    implementation(project(Projects.Implementation.CORE))
+    
+    
     // Android Materials
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

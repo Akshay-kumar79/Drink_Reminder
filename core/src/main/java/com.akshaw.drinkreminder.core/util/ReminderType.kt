@@ -39,7 +39,7 @@ sealed class ReminderType(val name: String) {
         return when(this){
             TSReminder -> "Trigger the reminder on exact time"
             AIReminder -> "Trigger the reminder automatically at best time suited with android phones doze mode at specified interval"
-            Invalid -> "something went wrong"
+            Invalid -> "invalid"
         }
     }
 }

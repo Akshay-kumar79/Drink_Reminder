@@ -17,7 +17,7 @@ class AddDrink @Inject constructor(
     
     suspend operator fun invoke(drink: com.akshaw.drinkreminder.waterdomain.model.Drink): Result<Long> {
         
-        if (drink.unit == WaterUnit.INVALID)
+        if (drink.unit == WaterUnit.Invalid)
             return Result.failure(Exception("Invalid water unit"))
         
         val id = waterRepository.insertDrink(drink)

@@ -18,7 +18,7 @@ class AddTrackableDrink @Inject constructor(
 
     suspend operator fun invoke(trackableDrink: TrackableDrink): Result<Long> {
         
-        if (trackableDrink.unit == WaterUnit.INVALID)
+        if (trackableDrink.unit == WaterUnit.Invalid)
             return Result.failure(Exception("Invalid water unit"))
         
         val id = waterRepository.insertTrackableDrink(trackableDrink)

@@ -24,7 +24,7 @@ class ValidateQuantity @Inject constructor(
         val maxDigits = when (currentWaterUnit) {
             WaterUnit.ML -> 3
             WaterUnit.FL_OZ -> 2
-            WaterUnit.INVALID -> 0
+            WaterUnit.Invalid -> 0
         }
         
         val filteredAmount = filterOutDigits(amount)

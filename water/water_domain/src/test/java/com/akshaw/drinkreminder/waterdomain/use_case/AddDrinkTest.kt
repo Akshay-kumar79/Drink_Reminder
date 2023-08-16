@@ -55,7 +55,7 @@ class AddDrinkTest {
                 com.akshaw.drinkreminder.waterdomain.model.Drink(
                     dateTime = LocalDateTime.now(),
                     waterIntake = 0.0,
-                    unit = WaterUnit.INVALID
+                    unit = WaterUnit.Invalid
                 )
             )
             assertThat(result.isFailure).isTrue()

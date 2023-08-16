@@ -9,6 +9,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -16,11 +18,14 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.core.R
+import com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme
 import com.akshaw.drinkreminder.settingspresentation.settings.components.*
+import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.ChangeUnitDialog
 
 @Composable
 fun SettingsScreen(
@@ -29,6 +34,10 @@ fun SettingsScreen(
     onFaqClick: () -> Unit,
     onBugReportClick: () -> Unit
 ) {
+    
+    val isUnitDialogShowing by viewModel.isChangeUnitDialogShowing.collectAsState()
+    val selectedWaterUnit by viewModel.selectedWaterUnit.collectAsState()
+    val selectedWeightUnit by viewModel.selectedWeightUnit.collectAsState()
     
     Column(
         modifier = Modifier
@@ -107,7 +116,7 @@ fun SettingsScreen(
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.background),
             onUnitClick = {
-            
+                viewModel.showUnitDialog()
             },
             onDailyIntakeClick = {
             
@@ -165,4 +174,18 @@ fun SettingsScreen(
         Spacer(modifier = Modifier.height(8.dp))
     }
     
+    if (isUnitDialogShowing) {
+        ChangeUnitDialog(
+            selectedWaterUnit = selectedWaterUnit,
+            selectedWeightUnit = selectedWeightUnit,
+            onWaterUnitChange = {
+                viewModel.changeSelectedUnit(waterUnit = it)
+            },
+            onWeightUnitChange = {
+                viewModel.changeSelectedUnit(weightUnit = it)
+            },
+            onConfirm = { viewModel.saveNewUnits() },
+            onCancel = { viewModel.dismissUnitDialog() }
+        )
+    }
 }

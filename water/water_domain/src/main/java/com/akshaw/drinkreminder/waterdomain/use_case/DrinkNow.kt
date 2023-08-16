@@ -21,7 +21,7 @@ class DrinkNow @Inject constructor(
         if (trackableDrink.amount <= 0)
             return Result.failure(Exception("Drink valid quantity"))
         
-        if (trackableDrink.unit == WaterUnit.INVALID)
+        if (trackableDrink.unit == WaterUnit.Invalid)
             return Result.failure(Exception("Invalid water unit"))
         
         addDrink(

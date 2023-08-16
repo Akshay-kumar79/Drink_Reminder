@@ -1,19 +1,26 @@
 package com.akshaw.drinkreminder.core.util
 
+/**
+ * Changing these constant value may cause compatibility issues with older versions of app
+ * as these values are stored in local preferences
+ */
+private const val KG_ = "kg"
+private const val LBS_ = "lbs"
+private const val INVALID = "invalid"
 
 sealed class WeightUnit(val name: String, val id: Int) {
 
     /** ids should not have number gap except INVALID WeightUnit */
-    object KG : WeightUnit("kg", 100)
-    object LBS : WeightUnit("lbs", 101)
-    object INVALID : WeightUnit("invalid", -1)
+    object KG : WeightUnit(KG_, 100)
+    object LBS : WeightUnit(LBS_, 101)
+    object Invalid : WeightUnit(INVALID, -1)
 
     companion object {
         fun fromString(text: String?): WeightUnit {
             return when (text) {
                 "kg" -> KG
                 "lbs" -> LBS
-                else -> INVALID
+                else -> Invalid
             }
         }
 
@@ -21,7 +28,7 @@ sealed class WeightUnit(val name: String, val id: Int) {
             return when (id) {
                 100 -> KG
                 101 -> LBS
-                else -> INVALID
+                else -> Invalid
             }
         }
 
