@@ -18,8 +18,8 @@ sealed class WeightUnit(val name: String, val id: Int) {
     companion object {
         fun fromString(text: String?): WeightUnit {
             return when (text) {
-                "kg" -> KG
-                "lbs" -> LBS
+                KG_ -> KG
+                LBS_ -> LBS
                 else -> Invalid
             }
         }

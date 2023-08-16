@@ -1,6 +1,8 @@
 package com.akshaw.drinkreminder.settingspresentation.settings.dialogs
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,19 +12,34 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalMinimumTouchTargetEnforcement
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RangeSlider
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderColors
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -32,17 +49,17 @@ import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme
 import com.akshaw.drinkreminder.corecompose.theme.composables.RadioGroup
-import com.akshaw.drinkreminder.corecompose.theme.composables.RadioGroupOrientation
+import kotlin.math.ceil
+import kotlin.math.floor
+import kotlin.math.roundToInt
 
 @Preview(showSystemUi = true, apiLevel = 33)
 @Composable
-private fun ChangeUnitDialogPreview() {
+private fun DailyIntakeGoalDialogPreview() {
     DrinkReminderTheme {
-        ChangeUnitDialog(
-            selectedWaterUnit = Constants.DEFAULT_WATER_UNIT,
-            selectedWeightUnit = Constants.DEFAULT_WEIGHT_UNIT,
-            onWaterUnitChange = {},
-            onWeightUnitChange = {},
+        DailyIntakeGoalDialog(
+            dailyIntakeGoal = Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL,
+            onDailyIntakeGoalChange = {},
             onCancel = {},
             onConfirm = {}
         )
@@ -50,18 +67,13 @@ private fun ChangeUnitDialogPreview() {
 }
 
 @Composable
-fun ChangeUnitDialog(
+fun DailyIntakeGoalDialog(
     modifier: Modifier = Modifier,
-    selectedWaterUnit: WaterUnit,
-    selectedWeightUnit: WeightUnit,
-    onWaterUnitChange: (waterUnit: WaterUnit) -> Unit,
-    onWeightUnitChange: (weightUnit: WeightUnit) -> Unit,
+    dailyIntakeGoal: Double,
+    onDailyIntakeGoalChange: (intake: Double) -> Unit,
     onCancel: () -> Unit,
     onConfirm: () -> Unit,
 ) {
-    
-    val allWaterUnits = listOf(WaterUnit.ML, WaterUnit.FL_OZ)
-    val allWeightUnits = listOf(WeightUnit.KG, WeightUnit.LBS)
     
     Dialog(
         onDismissRequest = { onCancel }
@@ -69,78 +81,59 @@ fun ChangeUnitDialog(
         Card(
             modifier = modifier,
             shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
         ) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(end = 24.dp, start = 24.dp, top = 24.dp),
-                text = "Units",
+                text = stringResource(id = R.string.daily_intake),
                 fontFamily = FontFamily(Font(R.font.ubuntu_bold, FontWeight.Bold)),
                 fontSize = 20.sp,
             )
             
             Spacer(modifier = Modifier.height(16.dp))
+            
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
             ) {
-                Column(
+                Text(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 24.dp),
-                        text = stringResource(id = R.string.water_unit),
-                        fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.Normal)),
-                        fontSize = 16.sp,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                    
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 24.dp),
-                        text = stringResource(id = R.string.weight_unit),
-                        fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.Normal)),
-                        fontSize = 16.sp,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                }
+                        .weight(1f),
+                    text = floor(dailyIntakeGoal).toInt().toString(),
+                    fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.Normal)),
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
                 
-                Column(
+                
+                Icon(
                     modifier = Modifier
-                        .padding(end = 54.dp),
-                ) {
-                    // Water Unit radio group
-                    RadioGroup(
-                        items = allWaterUnits.map { it.name }.toSet(),
-                        orientation = RadioGroupOrientation.Horizontal,
-                        selectedPosition = allWaterUnits.indexOf(selectedWaterUnit),
-                        onItemSelect = {
-                            onWaterUnitChange(allWaterUnits.getOrNull(it) ?: WaterUnit.ML)
-                        }
-                    )
-                    
-                    Spacer(modifier = Modifier.height(8.dp))
-                    
-                    // Weight Unit radio group
-                    RadioGroup(
-                        items = allWeightUnits.map { it.name }.toSet(),
-                        orientation = RadioGroupOrientation.Horizontal,
-                        selectedPosition = allWeightUnits.indexOf(selectedWeightUnit),
-                        onItemSelect = {
-                            onWeightUnitChange(allWeightUnits.getOrNull(it) ?: WeightUnit.KG)
-                        }
-                    )
-                }
-                
+                        .clickable {
+                        
+                        },
+                    imageVector = Icons.Filled.Refresh,
+                    contentDescription = "refresh"
+                )
                 
             }
             
-            Spacer(modifier = Modifier.height(32.dp))
+            Slider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 18.dp),
+                value = dailyIntakeGoal.toFloat(),
+                valueRange = Constants.MIN_DAILY_WATER_INTAKE_GOAL.toFloat()..Constants.MAX_DAILY_WATER_INTAKE_GOAL.toFloat(),
+                onValueChange = {
+                    onDailyIntakeGoalChange(it.toDouble())
+                },
+                colors = SliderDefaults.colors(inactiveTrackColor = MaterialTheme.colorScheme.surfaceVariant),
+            )
+            
+            
+            Spacer(modifier = Modifier.height(8.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

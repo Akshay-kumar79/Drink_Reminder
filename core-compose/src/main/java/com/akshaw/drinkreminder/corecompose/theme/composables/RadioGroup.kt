@@ -1,6 +1,9 @@
 package com.akshaw.drinkreminder.corecompose.theme.composables
 
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,12 +33,14 @@ import com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme
 @Composable
 private fun RadioGroupPreview() {
     DrinkReminderTheme {
-        val items = remember { setOf("ml", "lbs") }
+        val items = remember { setOf("ml", "fl oz") }
         var pos by remember { mutableStateOf(0) }
         
         RadioGroup(
             items = items,
+            orientation = RadioGroupOrientation.Horizontal,
             selectedPosition = pos,
+            radioButtonSpace = 28.dp,
             onItemSelect = {
                 pos = it
             }
@@ -43,42 +48,90 @@ private fun RadioGroupPreview() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+enum class RadioGroupOrientation {
+    Vertical,
+    Horizontal
+}
+
 @Composable
 fun RadioGroup(
     modifier: Modifier = Modifier,
     items: Set<String>,
+    orientation: RadioGroupOrientation,
     selectedPosition: Int,
     radioButtonSpace: Dp = 28.dp,
     onItemSelect: (pos: Int) -> Unit
 ) {
-    if (items.isNotEmpty())
-        Row(
-            modifier = modifier
-        ) {
-            items.forEachIndexed { index, text ->
-                
-                CompositionLocalProvider(LocalMinimumTouchTargetEnforcement provides false) {
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        RadioButton(
-                            modifier = Modifier
-                                .padding(start = if (index > 0) radioButtonSpace else 0.dp),
-                            selected = if (selectedPosition >= 0) selectedPosition == index else index == 0,
-                            onClick = { onItemSelect(index) }
-                        )
-                        
-                        Text(
-                            modifier = Modifier.padding(start = 4.dp),
-                            text = text,
-                            fontFamily = FontFamily(Font(R.font.roboto_light, FontWeight.Light)),
-                            fontSize = 14.sp,
-                            color = MaterialTheme.colorScheme.onBackground,
-                        )
-                    }
+    if (items.isNotEmpty()) {
+        when (orientation) {
+            RadioGroupOrientation.Vertical -> {
+                Column(
+                    modifier = modifier
+                ) {
+                    renderRadioButtons(
+                        items = items,
+                        orientation = orientation,
+                        selectedPosition = selectedPosition,
+                        radioButtonSpace = radioButtonSpace,
+                        onItemSelect = onItemSelect
+                    )
+                }
+            }
+            
+            RadioGroupOrientation.Horizontal -> {
+                Row(
+                    modifier = modifier
+                ) {
+                    renderRadioButtons(
+                        items = items,
+                        orientation = orientation,
+                        selectedPosition = selectedPosition,
+                        radioButtonSpace = radioButtonSpace,
+                        onItemSelect = onItemSelect
+                    )
                 }
             }
         }
+        
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun renderRadioButtons(
+    items: Set<String>,
+    orientation: RadioGroupOrientation,
+    selectedPosition: Int,
+    radioButtonSpace: Dp,
+    onItemSelect: (pos: Int) -> Unit
+) {
+    items.forEachIndexed { index, text ->
+        
+        val itemPadding = when (orientation) {
+            RadioGroupOrientation.Vertical -> PaddingValues(top = if (index > 0) radioButtonSpace else 0.dp)
+            RadioGroupOrientation.Horizontal -> PaddingValues(start = if (index > 0) radioButtonSpace else 0.dp)
+        }
+        
+        CompositionLocalProvider(LocalMinimumTouchTargetEnforcement provides false) {
+            Row(
+                modifier = Modifier
+                    .padding(itemPadding),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                RadioButton(
+                    selected = if (selectedPosition >= 0) selectedPosition == index else index == 0,
+                    onClick = { onItemSelect(index) }
+                )
+                
+                Text(
+                    modifier = Modifier.padding(start = 4.dp),
+                    text = text,
+                    fontFamily = FontFamily(Font(R.font.roboto_light, FontWeight.Light)),
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
+            }
+        }
+    }
 }

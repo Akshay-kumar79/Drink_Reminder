@@ -18,14 +18,17 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.core.R
-import com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme
 import com.akshaw.drinkreminder.settingspresentation.settings.components.*
+import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.ChangeGenderDialog
 import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.ChangeUnitDialog
+import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.DailyIntakeGoalDialog
+import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeGenderDialogEvent
+import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeUnitDialogEvent
+import com.akshaw.drinkreminder.settingspresentation.settings.events.DailyIntakeGoalDialogEvent
 
 @Composable
 fun SettingsScreen(
@@ -38,6 +41,12 @@ fun SettingsScreen(
     val isUnitDialogShowing by viewModel.isChangeUnitDialogShowing.collectAsState()
     val selectedWaterUnit by viewModel.selectedWaterUnit.collectAsState()
     val selectedWeightUnit by viewModel.selectedWeightUnit.collectAsState()
+    
+    val isDailyIntakeGoalDialogShowing by viewModel.isChangeDailyGoalDialogShowing.collectAsState()
+    val selectedDailyIntakeGoal by viewModel.selectedDailyIntakeGoal.collectAsState()
+    
+    val isGenderDialogShowing by viewModel.isChangeGenderDialogShowing.collectAsState()
+    val selectedGender by viewModel.currentGender.collectAsState()
     
     Column(
         modifier = Modifier
@@ -116,10 +125,10 @@ fun SettingsScreen(
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.background),
             onUnitClick = {
-                viewModel.showUnitDialog()
+                viewModel.onEvent(ChangeUnitDialogEvent.ShowDialog)
             },
             onDailyIntakeClick = {
-            
+                viewModel.onEvent(DailyIntakeGoalDialogEvent.ShowDialog)
             }
         )
         
@@ -129,7 +138,7 @@ fun SettingsScreen(
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.background),
             onGenderClick = {
-            
+                viewModel.onEvent(ChangeGenderDialogEvent.ShowDialog)
             },
             onAgeClick = {
             
@@ -174,18 +183,44 @@ fun SettingsScreen(
         Spacer(modifier = Modifier.height(8.dp))
     }
     
+    // Change Unit Dialog
     if (isUnitDialogShowing) {
         ChangeUnitDialog(
             selectedWaterUnit = selectedWaterUnit,
             selectedWeightUnit = selectedWeightUnit,
             onWaterUnitChange = {
-                viewModel.changeSelectedUnit(waterUnit = it)
+                viewModel.onEvent(ChangeUnitDialogEvent.ChangeSelectedUnit(waterUnit = it))
             },
             onWeightUnitChange = {
-                viewModel.changeSelectedUnit(weightUnit = it)
+                viewModel.onEvent(ChangeUnitDialogEvent.ChangeSelectedUnit(weightUnit = it))
             },
-            onConfirm = { viewModel.saveNewUnits() },
-            onCancel = { viewModel.dismissUnitDialog() }
+            onConfirm = { viewModel.onEvent(ChangeUnitDialogEvent.SaveNewUnits) },
+            onCancel = { viewModel.onEvent(ChangeUnitDialogEvent.DismissDialog) }
+        )
+    }
+    
+    // Daily Intake Goal Dialog
+    if (isDailyIntakeGoalDialogShowing) {
+        DailyIntakeGoalDialog(
+            dailyIntakeGoal = selectedDailyIntakeGoal,
+            onDailyIntakeGoalChange = {
+                viewModel.onEvent(DailyIntakeGoalDialogEvent.OnDailyIntakeGoalChange(it))
+            },
+            onConfirm = { viewModel.onEvent(DailyIntakeGoalDialogEvent.SaveDailyIntakeGoal) },
+            onCancel = { viewModel.onEvent(DailyIntakeGoalDialogEvent.DismissDialog) }
+        )
+    }
+    
+    // Change Gender Dialog
+    if (isGenderDialogShowing) {
+        ChangeGenderDialog(
+            selectedGender = selectedGender,
+            onGenderSelected = {
+                viewModel.onEvent(ChangeGenderDialogEvent.SaveNewGender(it))
+            },
+            onCancel = {
+                viewModel.onEvent(ChangeGenderDialogEvent.DismissDialog)
+            }
         )
     }
 }

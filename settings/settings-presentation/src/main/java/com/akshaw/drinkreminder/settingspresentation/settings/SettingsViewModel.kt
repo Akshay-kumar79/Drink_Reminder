@@ -4,16 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.util.Constants
-import com.akshaw.drinkreminder.core.util.Gender
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeGenderDialogEvent
+import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeUnitDialogEvent
+import com.akshaw.drinkreminder.settingspresentation.settings.events.DailyIntakeGoalDialogEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalTime
@@ -21,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    preferences: Preferences
+    private val preferences: Preferences
 ) : ViewModel() {
     
     
@@ -36,15 +35,18 @@ class SettingsViewModel @Inject constructor(
     private val _selectedWeightUnit = MutableStateFlow<WeightUnit>(Constants.DEFAULT_WEIGHT_UNIT)
     val selectedWeightUnit = _selectedWeightUnit.asStateFlow()
     
-    val currentWaterUnit = preferences.getWaterUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)
-    val currentWeightUnit = preferences.getWeightUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WEIGHT_UNIT)
+    private val currentWaterUnit = preferences.getWaterUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)
+    private val currentWeightUnit = preferences.getWeightUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WEIGHT_UNIT)
     
     
     // Daily Intake Goal
     private val _isChangeDailyGoalDialogShowing = MutableStateFlow(false)
     val isChangeDailyGoalDialogShowing = _isChangeDailyGoalDialogShowing.asStateFlow()
     
-    val dailyIntakeGoal = preferences.getDailyWaterIntakeGoal().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL)
+    private val _selectedDailyIntakeGoal = MutableStateFlow(Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL)
+    val selectedDailyIntakeGoal = _selectedDailyIntakeGoal.asStateFlow()
+    
+    private val dailyIntakeGoal = preferences.getDailyWaterIntakeGoal().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL)
     
     
     /** Personal Information States */
@@ -82,24 +84,74 @@ class SettingsViewModel @Inject constructor(
     
     val currentWakeUpTime = preferences.getWakeupTime().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), LocalTime.now())
     
-    
-    fun showUnitDialog() {
-        _selectedWaterUnit.value = currentWaterUnit.value
-        _selectedWeightUnit.value = currentWeightUnit.value
-        _isChangeUnitDialogShowing.value = true
+    /** Unit dialog events */
+    fun onEvent(event: ChangeUnitDialogEvent) {
+        when (event) {
+            ChangeUnitDialogEvent.ShowDialog -> {
+                _selectedWaterUnit.value = currentWaterUnit.value
+                _selectedWeightUnit.value = currentWeightUnit.value
+                _isChangeUnitDialogShowing.value = true
+            }
+            
+            ChangeUnitDialogEvent.DismissDialog -> {
+                _isChangeUnitDialogShowing.value = false
+            }
+            
+            is ChangeUnitDialogEvent.ChangeSelectedUnit -> {
+                event.waterUnit?.let { _selectedWaterUnit.value = it }
+                event.weightUnit?.let { _selectedWeightUnit.value = it }
+            }
+            
+            ChangeUnitDialogEvent.SaveNewUnits -> {
+                // save units to preference
+                _isChangeUnitDialogShowing.value = false
+            }
+        }
     }
     
-    fun dismissUnitDialog() {
-        _isChangeUnitDialogShowing.value = false
+    /** Daily intake goal dialog events */
+    fun onEvent(event: DailyIntakeGoalDialogEvent) {
+        when (event) {
+            DailyIntakeGoalDialogEvent.ShowDialog -> {
+                _selectedDailyIntakeGoal.value = dailyIntakeGoal.value
+                _isChangeDailyGoalDialogShowing.value = true
+            }
+            
+            DailyIntakeGoalDialogEvent.DismissDialog -> {
+                _isChangeDailyGoalDialogShowing.value = false
+            }
+            
+            is DailyIntakeGoalDialogEvent.OnDailyIntakeGoalChange -> {
+                _selectedDailyIntakeGoal.value = event.newIntake
+            }
+            
+            DailyIntakeGoalDialogEvent.SaveDailyIntakeGoal -> {
+                // save daily intake goal to preference
+                _isChangeDailyGoalDialogShowing.value = false
+            }
+        }
     }
     
-    fun changeSelectedUnit(waterUnit: WaterUnit? = null, weightUnit: WeightUnit? = null) {
-        waterUnit?.let { _selectedWaterUnit.value = it }
-        weightUnit?.let { _selectedWeightUnit.value = it }
+    /** Gender dialog events */
+    fun onEvent(event: ChangeGenderDialogEvent) {
+        when (event) {
+            ChangeGenderDialogEvent.ShowDialog -> {
+                _isChangeGenderDialogShowing.value = true
+            }
+            ChangeGenderDialogEvent.DismissDialog -> {
+                _isChangeGenderDialogShowing.value = false
+            }
+            is ChangeGenderDialogEvent.SaveNewGender -> {
+                // save gender
+                viewModelScope.launch {
+                    preferences.saveGender(event.gender)
+                    _isChangeGenderDialogShowing.value = false
+                }
+            }
+        }
     }
     
-    fun saveNewUnits() {
-        _isChangeUnitDialogShowing.value = false
-    }
+    
+    
     
 }
