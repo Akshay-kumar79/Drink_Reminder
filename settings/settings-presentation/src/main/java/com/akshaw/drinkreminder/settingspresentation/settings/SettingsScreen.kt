@@ -23,11 +23,15 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.settingspresentation.settings.components.*
+import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.ChangeAgeDialog
 import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.ChangeGenderDialog
 import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.ChangeUnitDialog
+import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.ChangeWeightDialog
 import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.DailyIntakeGoalDialog
+import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeAgeDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeGenderDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeUnitDialogEvent
+import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeWeightDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.DailyIntakeGoalDialogEvent
 
 @Composable
@@ -47,6 +51,12 @@ fun SettingsScreen(
     
     val isGenderDialogShowing by viewModel.isChangeGenderDialogShowing.collectAsState()
     val selectedGender by viewModel.currentGender.collectAsState()
+    
+    val isAgeDialogShowing by viewModel.isChangeAgeDialogShowing.collectAsState()
+    val selectedAge by viewModel.selectedAge.collectAsState()
+    
+    val isWeightDialogShowing by viewModel.isChangeWeightDialogShowing.collectAsState()
+    val selectedWeight by viewModel.selectedWeight.collectAsState()
     
     Column(
         modifier = Modifier
@@ -141,12 +151,12 @@ fun SettingsScreen(
                 viewModel.onEvent(ChangeGenderDialogEvent.ShowDialog)
             },
             onAgeClick = {
-            
+                viewModel.onEvent(ChangeAgeDialogEvent.ShowDialog)
             },
             onWeightClick = {
-            
+                viewModel.onEvent(ChangeWeightDialogEvent.ShowDialog)
             },
-            onSleepTimeClick = {
+            onBedTimeClick = {
             
             },
             onWakeUpTimeClick = {
@@ -223,4 +233,25 @@ fun SettingsScreen(
             }
         )
     }
+    
+    // Change Age Dialog
+    if (isAgeDialogShowing) {
+        ChangeAgeDialog(
+            age = selectedAge,
+            onCancel = { viewModel.onEvent(ChangeAgeDialogEvent.DismissDialog) },
+            onConfirm = { viewModel.onEvent(ChangeAgeDialogEvent.SaveNewAge) },
+            onAgeChange = { viewModel.onEvent(ChangeAgeDialogEvent.OnAgeChange(it)) }
+        )
+    }
+    
+    if (isWeightDialogShowing){
+        ChangeWeightDialog(
+            weight = selectedWeight.toInt(),
+            onCancel = { viewModel.onEvent(ChangeWeightDialogEvent.DismissDialog) },
+            onConfirm = { viewModel.onEvent(ChangeWeightDialogEvent.SaveNewWeight) },
+            onWeightChange = { viewModel.onEvent(ChangeWeightDialogEvent.OnWeightChange(it.toFloat())) }
+        )
+
+    }
+
 }

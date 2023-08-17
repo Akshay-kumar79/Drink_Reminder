@@ -1,18 +1,22 @@
 package com.akshaw.drinkreminder.settingspresentation.settings
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeAgeDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeGenderDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeUnitDialogEvent
+import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeWeightDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.DailyIntakeGoalDialogEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalTime
@@ -26,6 +30,9 @@ class SettingsViewModel @Inject constructor(
     
     /** General Settings States */
     // Unit
+    private val currentWaterUnit = preferences.getWaterUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)
+    private val currentWeightUnit = preferences.getWeightUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WEIGHT_UNIT)
+    
     private val _isChangeUnitDialogShowing = MutableStateFlow(false)
     val isChangeUnitDialogShowing = _isChangeUnitDialogShowing.asStateFlow()
     
@@ -35,40 +42,43 @@ class SettingsViewModel @Inject constructor(
     private val _selectedWeightUnit = MutableStateFlow<WeightUnit>(Constants.DEFAULT_WEIGHT_UNIT)
     val selectedWeightUnit = _selectedWeightUnit.asStateFlow()
     
-    private val currentWaterUnit = preferences.getWaterUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)
-    private val currentWeightUnit = preferences.getWeightUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WEIGHT_UNIT)
-    
     
     // Daily Intake Goal
+    private val dailyIntakeGoal = preferences.getDailyWaterIntakeGoal().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL)
+    
     private val _isChangeDailyGoalDialogShowing = MutableStateFlow(false)
     val isChangeDailyGoalDialogShowing = _isChangeDailyGoalDialogShowing.asStateFlow()
     
     private val _selectedDailyIntakeGoal = MutableStateFlow(Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL)
     val selectedDailyIntakeGoal = _selectedDailyIntakeGoal.asStateFlow()
     
-    private val dailyIntakeGoal = preferences.getDailyWaterIntakeGoal().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL)
-    
     
     /** Personal Information States */
     // Gender
+    val currentGender = preferences.getGender().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_GENDER)
+    
     private val _isChangeGenderDialogShowing = MutableStateFlow(false)
     val isChangeGenderDialogShowing = _isChangeGenderDialogShowing.asStateFlow()
     
-    val currentGender = preferences.getGender().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_GENDER)
-    
     
     // Age
+    private val currentAge = preferences.getAge().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_AGE)
+    
     private val _isChangeAgeDialogShowing = MutableStateFlow(false)
     val isChangeAgeDialogShowing = _isChangeAgeDialogShowing.asStateFlow()
     
-    val currentAge = preferences.getAge().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_AGE)
+    private val _selectedAge = MutableStateFlow(Constants.DEFAULT_AGE)
+    val selectedAge = _selectedAge.asStateFlow()
     
     
     // Weight
+    private val currentWeight = preferences.getWeight().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WEIGHT)
+    
     private val _isChangeWeightDialogShowing = MutableStateFlow(false)
     val isChangeWeightDialogShowing = _isChangeWeightDialogShowing.asStateFlow()
     
-    val currentWeight = preferences.getWeight().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WEIGHT)
+    private val _selectedWeight = MutableStateFlow(Constants.DEFAULT_WEIGHT)
+    val selectedWeight = _selectedWeight.asStateFlow()
     
     
     // Bed time
@@ -83,6 +93,25 @@ class SettingsViewModel @Inject constructor(
     val isChangeWakeUpTimeDialogShowing = _isChangeWakeUpTimeDialogShowing.asStateFlow()
     
     val currentWakeUpTime = preferences.getWakeupTime().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), LocalTime.now())
+    
+    init {
+        /** Workaround to keep all stateflow values updated, because i don't know other ways.
+            (if [MutableStateFlow] have active collector than value keeps updated) */
+        setOf(
+            currentWaterUnit,
+            currentWeightUnit,
+            dailyIntakeGoal,
+            currentGender,
+            currentAge,
+            currentWeight,
+            currentBedTime,
+            currentWakeUpTime
+        ).forEach {
+            viewModelScope.launch {
+                it.collect()
+            }
+        }
+    }
     
     /** Unit dialog events */
     fun onEvent(event: ChangeUnitDialogEvent) {
@@ -138,9 +167,11 @@ class SettingsViewModel @Inject constructor(
             ChangeGenderDialogEvent.ShowDialog -> {
                 _isChangeGenderDialogShowing.value = true
             }
+            
             ChangeGenderDialogEvent.DismissDialog -> {
                 _isChangeGenderDialogShowing.value = false
             }
+            
             is ChangeGenderDialogEvent.SaveNewGender -> {
                 // save gender
                 viewModelScope.launch {
@@ -151,7 +182,57 @@ class SettingsViewModel @Inject constructor(
         }
     }
     
+    /** Age dialog events */
+    fun onEvent(event: ChangeAgeDialogEvent) {
+        when (event) {
+            ChangeAgeDialogEvent.ShowDialog -> {
+                _selectedAge.value = currentAge.value
+                _isChangeAgeDialogShowing.value = true
+            }
+            
+            ChangeAgeDialogEvent.DismissDialog -> {
+                _isChangeAgeDialogShowing.value = false
+            }
+            
+            is ChangeAgeDialogEvent.OnAgeChange -> {
+                _selectedAge.value = event.newAge
+            }
+            
+            ChangeAgeDialogEvent.SaveNewAge -> {
+                // save age
+                viewModelScope.launch {
+                    preferences.saveAge(selectedAge.value)
+                    _isChangeAgeDialogShowing.value = false
+                }
+            }
+        }
+    }
     
+    /** Weight dialog events */
+    fun onEvent(event: ChangeWeightDialogEvent) {
+        when (event) {
+            ChangeWeightDialogEvent.ShowDialog -> {
+                _selectedWeight.value = currentWeight.value
+                _isChangeWeightDialogShowing.value = true
+            }
+            
+            ChangeWeightDialogEvent.DismissDialog -> {
+                _isChangeWeightDialogShowing.value = false
+            }
+            
+            is ChangeWeightDialogEvent.OnWeightChange -> {
+                _selectedWeight.value = event.newWeight
+            }
+            
+            ChangeWeightDialogEvent.SaveNewWeight -> {
+                // save weight
+                viewModelScope.launch {
+                    preferences.saveWeight(selectedWeight.value)
+                    _isChangeWeightDialogShowing.value = false
+                }
+            }
+        }
+    }
     
     
 }

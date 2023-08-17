@@ -56,8 +56,23 @@ class MainActivity : ComponentActivity() {
                             .padding(it)
                             .background(MaterialTheme.colorScheme.background),
                         navController = navController,
-                        startDestination = Route.WaterHomeScreen.route
+                        startDestination = Route.SettingsScreen.route
                     ) {
+                        
+                        composable(route = Route.OnboardingScreen.route){
+                            OnBoardingScreen(
+                                snackbarHostState = snackbarHostState,
+                                onProcessFinish = {
+                                    lifecycleScope.launch {
+                                        snackbarHostState.currentSnackbarData?.dismiss()
+                                        snackbarHostState.showSnackbar(
+                                            message = "Navigating to home...",
+                                            duration = SnackbarDuration.Short
+                                        )
+                                    }
+                                }
+                            )
+                        }
     
                         composable(route = Route.WaterHomeScreen.route) {
                             WaterHomeScreen(snackbarHostState = snackbarHostState)
@@ -127,18 +142,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
     
-//                    OnBoardingScreen(
-//                            snackbarHostState = snackbarHostState,
-//                            onProcessFinish = {
-//                                lifecycleScope.launch {
-//                        snackbarHostState.currentSnackbarData?.dismiss()
-//                                    snackbarHostState.showSnackbar(
-//                                        message = "Navigating to home...",
-//                                        duration = SnackbarDuration.Short
-//                                    )
-//                                }
-//                            }
-//                        )
+                   
                 }
             }
         }

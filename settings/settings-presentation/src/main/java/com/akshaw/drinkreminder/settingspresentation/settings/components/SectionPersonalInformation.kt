@@ -19,7 +19,7 @@ fun SectionPersonalInformation(
     onGenderClick: () -> Unit,
     onAgeClick: () -> Unit,
     onWeightClick: () -> Unit,
-    onSleepTimeClick: () -> Unit,
+    onBedTimeClick: () -> Unit,
     onWakeUpTimeClick: () -> Unit
 ) {
     Column(
@@ -83,7 +83,7 @@ fun SectionPersonalInformation(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
-                    onSleepTimeClick()
+                    onBedTimeClick()
                 },
             mainText = "Bed time",
             summaryText = "22:00",

@@ -70,7 +70,7 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
     override suspend fun saveBedTime(time: LocalTime) {
         
         
-        val formatter = DateTimeFormatter.ofPattern("hh:mm")
+        val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH)
         val timeString = time.format(formatter)
         
         
@@ -83,7 +83,7 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
     override suspend fun saveWakeupTime(time: LocalTime) {
         
         
-        val formatter = DateTimeFormatter.ofPattern("hh:mm")
+        val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH)
         val timeString = time.format(formatter)
         
         
@@ -149,12 +149,10 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
             append(if (Constants.BED_TIME_DEFAULT_HOUR < 10) "0${Constants.BED_TIME_DEFAULT_HOUR}" else Constants.BED_TIME_DEFAULT_HOUR)
             append(":")
             append(if (Constants.BED_TIME_DEFAULT_MINUTE < 10) "0${Constants.BED_TIME_DEFAULT_MINUTE}" else Constants.BED_TIME_DEFAULT_MINUTE)
-            append(" ")
-            append(Constants.BED_TIME_DEFAULT_UNIT.name.lowercase())
         }
         
         
-        val defaultTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH)
+        val defaultTimeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH)
         
         
         try {
@@ -170,12 +168,10 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
             append(if (Constants.WAKE_TIME_DEFAULT_HOUR < 10) "0${Constants.WAKE_TIME_DEFAULT_HOUR}" else Constants.WAKE_TIME_DEFAULT_HOUR)
             append(":")
             append(if (Constants.WAKE_TIME_DEFAULT_MINUTE < 10) "0${Constants.WAKE_TIME_DEFAULT_MINUTE}" else Constants.WAKE_TIME_DEFAULT_MINUTE)
-            append(" ")
-            append(Constants.WAKE_TIME_DEFAULT_UNIT.name.lowercase())
         }
         
         
-        val defaultTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH)
+        val defaultTimeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH)
         
         
         try {
