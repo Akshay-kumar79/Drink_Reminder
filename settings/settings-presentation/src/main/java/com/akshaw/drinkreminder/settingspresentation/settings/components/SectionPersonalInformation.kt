@@ -12,10 +12,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
+import com.akshaw.drinkreminder.core.util.Gender
+import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.core.util.formatted24HourTime
+import java.time.LocalTime
+import kotlin.math.ceil
 
 @Composable
 fun SectionPersonalInformation(
     modifier: Modifier,
+    gender: Gender,
+    age: Int,
+    weight: Float,
+    weightUnit: WeightUnit,
+    bedTime: LocalTime,
+    wakeUpTime: LocalTime,
     onGenderClick: () -> Unit,
     onAgeClick: () -> Unit,
     onWeightClick: () -> Unit,
@@ -50,7 +61,7 @@ fun SectionPersonalInformation(
                     onGenderClick()
                 },
             mainText = "Gender",
-            summaryText = "male",
+            summaryText = gender.name,
             iconResId = R.drawable.gender
         )
         
@@ -62,7 +73,7 @@ fun SectionPersonalInformation(
                     onAgeClick()
                 },
             mainText = "Age",
-            summaryText = "20 years",
+            summaryText = "$age years",
             iconResId = R.drawable.age_icon
         )
         
@@ -74,7 +85,7 @@ fun SectionPersonalInformation(
                     onWeightClick()
                 },
             mainText = "Weight",
-            summaryText = "70 kg",
+            summaryText = "${ceil(weight).toInt()} ${weightUnit.name}",
             iconResId = R.drawable.icon_awesome_weight
         )
         
@@ -86,7 +97,7 @@ fun SectionPersonalInformation(
                     onBedTimeClick()
                 },
             mainText = "Bed time",
-            summaryText = "22:00",
+            summaryText = bedTime.formatted24HourTime(),
             iconResId = R.drawable.sleep
         )
         
@@ -98,7 +109,7 @@ fun SectionPersonalInformation(
                     onWakeUpTimeClick()
                 },
             mainText = "Wake-up time",
-            summaryText = "07:00",
+            summaryText = wakeUpTime.formatted24HourTime(),
             iconResId = R.drawable.sun
         )
         

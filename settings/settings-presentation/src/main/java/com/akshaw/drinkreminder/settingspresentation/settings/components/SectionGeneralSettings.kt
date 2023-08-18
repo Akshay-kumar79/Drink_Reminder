@@ -12,10 +12,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
+import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.core.util.WeightUnit
+import kotlin.math.floor
 
 @Composable
 fun SectionGeneralSettings(
     modifier: Modifier,
+    waterUnit: WaterUnit,
+    weightUnit: WeightUnit,
+    dailyIntakeGoal: Double,
     onUnitClick: () -> Unit,
     onDailyIntakeClick: () -> Unit,
 ) {
@@ -47,7 +53,7 @@ fun SectionGeneralSettings(
                     onUnitClick()
                 },
             mainText = "Unit",
-            summaryText = "ml/kg",
+            summaryText = "${waterUnit.name}/${weightUnit.name}",
             iconResId = R.drawable.meter
         )
         
@@ -59,7 +65,7 @@ fun SectionGeneralSettings(
                     onDailyIntakeClick()
                 },
             mainText = "Daily intake goal",
-            summaryText = "2,105 ml",
+            summaryText = "${floor(dailyIntakeGoal).toInt()} ml",
             iconResId = R.drawable.golf
         )
         

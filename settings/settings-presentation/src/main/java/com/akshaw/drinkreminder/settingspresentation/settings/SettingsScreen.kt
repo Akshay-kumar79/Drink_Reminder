@@ -56,26 +56,34 @@ fun SettingsScreen(
     
     
     val isUnitDialogShowing by viewModel.isChangeUnitDialogShowing.collectAsState()
+    val currentWaterUnit by viewModel.currentWaterUnit.collectAsState()
+    val currentWeightUnit by viewModel.currentWeightUnit.collectAsState()
     val selectedWaterUnit by viewModel.selectedWaterUnit.collectAsState()
     val selectedWeightUnit by viewModel.selectedWeightUnit.collectAsState()
     
     val isDailyIntakeGoalDialogShowing by viewModel.isChangeDailyGoalDialogShowing.collectAsState()
+    val currentDailyIntakeGoal by viewModel.dailyIntakeGoal.collectAsState()
     val selectedDailyIntakeGoal by viewModel.selectedDailyIntakeGoal.collectAsState()
     
     val isGenderDialogShowing by viewModel.isChangeGenderDialogShowing.collectAsState()
+    val currentGender by viewModel.currentGender.collectAsState()
     val selectedGender by viewModel.currentGender.collectAsState()
     
     val isAgeDialogShowing by viewModel.isChangeAgeDialogShowing.collectAsState()
+    val currentAge by viewModel.currentAge.collectAsState()
     val selectedAge by viewModel.selectedAge.collectAsState()
     
     val isWeightDialogShowing by viewModel.isChangeWeightDialogShowing.collectAsState()
+    val currentWeight by viewModel.currentWeight.collectAsState()
     val selectedWeight by viewModel.selectedWeight.collectAsState()
     
     val isBedTimeDialogShowing by viewModel.isChangeBedTimeDialogShowing.collectAsState()
+    val currentBedTime by viewModel.currentBedTime.collectAsState()
     val bedTimeSelectedHour by viewModel.changeBedTimeDialogHour.collectAsState()
     val bedTimeSelectedMinute by viewModel.changeBedTimeDialogMinute.collectAsState()
     
     val isWakeupTimeDialogShowing by viewModel.isChangeWakeUpTimeDialogShowing.collectAsState()
+    val currentWakeupTime by viewModel.currentWakeUpTime.collectAsState()
     val wakeupTimeSelectedHour by viewModel.changeWakeupTimeDialogHour.collectAsState()
     val wakeupTimeSelectedMinute by viewModel.changeWakeupTimeDialogMinute.collectAsState()
     
@@ -170,6 +178,9 @@ fun SettingsScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.background),
+            waterUnit = currentWaterUnit,
+            weightUnit = currentWeightUnit,
+            dailyIntakeGoal = currentDailyIntakeGoal,
             onUnitClick = {
                 viewModel.onEvent(ChangeUnitDialogEvent.ShowDialog)
             },
@@ -184,6 +195,12 @@ fun SettingsScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.background),
+            gender = currentGender,
+            age = currentAge,
+            weight = currentWeight,
+            weightUnit = currentWeightUnit,
+            bedTime = currentBedTime,
+            wakeUpTime = currentWakeupTime,
             onGenderClick = {
                 viewModel.onEvent(ChangeGenderDialogEvent.ShowDialog)
             },

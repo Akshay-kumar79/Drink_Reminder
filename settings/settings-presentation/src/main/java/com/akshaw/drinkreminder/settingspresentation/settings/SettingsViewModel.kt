@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.settingspresentation.settings
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
@@ -37,8 +38,8 @@ class SettingsViewModel @Inject constructor(
     
     /** General Settings States */
     // Unit
-    private val currentWaterUnit = preferences.getWaterUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)
-    private val currentWeightUnit = preferences.getWeightUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WEIGHT_UNIT)
+    val currentWaterUnit = preferences.getWaterUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)
+    val currentWeightUnit = preferences.getWeightUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WEIGHT_UNIT)
     
     private val _isChangeUnitDialogShowing = MutableStateFlow(false)
     val isChangeUnitDialogShowing = _isChangeUnitDialogShowing.asStateFlow()
@@ -51,7 +52,7 @@ class SettingsViewModel @Inject constructor(
     
     
     // Daily Intake Goal
-    private val dailyIntakeGoal = preferences.getDailyWaterIntakeGoal().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL)
+    val dailyIntakeGoal = preferences.getDailyWaterIntakeGoal().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL)
     
     private val _isChangeDailyGoalDialogShowing = MutableStateFlow(false)
     val isChangeDailyGoalDialogShowing = _isChangeDailyGoalDialogShowing.asStateFlow()
@@ -69,7 +70,7 @@ class SettingsViewModel @Inject constructor(
     
     
     // Age
-    private val currentAge = preferences.getAge().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_AGE)
+    val currentAge = preferences.getAge().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_AGE)
     
     private val _isChangeAgeDialogShowing = MutableStateFlow(false)
     val isChangeAgeDialogShowing = _isChangeAgeDialogShowing.asStateFlow()
@@ -79,7 +80,7 @@ class SettingsViewModel @Inject constructor(
     
     
     // Weight
-    private val currentWeight = preferences.getWeight().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WEIGHT)
+    val currentWeight = preferences.getWeight().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WEIGHT)
     
     private val _isChangeWeightDialogShowing = MutableStateFlow(false)
     val isChangeWeightDialogShowing = _isChangeWeightDialogShowing.asStateFlow()
@@ -89,7 +90,7 @@ class SettingsViewModel @Inject constructor(
     
     
     // Bed time
-    private val currentBedTime = preferences.getBedTime().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), LocalTime.now())
+    val currentBedTime = preferences.getBedTime().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), LocalTime.now())
     
     private val _isChangeBedTimeDialogShowing = MutableStateFlow(false)
     val isChangeBedTimeDialogShowing = _isChangeBedTimeDialogShowing.asStateFlow()
@@ -102,7 +103,7 @@ class SettingsViewModel @Inject constructor(
     
     
     // Wakeup time
-    private val currentWakeUpTime = preferences.getWakeupTime().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), LocalTime.now())
+    val currentWakeUpTime = preferences.getWakeupTime().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), LocalTime.now())
     
     private val _isChangeWakeUpTimeDialogShowing = MutableStateFlow(false)
     val isChangeWakeUpTimeDialogShowing = _isChangeWakeUpTimeDialogShowing.asStateFlow()
@@ -157,7 +158,11 @@ class SettingsViewModel @Inject constructor(
             
             ChangeUnitDialogEvent.SaveNewUnits -> {
                 // save units to preference
-                _isChangeUnitDialogShowing.value = false
+                viewModelScope.launch {
+                    preferences.saveWaterUnit(selectedWaterUnit.value)
+                    preferences.saveWeightUnit(selectedWeightUnit.value)
+                    _isChangeUnitDialogShowing.value = false
+                }
             }
         }
     }
@@ -180,7 +185,10 @@ class SettingsViewModel @Inject constructor(
             
             DailyIntakeGoalDialogEvent.SaveDailyIntakeGoal -> {
                 // save daily intake goal to preference
-                _isChangeDailyGoalDialogShowing.value = false
+                viewModelScope.launch {
+                    preferences.saveDailyWaterIntakeGoal(selectedDailyIntakeGoal.value)
+                    _isChangeDailyGoalDialogShowing.value = false
+                }
             }
         }
     }
@@ -315,7 +323,7 @@ class SettingsViewModel @Inject constructor(
             }
             
             is ChangeWakeupTimeDialogEvent.OnMinuteChange -> {
-                _changeBedTimeDialogMinute.value = event.minute
+                _changeWakeupTimeDialogMinute.value = event.minute
             }
             
             ChangeWakeupTimeDialogEvent.SaveNewWakeupTime -> {

@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.core.util.formatted24HourTime
 import com.akshaw.drinkreminder.waterdomain.model.Drink
 import com.akshaw.drinkreminder.waterdomain.model.convertUnit
 import kotlin.math.ceil
@@ -28,7 +29,7 @@ import kotlin.math.roundToInt
 @Composable
 fun DrinkItem(
     modifier: Modifier = Modifier,
-    drink: com.akshaw.drinkreminder.waterdomain.model.Drink,
+    drink: Drink,
     waterUnit: WaterUnit,
     onDeleteClick: () -> Unit
 ) {
@@ -59,17 +60,7 @@ fun DrinkItem(
             modifier = Modifier
                 .align(Alignment.CenterVertically)
                 .padding(end = 16.dp),
-            text = "${
-                if (drink.dateTime.hour <= 9)
-                    "0" + drink.dateTime.hour.toString()
-                else
-                    drink.dateTime.hour
-            }:" + "${
-                if (drink.dateTime.minute <= 9)
-                    "0" + drink.dateTime.minute.toString()
-                else
-                    drink.dateTime.minute
-            }",
+            text = drink.dateTime.toLocalTime().formatted24HourTime(),
             fontFamily = FontFamily(Font(R.font.ubuntu_regular, FontWeight.Normal)),
             fontSize = 11.sp,
             color = MaterialTheme.colorScheme.onBackground
