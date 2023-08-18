@@ -1,15 +1,16 @@
 package com.akshaw.drinkreminder.settingspresentation.settings
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
+import com.akshaw.drinkreminder.core.domain.use_case.GetRecommendedDailyWaterIntake
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.util.UiEvent
 import com.akshaw.drinkreminder.core.util.UiText
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeAgeDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeBedTimeDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeGenderDialogEvent
@@ -32,7 +33,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val preferences: Preferences,
-    private val getLocalTime: GetLocalTime
+    private val getLocalTime: GetLocalTime,
+    private val getRecommendedDailyWaterIntake: GetRecommendedDailyWaterIntake
 ) : ViewModel() {
     
     
@@ -181,6 +183,21 @@ class SettingsViewModel @Inject constructor(
             
             is DailyIntakeGoalDialogEvent.OnDailyIntakeGoalChange -> {
                 _selectedDailyIntakeGoal.value = event.newIntake
+            }
+            
+            DailyIntakeGoalDialogEvent.OnReset -> {
+                getRecommendedDailyWaterIntake(
+                    currentAge.value,
+                    currentWeight.value,
+                    currentWeightUnit.value,
+                    currentGender.value
+                ).onSuccess {
+                    _selectedDailyIntakeGoal.value = it.toDouble()
+                }.onFailure {
+                    viewModelScope.launch {
+                        _uiEvent.send(UiEvent.ShowSnackBar(UiText.StringResource(R.string.error_something_went_wrong)))
+                    }
+                }
             }
             
             DailyIntakeGoalDialogEvent.SaveDailyIntakeGoal -> {

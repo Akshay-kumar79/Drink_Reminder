@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.settingspresentation.settings.dialogs
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -60,6 +61,7 @@ private fun DailyIntakeGoalDialogPreview() {
         DailyIntakeGoalDialog(
             dailyIntakeGoal = Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL,
             onDailyIntakeGoalChange = {},
+            onReset = {},
             onCancel = {},
             onConfirm = {}
         )
@@ -71,6 +73,7 @@ fun DailyIntakeGoalDialog(
     modifier: Modifier = Modifier,
     dailyIntakeGoal: Double,
     onDailyIntakeGoalChange: (intake: Double) -> Unit,
+    onReset: () -> Unit,
     onCancel: () -> Unit,
     onConfirm: () -> Unit,
 ) {
@@ -112,7 +115,7 @@ fun DailyIntakeGoalDialog(
                 Icon(
                     modifier = Modifier
                         .clickable {
-                        
+                            onReset()
                         },
                     imageVector = Icons.Filled.Refresh,
                     contentDescription = "refresh"

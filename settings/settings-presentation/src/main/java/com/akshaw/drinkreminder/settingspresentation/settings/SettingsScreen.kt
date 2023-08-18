@@ -94,6 +94,7 @@ fun SettingsScreen(
                     snackbarHostState.currentSnackbarData?.dismiss()
                     snackbarHostState.showSnackbar(event.message.asString(context))
                 }
+                
                 else -> Unit
             }
         }
@@ -189,7 +190,7 @@ fun SettingsScreen(
             }
         )
         Spacer(modifier = Modifier.height(8.dp))
-    
+        
         // Personal Settings
         SectionPersonalInformation(
             modifier = Modifier
@@ -218,7 +219,7 @@ fun SettingsScreen(
             }
         )
         Spacer(modifier = Modifier.height(8.dp))
-    
+        
         // Other Settings
         SectionOtherSettings(
             modifier = Modifier
@@ -260,6 +261,7 @@ fun SettingsScreen(
             onDailyIntakeGoalChange = {
                 viewModel.onEvent(DailyIntakeGoalDialogEvent.OnDailyIntakeGoalChange(it))
             },
+            onReset = { viewModel.onEvent(DailyIntakeGoalDialogEvent.OnReset) },
             onConfirm = { viewModel.onEvent(DailyIntakeGoalDialogEvent.SaveDailyIntakeGoal) },
             onCancel = { viewModel.onEvent(DailyIntakeGoalDialogEvent.DismissDialog) }
         )
@@ -289,7 +291,7 @@ fun SettingsScreen(
     }
     
     // Change Weight Dialog
-    if (isWeightDialogShowing){
+    if (isWeightDialogShowing) {
         ChangeWeightDialog(
             weight = selectedWeight.toInt(),
             onCancel = { viewModel.onEvent(ChangeWeightDialogEvent.DismissDialog) },
@@ -297,9 +299,9 @@ fun SettingsScreen(
             onWeightChange = { viewModel.onEvent(ChangeWeightDialogEvent.OnWeightChange(it.toFloat())) }
         )
     }
-
+    
     // Change Bed Time Dialog
-    if (isBedTimeDialogShowing){
+    if (isBedTimeDialogShowing) {
         ChangeTimeDialog(
             title = stringResource(id = R.string.bed_time),
             hour = bedTimeSelectedHour,
@@ -310,9 +312,9 @@ fun SettingsScreen(
             onMinuteChange = { viewModel.onEvent(ChangeBedTimeDialogEvent.OnMinuteChange(it)) }
         )
     }
-
+    
     // Change Wakeup Time Dialog
-    if (isWakeupTimeDialogShowing){
+    if (isWakeupTimeDialogShowing) {
         ChangeTimeDialog(
             title = stringResource(id = R.string.wake_up_time),
             hour = wakeupTimeSelectedHour,
@@ -323,5 +325,5 @@ fun SettingsScreen(
             onMinuteChange = { viewModel.onEvent(ChangeWakeupTimeDialogEvent.OnMinuteChange(it)) }
         )
     }
-
+    
 }
