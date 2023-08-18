@@ -13,6 +13,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
 
+
+// TODO remove if not to be used in future
+
 @Composable
 fun SectionCriticalSettings(
     modifier: Modifier,

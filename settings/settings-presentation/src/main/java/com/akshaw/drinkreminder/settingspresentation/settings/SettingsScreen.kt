@@ -7,13 +7,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -22,25 +26,34 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.core.R
+import com.akshaw.drinkreminder.core.util.UiEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.components.*
 import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.ChangeAgeDialog
 import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.ChangeGenderDialog
+import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.ChangeTimeDialog
 import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.ChangeUnitDialog
 import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.ChangeWeightDialog
 import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.DailyIntakeGoalDialog
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeAgeDialogEvent
+import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeBedTimeDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeGenderDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeUnitDialogEvent
+import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeWakeupTimeDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeWeightDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.DailyIntakeGoalDialogEvent
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
+    snackbarHostState: SnackbarHostState,
     onRemindersClick: () -> Unit,
     onFaqClick: () -> Unit,
     onBugReportClick: () -> Unit
 ) {
+    
+    val context = LocalContext.current
+    
     
     val isUnitDialogShowing by viewModel.isChangeUnitDialogShowing.collectAsState()
     val selectedWaterUnit by viewModel.selectedWaterUnit.collectAsState()
@@ -58,6 +71,26 @@ fun SettingsScreen(
     val isWeightDialogShowing by viewModel.isChangeWeightDialogShowing.collectAsState()
     val selectedWeight by viewModel.selectedWeight.collectAsState()
     
+    val isBedTimeDialogShowing by viewModel.isChangeBedTimeDialogShowing.collectAsState()
+    val bedTimeSelectedHour by viewModel.changeBedTimeDialogHour.collectAsState()
+    val bedTimeSelectedMinute by viewModel.changeBedTimeDialogMinute.collectAsState()
+    
+    val isWakeupTimeDialogShowing by viewModel.isChangeWakeUpTimeDialogShowing.collectAsState()
+    val wakeupTimeSelectedHour by viewModel.changeWakeupTimeDialogHour.collectAsState()
+    val wakeupTimeSelectedMinute by viewModel.changeWakeupTimeDialogMinute.collectAsState()
+    
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collectLatest { event ->
+            when (event) {
+                is UiEvent.ShowSnackBar -> {
+                    snackbarHostState.currentSnackbarData?.dismiss()
+                    snackbarHostState.showSnackbar(event.message.asString(context))
+                }
+                else -> Unit
+            }
+        }
+    }
+    
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -69,6 +102,7 @@ fun SettingsScreen(
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.background)
         ) {
+            // Heading Text
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -83,8 +117,9 @@ fun SettingsScreen(
                 ),
                 color = MaterialTheme.colorScheme.onBackground
             )
-            
             Spacer(modifier = Modifier.height(12.dp))
+            
+            // Reminders
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -128,8 +163,9 @@ fun SettingsScreen(
                 Spacer(modifier = Modifier.width(24.dp))
             }
         }
-        
         Spacer(modifier = Modifier.height(8.dp))
+        
+        // General Settings
         SectionGeneralSettings(
             modifier = Modifier
                 .fillMaxWidth()
@@ -141,8 +177,9 @@ fun SettingsScreen(
                 viewModel.onEvent(DailyIntakeGoalDialogEvent.ShowDialog)
             }
         )
-        
         Spacer(modifier = Modifier.height(8.dp))
+    
+        // Personal Settings
         SectionPersonalInformation(
             modifier = Modifier
                 .fillMaxWidth()
@@ -157,14 +194,15 @@ fun SettingsScreen(
                 viewModel.onEvent(ChangeWeightDialogEvent.ShowDialog)
             },
             onBedTimeClick = {
-            
+                viewModel.onEvent(ChangeBedTimeDialogEvent.ShowDialog)
             },
             onWakeUpTimeClick = {
-            
+                viewModel.onEvent(ChangeWakeupTimeDialogEvent.ShowDialog)
             }
         )
-        
         Spacer(modifier = Modifier.height(8.dp))
+    
+        // Other Settings
         SectionOtherSettings(
             modifier = Modifier
                 .fillMaxWidth()
@@ -179,17 +217,6 @@ fun SettingsScreen(
             
             }
         )
-        
-        Spacer(modifier = Modifier.height(8.dp))
-        SectionCriticalSettings(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background),
-            onResetDataClick = {
-            
-            }
-        )
-        
         Spacer(modifier = Modifier.height(8.dp))
     }
     
@@ -244,6 +271,7 @@ fun SettingsScreen(
         )
     }
     
+    // Change Weight Dialog
     if (isWeightDialogShowing){
         ChangeWeightDialog(
             weight = selectedWeight.toInt(),
@@ -251,7 +279,32 @@ fun SettingsScreen(
             onConfirm = { viewModel.onEvent(ChangeWeightDialogEvent.SaveNewWeight) },
             onWeightChange = { viewModel.onEvent(ChangeWeightDialogEvent.OnWeightChange(it.toFloat())) }
         )
+    }
 
+    // Change Bed Time Dialog
+    if (isBedTimeDialogShowing){
+        ChangeTimeDialog(
+            title = stringResource(id = R.string.bed_time),
+            hour = bedTimeSelectedHour,
+            minute = bedTimeSelectedMinute,
+            onCancel = { viewModel.onEvent(ChangeBedTimeDialogEvent.DismissDialog) },
+            onConfirm = { viewModel.onEvent(ChangeBedTimeDialogEvent.SaveNewBedTime) },
+            onHourChange = { viewModel.onEvent(ChangeBedTimeDialogEvent.OnHourChange(it)) },
+            onMinuteChange = { viewModel.onEvent(ChangeBedTimeDialogEvent.OnMinuteChange(it)) }
+        )
+    }
+
+    // Change Wakeup Time Dialog
+    if (isWakeupTimeDialogShowing){
+        ChangeTimeDialog(
+            title = stringResource(id = R.string.wake_up_time),
+            hour = wakeupTimeSelectedHour,
+            minute = wakeupTimeSelectedMinute,
+            onCancel = { viewModel.onEvent(ChangeWakeupTimeDialogEvent.DismissDialog) },
+            onConfirm = { viewModel.onEvent(ChangeWakeupTimeDialogEvent.SaveNewWakeupTime) },
+            onHourChange = { viewModel.onEvent(ChangeWakeupTimeDialogEvent.OnHourChange(it)) },
+            onMinuteChange = { viewModel.onEvent(ChangeWakeupTimeDialogEvent.OnMinuteChange(it)) }
+        )
     }
 
 }

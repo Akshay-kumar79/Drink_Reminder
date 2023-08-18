@@ -1,22 +1,28 @@
 package com.akshaw.drinkreminder.settingspresentation.settings
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
+import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import com.akshaw.drinkreminder.core.util.Constants
+import com.akshaw.drinkreminder.core.util.UiEvent
+import com.akshaw.drinkreminder.core.util.UiText
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeAgeDialogEvent
+import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeBedTimeDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeGenderDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeUnitDialogEvent
+import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeWakeupTimeDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeWeightDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.DailyIntakeGoalDialogEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalTime
@@ -24,7 +30,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val preferences: Preferences
+    private val preferences: Preferences,
+    private val getLocalTime: GetLocalTime
 ) : ViewModel() {
     
     
@@ -82,21 +89,38 @@ class SettingsViewModel @Inject constructor(
     
     
     // Bed time
+    private val currentBedTime = preferences.getBedTime().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), LocalTime.now())
+    
     private val _isChangeBedTimeDialogShowing = MutableStateFlow(false)
     val isChangeBedTimeDialogShowing = _isChangeBedTimeDialogShowing.asStateFlow()
     
-    val currentBedTime = preferences.getBedTime().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), LocalTime.now())
+    private val _changeBedTimeDialogHour = MutableStateFlow(LocalTime.now().hour)
+    val changeBedTimeDialogHour = _changeBedTimeDialogHour.asStateFlow()
+    
+    private val _changeBedTimeDialogMinute = MutableStateFlow(LocalTime.now().minute)
+    val changeBedTimeDialogMinute = _changeBedTimeDialogMinute.asStateFlow()
     
     
     // Wakeup time
+    private val currentWakeUpTime = preferences.getWakeupTime().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), LocalTime.now())
+    
     private val _isChangeWakeUpTimeDialogShowing = MutableStateFlow(false)
     val isChangeWakeUpTimeDialogShowing = _isChangeWakeUpTimeDialogShowing.asStateFlow()
     
-    val currentWakeUpTime = preferences.getWakeupTime().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), LocalTime.now())
+    private val _changeWakeupTimeDialogHour = MutableStateFlow(LocalTime.now().hour)
+    val changeWakeupTimeDialogHour = _changeWakeupTimeDialogHour.asStateFlow()
+    
+    private val _changeWakeupTimeDialogMinute = MutableStateFlow(LocalTime.now().minute)
+    val changeWakeupTimeDialogMinute = _changeWakeupTimeDialogMinute.asStateFlow()
+    
+    
+    private val _uiEvent = Channel<UiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
+    
     
     init {
         /** Workaround to keep all stateflow values updated, because i don't know other ways.
-            (if [MutableStateFlow] have active collector than value keeps updated) */
+        (if [MutableStateFlow] have active collector than value keeps updated) */
         setOf(
             currentWaterUnit,
             currentWeightUnit,
@@ -229,6 +253,84 @@ class SettingsViewModel @Inject constructor(
                 viewModelScope.launch {
                     preferences.saveWeight(selectedWeight.value)
                     _isChangeWeightDialogShowing.value = false
+                }
+            }
+        }
+    }
+    
+    /** Bed Time dialog events */
+    fun onEvent(event: ChangeBedTimeDialogEvent) {
+        when (event) {
+            ChangeBedTimeDialogEvent.ShowDialog -> {
+                _changeBedTimeDialogHour.value = currentBedTime.value.hour
+                _changeBedTimeDialogMinute.value = currentBedTime.value.minute
+                _isChangeBedTimeDialogShowing.value = true
+            }
+            
+            ChangeBedTimeDialogEvent.DismissDialog -> {
+                _isChangeBedTimeDialogShowing.value = false
+            }
+            
+            is ChangeBedTimeDialogEvent.OnHourChange -> {
+                _changeBedTimeDialogHour.value = event.hour
+            }
+            
+            is ChangeBedTimeDialogEvent.OnMinuteChange -> {
+                _changeBedTimeDialogMinute.value = event.minute
+            }
+            
+            ChangeBedTimeDialogEvent.SaveNewBedTime -> {
+                viewModelScope.launch {
+                    getLocalTime(changeBedTimeDialogHour.value, changeBedTimeDialogMinute.value)
+                        .onSuccess {
+                            // Save bed time
+                            preferences.saveBedTime(it)
+                            _isChangeBedTimeDialogShowing.value = false
+                        }
+                        .onFailure {
+                            // show error snackbar
+                            _isChangeBedTimeDialogShowing.value = false
+                            _uiEvent.send(UiEvent.ShowSnackBar(UiText.DynamicString(it.message ?: "Something went wrong")))
+                        }
+                }
+            }
+        }
+    }
+    
+    /** Wakeup Time dialog events */
+    fun onEvent(event: ChangeWakeupTimeDialogEvent) {
+        when (event) {
+            ChangeWakeupTimeDialogEvent.ShowDialog -> {
+                _changeWakeupTimeDialogHour.value = currentWakeUpTime.value.hour
+                _changeWakeupTimeDialogMinute.value = currentWakeUpTime.value.minute
+                _isChangeWakeUpTimeDialogShowing.value = true
+            }
+            
+            ChangeWakeupTimeDialogEvent.DismissDialog -> {
+                _isChangeWakeUpTimeDialogShowing.value = false
+            }
+            
+            is ChangeWakeupTimeDialogEvent.OnHourChange -> {
+                _changeWakeupTimeDialogHour.value = event.hour
+            }
+            
+            is ChangeWakeupTimeDialogEvent.OnMinuteChange -> {
+                _changeBedTimeDialogMinute.value = event.minute
+            }
+            
+            ChangeWakeupTimeDialogEvent.SaveNewWakeupTime -> {
+                viewModelScope.launch {
+                    getLocalTime(changeWakeupTimeDialogHour.value, changeWakeupTimeDialogMinute.value)
+                        .onSuccess {
+                            // Save wake time
+                            preferences.saveWakeupTime(it)
+                            _isChangeWakeUpTimeDialogShowing.value = false
+                        }
+                        .onFailure {
+                            // show error snackbar
+                            _isChangeWakeUpTimeDialogShowing.value = false
+                            _uiEvent.send(UiEvent.ShowSnackBar(UiText.DynamicString(it.message ?: "Something went wrong")))
+                        }
                 }
             }
         }

@@ -105,6 +105,7 @@ class MainActivity : ComponentActivity() {
     
                         composable(route = Route.SettingsScreen.route) {
                             SettingsScreen(
+                                snackbarHostState = snackbarHostState,
                                 onRemindersClick = {
                                     navController.navigate(Route.WaterReminderScreen.route)
                                 },
