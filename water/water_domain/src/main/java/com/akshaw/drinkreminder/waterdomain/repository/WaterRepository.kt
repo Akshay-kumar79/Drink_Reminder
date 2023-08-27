@@ -1,13 +1,14 @@
 package com.akshaw.drinkreminder.waterdomain.repository
 
+import com.akshaw.drinkreminder.waterdomain.model.Drink
 import com.akshaw.drinkreminder.waterdomain.model.TrackableDrink
 import kotlinx.coroutines.flow.Flow
 
 interface WaterRepository {
 
-    suspend fun insertDrink(drink: com.akshaw.drinkreminder.waterdomain.model.Drink): Long
-    fun getAllDrink(): Flow<List<com.akshaw.drinkreminder.waterdomain.model.Drink>>
-    suspend fun removeDrink(drink: com.akshaw.drinkreminder.waterdomain.model.Drink)
+    suspend fun insertDrink(drink: Drink): Long
+    fun getAllDrink(): Flow<List<Drink>>
+    suspend fun removeDrink(drink: Drink)
     suspend fun clearDrink()
 
 

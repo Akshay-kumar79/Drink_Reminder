@@ -51,7 +51,7 @@ class AddTrackableDrinkTest {
             val result = addTrackableDrink(
                 TrackableDrink(
                     amount = 0.0,
-                    unit = WaterUnit.INVALID
+                    unit = WaterUnit.Invalid
                 )
             )
             assertThat(result.isFailure).isTrue()

@@ -22,6 +22,7 @@ dependencies {
     implementation(project(Projects.Implementation.Feature.ONBOARDING_PRESENTATION))
     implementation(project(Projects.Implementation.Feature.WATER_PRESENTATION))
     implementation(project(Projects.Implementation.Feature.WATER_DATA))
+    implementation(project(Projects.Implementation.Feature.SETTINGS_PRESENTATION))
 
     // Android Materials
     implementation(libs.androidx.core.ktx)
@@ -45,6 +46,9 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
+    
+    // Data Store
+    implementation(libs.androidx.datastore)
     
     // Number picker
     implementation(libs.number.picker)

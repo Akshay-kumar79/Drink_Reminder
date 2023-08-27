@@ -27,8 +27,7 @@ class ValidateQuantityTest {
     
     @Test
     fun `0 amount and water unit ML, returns success with 0`(){
-        preferences.saveWaterUnit(WaterUnit.ML)
-        val result = validateQuantity("0")
+        val result = validateQuantity("0", WaterUnit.ML)
         
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()).isEqualTo("0")
@@ -36,8 +35,7 @@ class ValidateQuantityTest {
     
     @Test
     fun `0 amount and water unit FL_OZ, returns success with 0`(){
-        preferences.saveWaterUnit(WaterUnit.FL_OZ)
-        val result = validateQuantity("0")
+        val result = validateQuantity("0", WaterUnit.FL_OZ)
         
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()).isEqualTo("0")
@@ -45,8 +43,7 @@ class ValidateQuantityTest {
     
     @Test
     fun `1 digit amount and water unit ML, returns success with same amount`(){
-        preferences.saveWaterUnit(WaterUnit.ML)
-        val result = validateQuantity("7")
+        val result = validateQuantity("7", WaterUnit.ML)
         
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()).isEqualTo("7")
@@ -54,8 +51,7 @@ class ValidateQuantityTest {
     
     @Test
     fun `1 digit amount and water unit FL_OZ, returns success with same amount`(){
-        preferences.saveWaterUnit(WaterUnit.FL_OZ)
-        val result = validateQuantity("3")
+        val result = validateQuantity("3", WaterUnit.FL_OZ)
         
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()).isEqualTo("3")
@@ -63,8 +59,7 @@ class ValidateQuantityTest {
     
     @Test
     fun `2 digit amount and water unit ML, returns success with same amount`(){
-        preferences.saveWaterUnit(WaterUnit.ML)
-        val result = validateQuantity("74")
+        val result = validateQuantity("74", WaterUnit.ML)
         
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()).isEqualTo("74")
@@ -72,8 +67,7 @@ class ValidateQuantityTest {
     
     @Test
     fun `2 digit amount and water unit FL_OZ, returns success with same amount`(){
-        preferences.saveWaterUnit(WaterUnit.FL_OZ)
-        val result = validateQuantity("58")
+        val result = validateQuantity("58", WaterUnit.FL_OZ)
         
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()).isEqualTo("58")
@@ -81,8 +75,7 @@ class ValidateQuantityTest {
     
     @Test
     fun `3 digit amount and water unit ML, returns success with same amount`(){
-        preferences.saveWaterUnit(WaterUnit.ML)
-        val result = validateQuantity("528")
+        val result = validateQuantity("528", WaterUnit.ML)
         
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()).isEqualTo("528")
@@ -90,8 +83,7 @@ class ValidateQuantityTest {
     
     @Test
     fun `3 digit amount and water unit FL_OZ, returns failure`(){
-        preferences.saveWaterUnit(WaterUnit.FL_OZ)
-        val result = validateQuantity("158")
+        val result = validateQuantity("158", WaterUnit.FL_OZ)
         
         assertThat(result.isFailure).isTrue()
         assertThat(result.exceptionOrNull()!!.message).isEqualTo("Cannot exceed maximum limit")
@@ -99,8 +91,7 @@ class ValidateQuantityTest {
     
     @Test
     fun `negative 1 digit amount and water unit ML, returns success with same amount in positive`(){
-        preferences.saveWaterUnit(WaterUnit.ML)
-        val result = validateQuantity("-1")
+        val result = validateQuantity("-1", WaterUnit.ML)
         
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()).isEqualTo("1")
@@ -108,8 +99,7 @@ class ValidateQuantityTest {
     
     @Test
     fun `negative 1 digit amount and water unit FL_OZ, returns success with same amount in positive`(){
-        preferences.saveWaterUnit(WaterUnit.FL_OZ)
-        val result = validateQuantity("-1")
+        val result = validateQuantity("-1", WaterUnit.FL_OZ)
         
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()).isEqualTo("1")
@@ -117,8 +107,7 @@ class ValidateQuantityTest {
     
     @Test
     fun `negative 2 digit amount and water unit ML, returns success with same amount in positive`(){
-        preferences.saveWaterUnit(WaterUnit.ML)
-        val result = validateQuantity("-13")
+        val result = validateQuantity("-13", WaterUnit.ML)
         
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()).isEqualTo("13")
@@ -126,8 +115,7 @@ class ValidateQuantityTest {
     
     @Test
     fun `negative 2 digit amount and water unit FL_OZ, returns success with same amount in positive`(){
-        preferences.saveWaterUnit(WaterUnit.FL_OZ)
-        val result = validateQuantity("-15")
+        val result = validateQuantity("-15", WaterUnit.FL_OZ)
         
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()).isEqualTo("15")
@@ -135,8 +123,7 @@ class ValidateQuantityTest {
     
     @Test
     fun `negative 3 digit amount and water unit ML, returns success with same amount in positive`(){
-        preferences.saveWaterUnit(WaterUnit.ML)
-        val result = validateQuantity("-123")
+        val result = validateQuantity("-123", WaterUnit.ML)
         
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()).isEqualTo("123")
@@ -144,8 +131,7 @@ class ValidateQuantityTest {
     
     @Test
     fun `negative 3 digit amount and water unit FL_OZ, returns failure`(){
-        preferences.saveWaterUnit(WaterUnit.FL_OZ)
-        val result = validateQuantity("-115")
+        val result = validateQuantity("-115", WaterUnit.FL_OZ)
         
         assertThat(result.isFailure).isTrue()
         assertThat(result.exceptionOrNull()!!.message).isEqualTo("Cannot exceed maximum limit")

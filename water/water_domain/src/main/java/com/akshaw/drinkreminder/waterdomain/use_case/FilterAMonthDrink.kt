@@ -10,7 +10,7 @@ import java.time.YearMonth
  */
 class FilterAMonthDrink {
     
-    operator fun invoke(yearMonth: YearMonth, allDrinks: List<com.akshaw.drinkreminder.waterdomain.model.Drink>): List<com.akshaw.drinkreminder.waterdomain.model.Drink> {
+    operator fun invoke(yearMonth: YearMonth, allDrinks: List<Drink>): List<Drink> {
         
         return allDrinks.filter { drink ->
             YearMonth.from(drink.dateTime).equals(yearMonth)

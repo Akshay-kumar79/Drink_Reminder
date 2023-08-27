@@ -36,6 +36,9 @@ dependencies {
     kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     
+    // Data Store
+    implementation(libs.androidx.datastore)
+    
     // Number picker
     implementation(libs.number.picker)
     

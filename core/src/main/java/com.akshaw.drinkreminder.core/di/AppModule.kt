@@ -6,9 +6,11 @@ import android.content.SharedPreferences
 import androidx.room.Room
 import com.akshaw.drinkreminder.core.data.local.MyDatabase
 import com.akshaw.drinkreminder.core.data.preferences.DefaultPreference
+import com.akshaw.drinkreminder.core.data.preferences.dataStore
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.FilterOutDigits
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
+import com.akshaw.drinkreminder.core.domain.use_case.GetRecommendedDailyWaterIntake
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,21 +21,13 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
-    @Provides
-    @Singleton
-    fun provideSharedPreference(
-        app: Application
-    ): SharedPreferences {
-        return app.getSharedPreferences("shared_pref", Context.MODE_PRIVATE)
-    }
-
+    
     @Provides
     @Singleton
     fun providePreference(
-        sharedPref: SharedPreferences
+        app: Application
     ): Preferences {
-        return DefaultPreference(sharedPref)
+        return DefaultPreference(app.dataStore)
     }
 
     @Provides
@@ -56,6 +50,12 @@ object AppModule {
     @Singleton
     fun provideFilterOutDigits(): FilterOutDigits{
         return FilterOutDigits()
+    }
+    
+    @Provides
+    @Singleton
+    fun provideGetRecommendedDailyWaterIntake(): GetRecommendedDailyWaterIntake{
+        return GetRecommendedDailyWaterIntake()
     }
 
 }

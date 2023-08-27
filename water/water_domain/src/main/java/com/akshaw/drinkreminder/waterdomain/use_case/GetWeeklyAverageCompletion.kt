@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
+import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.waterdomain.model.Drink
 import java.time.LocalDate
 import javax.inject.Inject
@@ -15,14 +16,14 @@ class GetWeeklyAverageCompletion @Inject constructor(
     private val getDrinkProgress: GetDrinkProgress
 ) {
     
-    operator fun invoke(allDrinks: List<com.akshaw.drinkreminder.waterdomain.model.Drink>, goal: Double): Double{
+    operator fun invoke(allDrinks: List<Drink>, goal: Double, currentWaterUnit: WaterUnit): Double {
         var totalCompletion = 0.0
         val weekLastDay = LocalDate.now()
         val weekFirstDay = weekLastDay.minusWeeks(1).plusDays(1)
-    
+        
         var iteratingDay = weekFirstDay
         while (!iteratingDay.isEqual(weekLastDay.plusDays(1))) {
-            if (getDrinkProgress(filterADayDrinks(iteratingDay, allDrinks)) >= goal){
+            if (getDrinkProgress(filterADayDrinks(iteratingDay, allDrinks), currentWaterUnit) >= goal) {
                 totalCompletion++
             }
             iteratingDay = iteratingDay.plusDays(1)

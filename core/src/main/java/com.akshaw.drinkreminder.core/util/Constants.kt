@@ -13,7 +13,7 @@ object Constants {
     /** Weight */
     const val MAX_WEIGHT = 350
     const val MIN_WEIGHT = 20
-    const val DEFAULT_WEIGHT = 75
+    const val DEFAULT_WEIGHT = 75f
     val DEFAULT_WEIGHT_UNIT = WeightUnit.KG
 
     /** Age */
@@ -33,6 +33,9 @@ object Constants {
 
     /** Water */
     val DEFAULT_WATER_UNIT = WaterUnit.ML
+    const val MAX_DAILY_WATER_INTAKE_GOAL = 10000.0
+    const val MIN_DAILY_WATER_INTAKE_GOAL = 100.0
+    const val DEFAULT_DAILY_WATER_INTAKE_GOAL = 2300.0
 
     /** Selected trackable drink id **/
     const val DEFAULT_SELECTED_TRACKABLE_DRINK_ID = -1L

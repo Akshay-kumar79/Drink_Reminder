@@ -1,8 +1,9 @@
 package com.akshaw.drinkreminder.core.util
 
-sealed class TimeUnit(val name: String, val id: Int) {
 
-    /** ids should not have number gap except INVALID WeightUnit */
+sealed class TimeUnit(val name: String, val id: Int) {
+    
+    /** ids should not have number gap except INVALID WeightUnit (for number picker purpose) */
     object AM : TimeUnit("AM", 100)
     object PM : TimeUnit("PM", 101)
     object INVALID : TimeUnit("invalid", -1)

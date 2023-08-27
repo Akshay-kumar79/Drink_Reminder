@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
+import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.util.UiEvent
 import com.akshaw.drinkreminder.core.util.UiText
 import com.akshaw.drinkreminder.core.util.WaterUnit
@@ -44,21 +45,21 @@ class WaterHomeViewModel @Inject constructor(
     /** Screen States */
     val goal = MutableStateFlow(2343.0).asStateFlow()
     
+    val waterUnit = preferences.getWaterUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)
+    
     val todayDrinks = getAllDrinks().map {
         filterADayDrinks(LocalDate.now(), it)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     
-    val progress = todayDrinks.map {
-        getDrinkProgress(it)
+    val progress = combine(todayDrinks, waterUnit) { todayDrinks, waterUnit ->
+        getDrinkProgress(todayDrinks, waterUnit)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
-    
-    private val _waterUnit = MutableStateFlow(preferences.loadWaterUnit())
-    val waterUnit = _waterUnit.asStateFlow()
     
     val trackableDrinks = combine(getAllTrackableDrinks(), waterUnit) { allTrackableDrinks, waterUnit ->
         filterTrackableDrinksByUnit(waterUnit, allTrackableDrinks)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     
+    // TODO fix wrong selected trackable drink initially
     private val _selectedTrackableDrink = MutableStateFlow(TrackableDrink(-1, 0.0, WaterUnit.ML))
     val selectedTrackableDrink = _selectedTrackableDrink.asStateFlow()
     
@@ -99,7 +100,7 @@ class WaterHomeViewModel @Inject constructor(
     // TODO listen to preference changes
     init {
         trackableDrinks.onEach {
-            _selectedTrackableDrink.value = getSelectedTrackableDrink(it)
+            _selectedTrackableDrink.value = getSelectedTrackableDrink(it, waterUnit.value)
         }.launchIn(viewModelScope)
     }
     
@@ -176,7 +177,7 @@ class WaterHomeViewModel @Inject constructor(
                 _addForgottenDrinkDialogMinute.value = event.minute
             }
             is DialogAddForgottenDrinkEvent.OnQuantityAmountChange -> {
-                validateQuantity(event.amount)
+                validateQuantity(event.amount, waterUnit.value)
                     .onSuccess {
                         _addForgottenDrinkDialogQuantity.value = it
                     }
@@ -187,7 +188,7 @@ class WaterHomeViewModel @Inject constructor(
     fun onEvent(event: DialogAddTrackableDrinkEvent) = viewModelScope.launch {
         when (event) {
             is DialogAddTrackableDrinkEvent.OnQuantityAmountChange -> {
-                validateQuantity(event.amount)
+                validateQuantity(event.amount, waterUnit.value)
                     .onSuccess {
                         _addTrackableDrinkDialogQuantity.value = it
                     }

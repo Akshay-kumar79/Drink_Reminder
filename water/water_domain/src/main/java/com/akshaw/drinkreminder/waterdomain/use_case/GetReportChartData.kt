@@ -1,6 +1,7 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
 import com.akshaw.drinkreminder.core.util.ChartType
+import com.akshaw.drinkreminder.core.util.WaterUnit
 import java.time.*
 import javax.inject.Inject
 import kotlin.math.ceil
@@ -21,7 +22,8 @@ class GetReportChartData @Inject constructor(
         selectedChart: ChartType,
         chartSelectedWeeksFirstDay: LocalDate,
         chartSelectedYear: Year,
-        goal: Double
+        goal: Double,
+        currentWaterUnit: WaterUnit
     ): List<Int> {
         val data = mutableListOf<Int>()
         when (selectedChart) {
@@ -31,7 +33,7 @@ class GetReportChartData @Inject constructor(
                     val progress = getDrinkProgress(filterADayDrinks(
                         day,
                         allDrinks
-                    ))
+                    ), currentWaterUnit)
                     val percent = progress * 100 / goal
                     data.add(
                         ceil(percent).toInt().coerceIn(0, 100)
@@ -44,7 +46,7 @@ class GetReportChartData @Inject constructor(
                     val totalProgress = getDrinkProgress(filterAMonthDrink(
                         month,
                         allDrinks
-                    ))
+                    ), currentWaterUnit)
                     val numberOfDayInMonth = month.lengthOfMonth()
                     val percent = (totalProgress * 100)/(goal * numberOfDayInMonth)
                     data.add(

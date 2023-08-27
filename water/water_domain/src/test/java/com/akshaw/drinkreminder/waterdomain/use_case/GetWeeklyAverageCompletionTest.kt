@@ -10,16 +10,14 @@ import java.time.LocalDateTime
 
 class GetWeeklyAverageCompletionTest {
     
-    private lateinit var preferences: Preferences
     private lateinit var filterADayDrinks: FilterADayDrinks
     private lateinit var getDrinkProgress: GetDrinkProgress
     private lateinit var getWeeklyAverageCompletion: GetWeeklyAverageCompletion
     
     @Before
     fun setUp() {
-        preferences = FakePreference()
         filterADayDrinks = FilterADayDrinks()
-        getDrinkProgress = GetDrinkProgress(preferences)
+        getDrinkProgress = GetDrinkProgress()
         getWeeklyAverageCompletion = GetWeeklyAverageCompletion(
             filterADayDrinks,
             getDrinkProgress
@@ -38,7 +36,7 @@ class GetWeeklyAverageCompletionTest {
             add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 2400.0, WaterUnit.ML))
         }
         
-        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0)
+        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
         
         assertThat(averageCompletion).isEqualTo(100.0/7.0)
     }
@@ -55,7 +53,7 @@ class GetWeeklyAverageCompletionTest {
             add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
-        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0)
+        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
         
         assertThat(averageCompletion).isEqualTo(100.0/7.0)
     }
@@ -72,7 +70,7 @@ class GetWeeklyAverageCompletionTest {
             add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
-        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0)
+        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
         
         assertThat(averageCompletion).isEqualTo(100.0/7.0)
     }
@@ -89,7 +87,7 @@ class GetWeeklyAverageCompletionTest {
             add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
-        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0)
+        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
         
         assertThat(averageCompletion).isEqualTo(100.0/7.0)
     }
@@ -106,7 +104,7 @@ class GetWeeklyAverageCompletionTest {
             add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
-        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0)
+        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
         
         assertThat(averageCompletion).isEqualTo(100.0/7.0)
     }
@@ -123,7 +121,7 @@ class GetWeeklyAverageCompletionTest {
             add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
-        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0)
+        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
         
         assertThat(averageCompletion).isEqualTo(100.0/7.0)
     }
@@ -140,7 +138,7 @@ class GetWeeklyAverageCompletionTest {
             add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
-        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0)
+        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
         
         assertThat(averageCompletion).isEqualTo(100.0/7.0)
     }
@@ -157,7 +155,7 @@ class GetWeeklyAverageCompletionTest {
             add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
-        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0)
+        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
         
         assertThat(averageCompletion).isEqualTo(100.0 * 2.0 /7.0)
     }
@@ -174,7 +172,7 @@ class GetWeeklyAverageCompletionTest {
             add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
-        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0)
+        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
         
         assertThat(averageCompletion).isEqualTo(100.0 * 3.0 /7.0)
     }
@@ -191,7 +189,7 @@ class GetWeeklyAverageCompletionTest {
             add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
-        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0)
+        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
         
         assertThat(averageCompletion).isEqualTo(100.0 * 4.0 /7.0)
     }
@@ -208,7 +206,7 @@ class GetWeeklyAverageCompletionTest {
             add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
-        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0)
+        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
         
         assertThat(averageCompletion).isEqualTo(100.0 * 5.0 /7.0)
     }
@@ -225,7 +223,7 @@ class GetWeeklyAverageCompletionTest {
             add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
-        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0)
+        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
         
         assertThat(averageCompletion).isEqualTo(100.0 * 6.0 /7.0)
     }
@@ -242,7 +240,7 @@ class GetWeeklyAverageCompletionTest {
             add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 2400.0, WaterUnit.ML))
         }
         
-        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0)
+        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
         
         assertThat(averageCompletion).isEqualTo(100.0 * 7.0 /7.0)
     }
@@ -259,7 +257,7 @@ class GetWeeklyAverageCompletionTest {
             add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
-        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0)
+        val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
         
         assertThat(averageCompletion).isEqualTo(0.0)
     }

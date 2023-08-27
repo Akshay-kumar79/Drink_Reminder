@@ -17,7 +17,7 @@ object WaterDomainModule {
     @Provides
     @Singleton
     fun providesGetDrinkProgress(preferences: Preferences): GetDrinkProgress {
-        return GetDrinkProgress(preferences)
+        return GetDrinkProgress()
     }
     
     @Provides

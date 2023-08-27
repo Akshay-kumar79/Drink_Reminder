@@ -12,7 +12,7 @@ data class Drink(
 )
 
 
-fun com.akshaw.drinkreminder.waterdomain.model.Drink.convertUnit(newUnit: WaterUnit): com.akshaw.drinkreminder.waterdomain.model.Drink {
+fun Drink.convertUnit(newUnit: WaterUnit): Drink {
     return when (newUnit) {
         WaterUnit.ML -> {
             when (unit) {
@@ -23,7 +23,7 @@ fun com.akshaw.drinkreminder.waterdomain.model.Drink.convertUnit(newUnit: WaterU
                         unit = WaterUnit.ML
                     )
                 }
-                WaterUnit.INVALID -> {
+                WaterUnit.Invalid -> {
                     this.copy(
                         waterIntake = 0.0,
                         unit = WaterUnit.ML
@@ -40,7 +40,7 @@ fun com.akshaw.drinkreminder.waterdomain.model.Drink.convertUnit(newUnit: WaterU
                     )
                 }
                 WaterUnit.FL_OZ -> this.copy()
-                WaterUnit.INVALID -> {
+                WaterUnit.Invalid -> {
                     this.copy(
                         waterIntake = 0.0,
                         unit = WaterUnit.FL_OZ
@@ -48,10 +48,10 @@ fun com.akshaw.drinkreminder.waterdomain.model.Drink.convertUnit(newUnit: WaterU
                 }
             }
         }
-        WaterUnit.INVALID -> {
+        WaterUnit.Invalid -> {
             this.copy(
                 waterIntake = 0.0,
-                unit = WaterUnit.INVALID
+                unit = WaterUnit.Invalid
             )
         }
     }

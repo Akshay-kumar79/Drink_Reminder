@@ -114,7 +114,7 @@ class OnboardingViewModel @Inject constructor(
             }
 
             OnboardingPage.WEIGHT -> {
-                if (state.weightUnit != WeightUnit.INVALID) {
+                if (state.weightUnit != WeightUnit.Invalid) {
                     preferences.saveWeight(state.weight)
                     preferences.saveWeightUnit(state.weightUnit)
                     navigateToNextPage()

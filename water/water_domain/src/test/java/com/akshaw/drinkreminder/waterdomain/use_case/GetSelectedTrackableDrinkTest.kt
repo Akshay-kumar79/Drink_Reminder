@@ -5,6 +5,7 @@ import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.waterdomain.model.TrackableDrink
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
@@ -28,8 +29,11 @@ class GetSelectedTrackableDrinkTest {
             add(TrackableDrink(3, 80.0, WaterUnit.ML))
             add(TrackableDrink(4, 100.0, WaterUnit.ML))
         }
-
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(2, 60.0, WaterUnit.ML))
+        val unit = WaterUnit.ML
+        
+        runBlocking {
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(2, 60.0, WaterUnit.ML))
+        }
     }
 
     @Test
@@ -39,8 +43,11 @@ class GetSelectedTrackableDrinkTest {
             add(TrackableDrink(1, 30.0, WaterUnit.ML))
             add(TrackableDrink(2, 60.0, WaterUnit.ML))
         }
-
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(1, 30.0, WaterUnit.ML))
+        val unit = WaterUnit.ML
+        
+        runBlocking {
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(1, 30.0, unit))
+        }
     }
 
     @Test
@@ -49,8 +56,11 @@ class GetSelectedTrackableDrinkTest {
             add(TrackableDrink(0, 10.0, WaterUnit.ML))
             add(TrackableDrink(1, 30.0, WaterUnit.ML))
         }
-
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(1, 30.0, WaterUnit.ML))
+        val unit = WaterUnit.ML
+        
+        runBlocking {
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(1, 30.0, unit))
+        }
     }
 
     @Test
@@ -58,8 +68,11 @@ class GetSelectedTrackableDrinkTest {
         val trackableDrinks = mutableListOf<TrackableDrink>().apply {
             add(TrackableDrink(0, 10.0, WaterUnit.ML))
         }
-
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(0, 10.0, WaterUnit.ML))
+        val unit = WaterUnit.ML
+        
+        runBlocking {
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(0, 10.0, unit))
+        }
     }
 
     @Test
@@ -71,8 +84,11 @@ class GetSelectedTrackableDrinkTest {
             add(TrackableDrink(3, 80.0, WaterUnit.FL_OZ))
             add(TrackableDrink(4, 100.0, WaterUnit.FL_OZ))
         }
-
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(2, 60.0, WaterUnit.FL_OZ))
+        val unit = WaterUnit.FL_OZ
+        
+        runBlocking {
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(2, 60.0, unit))
+        }
     }
 
     @Test
@@ -82,8 +98,11 @@ class GetSelectedTrackableDrinkTest {
             add(TrackableDrink(1, 30.0, WaterUnit.FL_OZ))
             add(TrackableDrink(2, 60.0, WaterUnit.FL_OZ))
         }
-
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(1, 30.0, WaterUnit.FL_OZ))
+        val unit = WaterUnit.FL_OZ
+        
+        runBlocking {
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(1, 30.0, unit))
+        }
     }
 
     @Test
@@ -92,8 +111,11 @@ class GetSelectedTrackableDrinkTest {
             add(TrackableDrink(0, 10.0, WaterUnit.FL_OZ))
             add(TrackableDrink(1, 30.0, WaterUnit.FL_OZ))
         }
-
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(1, 30.0, WaterUnit.FL_OZ))
+        val unit = WaterUnit.FL_OZ
+    
+        runBlocking {
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(1, 30.0, unit))
+        }
     }
 
     @Test
@@ -101,23 +123,31 @@ class GetSelectedTrackableDrinkTest {
         val trackableDrinks = mutableListOf<TrackableDrink>().apply {
             add(TrackableDrink(0, 10.0, WaterUnit.FL_OZ))
         }
-
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(0, 10.0, WaterUnit.FL_OZ))
+        val unit = WaterUnit.FL_OZ
+    
+        runBlocking {
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(0, 10.0, unit))
+        }
     }
 
     @Test
     fun `0 trackable drinks and default selected id, returns trackable drink with id -1`() {
         val trackableDrinks = mutableListOf<TrackableDrink>()
-
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(-1, 0.0, preferences.loadWaterUnit()))
+        val unit = WaterUnit.ML
+    
+        runBlocking {
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(-1, 0.0, unit))
+        }
     }
 
     @Test
     fun `0 trackable drinks and default selected id and water unit FL_OZ, returns trackable drink with id -1`() {
         val trackableDrinks = mutableListOf<TrackableDrink>()
-
-        preferences.saveWaterUnit(WaterUnit.FL_OZ)
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(-1, 0.0, preferences.loadWaterUnit()))
+        val unit = WaterUnit.FL_OZ
+    
+        runBlocking {
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(-1, 0.0, unit))
+        }
     }
 
     @Test
@@ -129,8 +159,12 @@ class GetSelectedTrackableDrinkTest {
             add(TrackableDrink(3, 80.0, WaterUnit.ML))
             add(TrackableDrink(4, 100.0, WaterUnit.ML))
         }
-        preferences.saveSelectedTrackableDrinkId(4)
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(4, 100.0, WaterUnit.ML))
+        val unit = WaterUnit.ML
+    
+        runBlocking {
+            preferences.saveSelectedTrackableDrinkId(4)
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(4, 100.0, unit))
+        }
     }
 
     @Test
@@ -140,8 +174,12 @@ class GetSelectedTrackableDrinkTest {
             add(TrackableDrink(1, 30.0, WaterUnit.ML))
             add(TrackableDrink(2, 60.0, WaterUnit.ML))
         }
-        preferences.saveSelectedTrackableDrinkId(0)
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(0, 10.0, WaterUnit.ML))
+        val unit = WaterUnit.ML
+    
+        runBlocking {
+            preferences.saveSelectedTrackableDrinkId(0)
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(0, 10.0, unit))
+        }
     }
 
     @Test
@@ -150,8 +188,12 @@ class GetSelectedTrackableDrinkTest {
             add(TrackableDrink(0, 10.0, WaterUnit.ML))
             add(TrackableDrink(1, 30.0, WaterUnit.ML))
         }
-        preferences.saveSelectedTrackableDrinkId(0)
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(0, 10.0, WaterUnit.ML))
+        val unit = WaterUnit.ML
+    
+        runBlocking {
+            preferences.saveSelectedTrackableDrinkId(0)
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(0, 10.0, unit))
+        }
     }
 
     @Test
@@ -159,8 +201,12 @@ class GetSelectedTrackableDrinkTest {
         val trackableDrinks = mutableListOf<TrackableDrink>().apply {
             add(TrackableDrink(0, 10.0, WaterUnit.ML))
         }
-        preferences.saveSelectedTrackableDrinkId(0)
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(0, 10.0, WaterUnit.ML))
+        val unit = WaterUnit.ML
+    
+        runBlocking {
+            preferences.saveSelectedTrackableDrinkId(0)
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(0, 10.0, unit))
+        }
     }
 
     @Test
@@ -172,8 +218,12 @@ class GetSelectedTrackableDrinkTest {
             add(TrackableDrink(3, 80.0, WaterUnit.FL_OZ))
             add(TrackableDrink(4, 100.0, WaterUnit.FL_OZ))
         }
-        preferences.saveSelectedTrackableDrinkId(1)
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(1, 30.0, WaterUnit.FL_OZ))
+        val unit = WaterUnit.FL_OZ
+    
+        runBlocking {
+            preferences.saveSelectedTrackableDrinkId(1)
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(1, 30.0, unit))
+        }
     }
 
     @Test
@@ -183,8 +233,12 @@ class GetSelectedTrackableDrinkTest {
             add(TrackableDrink(1, 30.0, WaterUnit.FL_OZ))
             add(TrackableDrink(2, 60.0, WaterUnit.FL_OZ))
         }
-        preferences.saveSelectedTrackableDrinkId(2)
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(2, 60.0, WaterUnit.FL_OZ))
+        val unit = WaterUnit.FL_OZ
+    
+        runBlocking {
+            preferences.saveSelectedTrackableDrinkId(2)
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(2, 60.0, unit))
+        }
     }
 
     @Test
@@ -193,8 +247,12 @@ class GetSelectedTrackableDrinkTest {
             add(TrackableDrink(0, 10.0, WaterUnit.FL_OZ))
             add(TrackableDrink(1, 30.0, WaterUnit.FL_OZ))
         }
-        preferences.saveSelectedTrackableDrinkId(0)
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(0, 10.0, WaterUnit.FL_OZ))
+        val unit = WaterUnit.FL_OZ
+    
+        runBlocking {
+            preferences.saveSelectedTrackableDrinkId(0)
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(0, 10.0, unit))
+        }
     }
 
     @Test
@@ -202,8 +260,12 @@ class GetSelectedTrackableDrinkTest {
         val trackableDrinks = mutableListOf<TrackableDrink>().apply {
             add(TrackableDrink(0, 10.0, WaterUnit.FL_OZ))
         }
-        preferences.saveSelectedTrackableDrinkId(0)
-        assertThat(getSelectedTrackableDrink(trackableDrinks)).isEqualTo(TrackableDrink(0, 10.0, WaterUnit.FL_OZ))
+        val unit = WaterUnit.FL_OZ
+    
+        runBlocking {
+            preferences.saveSelectedTrackableDrinkId(0)
+            assertThat(getSelectedTrackableDrink(trackableDrinks, unit)).isEqualTo(TrackableDrink(0, 10.0, unit))
+        }
     }
 
 }

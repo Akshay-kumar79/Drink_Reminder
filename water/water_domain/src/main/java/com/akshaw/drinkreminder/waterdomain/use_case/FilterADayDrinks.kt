@@ -8,7 +8,7 @@ import java.time.LocalDate
  */
 class FilterADayDrinks {
     
-    operator fun invoke(date: LocalDate, allDrinks: List<com.akshaw.drinkreminder.waterdomain.model.Drink>): List<com.akshaw.drinkreminder.waterdomain.model.Drink> {
+    operator fun invoke(date: LocalDate, allDrinks: List<Drink>): List<Drink> {
         
         return allDrinks.filter { drink ->
             drink.dateTime.toLocalDate().equals(date)

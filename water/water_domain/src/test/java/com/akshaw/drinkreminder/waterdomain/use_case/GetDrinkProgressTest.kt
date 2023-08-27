@@ -1,7 +1,5 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
-import com.akshaw.drinkreminder.coretest.FakePreference
-import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.google.common.truth.Truth.assertThat
 
@@ -13,12 +11,10 @@ import kotlin.math.roundToInt
 class GetDrinkProgressTest {
 
     private lateinit var getDrinkProgress: GetDrinkProgress
-    private lateinit var preference: Preferences
 
     @Before
     fun setUp() {
-        preference = FakePreference()
-        getDrinkProgress = GetDrinkProgress(preference)
+        getDrinkProgress = GetDrinkProgress()
     }
 
     @Test
@@ -30,8 +26,8 @@ class GetDrinkProgressTest {
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 87.0, WaterUnit.ML),
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 129.0, WaterUnit.ML)
         )
-        preference.saveWaterUnit(WaterUnit.ML)
-        assertThat(getDrinkProgress(drinks).roundToInt()).isEqualTo(773.0.roundToInt())
+        val unit = WaterUnit.ML
+        assertThat(getDrinkProgress(drinks, unit).roundToInt()).isEqualTo(773.0.roundToInt())
     }
 
     @Test
@@ -43,8 +39,8 @@ class GetDrinkProgressTest {
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 87.0, WaterUnit.ML),
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 129.0, WaterUnit.ML)
         )
-        preference.saveWaterUnit(WaterUnit.FL_OZ)
-        assertThat(getDrinkProgress(drinks).roundToInt()).isEqualTo(26.13823954852464.roundToInt())
+        val unit = WaterUnit.FL_OZ
+        assertThat(getDrinkProgress(drinks, unit).roundToInt()).isEqualTo(26.13823954852464.roundToInt())
     }
 
     @Test
@@ -56,8 +52,8 @@ class GetDrinkProgressTest {
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 87.0, WaterUnit.FL_OZ),
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 129.0, WaterUnit.FL_OZ)
         )
-        preference.saveWaterUnit(WaterUnit.ML)
-        assertThat(getDrinkProgress(drinks).roundToInt()).isEqualTo(22860.3383518125.roundToInt())
+        val unit = WaterUnit.ML
+        assertThat(getDrinkProgress(drinks, unit).roundToInt()).isEqualTo(22860.3383518125.roundToInt())
     }
 
     @Test
@@ -69,8 +65,8 @@ class GetDrinkProgressTest {
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 87.0, WaterUnit.FL_OZ),
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 129.0, WaterUnit.FL_OZ)
         )
-        preference.saveWaterUnit(WaterUnit.FL_OZ)
-        assertThat(getDrinkProgress(drinks).roundToInt()).isEqualTo(773.0.roundToInt())
+        val unit = WaterUnit.FL_OZ
+        assertThat(getDrinkProgress(drinks, unit).roundToInt()).isEqualTo(773.0.roundToInt())
     }
 
     @Test
@@ -79,13 +75,13 @@ class GetDrinkProgressTest {
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 23.0, WaterUnit.ML),
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 2.0, WaterUnit.FL_OZ),
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 532.0, WaterUnit.ML),
-            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 87.0, WaterUnit.INVALID),
-            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 532.0, WaterUnit.INVALID),
+            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 87.0, WaterUnit.Invalid),
+            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 532.0, WaterUnit.Invalid),
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 87.0, WaterUnit.FL_OZ),
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 129.0, WaterUnit.ML)
         )
-        preference.saveWaterUnit(WaterUnit.ML)
-        assertThat(getDrinkProgress(drinks).roundToInt()).isEqualTo(3316.0441310625.roundToInt())
+        val unit = WaterUnit.ML
+        assertThat(getDrinkProgress(drinks, unit).roundToInt()).isEqualTo(3316.0441310625.roundToInt())
     }
 
     @Test
@@ -94,53 +90,53 @@ class GetDrinkProgressTest {
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 23.0, WaterUnit.ML),
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 2.0, WaterUnit.FL_OZ),
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 532.0, WaterUnit.ML),
-            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 532.0, WaterUnit.INVALID),
+            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 532.0, WaterUnit.Invalid),
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 87.0, WaterUnit.FL_OZ),
-            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 87.0, WaterUnit.INVALID),
+            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 87.0, WaterUnit.Invalid),
             com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 129.0, WaterUnit.ML)
         )
-        preference.saveWaterUnit(WaterUnit.FL_OZ)
-        assertThat(getDrinkProgress(drinks).roundToInt()).isEqualTo(112.1287915280606.roundToInt())
+        val unit = WaterUnit.FL_OZ
+        assertThat(getDrinkProgress(drinks, unit).roundToInt()).isEqualTo(112.1287915280606.roundToInt())
     }
 
     @Test
     fun `0 drinks and preference waterUnit FL_OZ, returns 0 progress in FL_OZ`(){
         val drinks = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>()
-        preference.saveWaterUnit(WaterUnit.FL_OZ)
-        assertThat(getDrinkProgress(drinks).roundToInt()).isEqualTo(0.0.roundToInt())
+        val unit = WaterUnit.FL_OZ
+        assertThat(getDrinkProgress(drinks, unit).roundToInt()).isEqualTo(0.0.roundToInt())
     }
 
     @Test
     fun `0 drinks and preference waterUnit ML, returns 0 progress in ML`(){
         val drinks = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>()
-        preference.saveWaterUnit(WaterUnit.ML)
-        assertThat(getDrinkProgress(drinks).roundToInt()).isEqualTo(0.0.roundToInt())
+        val unit = WaterUnit.ML
+        assertThat(getDrinkProgress(drinks, unit).roundToInt()).isEqualTo(0.0.roundToInt())
     }
 
     @Test
     fun `water unit type INVALID only and preference waterUnit FL_OZ, returns 0 progress in FL_OZ`(){
         val drinks = mutableListOf(
-            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 23.0, WaterUnit.INVALID),
-            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 2.0, WaterUnit.INVALID),
-            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 532.0, WaterUnit.INVALID),
-            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 87.0, WaterUnit.INVALID),
-            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 129.0, WaterUnit.INVALID)
+            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 23.0, WaterUnit.Invalid),
+            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 2.0, WaterUnit.Invalid),
+            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 532.0, WaterUnit.Invalid),
+            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 87.0, WaterUnit.Invalid),
+            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 129.0, WaterUnit.Invalid)
         )
-        preference.saveWaterUnit(WaterUnit.FL_OZ)
-        assertThat(getDrinkProgress(drinks).roundToInt()).isEqualTo(0.0.roundToInt())
+        val unit = WaterUnit.FL_OZ
+        assertThat(getDrinkProgress(drinks, unit).roundToInt()).isEqualTo(0.0.roundToInt())
     }
 
     @Test
     fun `water unit type INVALID only and preference waterUnit ML, returns 0 progress in ML`(){
         val drinks = mutableListOf(
-            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 23.0, WaterUnit.INVALID),
-            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 2.0, WaterUnit.INVALID),
-            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 532.0, WaterUnit.INVALID),
-            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 87.0, WaterUnit.INVALID),
-            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 129.0, WaterUnit.INVALID)
+            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 23.0, WaterUnit.Invalid),
+            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 2.0, WaterUnit.Invalid),
+            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 532.0, WaterUnit.Invalid),
+            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 87.0, WaterUnit.Invalid),
+            com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 129.0, WaterUnit.Invalid)
         )
-        preference.saveWaterUnit(WaterUnit.ML)
-        assertThat(getDrinkProgress(drinks).roundToInt()).isEqualTo(0.0.roundToInt())
+        val unit = WaterUnit.ML
+        assertThat(getDrinkProgress(drinks, unit).roundToInt()).isEqualTo(0.0.roundToInt())
     }
 
 }

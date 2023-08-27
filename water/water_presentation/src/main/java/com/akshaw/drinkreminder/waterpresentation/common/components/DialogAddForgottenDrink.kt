@@ -9,11 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -23,7 +25,22 @@ import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.Utility
 import com.shawnlin.numberpicker.NumberPicker
 
-@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showSystemUi = true, apiLevel = 33)
+@Composable
+private fun DialogAddForgottenDrinkPreview() {
+    DialogAddForgottenDrink(
+        isDialogShowing = true,
+        quantity = "",
+        hour = 12,
+        minute = 23,
+        onCancel = { },
+        onConfirm = { },
+        onQuantityChange = { },
+        onHourChange = { },
+        onMinuteChange = { }
+    )
+}
+
 @Composable
 fun DialogAddForgottenDrink(
     modifier: Modifier = Modifier,
@@ -55,7 +72,7 @@ fun DialogAddForgottenDrink(
                     fontFamily = FontFamily(Font(R.font.ubuntu_bold, FontWeight.Bold)),
                     fontSize = 20.sp,
                 )
-
+                
                 TextField(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -72,7 +89,7 @@ fun DialogAddForgottenDrink(
                         imeAction = ImeAction.Done
                     )
                 )
-
+                
                 Row(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
@@ -163,7 +180,7 @@ fun DialogAddForgottenDrink(
                         }
                     )
                 }
-
+                
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -177,12 +194,12 @@ fun DialogAddForgottenDrink(
                                 onCancel()
                             }
                             .padding(4.dp),
-                        text = "CANCEL",
+                        text = stringResource(id = R.string.cancel),
                         fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.Normal)),
                         fontSize = 16.sp,
                         color = MaterialTheme.colorScheme.onBackground
                     )
-
+                    
                     Spacer(modifier = Modifier.width(36.dp))
                     Text(
                         modifier = Modifier

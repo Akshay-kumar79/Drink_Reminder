@@ -1,7 +1,9 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
+import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.waterdomain.model.TrackableDrink
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import kotlin.math.floor
 
@@ -15,20 +17,20 @@ class GetSelectedTrackableDrink @Inject constructor(
     private val preferences: Preferences
 ) {
 
-    operator fun invoke(trackableDrinks: List<TrackableDrink>): TrackableDrink {
+    suspend operator fun invoke(trackableDrinks: List<TrackableDrink>, currentWaterUnit: WaterUnit): TrackableDrink {
 
-        val selectedTrackableDrinkId = preferences.loadSelectedTrackableDrinkId()
+        val selectedTrackableDrinkId = preferences.getSelectedTrackableDrinkId().first()
 
         return trackableDrinks.find {
             it.id == selectedTrackableDrinkId
         }
-            ?: createNewTrackableDrink(trackableDrinks)
+            ?: createNewTrackableDrink(trackableDrinks, currentWaterUnit)
 
     }
 
-    private fun createNewTrackableDrink(trackableDrinks: List<TrackableDrink>): TrackableDrink {
+    private fun createNewTrackableDrink(trackableDrinks: List<TrackableDrink>, currentWaterUnit: WaterUnit): TrackableDrink {
         if (trackableDrinks.isEmpty()) {
-            return TrackableDrink(-1, 0.0, preferences.loadWaterUnit())
+            return TrackableDrink(-1, 0.0, currentWaterUnit)
         }
         val index = floor(trackableDrinks.size / 2f).toInt()
         return trackableDrinks[index]

@@ -3,28 +3,31 @@ package com.akshaw.drinkreminder.core.domain.preferences
 import com.akshaw.drinkreminder.core.util.Gender
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalTime
 
 
 interface Preferences {
-
-    fun saveGender(gender: Gender)
-    fun saveAge(age: Int)
-    fun saveWeight(weight: Float)
-    fun saveWeightUnit(unit: WeightUnit)
-    fun saveBedTime(time: LocalTime)
-    fun saveWakeupTime(time: LocalTime)
-    fun saveWaterUnit(unit: WaterUnit)
-    fun saveSelectedTrackableDrinkId(id: Long)
-
-    fun loadGender(): Gender
-    fun loadAge(): Int
-    fun loadWeight(): Float
-    fun loadWeightUnit(): WeightUnit
-    fun loadBedTime(): LocalTime
-    fun loadWakeupTime(): LocalTime
-    fun loadWaterUnit(): WaterUnit
-    fun loadSelectedTrackableDrinkId(): Long
+    
+    suspend fun saveGender(gender: Gender)
+    suspend fun saveAge(age: Int)
+    suspend fun saveWeight(weight: Float)
+    suspend fun saveWeightUnit(unit: WeightUnit)
+    suspend fun saveBedTime(time: LocalTime)
+    suspend fun saveWakeupTime(time: LocalTime)
+    suspend fun saveWaterUnit(unit: WaterUnit)
+    suspend fun saveSelectedTrackableDrinkId(id: Long)
+    suspend fun saveDailyWaterIntakeGoal(amount: Double)
+    
+    fun getGender(): Flow<Gender>
+    fun getAge(): Flow<Int>
+    fun getWeight(): Flow<Float>
+    fun getWeightUnit(): Flow<WeightUnit>
+    fun getBedTime(): Flow<LocalTime>
+    fun getWakeupTime(): Flow<LocalTime>
+    fun getWaterUnit(): Flow<WaterUnit>
+    fun getSelectedTrackableDrinkId(): Flow<Long>
+    fun getDailyWaterIntakeGoal(): Flow<Double>
 
     companion object{
 
@@ -36,7 +39,8 @@ interface Preferences {
         const val KEY_WAKEUP_TIME = "wakeup_time"
         const val KEY_WATER_UNIT = "water_unit"
         const val KEY_SELECTED_TRACKABLE_DRINK_ID = "selected_trackable_drink_id"
-
+        const val KEY_DAILY_WATER_INTAKE_GOAL = "daily_water_intake_goal"
+        
     }
 
 }
