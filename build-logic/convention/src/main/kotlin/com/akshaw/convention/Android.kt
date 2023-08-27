@@ -1,17 +1,15 @@
 package com.akshaw.convention
 
-import com.android.build.api.dsl.ApplicationBuildType
 import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.JavaVersion
-import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 internal fun Project.configureKotlinAndroid(
-    commonExtension: CommonExtension<*, *, *, *>
+    commonExtension: CommonExtension<*, *, *, *, *>
 ) {
     commonExtension.apply {
         commonSdk()
@@ -21,25 +19,25 @@ internal fun Project.configureKotlinAndroid(
     }
 }
 
-fun CommonExtension<*, *, *, *>.commonSdk() {
+fun CommonExtension<*, *, *, *, *>.commonSdk() {
     defaultConfig.minSdk = Android.Sdk.MIN
     compileSdk = Android.Sdk.COMPILE
 }
 
-fun CommonExtension<*, *, *, *>.compileOptions() {
+fun CommonExtension<*, *, *, *, *>.compileOptions() {
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
-fun CommonExtension<*, *, *, *>.kotlinOptions() {
+fun CommonExtension<*, *, *, *, *>.kotlinOptions() {
     (this as ExtensionAware).extensions.configure<KotlinJvmOptions>(Android.Extension.KOTLIN_OPTIONS) {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
-fun CommonExtension<*, *, *, *>.packagingOptions() {
+fun CommonExtension<*, *, *, *, *>.packagingOptions() {
     packagingOptions {
         resources {
             excludes += mutableSetOf(

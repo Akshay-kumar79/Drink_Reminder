@@ -5,7 +5,7 @@ import org.gradle.api.Project
 
 
 internal fun Project.configureKotlinAndroidCompose(
-    commonExtension: CommonExtension<*, *, *, *>
+    commonExtension: CommonExtension<*, *, *, *, *>
 ) {
     commonExtension.apply {
         buildFeatures()
@@ -13,11 +13,11 @@ internal fun Project.configureKotlinAndroidCompose(
     }
 }
 
-fun CommonExtension<*, *, *, *>.buildFeatures() {
+fun CommonExtension<*, *, *, *, *>.buildFeatures() {
     buildFeatures.compose = true
 }
 
-fun CommonExtension<*, *, *, *>.composeOptions() {
+fun CommonExtension<*, *, *, *, *>.composeOptions() {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.8"
     }

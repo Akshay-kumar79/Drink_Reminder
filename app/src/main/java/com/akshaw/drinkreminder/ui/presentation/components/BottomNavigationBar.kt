@@ -62,7 +62,7 @@ fun BottomNavigationBar(navController: NavHostController) {
 }
 
 @Composable
-fun RowScope.AddNavigationBarItem(
+private fun RowScope.AddNavigationBarItem(
     label: String,
     iconResId: Int,
     destinationRoute: Route,

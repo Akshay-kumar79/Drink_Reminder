@@ -16,10 +16,10 @@ class DrinkNow @Inject constructor(
     
     suspend operator fun invoke(trackableDrink: TrackableDrink): Result<Long> {
         if (trackableDrink.id == -1L)
-            return Result.failure(Exception("Add some drinks"))
+            return Result.failure(Exception("Add some drink quantity"))
         
         if (trackableDrink.amount <= 0)
-            return Result.failure(Exception("Drink valid quantity"))
+            return Result.failure(Exception("Invalid quantity"))
         
         if (trackableDrink.unit == WaterUnit.Invalid)
             return Result.failure(Exception("Invalid water unit"))
