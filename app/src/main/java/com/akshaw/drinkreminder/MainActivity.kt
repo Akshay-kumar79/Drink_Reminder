@@ -35,14 +35,13 @@ import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             DrinkReminderTheme {
                 val snackbarHostState = remember { SnackbarHostState() }
                 val navController = rememberNavController()
-                
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
@@ -59,7 +58,7 @@ class MainActivity : ComponentActivity() {
                         startDestination = Route.SettingsScreen.route
                     ) {
                         
-                        composable(route = Route.OnboardingScreen.route){
+                        composable(route = Route.OnboardingScreen.route) {
                             OnBoardingScreen(
                                 snackbarHostState = snackbarHostState,
                                 onProcessFinish = {
@@ -73,11 +72,11 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-    
+                        
                         composable(route = Route.WaterHomeScreen.route) {
                             WaterHomeScreen(snackbarHostState = snackbarHostState)
                         }
-    
+                        
                         composable(route = Route.WaterReportScreen.route) {
                             WaterReportScreen(
                                 onADayDrinkClick = { date ->
@@ -85,7 +84,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-    
+                        
                         composable(
                             route = Route.WaterADayDrinkScreen.route + "/{${WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT}}",
                             arguments = listOf(
@@ -102,7 +101,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-    
+                        
                         composable(route = Route.SettingsScreen.route) {
                             SettingsScreen(
                                 snackbarHostState = snackbarHostState,
@@ -117,15 +116,16 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-    
+                        
                         composable(route = Route.WaterReminderScreen.route) {
                             WaterReminderScreen(
+                                snackbarHostState = snackbarHostState,
                                 onBackClicked = {
                                     navController.popBackStack()
                                 }
                             )
                         }
-    
+                        
                         composable(route = Route.SettingsFaqScreen.route) {
                             SettingsFaqScreen(
                                 onBackClicked = {
@@ -133,7 +133,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-    
+                        
                         composable(route = Route.SettingsBugReportScreen.route) {
                             SettingsBugReportScreen(
                                 onBackClicked = {
@@ -142,8 +142,8 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
-    
-                   
+                    
+                    
                 }
             }
         }

@@ -79,7 +79,7 @@ fun DailyIntakeGoalDialog(
 ) {
     
     Dialog(
-        onDismissRequest = { onCancel }
+        onDismissRequest = { onCancel() }
     ) {
         Card(
             modifier = modifier,

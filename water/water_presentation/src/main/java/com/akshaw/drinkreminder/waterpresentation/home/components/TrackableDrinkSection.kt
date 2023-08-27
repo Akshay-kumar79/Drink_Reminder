@@ -75,22 +75,21 @@ fun TrackableDrinkSection(
             }
         )
 
-        Box {
+        Box(
+            contentAlignment = Alignment.Center
+        ) {
             Box(
                 modifier = Modifier
                     .height(45.dp)
                     .width(120.dp)
                     .clip(RoundedCornerShape(12.dp))
                     .background(MaterialTheme.colorScheme.surfaceVariant)
-                    .align(Alignment.Center)
             )
 
             val surfaceVariant = MaterialTheme.colorScheme.onSurfaceVariant.toArgb()
             val primary = MaterialTheme.colorScheme.primary.toArgb()
             key(trackableDrinks.size) {
                 AndroidView(
-                    modifier = Modifier
-                        .align(Alignment.Center),
                     factory = {
                         NumberPicker(context).apply {
                             setDividerDistance(Utility.getFloatFromDp(context, 60f).roundToInt())

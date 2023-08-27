@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -17,33 +18,63 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
+import androidx.compose.ui.window.Popup
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.ReminderType
+import com.akshaw.drinkreminder.core.util.UiEvent
 import com.akshaw.drinkreminder.waterpresentation.reminders.components.AIReminderSection
 import com.akshaw.drinkreminder.waterpresentation.reminders.components.TSReminderSection
+import com.akshaw.drinkreminder.waterpresentation.reminders.dialogs.UpsertReminderDialog
+import com.akshaw.drinkreminder.waterpresentation.reminders.events.RemindersEvent
+import com.akshaw.drinkreminder.waterpresentation.reminders.events.TSReminderMode
+import com.akshaw.drinkreminder.waterpresentation.reminders.events.UpsertReminderDialogEvent
+import kotlinx.coroutines.flow.collectLatest
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalUnitApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WaterReminderScreen(
+    viewModel: WaterReminderViewModel = hiltViewModel(),
+    snackbarHostState: SnackbarHostState,
     onBackClicked: () -> Unit
 ) {
+    val context = LocalContext.current
+    
+    val isSelectReminderTypeExpanded by viewModel.isSelectReminderTypeExpanded.collectAsState()
+    val selectedReminderType by viewModel.selectedReminderType.collectAsState()
+    val allDrinkReminders by viewModel.allDrinkReminders.collectAsState()
+    
+    // Set Reminder Dialog States
+    val isBottomSheetVisible by viewModel.isSetReminderDialogShowing.collectAsState()
+    val selectedDays by viewModel.selectedDays.collectAsState()
+    val setReminderDialogHour by viewModel.setReminderDialogHour.collectAsState()
+    val setReminderDialogMinute by viewModel.setReminderDialogMinute.collectAsState()
+    
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collectLatest { event ->
+            when (event) {
+                is UiEvent.ShowSnackBar -> {
+                    snackbarHostState.currentSnackbarData?.dismiss()
+                    snackbarHostState.showSnackbar(event.message.asString(context))
+                }
+                
+                else -> Unit
+            }
+        }
+    }
     
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.primary.copy(alpha = .2f))
     ) {
-        
-        val allReminderTypes = listOf(ReminderType.TSReminder, ReminderType.AIReminder)
-        var isSelectReminderTypeExpanded by remember { mutableStateOf(false) }
-        var selectedReminderType by remember { mutableStateOf(allReminderTypes[0]) }
-        
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
         ) {
             
+            // Toolbar
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -80,14 +111,17 @@ fun WaterReminderScreen(
                 }
                 Spacer(modifier = Modifier.height(2.dp))
             }
-            
             Spacer(modifier = Modifier.height(20.dp))
+            
+            // Reminder type selector
             ExposedDropdownMenuBox(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp),
                 expanded = isSelectReminderTypeExpanded,
-                onExpandedChange = { isSelectReminderTypeExpanded = !isSelectReminderTypeExpanded },
+                onExpandedChange = {
+                    viewModel.onEvent(RemindersEvent.OnReminderTypeDropdownExpandedChange(!isSelectReminderTypeExpanded))
+                },
             ) {
                 OutlinedTextField(
                     modifier = Modifier
@@ -108,9 +142,11 @@ fun WaterReminderScreen(
                     modifier = Modifier
                         .exposedDropdownSize(true),
                     expanded = isSelectReminderTypeExpanded,
-                    onDismissRequest = { isSelectReminderTypeExpanded = false },
+                    onDismissRequest = {
+                        viewModel.onEvent(RemindersEvent.OnReminderTypeDropdownExpandedChange(false))
+                    },
                 ) {
-                    allReminderTypes.forEach { selectionOption ->
+                    viewModel.allReminderTypes.forEach { selectionOption ->
                         DropdownMenuItem(
                             text = {
                                 Text(
@@ -119,16 +155,17 @@ fun WaterReminderScreen(
                                 )
                             },
                             onClick = {
-                                selectedReminderType = selectionOption
-                                isSelectReminderTypeExpanded = false
+                                viewModel.onEvent(RemindersEvent.OnSelectedReminderTypeChange(selectionOption))
+                                viewModel.onEvent(RemindersEvent.OnReminderTypeDropdownExpandedChange(false))
                             },
                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                         )
                     }
                 }
             }
-            
             Spacer(modifier = Modifier.height(16.dp))
+            
+            // Reminder type description
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -145,19 +182,35 @@ fun WaterReminderScreen(
                 lineHeight = TextUnit(14f, TextUnitType.Sp),
                 color = MaterialTheme.colorScheme.onBackground
             )
-            
             Spacer(modifier = Modifier.height(20.dp))
             
-            when(selectedReminderType){
+            // Reminder type sections
+            when (selectedReminderType) {
                 ReminderType.AIReminder -> AIReminderSection(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.background)
                         .clickable {
-                        
+        
                         }
                 )
-                ReminderType.TSReminder -> TSReminderSection()
+                
+                ReminderType.TSReminder -> TSReminderSection(
+                    allDrinkReminders = allDrinkReminders,
+                    onAddNewReminderClick = {
+                        viewModel.onEvent(UpsertReminderDialogEvent.ShowDialog(TSReminderMode.AddNewReminder))
+                    },
+                    onReminderClick = {
+                        viewModel.onEvent(UpsertReminderDialogEvent.ShowDialog(TSReminderMode.UpdateReminder(it)))
+                    },
+                    onReminderSwitchChange = { drinkReminder, isReminderOn ->
+                        viewModel.onEvent(RemindersEvent.OnReminderSwitched(drinkReminder, isReminderOn))
+                    },
+                    onDeleteReminder = {
+                        viewModel.onEvent(RemindersEvent.OnDeleteReminder(it))
+                    }
+                )
+                
                 ReminderType.Invalid -> {
                 
                 }
@@ -166,5 +219,16 @@ fun WaterReminderScreen(
         
     }
     
+    if (isBottomSheetVisible)
+        UpsertReminderDialog(
+            selectedDays = selectedDays,
+            onCancel = { viewModel.onEvent(UpsertReminderDialogEvent.DismissDialog) },
+            onButtonClick = { viewModel.onEvent(UpsertReminderDialogEvent.OnDoneClick) },
+            hour = setReminderDialogHour,
+            minute = setReminderDialogMinute,
+            onHourChange = { viewModel.onEvent(UpsertReminderDialogEvent.OnHourChange(it)) },
+            onMinuteChange = { viewModel.onEvent(UpsertReminderDialogEvent.OnMinuteChange(it)) },
+            onDaySelectionChange = { viewModel.onEvent(UpsertReminderDialogEvent.OnChangeDayOfWeeks(it)) }
+        )
     
 }

@@ -15,7 +15,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
 
-
+/**
+ * Automatic Interval Reminder Section
+ */
 @Composable
 fun AIReminderSection(
     modifier: Modifier = Modifier

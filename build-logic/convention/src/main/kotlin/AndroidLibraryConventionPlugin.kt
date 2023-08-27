@@ -10,6 +10,8 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
                 apply("kotlin-kapt")
+                apply("kotlin-parcelize")
+                apply("com.google.dagger.hilt.android")
             }
             
             extensions.configure(LibraryExtension::class.java) {

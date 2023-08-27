@@ -6,8 +6,8 @@ import com.akshaw.drinkreminder.waterdomain.model.Drink
 import java.time.Instant
 import java.time.ZoneId
 
-fun DrinkEntity.toDrink(): com.akshaw.drinkreminder.waterdomain.model.Drink {
-    return com.akshaw.drinkreminder.waterdomain.model.Drink(
+fun DrinkEntity.toDrink(): Drink {
+    return Drink(
         id = id,
         dateTime = Instant.ofEpochMilli(milli).atZone(ZoneId.systemDefault()).toLocalDateTime(),
         waterIntake = waterIntake,
@@ -15,7 +15,7 @@ fun DrinkEntity.toDrink(): com.akshaw.drinkreminder.waterdomain.model.Drink {
     )
 }
 
-fun com.akshaw.drinkreminder.waterdomain.model.Drink.toDrinkEntity(): DrinkEntity{
+fun Drink.toDrinkEntity(): DrinkEntity{
     return DrinkEntity(
         id = id,
         milli = dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),

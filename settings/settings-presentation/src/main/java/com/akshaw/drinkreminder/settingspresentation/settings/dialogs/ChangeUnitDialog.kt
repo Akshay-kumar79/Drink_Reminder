@@ -64,7 +64,7 @@ fun ChangeUnitDialog(
     val allWeightUnits = listOf(WeightUnit.KG, WeightUnit.LBS)
     
     Dialog(
-        onDismissRequest = { onCancel }
+        onDismissRequest = { onCancel() }
     ) {
         Card(
             modifier = modifier,

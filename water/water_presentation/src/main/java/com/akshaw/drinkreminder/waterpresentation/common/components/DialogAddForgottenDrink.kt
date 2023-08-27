@@ -41,7 +41,6 @@ private fun DialogAddForgottenDrinkPreview() {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DialogAddForgottenDrink(
     modifier: Modifier = Modifier,

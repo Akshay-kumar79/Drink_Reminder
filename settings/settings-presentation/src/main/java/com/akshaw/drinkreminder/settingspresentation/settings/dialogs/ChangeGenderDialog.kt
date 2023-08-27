@@ -58,7 +58,7 @@ fun ChangeGenderDialog(
     val allGenders = listOf(Gender.Female, Gender.Male)
     
     Dialog(
-        onDismissRequest = { onCancel }
+        onDismissRequest = { onCancel() }
     ) {
         Card(
             modifier = modifier,
