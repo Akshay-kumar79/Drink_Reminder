@@ -1,7 +1,9 @@
 package com.akshaw.drinkreminder.settingspresentation.settings.dialogs
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -76,39 +79,45 @@ fun ChangeAgeDialog(
                 fontSize = 20.sp,
             )
             
-            AndroidView(
+            Box(
                 modifier = Modifier
-                    .width(150.dp)
-                    .height(128.dp)
                     .align(Alignment.CenterHorizontally)
-                    .padding(start = 24.dp, end = 24.dp),
-                factory = { context ->
-                    NumberPicker(context).apply {
-                        formatter = NumberPicker.Formatter {
-                            if (it in 0..9) {
-                                "0$it"
-                            } else {
-                                "$it"
+            ) {
+                AndroidView(
+                    modifier = Modifier
+                        .width(150.dp)
+                        .height(128.dp)
+                        .padding(start = 24.dp, end = 24.dp),
+                    factory = { context ->
+                        NumberPicker(context).apply {
+                            formatter = NumberPicker.Formatter {
+                                if (it in 0..9) {
+                                    "0$it"
+                                } else {
+                                    "$it"
+                                }
+                            }
+                            setDividerThickness(0)
+                            fadingEdgeStrength = .1f
+                            minValue = Constants.MIN_AGE
+                            maxValue = Constants.MAX_AGE
+                            selectedTextColor = context.getColor(R.color.on_background)
+                            selectedTextSize = Utility.getFloatFromSp(context, 14f)
+                            textColor = context.getColor(R.color.on_background).apply { alpha = 0.5f }
+                            textSize = Utility.getFloatFromSp(context, 14f)
+                            wheelItemCount = 3
+                            value = age
+                            typeface = ResourcesCompat.getFont(context, R.font.roboto_regular)
+                            setSelectedTypeface(ResourcesCompat.getFont(context, R.font.roboto_regular))
+                            setOnValueChangedListener { picker, oldVal, newVal ->
+                                onAgeChange(newVal)
                             }
                         }
-                        setDividerThickness(0)
-                        fadingEdgeStrength = .1f
-                        minValue = Constants.MIN_AGE
-                        maxValue = Constants.MAX_AGE
-                        selectedTextColor = context.getColor(R.color.on_background)
-                        selectedTextSize = Utility.getFloatFromSp(context, 14f)
-                        textColor = context.getColor(R.color.on_background).apply { alpha = 0.5f }
-                        textSize = Utility.getFloatFromSp(context, 14f)
-                        wheelItemCount = 3
-                        value = age
-                        typeface = ResourcesCompat.getFont(context, R.font.roboto_regular)
-                        setSelectedTypeface(ResourcesCompat.getFont(context, R.font.roboto_regular))
-                        setOnValueChangedListener { picker, oldVal, newVal ->
-                            onAgeChange(newVal)
-                        }
                     }
-                }
-            )
+                )
+            }
+            
+            
             
             Spacer(modifier = Modifier.height(16.dp))
             Row(

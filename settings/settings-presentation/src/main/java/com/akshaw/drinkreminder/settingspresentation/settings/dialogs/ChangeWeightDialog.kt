@@ -2,6 +2,7 @@ package com.akshaw.drinkreminder.settingspresentation.settings.dialogs
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -71,39 +72,43 @@ fun ChangeWeightDialog(
                 fontSize = 20.sp,
             )
             
-            AndroidView(
+            Box(
                 modifier = Modifier
-                    .width(78.dp)
-                    .height(128.dp)
                     .align(Alignment.CenterHorizontally)
-                    .padding(start = 24.dp, end = 24.dp),
-                factory = { context ->
-                    NumberPicker(context).apply {
-                        formatter = NumberPicker.Formatter {
-                            if (it in 0..9) {
-                                "0$it"
-                            } else {
-                                "$it"
+            ) {
+                AndroidView(
+                    modifier = Modifier
+                        .width(78.dp)
+                        .height(128.dp)
+                        .padding(start = 24.dp, end = 24.dp),
+                    factory = { context ->
+                        NumberPicker(context).apply {
+                            formatter = NumberPicker.Formatter {
+                                if (it in 0..9) {
+                                    "0$it"
+                                } else {
+                                    "$it"
+                                }
+                            }
+                            setDividerThickness(0)
+                            fadingEdgeStrength = .1f
+                            minValue = Constants.MIN_WEIGHT
+                            maxValue = Constants.MAX_WEIGHT
+                            selectedTextColor = context.getColor(R.color.on_background)
+                            selectedTextSize = Utility.getFloatFromSp(context, 14f)
+                            textColor = context.getColor(R.color.on_background).apply { alpha = 0.5f }
+                            textSize = Utility.getFloatFromSp(context, 14f)
+                            wheelItemCount = 3
+                            value = weight
+                            typeface = ResourcesCompat.getFont(context, R.font.roboto_regular)
+                            setSelectedTypeface(ResourcesCompat.getFont(context, R.font.roboto_regular))
+                            setOnValueChangedListener { picker, oldVal, newVal ->
+                                onWeightChange(newVal)
                             }
                         }
-                        setDividerThickness(0)
-                        fadingEdgeStrength = .1f
-                        minValue = Constants.MIN_WEIGHT
-                        maxValue = Constants.MAX_WEIGHT
-                        selectedTextColor = context.getColor(R.color.on_background)
-                        selectedTextSize = Utility.getFloatFromSp(context, 14f)
-                        textColor = context.getColor(R.color.on_background).apply { alpha = 0.5f }
-                        textSize = Utility.getFloatFromSp(context, 14f)
-                        wheelItemCount = 3
-                        value = weight
-                        typeface = ResourcesCompat.getFont(context, R.font.roboto_regular)
-                        setSelectedTypeface(ResourcesCompat.getFont(context, R.font.roboto_regular))
-                        setOnValueChangedListener { picker, oldVal, newVal ->
-                            onWeightChange(newVal)
-                        }
                     }
-                }
-            )
+                )
+            }
             
             Spacer(modifier = Modifier.height(16.dp))
             Row(
