@@ -9,6 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
@@ -18,7 +19,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
-import androidx.compose.ui.window.Popup
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.ReminderType
@@ -126,13 +126,20 @@ fun WaterReminderScreen(
                 OutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .menuAnchor(),
+                        .menuAnchor()
+                        .focusProperties {
+                            this.canFocus = false
+                        },
                     readOnly = true,
                     value = selectedReminderType.getText(),
                     onValueChange = {},
                     label = { Text("Reminder Type") },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isSelectReminderTypeExpanded) },
-                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = isSelectReminderTypeExpanded)
+                    },
+                    colors = ExposedDropdownMenuDefaults.textFieldColors(
+                        unfocusedIndicatorColor = MaterialTheme.colorScheme.primary
+                    ),
                     textStyle = TextStyle(
                         fontSize = 14.sp
                     )

@@ -2,6 +2,7 @@ package com.akshaw.drinkreminder.waterpresentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.akshaw.drinkreminder.core.domain.MyNotificationManager
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import com.akshaw.drinkreminder.core.util.Constants
@@ -43,7 +44,8 @@ class WaterHomeViewModel @Inject constructor(
     
     
     /** Screen States */
-    val goal = MutableStateFlow(2343.0).asStateFlow()
+//    val goal = MutableStateFlow(2343.0).asStateFlow()
+    val dailyIntakeGoal = preferences.getDailyWaterIntakeGoal().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL)
     
     val waterUnit = preferences.getWaterUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)
     
@@ -106,9 +108,6 @@ class WaterHomeViewModel @Inject constructor(
     
     fun onEvent(event: WaterHomeEvent) = viewModelScope.launch {
         when (event) {
-            WaterHomeEvent.OnReminderClick -> {
-            
-            }
             WaterHomeEvent.OnDrinkClick -> {
                 drinkNow(selectedTrackableDrink.value)
                     .onSuccess {

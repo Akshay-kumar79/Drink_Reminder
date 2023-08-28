@@ -35,7 +35,7 @@ import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
                             .padding(it)
                             .background(MaterialTheme.colorScheme.background),
                         navController = navController,
-                        startDestination = Route.SettingsScreen.route
+                        startDestination = Route.WaterHomeScreen.route
                     ) {
                         
                         composable(route = Route.OnboardingScreen.route) {
@@ -74,7 +74,12 @@ class MainActivity : ComponentActivity() {
                         }
                         
                         composable(route = Route.WaterHomeScreen.route) {
-                            WaterHomeScreen(snackbarHostState = snackbarHostState)
+                            WaterHomeScreen(
+                                snackbarHostState = snackbarHostState,
+                                onReminderClick = {
+                                    navController.navigate(Route.WaterReminderScreen.route)
+                                }
+                            )
                         }
                         
                         composable(route = Route.WaterReportScreen.route) {

@@ -220,7 +220,7 @@ fun SettingsScreen(
         )
         Spacer(modifier = Modifier.height(8.dp))
         
-        // Other Settings
+        /** Other Settings */
         SectionOtherSettings(
             modifier = Modifier
                 .fillMaxWidth()

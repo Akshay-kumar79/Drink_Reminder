@@ -38,29 +38,29 @@ fun SectionOtherSettings(
             ),
             color = MaterialTheme.colorScheme.primary
         )
-        
-        // FAQ preference
         Spacer(modifier = Modifier.height(8.dp))
-        NormalPreference(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    onFaqClick()
-                },
-            text = "FAQ",
-            iconResId = R.drawable.question
-        )
-        
-        // Bug report & Feedback preference
-        NormalPreference(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    onBugReportClick()
-                },
-            text = "Bug report & Feedback",
-            iconResId = R.drawable.report
-        )
+    
+//        // FAQ preference
+//        NormalPreference(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .clickable {
+//                    onFaqClick()
+//                },
+//            text = "FAQ",
+//            iconResId = R.drawable.question
+//        )
+//
+//        // Bug report & Feedback preference
+//        NormalPreference(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .clickable {
+//                    onBugReportClick()
+//                },
+//            text = "Bug report & Feedback",
+//            iconResId = R.drawable.report
+//        )
         
         // Privacy policy preference
         NormalPreference(

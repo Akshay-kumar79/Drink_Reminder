@@ -33,14 +33,15 @@ import kotlin.math.roundToInt
 @Composable
 fun WaterHomeScreen(
     snackbarHostState: SnackbarHostState,
-    viewModel: WaterHomeViewModel = hiltViewModel()
+    viewModel: WaterHomeViewModel = hiltViewModel(),
+    onReminderClick: () -> Unit
 ) {
     
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     
     // Screen State
-    val goal by viewModel.goal.collectAsState()
+    val goal by viewModel.dailyIntakeGoal.collectAsState()
     val waterUnit by viewModel.waterUnit.collectAsState()
     val progress by viewModel.progress.collectAsState()
     val todayDrinks by viewModel.todayDrinks.collectAsState()
@@ -83,7 +84,7 @@ fun WaterHomeScreen(
             ) {
                 IconButton(
                     onClick = {
-                        viewModel.onEvent(WaterHomeEvent.OnReminderClick)
+                        onReminderClick()
                     },
                     modifier = Modifier
                         .padding(
