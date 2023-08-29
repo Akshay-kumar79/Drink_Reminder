@@ -30,6 +30,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalTime
 import javax.inject.Inject
 
+// TODO remove preference from constructor and make use case for each preference methods
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val preferences: Preferences,

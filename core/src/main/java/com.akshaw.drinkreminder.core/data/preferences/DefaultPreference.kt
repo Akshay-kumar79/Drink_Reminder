@@ -23,6 +23,7 @@ import java.util.Locale
 
 
 val Context.dataStore: DataStore<androidx.datastore.preferences.core.Preferences> by preferencesDataStore("default_pref")
+
 class DefaultPreference(private val dataStore: DataStore<androidx.datastore.preferences.core.Preferences>) : Preferences {
     
     

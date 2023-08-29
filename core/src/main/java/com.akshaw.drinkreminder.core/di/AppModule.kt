@@ -4,9 +4,11 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
+import com.akshaw.drinkreminder.core.data.MyAndroidNotificationManagerImpl
 import com.akshaw.drinkreminder.core.data.local.MyDatabase
 import com.akshaw.drinkreminder.core.data.preferences.DefaultPreference
 import com.akshaw.drinkreminder.core.data.preferences.dataStore
+import com.akshaw.drinkreminder.core.domain.MyNotificationManager
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.FilterOutDigits
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
@@ -28,6 +30,12 @@ object AppModule {
         app: Application
     ): Preferences {
         return DefaultPreference(app.dataStore)
+    }
+    
+    @Provides
+    @Singleton
+    fun provideMyNotificationManager(app: Application): MyNotificationManager{
+        return MyAndroidNotificationManagerImpl(app)
     }
 
     @Provides
