@@ -42,6 +42,7 @@ import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeWakeu
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeWeightDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.DailyIntakeGoalDialogEvent
 import kotlinx.coroutines.flow.collectLatest
+import kotlin.math.floor
 
 @Composable
 fun SettingsScreen(
@@ -258,6 +259,7 @@ fun SettingsScreen(
     if (isDailyIntakeGoalDialogShowing) {
         DailyIntakeGoalDialog(
             dailyIntakeGoal = selectedDailyIntakeGoal,
+            currentWaterUnit = currentWaterUnit,
             onDailyIntakeGoalChange = {
                 viewModel.onEvent(DailyIntakeGoalDialogEvent.OnDailyIntakeGoalChange(it))
             },
@@ -293,7 +295,7 @@ fun SettingsScreen(
     // Change Weight Dialog
     if (isWeightDialogShowing) {
         ChangeWeightDialog(
-            weight = selectedWeight.toInt(),
+            weight = floor(selectedWeight).toInt(),
             onCancel = { viewModel.onEvent(ChangeWeightDialogEvent.DismissDialog) },
             onConfirm = { viewModel.onEvent(ChangeWeightDialogEvent.SaveNewWeight) },
             onWeightChange = { viewModel.onEvent(ChangeWeightDialogEvent.OnWeightChange(it.toFloat())) }

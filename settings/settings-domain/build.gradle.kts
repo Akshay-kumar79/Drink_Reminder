@@ -3,11 +3,11 @@ import com.akshaw.convention.libDefaultConfig
 import com.akshaw.convention.Projects
 
 plugins {
-    id("custom.android.library.compose")
+    id("custom.android.library")
 }
 
 android {
-    libNamespace(Projects.Implementation.Feature.SETTINGS_PRESENTATION)
+    libNamespace(Projects.Implementation.Feature.SETTINGS_DOMAIN)
     libDefaultConfig()
 }
 
@@ -15,8 +15,6 @@ dependencies {
     
     // Module
     implementation(project(Projects.Implementation.CORE))
-    implementation(project(Projects.Implementation.CORE_COMPOSE))
-    implementation(project(Projects.Implementation.Feature.SETTINGS_DOMAIN))
     
     // Android Materials
     implementation(libs.androidx.core.ktx)

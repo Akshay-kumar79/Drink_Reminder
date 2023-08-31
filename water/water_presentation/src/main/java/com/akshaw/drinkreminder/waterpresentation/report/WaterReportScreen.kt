@@ -39,6 +39,7 @@ fun WaterReportScreen(
 ) {
     
     val goal by viewModel.goal.collectAsState()
+    val currentWaterUnit by viewModel.waterUnit.collectAsState()
     val todayProgress by viewModel.todayProgress.collectAsState()
     val yesterdayProgress by viewModel.yesterdayProgress.collectAsState()
     val dayBeforeYesterdayProgress by viewModel.dayBeforeYesterdayProgress.collectAsState()
@@ -182,6 +183,7 @@ fun WaterReportScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             goal = goal,
+            currentWaterUnit = currentWaterUnit,
             weeklyAverageProgress = weeklyAverageProgress,
             weeklyAverageCompletion = weeklyAverageCompletion,
             weeklyAverageFrequency = weeklyAverageFrequency

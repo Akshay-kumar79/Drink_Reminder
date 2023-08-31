@@ -33,6 +33,7 @@
             <option value="$PROJECT_DIR$/onboarding/onboarding_domain" />
             <option value="$PROJECT_DIR$/onboarding/onboarding_presentation" />
             <option value="$PROJECT_DIR$/settings" />
+            <option value="$PROJECT_DIR$/settings/settings-domain" />
             <option value="$PROJECT_DIR$/settings/settings-presentation" />
             <option value="$PROJECT_DIR$/water" />
             <option value="$PROJECT_DIR$/water/water_data" />

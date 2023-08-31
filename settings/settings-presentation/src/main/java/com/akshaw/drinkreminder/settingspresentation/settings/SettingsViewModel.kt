@@ -2,6 +2,7 @@ package com.akshaw.drinkreminder.settingspresentation.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import com.akshaw.drinkreminder.core.domain.use_case.GetRecommendedDailyWaterIntake
@@ -10,7 +11,8 @@ import com.akshaw.drinkreminder.core.util.UiEvent
 import com.akshaw.drinkreminder.core.util.UiText
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
-import com.akshaw.drinkreminder.core.R
+import com.akshaw.drinkreminder.settings_domain.usecase.SaveNewWaterUnit
+import com.akshaw.drinkreminder.settings_domain.usecase.SaveNewWeightUnit
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeAgeDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeBedTimeDialogEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeGenderDialogEvent
@@ -24,6 +26,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -35,7 +38,9 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val preferences: Preferences,
     private val getLocalTime: GetLocalTime,
-    private val getRecommendedDailyWaterIntake: GetRecommendedDailyWaterIntake
+    private val getRecommendedDailyWaterIntake: GetRecommendedDailyWaterIntake,
+    private val saveNewWaterUnit: SaveNewWaterUnit,
+    private val saveNewWeightUnit: SaveNewWeightUnit
 ) : ViewModel() {
     
     
@@ -162,8 +167,15 @@ class SettingsViewModel @Inject constructor(
             ChangeUnitDialogEvent.SaveNewUnits -> {
                 // save units to preference
                 viewModelScope.launch {
-                    preferences.saveWaterUnit(selectedWaterUnit.value)
-                    preferences.saveWeightUnit(selectedWeightUnit.value)
+                    saveNewWaterUnit(selectedWaterUnit.value)
+                        .onFailure {
+                            _uiEvent.send(UiEvent.ShowSnackBar(UiText.DynamicString(it.message ?: "Something went wrong")))
+                        }
+                    saveNewWeightUnit(selectedWeightUnit.value)
+                        .onFailure {
+                            _uiEvent.send(UiEvent.ShowSnackBar(UiText.DynamicString(it.message ?: "Something went wrong")))
+                        }
+                    
                     _isChangeUnitDialogShowing.value = false
                 }
             }
@@ -191,7 +203,8 @@ class SettingsViewModel @Inject constructor(
                     currentAge.value,
                     currentWeight.value,
                     currentWeightUnit.value,
-                    currentGender.value
+                    currentGender.value,
+                    currentWaterUnit.value
                 ).onSuccess {
                     _selectedDailyIntakeGoal.value = it.toDouble()
                 }.onFailure {

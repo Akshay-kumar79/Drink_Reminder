@@ -65,7 +65,7 @@ fun SectionGeneralSettings(
                     onDailyIntakeClick()
                 },
             mainText = "Daily intake goal",
-            summaryText = "${floor(dailyIntakeGoal).toInt()} ml",
+            summaryText = "${floor(dailyIntakeGoal).toInt()} ${waterUnit.name}",
             iconResId = R.drawable.golf
         )
         

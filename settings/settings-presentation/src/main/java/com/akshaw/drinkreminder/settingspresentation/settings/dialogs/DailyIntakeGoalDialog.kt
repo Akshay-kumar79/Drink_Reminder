@@ -63,7 +63,8 @@ private fun DailyIntakeGoalDialogPreview() {
             onDailyIntakeGoalChange = {},
             onReset = {},
             onCancel = {},
-            onConfirm = {}
+            onConfirm = {},
+            currentWaterUnit = WaterUnit.ML
         )
     }
 }
@@ -72,6 +73,7 @@ private fun DailyIntakeGoalDialogPreview() {
 fun DailyIntakeGoalDialog(
     modifier: Modifier = Modifier,
     dailyIntakeGoal: Double,
+    currentWaterUnit: WaterUnit,
     onDailyIntakeGoalChange: (intake: Double) -> Unit,
     onReset: () -> Unit,
     onCancel: () -> Unit,
@@ -128,7 +130,12 @@ fun DailyIntakeGoalDialog(
                     .fillMaxWidth()
                     .padding(horizontal = 18.dp),
                 value = dailyIntakeGoal.toFloat(),
-                valueRange = Constants.MIN_DAILY_WATER_INTAKE_GOAL.toFloat()..Constants.MAX_DAILY_WATER_INTAKE_GOAL.toFloat(),
+                valueRange = when(currentWaterUnit){
+                    WaterUnit.ML, WaterUnit.Invalid ->
+                        Constants.MIN_DAILY_WATER_INTAKE_GOAL_ML.toFloat() ..Constants.MAX_DAILY_WATER_INTAKE_GOAL_ML.toFloat()
+                    WaterUnit.FL_OZ ->
+                        Constants.MIN_DAILY_WATER_INTAKE_GOAL_FL_OZ.toFloat() ..Constants.MAX_DAILY_WATER_INTAKE_GOAL_FL_OZ.toFloat()
+                },
                 onValueChange = {
                     onDailyIntakeGoalChange(it.toDouble())
                 },

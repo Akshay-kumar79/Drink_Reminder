@@ -28,6 +28,7 @@ import com.akshaw.drinkreminder.waterpresentation.common.events.DialogAddForgott
 import com.akshaw.drinkreminder.waterpresentation.home.events.WaterHomeEvent
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlin.math.floor
 import kotlin.math.roundToInt
 
 @Composable
@@ -101,7 +102,7 @@ fun WaterHomeScreen(
                 
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    text = "${goal.roundToInt()} ${waterUnit.name}",
+                    text = "${floor(goal).toInt()} ${waterUnit.name}",
                     fontSize = 44.sp,
                     fontFamily = FontFamily(
                         Font(

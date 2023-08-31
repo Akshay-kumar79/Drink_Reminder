@@ -59,11 +59,5 @@ object AppModule {
     fun provideFilterOutDigits(): FilterOutDigits{
         return FilterOutDigits()
     }
-    
-    @Provides
-    @Singleton
-    fun provideGetRecommendedDailyWaterIntake(): GetRecommendedDailyWaterIntake{
-        return GetRecommendedDailyWaterIntake()
-    }
 
 }

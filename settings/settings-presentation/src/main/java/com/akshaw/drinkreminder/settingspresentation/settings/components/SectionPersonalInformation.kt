@@ -17,6 +17,7 @@ import com.akshaw.drinkreminder.core.util.WeightUnit
 import com.akshaw.drinkreminder.core.util.formatted24HourTime
 import java.time.LocalTime
 import kotlin.math.ceil
+import kotlin.math.floor
 
 @Composable
 fun SectionPersonalInformation(
@@ -85,7 +86,7 @@ fun SectionPersonalInformation(
                     onWeightClick()
                 },
             mainText = "Weight",
-            summaryText = "${ceil(weight).toInt()} ${weightUnit.name}",
+            summaryText = "${floor(weight).toInt()} ${weightUnit.name}",
             iconResId = R.drawable.icon_awesome_weight
         )
         
