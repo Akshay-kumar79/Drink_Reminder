@@ -1,5 +1,8 @@
 package com.akshaw.drinkreminder.settingspresentation.settings
 
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -26,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.core.R
+import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.util.UiEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.components.*
 import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.ChangeAgeDialog
@@ -233,7 +237,15 @@ fun SettingsScreen(
                 onBugReportClick()
             },
             onPrivacyPolicyClick = {
-            
+                val url = Constants.PRIVACY_POLICY_URL
+                if (url.startsWith("https://") || url.startsWith("http://")) {
+                    val uriUrl = Uri.parse(url)
+                    val launchBrowser = Intent(Intent.ACTION_VIEW, uriUrl)
+                    context.startActivity(launchBrowser)
+                } else {
+                    Toast.makeText(context, "Invalid Url", Toast.LENGTH_SHORT).show()
+                }
+                
             }
         )
         Spacer(modifier = Modifier.height(8.dp))

@@ -41,5 +41,8 @@ object Constants {
 
     /** Selected trackable drink id **/
     const val DEFAULT_SELECTED_TRACKABLE_DRINK_ID = -1L
+    
+    // Privacy policy
+    const val PRIVACY_POLICY_URL = "https://www.freeprivacypolicy.com/live/0ad33e23-bc02-41bd-8ded-2f65c1929dc6"
 
 }
