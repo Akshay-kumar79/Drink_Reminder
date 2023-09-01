@@ -1,6 +1,7 @@
 import com.akshaw.convention.libNamespace
 import com.akshaw.convention.libDefaultConfig
 import com.akshaw.convention.Projects
+import com.akshaw.convention.libBuildTypes
 
 plugins {
     id("custom.android.library")
@@ -9,6 +10,7 @@ plugins {
 android {
     libNamespace(Projects.Implementation.Feature.WATER_DATA)
     libDefaultConfig()
+    libBuildTypes()
 }
 
 dependencies {

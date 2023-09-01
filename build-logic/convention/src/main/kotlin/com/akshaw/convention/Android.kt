@@ -7,6 +7,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+import java.io.File
 
 internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *>
@@ -58,13 +59,13 @@ fun LibraryExtension.libNamespace(moduleName: String) {
 
 internal fun String.namespace() = this.substringAfterLast(":").replace("-", ".")
 
-fun BaseAppModuleExtension.applicationSigningConfigs() {
+fun BaseAppModuleExtension.appSigningConfigs(project: Project) {
     signingConfigs {
-        create("release") {
-//            storeFile = file("C:\\Users\\Khushbu kumari\\Desktop\\drink_reminder_test.jks")
-            storePassword = "qazxswedc"
-            keyAlias = "key0"
-            keyPassword = "qazxswedc"
+        create("beta") {
+            storeFile = File(project.findLocalProperty(Config.LocalProperties.SingingConfig.Beta.STORE_FILE).toString())
+            storePassword = project.findLocalProperty(Config.LocalProperties.SingingConfig.Beta.STORE_PASSWORD).toString()
+            keyAlias = project.findLocalProperty(Config.LocalProperties.SingingConfig.Beta.KEY_ALIAS).toString()
+            keyPassword = project.findLocalProperty(Config.LocalProperties.SingingConfig.Beta.KEY_PASSWORD).toString()
         }
     }
 }
@@ -75,12 +76,32 @@ fun BaseAppModuleExtension.applicationBuildTypes() {
         named("debug") {
             applicationIdSuffix = ".debug"
             isMinifyEnabled = false
+        }
+        create("beta") {
+            applicationIdSuffix = ".beta"
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("beta")
+        }
+        named("release") {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+    }
+}
+
+fun LibraryExtension.libBuildTypes() {
+    buildTypes {
+        named("debug") {
+            isMinifyEnabled = false
+        }
+        create("beta") {
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
         named("release") {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-//            signingConfig = signingConfigs.getByName("release")
         }
     }
 }

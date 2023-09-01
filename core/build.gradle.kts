@@ -1,5 +1,6 @@
 import com.akshaw.convention.libNamespace
 import com.akshaw.convention.libDefaultConfig
+import com.akshaw.convention.libBuildTypes
 import com.akshaw.convention.Projects
 
 plugins {
@@ -9,6 +10,7 @@ plugins {
 android {
     libNamespace(Projects.Implementation.CORE)
     libDefaultConfig()
+    libBuildTypes()
 }
 
 dependencies {

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="on_background">#FF1A1C1E</color>
+    <color name="primary">#FF00629E</color>
+    <color name="on_surface_variant">#FF42474E</color>
 </resources>

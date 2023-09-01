@@ -2,6 +2,7 @@ import com.akshaw.convention.Projects
 import com.akshaw.convention.appDefaultConfig
 import com.akshaw.convention.applicationBuildTypes
 import com.akshaw.convention.appNamespace
+import com.akshaw.convention.appSigningConfigs
 
 plugins {
     id("custom.android.application")
@@ -11,6 +12,7 @@ plugins {
 android {
     appNamespace()
     appDefaultConfig()
+    appSigningConfigs(project)
     applicationBuildTypes()
 }
 
