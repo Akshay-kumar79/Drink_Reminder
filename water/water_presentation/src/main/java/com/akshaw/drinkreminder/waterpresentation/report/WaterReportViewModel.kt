@@ -1,6 +1,5 @@
 package com.akshaw.drinkreminder.waterpresentation.report
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
@@ -8,7 +7,7 @@ import com.akshaw.drinkreminder.waterdomain.use_case.*
 import com.akshaw.drinkreminder.core.util.ChartType
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.util.WaterUnit
-import com.akshaw.drinkreminder.waterdomain.model.Drink
+import com.akshaw.drinkreminder.core.domain.model.Drink
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

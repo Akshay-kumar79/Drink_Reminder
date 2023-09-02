@@ -2,6 +2,7 @@ package com.akshaw.drinkreminder.core.data.preferences
 
 import android.content.Context
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import androidx.datastore.preferences.core.doublePreferencesKey
@@ -36,8 +37,7 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
     private val waterUnitKey = stringPreferencesKey(Preferences.KEY_WATER_UNIT)
     private val selectedTrackableDrinkIdKey = longPreferencesKey(Preferences.KEY_SELECTED_TRACKABLE_DRINK_ID)
     private val dailyWaterIntakeGoalKey = doublePreferencesKey(Preferences.KEY_DAILY_WATER_INTAKE_GOAL)
-    
-    
+    private val isOnboardingCompletedKey = booleanPreferencesKey(Preferences.KEY_IS_ONBOARDING_COMPLETED)
     
     
     override suspend fun saveGender(gender: Gender) {
@@ -46,13 +46,11 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
         }
     }
     
-    
     override suspend fun saveAge(age: Int) {
         dataStore.edit { preference ->
             preference[ageKey] = age
         }
     }
-    
     
     override suspend fun saveWeight(weight: Float) {
         dataStore.edit { preference ->
@@ -60,13 +58,11 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
         }
     }
     
-    
     override suspend fun saveWeightUnit(unit: WeightUnit) {
         dataStore.edit { preference ->
             preference[weightUnitKey] = unit.name
         }
     }
-    
     
     override suspend fun saveBedTime(time: LocalTime) {
         
@@ -80,7 +76,6 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
         }
     }
     
-    
     override suspend fun saveWakeupTime(time: LocalTime) {
         
         
@@ -93,13 +88,11 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
         }
     }
     
-    
     override suspend fun saveWaterUnit(unit: WaterUnit) {
         dataStore.edit { preference ->
             preference[waterUnitKey] = unit.name
         }
     }
-    
     
     override suspend fun saveSelectedTrackableDrinkId(id: Long) {
         dataStore.edit { preference ->
@@ -107,43 +100,34 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
         }
     }
     
-    
     override suspend fun saveDailyWaterIntakeGoal(amount: Double) {
         dataStore.edit { preference ->
             preference[dailyWaterIntakeGoalKey] = amount
         }
     }
     
-    
+    override suspend fun saveIsOnboardingCompleted(completed: Boolean) {
+        dataStore.edit { preference ->
+            preference[isOnboardingCompletedKey] = completed
+        }
+    }
     
     
     override fun getGender(): Flow<Gender> = dataStore.data.map { preference ->
         Gender.fromString(preference[genderKey] ?: Constants.DEFAULT_GENDER.name)
     }
     
-    
-    
-    
     override fun getAge(): Flow<Int> = dataStore.data.map { preference ->
         preference[ageKey] ?: Constants.DEFAULT_AGE
     }
-    
-    
-    
     
     override fun getWeight(): Flow<Float> = dataStore.data.map { preference ->
         preference[weightKey] ?: Constants.DEFAULT_WEIGHT
     }
     
-    
-    
-    
-    
-    
     override fun getWeightUnit(): Flow<WeightUnit> = dataStore.data.map { preference ->
         WeightUnit.fromString(preference[weightUnitKey] ?: Constants.DEFAULT_WEIGHT_UNIT.name)
     }
-    
     
     override fun getBedTime(): Flow<LocalTime> = dataStore.data.map { preference ->
         val defaultTime = buildString {
@@ -158,11 +142,10 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
         
         try {
             LocalTime.parse(preference[bedTimeKey] ?: LocalTime.parse(defaultTime, defaultTimeFormatter).toString())
-        }catch (e: DateTimeParseException){
+        } catch (e: DateTimeParseException) {
             LocalTime.parse(defaultTime, defaultTimeFormatter)
         }
     }
-    
     
     override fun getWakeupTime(): Flow<LocalTime> = dataStore.data.map { preference ->
         val defaultTime = buildString {
@@ -177,27 +160,26 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
         
         try {
             LocalTime.parse(preference[wakeTimeKey] ?: LocalTime.parse(defaultTime, defaultTimeFormatter).toString())
-        }catch (e: DateTimeParseException){
+        } catch (e: DateTimeParseException) {
             LocalTime.parse(defaultTime, defaultTimeFormatter)
         }
     }
-    
     
     override fun getWaterUnit(): Flow<WaterUnit> = dataStore.data.map { preference ->
         WaterUnit.fromString(preference[waterUnitKey] ?: Constants.DEFAULT_WATER_UNIT.name)
     }
     
-    
     override fun getSelectedTrackableDrinkId(): Flow<Long> = dataStore.data.map { preference ->
         preference[selectedTrackableDrinkIdKey] ?: Constants.DEFAULT_SELECTED_TRACKABLE_DRINK_ID
     }
-    
     
     override fun getDailyWaterIntakeGoal(): Flow<Double> = dataStore.data.map { preference ->
         preference[dailyWaterIntakeGoalKey] ?: Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL
     }
     
-    
+    override fun getIsOnboardingCompleted(): Flow<Boolean> = dataStore.data.map { preference ->
+        preference[isOnboardingCompletedKey] ?: Constants.DEFAULT_IS_ONBOARDING_COMPLETED
+    }
     
     
 }

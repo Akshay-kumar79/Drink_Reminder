@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.akshaw.drinkreminder.core.R
-import com.akshaw.drinkreminder.waterdomain.model.DrinkReminder
+import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
 
 
 /**
@@ -64,6 +64,7 @@ fun TSReminderSection(
                 contentDescription = null
             )
         }
+        Spacer(modifier = Modifier.height(32.dp))
         
         
     }

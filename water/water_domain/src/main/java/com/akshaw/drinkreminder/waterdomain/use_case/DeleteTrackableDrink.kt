@@ -1,7 +1,7 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
-import com.akshaw.drinkreminder.waterdomain.model.TrackableDrink
-import com.akshaw.drinkreminder.waterdomain.repository.WaterRepository
+import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
+import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import javax.inject.Inject
 
 /**

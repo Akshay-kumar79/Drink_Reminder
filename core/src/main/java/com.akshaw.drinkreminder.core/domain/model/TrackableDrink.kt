@@ -1,4 +1,4 @@
-package com.akshaw.drinkreminder.waterdomain.model
+package com.akshaw.drinkreminder.core.domain.model
 
 import com.akshaw.drinkreminder.core.util.WaterUnit
 

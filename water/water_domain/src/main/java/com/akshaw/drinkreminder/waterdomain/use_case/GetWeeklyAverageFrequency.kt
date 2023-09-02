@@ -1,6 +1,6 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
-import com.akshaw.drinkreminder.waterdomain.model.Drink
+import com.akshaw.drinkreminder.core.domain.model.Drink
 import java.time.LocalDate
 import javax.inject.Inject
 import kotlin.math.ceil
@@ -15,7 +15,7 @@ class GetWeeklyAverageFrequency @Inject constructor(
     private val filterADayDrinks: FilterADayDrinks
 ) {
     
-    operator fun invoke(allDrinks: List<com.akshaw.drinkreminder.waterdomain.model.Drink>): Int{
+    operator fun invoke(allDrinks: List<Drink>): Int{
         var totalDrinks = 0
         val weekLastDay = LocalDate.now()
         val weekFirstDay = weekLastDay.minusWeeks(1).plusDays(1)

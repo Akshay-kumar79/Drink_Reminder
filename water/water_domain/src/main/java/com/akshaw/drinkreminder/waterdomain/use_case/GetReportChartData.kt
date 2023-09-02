@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
+import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.util.ChartType
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import java.time.*
@@ -18,7 +19,7 @@ class GetReportChartData @Inject constructor(
 ) {
     
     operator fun invoke(
-        allDrinks: List<com.akshaw.drinkreminder.waterdomain.model.Drink>,
+        allDrinks: List<Drink>,
         selectedChart: ChartType,
         chartSelectedWeeksFirstDay: LocalDate,
         chartSelectedYear: Year,

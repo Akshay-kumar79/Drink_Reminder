@@ -23,7 +23,6 @@ dependencies {
     implementation(project(Projects.Implementation.CORE_COMPOSE))
     implementation(project(Projects.Implementation.Feature.ONBOARDING_PRESENTATION))
     implementation(project(Projects.Implementation.Feature.WATER_PRESENTATION))
-    implementation(project(Projects.Implementation.Feature.WATER_DATA))
     implementation(project(Projects.Implementation.Feature.SETTINGS_PRESENTATION))
 
     // Android Materials

@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
+import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.google.common.truth.Truth.assertThat
 
@@ -13,7 +14,7 @@ import java.time.YearMonth
 class FilterAMonthDrinkTest {
     
     private lateinit var filterAMonthDrink: FilterAMonthDrink
-    private lateinit var allDrinks: List<com.akshaw.drinkreminder.waterdomain.model.Drink>
+    private lateinit var allDrinks: List<Drink>
     
     @Before
     fun setUp() {
@@ -74,10 +75,10 @@ class FilterAMonthDrinkTest {
         
         }
     
-        val drinksToInsert = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>()
+        val drinksToInsert = mutableListOf<Drink>()
         localDateTimes.forEachIndexed { index, dateTime ->
             drinksToInsert.add(
-                com.akshaw.drinkreminder.waterdomain.model.Drink(
+                Drink(
                     id = index.toLong(),
                     dateTime = dateTime,
                     waterIntake = 1.0,

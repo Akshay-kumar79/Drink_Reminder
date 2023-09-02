@@ -8,8 +8,14 @@ import com.akshaw.drinkreminder.core.data.MyAndroidNotificationManagerImpl
 import com.akshaw.drinkreminder.core.data.local.MyDatabase
 import com.akshaw.drinkreminder.core.data.preferences.DefaultPreference
 import com.akshaw.drinkreminder.core.data.preferences.dataStore
+import com.akshaw.drinkreminder.core.data.repository.ReminderRepositoryImpl
+import com.akshaw.drinkreminder.core.data.repository.ReminderSchedulerImpl
+import com.akshaw.drinkreminder.core.data.repository.WaterRepositoryImpl
 import com.akshaw.drinkreminder.core.domain.MyNotificationManager
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
+import com.akshaw.drinkreminder.core.domain.repository.ReminderRepository
+import com.akshaw.drinkreminder.core.domain.repository.ReminderScheduler
+import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import com.akshaw.drinkreminder.core.domain.use_case.FilterOutDigits
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import com.akshaw.drinkreminder.core.domain.use_case.GetRecommendedDailyWaterIntake
@@ -58,6 +64,24 @@ object AppModule {
     @Singleton
     fun provideFilterOutDigits(): FilterOutDigits{
         return FilterOutDigits()
+    }
+    
+    @Provides
+    @Singleton
+    fun providesWaterRepository(database: MyDatabase): WaterRepository {
+        return WaterRepositoryImpl(database)
+    }
+    
+    @Provides
+    @Singleton
+    fun providesReminderRepository(database: MyDatabase): ReminderRepository {
+        return ReminderRepositoryImpl(database)
+    }
+    
+    @Provides
+    @Singleton
+    fun providesReminderScheduler(application: Application): ReminderScheduler {
+        return ReminderSchedulerImpl(application)
     }
 
 }

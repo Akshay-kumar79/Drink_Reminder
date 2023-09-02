@@ -1,8 +1,8 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
 import com.akshaw.drinkreminder.core.util.WaterUnit
-import com.akshaw.drinkreminder.waterdomain.model.Drink
-import com.akshaw.drinkreminder.waterdomain.model.convertUnit
+import com.akshaw.drinkreminder.core.domain.model.Drink
+import com.akshaw.drinkreminder.core.domain.model.convertUnit
 
 /**
  *  Provides sum of drink amount after converting given drinks to current waterUnit type

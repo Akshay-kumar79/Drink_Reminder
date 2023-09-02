@@ -1,10 +1,10 @@
-package com.akshaw.drinkreminder.waterdomain.mapper
+package com.akshaw.drinkreminder.core.domain.mapper
 
 import com.akshaw.drinkreminder.core.data.local.entity.TrackableDrinkEntity
 import com.akshaw.drinkreminder.core.util.WaterUnit
-import com.akshaw.drinkreminder.waterdomain.model.TrackableDrink
+import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
 
-fun TrackableDrinkEntity.toTrackableDrink(): TrackableDrink{
+fun TrackableDrinkEntity.toTrackableDrink(): TrackableDrink {
     return TrackableDrink(
         id = id,
         amount = amount,

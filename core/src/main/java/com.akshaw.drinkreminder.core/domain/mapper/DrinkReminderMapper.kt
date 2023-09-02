@@ -1,7 +1,7 @@
-package com.akshaw.drinkreminder.waterdomain.mapper
+package com.akshaw.drinkreminder.core.domain.mapper
 
 import com.akshaw.drinkreminder.core.data.local.entity.DrinkReminderEntity
-import com.akshaw.drinkreminder.waterdomain.model.DrinkReminder
+import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
 import java.time.DayOfWeek
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter

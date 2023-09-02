@@ -1,7 +1,8 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
+import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.util.WaterUnit
-import com.akshaw.drinkreminder.waterdomain.repository.WaterRepository
+import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.runBlocking
@@ -24,7 +25,7 @@ class DeleteDrinkTest {
     // Bass ek hi hai
     @Test
     fun `delete drink`() = runBlocking{
-        val drink = com.akshaw.drinkreminder.waterdomain.model.Drink(
+        val drink = Drink(
             dateTime = LocalDateTime.now(),
             waterIntake = 32.0,
             unit = WaterUnit.FL_OZ

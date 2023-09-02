@@ -2,15 +2,15 @@ package com.akshaw.drinkreminder.waterpresentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.akshaw.drinkreminder.core.domain.MyNotification
-import com.akshaw.drinkreminder.core.domain.MyNotificationManager
+import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.util.UiEvent
 import com.akshaw.drinkreminder.core.util.UiText
 import com.akshaw.drinkreminder.core.util.WaterUnit
-import com.akshaw.drinkreminder.waterdomain.model.TrackableDrink
+import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
+import com.akshaw.drinkreminder.core.domain.use_case.AddTrackableDrink
 import com.akshaw.drinkreminder.waterdomain.use_case.*
 import com.akshaw.drinkreminder.waterpresentation.common.events.DialogAddForgottenDrinkEvent
 import com.akshaw.drinkreminder.waterpresentation.home.events.DialogAddTrackableDrinkEvent
@@ -65,7 +65,7 @@ class WaterHomeViewModel @Inject constructor(
     private val _selectedTrackableDrink = MutableStateFlow(TrackableDrink(-1, 0.0, WaterUnit.ML))
     val selectedTrackableDrink = _selectedTrackableDrink.asStateFlow()
     
-    var recentlyDeleteDrink: com.akshaw.drinkreminder.waterdomain.model.Drink? = null
+    var recentlyDeleteDrink: Drink? = null
     
     
     /** Add Forgotten Drink Dialog States */
@@ -149,7 +149,7 @@ class WaterHomeViewModel @Inject constructor(
                 )
                     .onSuccess { localTime ->
                         addDrink(
-                            com.akshaw.drinkreminder.waterdomain.model.Drink(
+                            Drink(
                                 dateTime = LocalDateTime.of(
                                     LocalDate.now(),
                                     localTime

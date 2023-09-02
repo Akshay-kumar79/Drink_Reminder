@@ -1,12 +1,12 @@
-package com.akshaw.drinkreminder.waterdata.repository
+package com.akshaw.drinkreminder.core.data.repository
 
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import com.akshaw.drinkreminder.waterdata.receivers.ReminderReceiver
-import com.akshaw.drinkreminder.waterdomain.model.DrinkReminder
-import com.akshaw.drinkreminder.waterdomain.repository.ReminderScheduler
+import com.akshaw.drinkreminder.core.data.receivers.ReminderReceiver
+import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
+import com.akshaw.drinkreminder.core.domain.repository.ReminderScheduler
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime

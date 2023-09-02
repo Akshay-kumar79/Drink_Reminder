@@ -1,8 +1,9 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
+import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.util.WaterUnit
-import com.akshaw.drinkreminder.waterdomain.model.TrackableDrink
+import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
 import javax.inject.Inject
 
 /**
@@ -25,7 +26,7 @@ class DrinkNow @Inject constructor(
             return Result.failure(Exception("Invalid water unit"))
         
         addDrink(
-            com.akshaw.drinkreminder.waterdomain.model.Drink(
+            Drink(
                 waterIntake = trackableDrink.amount,
                 unit = trackableDrink.unit
             )

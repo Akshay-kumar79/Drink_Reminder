@@ -1,10 +1,10 @@
-package com.akshaw.drinkreminder.waterdata.repository
+package com.akshaw.drinkreminder.core.data.repository
 
 import com.akshaw.drinkreminder.core.data.local.MyDatabase
-import com.akshaw.drinkreminder.waterdomain.mapper.toDrinkReminder
-import com.akshaw.drinkreminder.waterdomain.mapper.toDrinkReminderEntity
-import com.akshaw.drinkreminder.waterdomain.model.DrinkReminder
-import com.akshaw.drinkreminder.waterdomain.repository.ReminderRepository
+import com.akshaw.drinkreminder.core.domain.mapper.toDrinkReminder
+import com.akshaw.drinkreminder.core.domain.mapper.toDrinkReminderEntity
+import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
+import com.akshaw.drinkreminder.core.domain.repository.ReminderRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

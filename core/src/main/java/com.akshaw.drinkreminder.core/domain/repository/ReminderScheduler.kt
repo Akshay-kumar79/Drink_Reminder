@@ -1,8 +1,7 @@
-package com.akshaw.drinkreminder.waterdomain.repository
+package com.akshaw.drinkreminder.core.domain.repository
 
-import com.akshaw.drinkreminder.waterdomain.model.DrinkReminder
+import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
 import java.time.LocalDateTime
-import java.time.LocalTime
 
 interface ReminderScheduler {
     

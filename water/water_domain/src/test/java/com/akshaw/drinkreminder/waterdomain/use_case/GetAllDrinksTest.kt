@@ -1,7 +1,8 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
+import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.util.WaterUnit
-import com.akshaw.drinkreminder.waterdomain.repository.WaterRepository
+import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.runBlocking
@@ -25,7 +26,7 @@ class GetAllDrinksTest {
     fun `returns all drinks that is available`() = runBlocking{
         for (i in 0..4){
             waterRepository.insertDrink(
-                com.akshaw.drinkreminder.waterdomain.model.Drink(
+                Drink(
                     dateTime = LocalDateTime.now(),
                     waterIntake = i.toDouble(),
                     unit = WaterUnit.FL_OZ

@@ -1,7 +1,8 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
+import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.util.WaterUnit
-import com.akshaw.drinkreminder.waterdomain.repository.WaterRepository
+import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import javax.inject.Inject
 
 /**
@@ -15,7 +16,7 @@ class AddDrink @Inject constructor(
     private val waterRepository: WaterRepository
 ) {
     
-    suspend operator fun invoke(drink: com.akshaw.drinkreminder.waterdomain.model.Drink): Result<Long> {
+    suspend operator fun invoke(drink: Drink): Result<Long> {
         
         if (drink.unit == WaterUnit.Invalid)
             return Result.failure(Exception("Invalid water unit"))

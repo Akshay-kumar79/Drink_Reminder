@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.formatted24HourTime
-import com.akshaw.drinkreminder.waterdomain.model.Drink
-import com.akshaw.drinkreminder.waterdomain.model.convertUnit
+import com.akshaw.drinkreminder.core.domain.model.Drink
+import com.akshaw.drinkreminder.core.domain.model.convertUnit
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 

@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.waterpresentation.a_day_drink.WaterADayDrinkScreen
 import com.akshaw.drinkreminder.waterpresentation.a_day_drink.WaterADayDrinkViewModel
 import com.akshaw.drinkreminder.waterpresentation.home.WaterHomeScreen
@@ -29,128 +30,137 @@ import com.akshaw.drinkreminder.settingspresentation.settings.SettingsScreen
 import com.akshaw.drinkreminder.ui.presentation.components.BottomNavigationBar
 import com.akshaw.drinkreminder.waterpresentation.reminders.WaterReminderScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     
+    @Inject
+    lateinit var preferences: Preferences
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            DrinkReminderTheme {
-                val snackbarHostState = remember { SnackbarHostState() }
-                val navController = rememberNavController()
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-                    bottomBar = {
-                        BottomNavigationBar(navController = navController)
-                    }
-                ) {
-                    NavHost(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(it)
-                            .background(MaterialTheme.colorScheme.background),
-                        navController = navController,
-                        startDestination = Route.WaterHomeScreen.route
+        
+        lifecycleScope.launch {
+            val isOnboardingCompleted = preferences.getIsOnboardingCompleted().first()
+            
+            setContent {
+                DrinkReminderTheme {
+                    val snackbarHostState = remember { SnackbarHostState() }
+                    val navController = rememberNavController()
+                    Scaffold(
+                        modifier = Modifier.fillMaxSize(),
+                        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+                        bottomBar = {
+                            BottomNavigationBar(navController = navController)
+                        }
                     ) {
-                        
-                        composable(route = Route.OnboardingScreen.route) {
-                            OnBoardingScreen(
-                                snackbarHostState = snackbarHostState,
-                                onProcessFinish = {
-                                    lifecycleScope.launch {
-                                        snackbarHostState.currentSnackbarData?.dismiss()
-                                        snackbarHostState.showSnackbar(
-                                            message = "Navigating to home...",
-                                            duration = SnackbarDuration.Short
-                                        )
-                                    }
-                                }
-                            )
-                        }
-                        
-                        composable(route = Route.WaterHomeScreen.route) {
-                            WaterHomeScreen(
-                                snackbarHostState = snackbarHostState,
-                                onReminderClick = {
-                                    navController.navigate(Route.WaterReminderScreen.route)
-                                }
-                            )
-                        }
-                        
-                        composable(route = Route.WaterReportScreen.route) {
-                            WaterReportScreen(
-                                onADayDrinkClick = { date ->
-                                    navController.navigate(Route.WaterADayDrinkScreen.route + "/" + date.format(DateTimeFormatter.ISO_LOCAL_DATE))
-                                }
-                            )
-                        }
-                        
-                        composable(
-                            route = Route.WaterADayDrinkScreen.route + "/{${WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT}}",
-                            arguments = listOf(
-                                navArgument(WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT) {
-                                    type = NavType.StringType
-                                    defaultValue = LocalDate.now().toString()
-                                }
-                            )
+                        NavHost(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(it)
+                                .background(MaterialTheme.colorScheme.background),
+                            navController = navController,
+                            startDestination = if (isOnboardingCompleted) Route.WaterHomeScreen.route else Route.OnboardingScreen.route
                         ) {
-                            WaterADayDrinkScreen(
-                                snackbarHostState = snackbarHostState,
-                                onBackClicked = {
-                                    navController.popBackStack()
-                                }
-                            )
+                            
+                            composable(route = Route.OnboardingScreen.route) {
+                                OnBoardingScreen(
+                                    snackbarHostState = snackbarHostState,
+                                    onProcessFinish = {
+                                        navController.navigate(Route.WaterHomeScreen.route) {
+                                            popUpTo(Route.OnboardingScreen.route) {
+                                                inclusive = true
+                                            }
+                                        }
+                                    }
+                                )
+                            }
+                            
+                            composable(route = Route.WaterHomeScreen.route) {
+                                WaterHomeScreen(
+                                    snackbarHostState = snackbarHostState,
+                                    onReminderClick = {
+                                        navController.navigate(Route.WaterReminderScreen.route)
+                                    }
+                                )
+                            }
+                            
+                            composable(route = Route.WaterReportScreen.route) {
+                                WaterReportScreen(
+                                    onADayDrinkClick = { date ->
+                                        navController.navigate(Route.WaterADayDrinkScreen.route + "/" + date.format(DateTimeFormatter.ISO_LOCAL_DATE))
+                                    }
+                                )
+                            }
+                            
+                            composable(
+                                route = Route.WaterADayDrinkScreen.route + "/{${WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT}}",
+                                arguments = listOf(
+                                    navArgument(WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT) {
+                                        type = NavType.StringType
+                                        defaultValue = LocalDate.now().toString()
+                                    }
+                                )
+                            ) {
+                                WaterADayDrinkScreen(
+                                    snackbarHostState = snackbarHostState,
+                                    onBackClicked = {
+                                        navController.popBackStack()
+                                    }
+                                )
+                            }
+                            
+                            composable(route = Route.SettingsScreen.route) {
+                                SettingsScreen(
+                                    snackbarHostState = snackbarHostState,
+                                    onRemindersClick = {
+                                        navController.navigate(Route.WaterReminderScreen.route)
+                                    },
+                                    onFaqClick = {
+                                        navController.navigate(Route.SettingsFaqScreen.route)
+                                    },
+                                    onBugReportClick = {
+                                        navController.navigate(Route.SettingsBugReportScreen.route)
+                                    }
+                                )
+                            }
+                            
+                            composable(route = Route.WaterReminderScreen.route) {
+                                WaterReminderScreen(
+                                    snackbarHostState = snackbarHostState,
+                                    onBackClicked = {
+                                        navController.popBackStack()
+                                    }
+                                )
+                            }
+                            
+                            composable(route = Route.SettingsFaqScreen.route) {
+                                SettingsFaqScreen(
+                                    onBackClicked = {
+                                        navController.popBackStack()
+                                    }
+                                )
+                            }
+                            
+                            composable(route = Route.SettingsBugReportScreen.route) {
+                                SettingsBugReportScreen(
+                                    onBackClicked = {
+                                        navController.popBackStack()
+                                    }
+                                )
+                            }
                         }
                         
-                        composable(route = Route.SettingsScreen.route) {
-                            SettingsScreen(
-                                snackbarHostState = snackbarHostState,
-                                onRemindersClick = {
-                                    navController.navigate(Route.WaterReminderScreen.route)
-                                },
-                                onFaqClick = {
-                                    navController.navigate(Route.SettingsFaqScreen.route)
-                                },
-                                onBugReportClick = {
-                                    navController.navigate(Route.SettingsBugReportScreen.route)
-                                }
-                            )
-                        }
                         
-                        composable(route = Route.WaterReminderScreen.route) {
-                            WaterReminderScreen(
-                                snackbarHostState = snackbarHostState,
-                                onBackClicked = {
-                                    navController.popBackStack()
-                                }
-                            )
-                        }
-                        
-                        composable(route = Route.SettingsFaqScreen.route) {
-                            SettingsFaqScreen(
-                                onBackClicked = {
-                                    navController.popBackStack()
-                                }
-                            )
-                        }
-                        
-                        composable(route = Route.SettingsBugReportScreen.route) {
-                            SettingsBugReportScreen(
-                                onBackClicked = {
-                                    navController.popBackStack()
-                                }
-                            )
-                        }
                     }
-                    
-                    
                 }
             }
+            
         }
     }
 }

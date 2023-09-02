@@ -36,7 +36,6 @@
             <option value="$PROJECT_DIR$/settings/settings-domain" />
             <option value="$PROJECT_DIR$/settings/settings-presentation" />
             <option value="$PROJECT_DIR$/water" />
-            <option value="$PROJECT_DIR$/water/water_data" />
             <option value="$PROJECT_DIR$/water/water_domain" />
             <option value="$PROJECT_DIR$/water/water_presentation" />
           </set>

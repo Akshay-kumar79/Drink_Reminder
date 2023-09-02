@@ -1,7 +1,6 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
-import com.akshaw.drinkreminder.coretest.FakePreference
-import com.akshaw.drinkreminder.core.domain.preferences.Preferences
+import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
@@ -26,14 +25,14 @@ class GetWeeklyAverageCompletionTest {
     
     @Test
     fun `first day completed will return 1 by 7 of 100`(){
-        val allDrinks = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>().apply {
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(1), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(2), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 2400.0, WaterUnit.ML))
+        val allDrinks = mutableListOf<Drink>().apply {
+            add(Drink(0, LocalDateTime.now(), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(1), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(2), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(6), 2400.0, WaterUnit.ML))
         }
         
         val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
@@ -43,14 +42,14 @@ class GetWeeklyAverageCompletionTest {
     
     @Test
     fun `second day completed will return 1 by 7 of 100`(){
-        val allDrinks = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>().apply {
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(1), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(2), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(5), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
+        val allDrinks = mutableListOf<Drink>().apply {
+            add(Drink(0, LocalDateTime.now(), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(1), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(2), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(5), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
         val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
@@ -60,14 +59,14 @@ class GetWeeklyAverageCompletionTest {
     
     @Test
     fun `third day completed will return 1 by 7 of 100`(){
-        val allDrinks = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>().apply {
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(1), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(2), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(4), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
+        val allDrinks = mutableListOf<Drink>().apply {
+            add(Drink(0, LocalDateTime.now(), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(1), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(2), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(4), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
         val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
@@ -77,14 +76,14 @@ class GetWeeklyAverageCompletionTest {
     
     @Test
     fun `fourth day completed will return 1 by 7 of 100`(){
-        val allDrinks = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>().apply {
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(1), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(2), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(3), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
+        val allDrinks = mutableListOf<Drink>().apply {
+            add(Drink(0, LocalDateTime.now(), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(1), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(2), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(3), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
         val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
@@ -94,14 +93,14 @@ class GetWeeklyAverageCompletionTest {
     
     @Test
     fun `fifth day completed will return 1 by 7 of 100`(){
-        val allDrinks = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>().apply {
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(1), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(2), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
+        val allDrinks = mutableListOf<Drink>().apply {
+            add(Drink(0, LocalDateTime.now(), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(1), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(2), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
         val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
@@ -111,14 +110,14 @@ class GetWeeklyAverageCompletionTest {
     
     @Test
     fun `sixth day completed will return 1 by 7 of 100`(){
-        val allDrinks = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>().apply {
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(1), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(2), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
+        val allDrinks = mutableListOf<Drink>().apply {
+            add(Drink(0, LocalDateTime.now(), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(1), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(2), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
         val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
@@ -128,14 +127,14 @@ class GetWeeklyAverageCompletionTest {
     
     @Test
     fun `seventh day completed will return 1 by 7 of 100`(){
-        val allDrinks = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>().apply {
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(1), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(2), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
+        val allDrinks = mutableListOf<Drink>().apply {
+            add(Drink(0, LocalDateTime.now(), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(1), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(2), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
         val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
@@ -145,14 +144,14 @@ class GetWeeklyAverageCompletionTest {
     
     @Test
     fun `two day in the week completed will return 2 by 7 of 100`(){
-        val allDrinks = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>().apply {
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(1), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(2), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
+        val allDrinks = mutableListOf<Drink>().apply {
+            add(Drink(0, LocalDateTime.now(), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(1), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(2), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
         val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
@@ -162,14 +161,14 @@ class GetWeeklyAverageCompletionTest {
     
     @Test
     fun `two day in the week completed will return 3 by 7 of 100`(){
-        val allDrinks = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>().apply {
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(1), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(2), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
+        val allDrinks = mutableListOf<Drink>().apply {
+            add(Drink(0, LocalDateTime.now(), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(1), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(2), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
         val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
@@ -179,14 +178,14 @@ class GetWeeklyAverageCompletionTest {
     
     @Test
     fun `two day in the week completed will return 4 by 7 of 100`(){
-        val allDrinks = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>().apply {
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(1), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(2), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(3), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
+        val allDrinks = mutableListOf<Drink>().apply {
+            add(Drink(0, LocalDateTime.now(), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(1), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(2), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(3), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
         val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
@@ -196,14 +195,14 @@ class GetWeeklyAverageCompletionTest {
     
     @Test
     fun `two day in the week completed will return 5 by 7 of 100`(){
-        val allDrinks = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>().apply {
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(1), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(2), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(3), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(4), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
+        val allDrinks = mutableListOf<Drink>().apply {
+            add(Drink(0, LocalDateTime.now(), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(1), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(2), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(3), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(4), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
         val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
@@ -213,14 +212,14 @@ class GetWeeklyAverageCompletionTest {
     
     @Test
     fun `two day in the week completed will return 6 by 7 of 100`(){
-        val allDrinks = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>().apply {
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(1), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(2), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(3), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(4), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(5), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
+        val allDrinks = mutableListOf<Drink>().apply {
+            add(Drink(0, LocalDateTime.now(), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(1), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(2), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(3), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(4), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(5), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
         val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
@@ -230,14 +229,14 @@ class GetWeeklyAverageCompletionTest {
     
     @Test
     fun `two day in the week completed will return 7 by 7 of 100`(){
-        val allDrinks = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>().apply {
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(1), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(2), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(3), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(4), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(5), 2400.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 2400.0, WaterUnit.ML))
+        val allDrinks = mutableListOf<Drink>().apply {
+            add(Drink(0, LocalDateTime.now(), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(1), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(2), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(3), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(4), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(5), 2400.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(6), 2400.0, WaterUnit.ML))
         }
         
         val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)
@@ -247,14 +246,14 @@ class GetWeeklyAverageCompletionTest {
     
     @Test
     fun `zero day in the week completed will return 0`(){
-        val allDrinks = mutableListOf<com.akshaw.drinkreminder.waterdomain.model.Drink>().apply {
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now(), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(1), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(2), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
-            add(com.akshaw.drinkreminder.waterdomain.model.Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
+        val allDrinks = mutableListOf<Drink>().apply {
+            add(Drink(0, LocalDateTime.now(), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(1), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(2), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(3), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(4), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(5), 20.0, WaterUnit.ML))
+            add(Drink(0, LocalDateTime.now().minusDays(6), 20.0, WaterUnit.ML))
         }
         
         val averageCompletion = getWeeklyAverageCompletion(allDrinks, 2350.0, WaterUnit.ML)

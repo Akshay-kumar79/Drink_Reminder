@@ -2,7 +2,7 @@ package com.akshaw.drinkreminder.waterdomain.di
 
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.FilterOutDigits
-import com.akshaw.drinkreminder.waterdomain.repository.WaterRepository
+import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import com.akshaw.drinkreminder.waterdomain.use_case.*
 import dagger.Module
 import dagger.Provides
@@ -48,12 +48,6 @@ object WaterDomainModule {
     @Singleton
     fun provideAddDrink(waterRepository: WaterRepository): AddDrink {
         return AddDrink(waterRepository)
-    }
-    
-    @Provides
-    @Singleton
-    fun provideAddTrackableDrink(waterRepository: WaterRepository): AddTrackableDrink {
-        return AddTrackableDrink(waterRepository)
     }
     
     @Provides

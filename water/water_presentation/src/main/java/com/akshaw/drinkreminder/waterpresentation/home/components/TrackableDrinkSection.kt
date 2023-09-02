@@ -21,7 +21,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.Utility
 import com.akshaw.drinkreminder.core.util.WaterUnit
-import com.akshaw.drinkreminder.waterdomain.model.TrackableDrink
+import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
 import com.akshaw.drinkreminder.waterpresentation.home.events.WaterHomeEvent
 import com.akshaw.drinkreminder.waterpresentation.home.WaterHomeViewModel
 import com.akshaw.drinkreminder.waterpresentation.home.events.DialogAddTrackableDrinkEvent

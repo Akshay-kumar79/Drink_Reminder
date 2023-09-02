@@ -1,16 +1,14 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
 import com.akshaw.drinkreminder.core.util.WaterUnit
-import com.akshaw.drinkreminder.waterdomain.model.TrackableDrink
-import com.akshaw.drinkreminder.waterdomain.repository.WaterRepository
+import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
+import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import com.google.common.truth.Truth
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
 
 import org.junit.Before
 import org.junit.Test
-import java.time.LocalDateTime
 
 class DeleteTrackableDrinkTest {
     

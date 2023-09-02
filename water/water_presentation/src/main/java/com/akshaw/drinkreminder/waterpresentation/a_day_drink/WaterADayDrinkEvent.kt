@@ -1,6 +1,6 @@
 package com.akshaw.drinkreminder.waterpresentation.a_day_drink
 
-import com.akshaw.drinkreminder.waterdomain.model.Drink
+import com.akshaw.drinkreminder.core.domain.model.Drink
 
 sealed interface WaterADayDrinkEvent{
     data class OnDrinkDeleteClick(val drink: Drink): WaterADayDrinkEvent

@@ -1,7 +1,7 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
-import com.akshaw.drinkreminder.waterdomain.model.DrinkReminder
-import com.akshaw.drinkreminder.waterdomain.repository.ReminderScheduler
+import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
+import com.akshaw.drinkreminder.core.domain.repository.ReminderScheduler
 import javax.inject.Inject
 
 /**

@@ -1,7 +1,7 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
 import com.akshaw.drinkreminder.core.util.WaterUnit
-import com.akshaw.drinkreminder.waterdomain.model.Drink
+import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test

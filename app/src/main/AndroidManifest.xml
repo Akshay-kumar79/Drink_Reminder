@@ -33,11 +33,11 @@
                 android:value="" />
         </activity>
 
-        <receiver android:name=".waterdata.receivers.ReminderReceiver"
+        <receiver android:name=".core.data.receivers.ReminderReceiver"
             android:exported="false"/>
 
 <!--        BootReceiver-->
-        <receiver android:name=".waterdata.receivers.BootReceiver"
+        <receiver android:name=".core.data.receivers.BootReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
@@ -46,7 +46,7 @@
         </receiver>
 
 <!--        TimeChangeReceiver-->
-        <receiver android:name=".waterdata.receivers.TimeChangeReceiver"
+        <receiver android:name=".core.data.receivers.TimeChangeReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.TIME_SET"/>

@@ -19,6 +19,7 @@ class FakePreference : Preferences {
     private var waterUnit: String = Constants.DEFAULT_WATER_UNIT.name
     private var selectedTrackableDrinkId: Long = Constants.DEFAULT_SELECTED_TRACKABLE_DRINK_ID
     private var dailyWaterIntakeGoal: Double = Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL
+    private var isOnboardingCompleted: Boolean = Constants.DEFAULT_IS_ONBOARDING_COMPLETED
     
     //TODO change time to sync from Constants files
     private var bedTime: String = "22:00"
@@ -65,6 +66,10 @@ class FakePreference : Preferences {
     
     override suspend fun saveDailyWaterIntakeGoal(amount: Double) {
         this.dailyWaterIntakeGoal = amount
+    }
+    
+    override suspend fun saveIsOnboardingCompleted(completed: Boolean) {
+        this.isOnboardingCompleted = completed
     }
     
     
@@ -119,6 +124,12 @@ class FakePreference : Preferences {
     override fun getDailyWaterIntakeGoal(): Flow<Double> {
         return flow {
             emit(dailyWaterIntakeGoal)
+        }
+    }
+    
+    override fun getIsOnboardingCompleted(): Flow<Boolean> {
+        return flow {
+            emit(isOnboardingCompleted)
         }
     }
 }

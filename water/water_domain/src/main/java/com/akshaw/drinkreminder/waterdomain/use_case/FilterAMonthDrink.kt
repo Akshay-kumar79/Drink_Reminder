@@ -1,8 +1,6 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
-import com.akshaw.drinkreminder.waterdomain.model.Drink
-import java.time.LocalDate
-import java.time.Month
+import com.akshaw.drinkreminder.core.domain.model.Drink
 import java.time.YearMonth
 
 /**

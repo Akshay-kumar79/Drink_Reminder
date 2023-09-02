@@ -3,6 +3,7 @@ package com.akshaw.drinkreminder.core.util
 import android.util.Log
 import androidx.room.util.newStringBuilder
 import java.time.DayOfWeek
+import java.time.LocalDateTime
 import java.time.LocalTime
 
 fun LocalTime.formatted24HourTime(): String {
@@ -31,4 +32,12 @@ fun List<DayOfWeek>.formattedString(): String {
                 append(", ")
         }
     }
+}
+
+fun LocalDateTime.withLocalTime(localTime: LocalTime): LocalDateTime {
+    withHour(localTime.hour)
+    withMinute(localTime.minute)
+    withSecond(localTime.second)
+    withNano(localTime.nano)
+    return this
 }

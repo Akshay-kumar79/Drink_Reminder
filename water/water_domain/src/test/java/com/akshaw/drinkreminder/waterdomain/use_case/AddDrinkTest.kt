@@ -1,7 +1,8 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
+import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.util.WaterUnit
-import com.akshaw.drinkreminder.waterdomain.repository.WaterRepository
+import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -24,7 +25,7 @@ class AddDrinkTest {
     fun `add drink with waterUnit ML, returns success`() {
         runBlocking {
             val result = addDrink(
-                com.akshaw.drinkreminder.waterdomain.model.Drink(
+                Drink(
                     dateTime = LocalDateTime.now(),
                     waterIntake = 0.0,
                     unit = WaterUnit.ML
@@ -38,7 +39,7 @@ class AddDrinkTest {
     fun `add drink with waterUnit FL_OZ, returns success`() {
         runBlocking {
             val result = addDrink(
-                com.akshaw.drinkreminder.waterdomain.model.Drink(
+                Drink(
                     dateTime = LocalDateTime.now(),
                     waterIntake = 0.0,
                     unit = WaterUnit.FL_OZ
@@ -52,7 +53,7 @@ class AddDrinkTest {
     fun `add drink with waterUnit INVALID, returns failure`() {
         runBlocking {
             val result = addDrink(
-                com.akshaw.drinkreminder.waterdomain.model.Drink(
+                Drink(
                     dateTime = LocalDateTime.now(),
                     waterIntake = 0.0,
                     unit = WaterUnit.Invalid

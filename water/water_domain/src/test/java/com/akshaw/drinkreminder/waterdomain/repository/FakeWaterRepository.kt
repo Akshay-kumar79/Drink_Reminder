@@ -1,7 +1,8 @@
 package com.akshaw.drinkreminder.waterdomain.repository
 
-import com.akshaw.drinkreminder.waterdomain.model.Drink
-import com.akshaw.drinkreminder.waterdomain.model.TrackableDrink
+import com.akshaw.drinkreminder.core.domain.model.Drink
+import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
+import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

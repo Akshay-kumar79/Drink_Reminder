@@ -1,18 +1,15 @@
-package com.akshaw.drinkreminder.waterdata.receivers
+package com.akshaw.drinkreminder.core.data.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import com.akshaw.drinkreminder.core.domain.MyNotification
 import com.akshaw.drinkreminder.core.domain.MyNotificationManager
-import com.akshaw.drinkreminder.waterdata.repository.ReminderSchedulerImpl
-import com.akshaw.drinkreminder.waterdomain.model.DrinkReminder
-import com.akshaw.drinkreminder.waterdomain.repository.ReminderScheduler
+import com.akshaw.drinkreminder.core.data.repository.ReminderSchedulerImpl
+import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
+import com.akshaw.drinkreminder.core.domain.repository.ReminderScheduler
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.DayOfWeek
-import java.time.LocalTime
 import javax.inject.Inject
 
 @AndroidEntryPoint

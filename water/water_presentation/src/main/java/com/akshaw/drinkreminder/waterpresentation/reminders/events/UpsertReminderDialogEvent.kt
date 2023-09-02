@@ -1,6 +1,6 @@
 package com.akshaw.drinkreminder.waterpresentation.reminders.events
 
-import com.akshaw.drinkreminder.waterdomain.model.DrinkReminder
+import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
 import java.time.DayOfWeek
 
 sealed interface UpsertReminderDialogEvent{

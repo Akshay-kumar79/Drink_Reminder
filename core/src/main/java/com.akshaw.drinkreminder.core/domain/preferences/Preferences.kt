@@ -18,6 +18,7 @@ interface Preferences {
     suspend fun saveWaterUnit(unit: WaterUnit)
     suspend fun saveSelectedTrackableDrinkId(id: Long)
     suspend fun saveDailyWaterIntakeGoal(amount: Double)
+    suspend fun saveIsOnboardingCompleted(completed: Boolean)
     
     fun getGender(): Flow<Gender>
     fun getAge(): Flow<Int>
@@ -28,6 +29,7 @@ interface Preferences {
     fun getWaterUnit(): Flow<WaterUnit>
     fun getSelectedTrackableDrinkId(): Flow<Long>
     fun getDailyWaterIntakeGoal(): Flow<Double>
+    fun getIsOnboardingCompleted(): Flow<Boolean>
 
     companion object{
 
@@ -40,6 +42,7 @@ interface Preferences {
         const val KEY_WATER_UNIT = "water_unit"
         const val KEY_SELECTED_TRACKABLE_DRINK_ID = "selected_trackable_drink_id"
         const val KEY_DAILY_WATER_INTAKE_GOAL = "daily_water_intake_goal"
+        const val KEY_IS_ONBOARDING_COMPLETED = "is_onboarding_completed"
         
     }
 

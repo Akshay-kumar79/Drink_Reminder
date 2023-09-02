@@ -1,13 +1,13 @@
-package com.akshaw.drinkreminder.waterdata.repository
+package com.akshaw.drinkreminder.core.data.repository
 
 import com.akshaw.drinkreminder.core.data.local.MyDatabase
-import com.akshaw.drinkreminder.waterdomain.mapper.toDrink
-import com.akshaw.drinkreminder.waterdomain.mapper.toDrinkEntity
-import com.akshaw.drinkreminder.waterdomain.mapper.toTrackableDrink
-import com.akshaw.drinkreminder.waterdomain.mapper.toTrackableDrinkEntity
-import com.akshaw.drinkreminder.waterdomain.model.Drink
-import com.akshaw.drinkreminder.waterdomain.model.TrackableDrink
-import com.akshaw.drinkreminder.waterdomain.repository.WaterRepository
+import com.akshaw.drinkreminder.core.domain.mapper.toDrink
+import com.akshaw.drinkreminder.core.domain.mapper.toDrinkEntity
+import com.akshaw.drinkreminder.core.domain.mapper.toTrackableDrink
+import com.akshaw.drinkreminder.core.domain.mapper.toTrackableDrinkEntity
+import com.akshaw.drinkreminder.core.domain.model.Drink
+import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
+import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

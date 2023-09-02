@@ -3,12 +3,13 @@ package com.akshaw.drinkreminder.waterpresentation.a_day_drink
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.util.UiEvent
 import com.akshaw.drinkreminder.core.util.UiText
-import com.akshaw.drinkreminder.waterdomain.repository.WaterRepository
+import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import com.akshaw.drinkreminder.waterdomain.use_case.AddDrink
 import com.akshaw.drinkreminder.waterdomain.use_case.DeleteDrink
 import com.akshaw.drinkreminder.waterdomain.use_case.FilterADayDrinks
@@ -50,7 +51,7 @@ class WaterADayDrinkViewModel @Inject constructor(
     
     val waterUnit = preferences.getWaterUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)
     
-    var recentlyDeleteDrink: com.akshaw.drinkreminder.waterdomain.model.Drink? = null
+    var recentlyDeleteDrink: Drink? = null
     
     /** Add Forgotten Drink Dialog States */
     private val _isAddForgottenDrinkDialogShowing = MutableStateFlow(false)
@@ -103,7 +104,7 @@ class WaterADayDrinkViewModel @Inject constructor(
                 )
                     .onSuccess { localTime ->
                         addDrink(
-                            com.akshaw.drinkreminder.waterdomain.model.Drink(
+                            Drink(
                                 dateTime = LocalDateTime.of(
                                     currentDate,
                                     localTime
