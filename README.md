@@ -63,10 +63,6 @@ Below is a list of goodies that are being showcased:
     2. [Gradle Versions](https://github.com/ben-manes/gradle-versions-plugin) ```(Gradle plugin to discover dependency
     updates)```
 
-# Screenshots
-
-![screenshots](https://github.com/Akshay-kumar79/Drink_Reminder/assets/58460601/2fc86c53-f286-492b-8eff-cca6b36e6a65)
-
 # Build Variant
 
 ## Beta Build
@@ -79,5 +75,9 @@ beta.upload.storePassword = <YOUR.STORE.PASSWORD>
 beta.upload.keyAlias = <YOUR.KEY.ALIAS>
 beta.upload.keyPassword = <YOUR.KEY.PASSWORD>
 ```
+
+# Screenshots
+
+![screenshots](https://github.com/Akshay-kumar79/Drink_Reminder/assets/58460601/2fc86c53-f286-492b-8eff-cca6b36e6a65)
 
 **THANK YOU**
