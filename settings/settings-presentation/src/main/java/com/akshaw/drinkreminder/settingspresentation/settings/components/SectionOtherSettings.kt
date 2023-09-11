@@ -83,7 +83,7 @@ fun SectionOtherSettings(
             mainText = "Version",
             // TODO show version from BUILD CONFIG
 //            summaryText = BuildConfig.VERSION_NAME,
-            summaryText = "1.0.0",
+            summaryText = "1.0.1",
             iconResId = R.drawable.versions
         )
         
