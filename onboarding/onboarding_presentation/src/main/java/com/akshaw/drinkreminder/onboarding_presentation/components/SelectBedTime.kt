@@ -12,7 +12,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.TimeUnit
 import com.akshaw.drinkreminder.core.util.Utility
-import com.akshaw.drinkreminder.onboarding_presentation.OnboardingEvent
+import com.akshaw.drinkreminder.onboarding_presentation.events.OnboardingEvent
 import com.akshaw.drinkreminder.onboarding_presentation.OnboardingViewModel
 import com.shawnlin.numberpicker.NumberPicker
 import kotlin.math.roundToInt

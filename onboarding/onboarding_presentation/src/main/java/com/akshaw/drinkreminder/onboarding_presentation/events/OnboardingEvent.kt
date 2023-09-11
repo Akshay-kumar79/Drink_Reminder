@@ -1,4 +1,4 @@
-package com.akshaw.drinkreminder.onboarding_presentation
+package com.akshaw.drinkreminder.onboarding_presentation.events
 
 import com.akshaw.drinkreminder.core.util.Gender
 import com.akshaw.drinkreminder.core.util.TimeUnit
@@ -18,4 +18,7 @@ sealed interface OnboardingEvent {
     data class OnWakeupTimeUnitChange(val unit: TimeUnit) : OnboardingEvent
     object OnBackClick : OnboardingEvent
     object OnSkipClick : OnboardingEvent
+    data class ChangeHasNotificationPermission(val hasPermission: Boolean): OnboardingEvent
+    data class ChangeHasExactAlarmPermission(val hasPermission: Boolean): OnboardingEvent
+    data class OnPermissionResult(val permission: String, val isGranted: Boolean) : OnboardingEvent
 }

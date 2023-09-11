@@ -3,17 +3,30 @@ package com.akshaw.drinkreminder.onboarding_domain.use_case
 import com.akshaw.drinkreminder.onboarding_domain.utils.OnboardingPage
 import com.akshaw.drinkreminder.onboarding_domain.utils.nextPage
 
-/**
- * Returns next page on success and failure indicates onboarding finished
- */
+
 class GetNextPage {
-
-    operator fun invoke(currentPage: OnboardingPage): Result<OnboardingPage>{
-        return if (currentPage.nextPage() != null){
-            Result.success(currentPage.nextPage()!!)
-        }else{
-            Result.failure(Exception())
-        }
+    
+    /**
+     * @return - [Result.success] with next page if calculated next page is not null,
+     *  if next page is [OnboardingPage.PERMISSION] and [hasAllPermission] is true then
+     *  [OnboardingPage.PERMISSION] page will be skipped
+     *
+     *  - [Result.failure] if next page is null,
+     *  It indicates that onboarding is finished
+     *
+     */
+    operator fun invoke(currentPage: OnboardingPage, hasAllPermission: Boolean): Result<OnboardingPage> {
+        
+        return currentPage.nextPage()?.let { nextPage ->
+            
+            if (nextPage == OnboardingPage.PERMISSION && hasAllPermission) {
+                nextPage.nextPage()?.let {
+                    Result.success(it)
+                } ?: Result.failure(Exception())
+            } else {
+                Result.success(nextPage)
+            }
+        } ?: Result.failure(Exception())
     }
-
+    
 }

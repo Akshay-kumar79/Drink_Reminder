@@ -1,16 +1,20 @@
 package com.akshaw.drinkreminder.waterpresentation.reminders
 
+import android.Manifest
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.akshaw.drinkreminder.core.data.repository.ReminderSchedulerImpl
 import com.akshaw.drinkreminder.core.util.ReminderType
 import com.akshaw.drinkreminder.core.util.UiEvent
 import com.akshaw.drinkreminder.core.util.UiText
-import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
 import com.akshaw.drinkreminder.waterdomain.use_case.CancelDrinkReminder
 import com.akshaw.drinkreminder.waterdomain.use_case.DeleteDrinkReminder
 import com.akshaw.drinkreminder.waterdomain.use_case.GetAllDrinkReminders
-import com.akshaw.drinkreminder.core.domain.use_case.ScheduleDrinkReminder
-import com.akshaw.drinkreminder.core.domain.use_case.UpsertDrinkReminder
+import com.akshaw.drinkreminder.corecompose.theme.events.ExactAlarmPermissionDialogEvent
+import com.akshaw.drinkreminder.corecompose.theme.events.NotificationPermissionDialogEvent
+import com.akshaw.drinkreminder.waterdomain.use_case.AddAndScheduleDrinkReminder
+import com.akshaw.drinkreminder.waterdomain.use_case.SwitchDrinkReminder
+import com.akshaw.drinkreminder.waterdomain.use_case.UpdateAndScheduleDrinkReminder
 import com.akshaw.drinkreminder.waterpresentation.reminders.events.RemindersEvent
 import com.akshaw.drinkreminder.waterpresentation.reminders.events.TSReminderMode
 import com.akshaw.drinkreminder.waterpresentation.reminders.events.UpsertReminderDialogEvent
@@ -30,10 +34,11 @@ import javax.inject.Inject
 @HiltViewModel
 class WaterReminderViewModel @Inject constructor(
     getAllDrinkReminders: GetAllDrinkReminders,
-    private val upsertDrinkReminder: UpsertDrinkReminder,
     private val deleteDrinkReminder: DeleteDrinkReminder,
-    private val scheduleDrinkReminder: ScheduleDrinkReminder,
-    private val cancelDrinkReminder: CancelDrinkReminder
+    private val cancelDrinkReminder: CancelDrinkReminder,
+    private val switchDrinkReminder: SwitchDrinkReminder,
+    private val addAndScheduleDrinkReminder: AddAndScheduleDrinkReminder,
+    private val updateAndScheduleDrinkReminder: UpdateAndScheduleDrinkReminder
 ) : ViewModel() {
     
     /** Screen states */
@@ -68,6 +73,15 @@ class WaterReminderViewModel @Inject constructor(
     private var currentTSReminderMode: TSReminderMode? = null
     
     
+    // mutable state of dialog to be shown when notification permission is not granted, for greater than android 13
+    private val _isReRequestNotificationPermDialogVisible = MutableStateFlow(false)
+    val isReRequestNotificationPermDialogVisible = _isReRequestNotificationPermDialogVisible.asStateFlow()
+    
+    // mutable state of dialog to be shown when exact alarm permission is not granted, for android 12
+    private val _isReRequestExactAlarmPermDialogVisible = MutableStateFlow(false)
+    val isReRequestExactAlarmPermDialogVisible = _isReRequestExactAlarmPermDialogVisible.asStateFlow()
+    
+    
     /** One time events */
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
@@ -91,12 +105,18 @@ class WaterReminderViewModel @Inject constructor(
             is RemindersEvent.OnReminderSwitched -> {
                 // reschedule and update reminder in database
                 viewModelScope.launch(Dispatchers.IO) {
-                    upsertDrinkReminder(event.drinkReminder.copy(isReminderOn = event.isReminderOn))
-                    if (event.isReminderOn) {
-                        scheduleDrinkReminder(event.drinkReminder)
-                    } else {
-                        cancelDrinkReminder(event.drinkReminder)
-                    }
+                    switchDrinkReminder(event.drinkReminder, event.isReminderOn)
+                        .onFailure {
+                            when (it) {
+                                is ReminderSchedulerImpl.NoNotificationPermissionException -> {
+                                    _isReRequestNotificationPermDialogVisible.value = true
+                                }
+                                
+                                is ReminderSchedulerImpl.NoExactAlarmPermissionException -> {
+                                    _isReRequestExactAlarmPermDialogVisible.value = true
+                                }
+                            }
+                        }
                 }
             }
             
@@ -113,11 +133,20 @@ class WaterReminderViewModel @Inject constructor(
             }
             
             is RemindersEvent.OnDeleteReminder -> {
-                viewModelScope.launch(Dispatchers.IO){
+                viewModelScope.launch(Dispatchers.IO) {
                     cancelDrinkReminder(event.drinkReminder)
                     deleteDrinkReminder(event.drinkReminder)
                 }
             }
+             is RemindersEvent.OnPermissionResult -> {
+                 if (!event.isGranted) {
+                     when (event.permission) {
+                         Manifest.permission.POST_NOTIFICATIONS -> {
+                             _isReRequestNotificationPermDialogVisible.value = true
+                         }
+                     }
+                 }
+             }
         }
     }
     
@@ -127,6 +156,7 @@ class WaterReminderViewModel @Inject constructor(
         when (event) {
             is UpsertReminderDialogEvent.ShowDialog -> {
                 // reset all selected days to true and show dialog
+                
                 currentTSReminderMode = event.reminderMode
                 when (event.reminderMode) {
                     TSReminderMode.AddNewReminder -> {
@@ -149,7 +179,7 @@ class WaterReminderViewModel @Inject constructor(
             }
             
             is UpsertReminderDialogEvent.OnChangeDayOfWeeks -> {
-                // revert day of week selection in selectedDays
+                // revert day of week selection in selectedDays (if day of week selected then unselect or if it is unselected and select it)
                 _selectedDays.value = selectedDays.value.toMutableMap().apply {
                     set(event.dayOfWeek.value, !selectedDays.value.getOrDefault(event.dayOfWeek.value, false))
                 }
@@ -161,31 +191,11 @@ class WaterReminderViewModel @Inject constructor(
                     currentTSReminderMode?.let {
                         when (it) {
                             TSReminderMode.AddNewReminder -> {
-                                val drinkReminder = DrinkReminder(
-                                    time = LocalTime.now().withHour(setReminderDialogHour.value).withMinute(setReminderDialogMinute.value),
-                                    isReminderOn = true,
-                                    activeDays = DayOfWeek.values().filter {
-                                        selectedDays.value[it.value] == true
-                                    }
-                                )
-                                
-                                val id = upsertDrinkReminder(drinkReminder)
-                                scheduleDrinkReminder(drinkReminder.copy(id = id))
+                                addAndScheduleDrinkReminder(setReminderDialogHour.value, setReminderDialogMinute.value, selectedDays.value)
                             }
                             
                             is TSReminderMode.UpdateReminder -> {
-                                val drinkReminder = DrinkReminder(
-                                    id = it.drinkReminder.id,
-                                    time = LocalTime.now().withHour(setReminderDialogHour.value).withMinute(setReminderDialogMinute.value),
-                                    isReminderOn = it.drinkReminder.isReminderOn,
-                                    activeDays = DayOfWeek.values().filter {
-                                        selectedDays.value[it.value] == true
-                                    }
-                                )
-                                
-                                upsertDrinkReminder(drinkReminder)
-                                if (it.drinkReminder.isReminderOn)
-                                    scheduleDrinkReminder(drinkReminder)
+                                updateAndScheduleDrinkReminder(it.drinkReminder, setReminderDialogHour.value, setReminderDialogMinute.value, selectedDays.value)
                             }
                         }
                     } ?: kotlin.run {
@@ -201,6 +211,30 @@ class WaterReminderViewModel @Inject constructor(
             
             is UpsertReminderDialogEvent.OnMinuteChange -> {
                 _setReminderDialogMinute.value = event.minute
+            }
+        }
+    }
+    
+    fun onEvent(event: NotificationPermissionDialogEvent) {
+        when (event) {
+            NotificationPermissionDialogEvent.ShowDialog -> {
+                _isReRequestNotificationPermDialogVisible.value = true
+            }
+            
+            NotificationPermissionDialogEvent.DismissDialog -> {
+                _isReRequestNotificationPermDialogVisible.value = false
+            }
+        }
+    }
+    
+    fun onEvent(event: ExactAlarmPermissionDialogEvent) {
+        when (event) {
+            ExactAlarmPermissionDialogEvent.ShowDialog -> {
+                _isReRequestExactAlarmPermDialogVisible.value = true
+            }
+    
+            ExactAlarmPermissionDialogEvent.DismissDialog -> {
+                _isReRequestExactAlarmPermDialogVisible.value = false
             }
         }
     }

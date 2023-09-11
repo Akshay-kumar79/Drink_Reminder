@@ -24,11 +24,10 @@ class ReminderReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         
         val drinkReminder = intent?.let {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                intent.getParcelableExtra(ReminderSchedulerImpl.INTENT_DRINK_REMINDER_KEY, DrinkReminder::class.java)
-            } else {
-                intent.getParcelableExtra(ReminderSchedulerImpl.INTENT_DRINK_REMINDER_KEY)
+            it.getStringExtra(ReminderSchedulerImpl.INTENT_DRINK_REMINDER_KEY)?.let {
+                DrinkReminder.decodeFromJsonString(it)
             }
+            
         } ?: return
         
         myNotificationManager.notify(MyNotification.DrinkNotification)

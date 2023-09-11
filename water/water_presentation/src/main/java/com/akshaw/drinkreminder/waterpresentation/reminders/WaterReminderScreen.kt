@@ -1,5 +1,8 @@
 package com.akshaw.drinkreminder.waterpresentation.reminders
 
+import android.Manifest
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,6 +26,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.ReminderType
 import com.akshaw.drinkreminder.core.util.UiEvent
+import com.akshaw.drinkreminder.corecompose.theme.composables.ExactAlarmPermissionTextProvider
+import com.akshaw.drinkreminder.corecompose.theme.composables.NotificationPermissionTextProvider
+import com.akshaw.drinkreminder.corecompose.theme.composables.PermissionDialog
+import com.akshaw.drinkreminder.corecompose.theme.events.ExactAlarmPermissionDialogEvent
+import com.akshaw.drinkreminder.corecompose.theme.events.NotificationPermissionDialogEvent
 import com.akshaw.drinkreminder.waterpresentation.reminders.components.AIReminderSection
 import com.akshaw.drinkreminder.waterpresentation.reminders.components.TSReminderSection
 import com.akshaw.drinkreminder.waterpresentation.reminders.dialogs.UpsertReminderDialog
@@ -36,9 +44,21 @@ import kotlinx.coroutines.flow.collectLatest
 fun WaterReminderScreen(
     viewModel: WaterReminderViewModel = hiltViewModel(),
     snackbarHostState: SnackbarHostState,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
+    shouldShowRequestPermissionRationale: (permission: String) -> Boolean,
+    openAppSettings: () -> Unit,
+    openAppSetExactAlarmPermissionSettings: () -> Unit
 ) {
     val context = LocalContext.current
+    
+    
+    val isReRequestNotificationPermDialogVisible by viewModel.isReRequestNotificationPermDialogVisible.collectAsState()
+    val isReRequestExactAlarmPermDialogVisible by viewModel.isReRequestExactAlarmPermDialogVisible.collectAsState()
+    
+    val notificationPermissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {
+        viewModel.onEvent(RemindersEvent.OnPermissionResult(Manifest.permission.POST_NOTIFICATIONS, it))
+    }
+    
     
     val isSelectReminderTypeExpanded by viewModel.isSelectReminderTypeExpanded.collectAsState()
     val selectedReminderType by viewModel.selectedReminderType.collectAsState()
@@ -238,4 +258,35 @@ fun WaterReminderScreen(
             onDaySelectionChange = { viewModel.onEvent(UpsertReminderDialogEvent.OnChangeDayOfWeeks(it)) }
         )
     
+    if (isReRequestNotificationPermDialogVisible) {
+        PermissionDialog(
+            permissionTextProvider = NotificationPermissionTextProvider(),
+            isPermanentlyDeclined = !shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS),
+            onDismiss = { viewModel.onEvent(NotificationPermissionDialogEvent.DismissDialog) },
+            onOkClick = {
+                viewModel.onEvent(NotificationPermissionDialogEvent.DismissDialog)
+                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            },
+            onGoToAppSettingsClick = {
+                viewModel.onEvent(NotificationPermissionDialogEvent.DismissDialog)
+                openAppSettings()
+            }
+        )
+    }
+    
+    if (isReRequestExactAlarmPermDialogVisible) {
+        PermissionDialog(
+            permissionTextProvider = ExactAlarmPermissionTextProvider(),
+            isPermanentlyDeclined = false,
+            onDismiss = { viewModel.onEvent(ExactAlarmPermissionDialogEvent.DismissDialog) },
+            onOkClick = {
+                viewModel.onEvent(ExactAlarmPermissionDialogEvent.DismissDialog)
+                openAppSetExactAlarmPermissionSettings()
+            },
+            onGoToAppSettingsClick = {
+                viewModel.onEvent(ExactAlarmPermissionDialogEvent.DismissDialog)
+                openAppSetExactAlarmPermissionSettings()
+            }
+        )
+    }
 }

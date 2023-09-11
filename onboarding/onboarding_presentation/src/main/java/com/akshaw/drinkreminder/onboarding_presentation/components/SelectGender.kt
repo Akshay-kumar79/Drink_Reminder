@@ -12,7 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.util.Gender
-import com.akshaw.drinkreminder.onboarding_presentation.OnboardingEvent
+import com.akshaw.drinkreminder.onboarding_presentation.events.OnboardingEvent
 import com.akshaw.drinkreminder.onboarding_presentation.OnboardingViewModel
 import com.akshaw.drinkreminder.core.R
 

@@ -10,7 +10,7 @@ interface ReminderScheduler {
      *
      *  @return [LocalDateTime] for which reminder is scheduled
      */
-    fun schedule(drinkReminder: DrinkReminder): LocalDateTime?
+    fun schedule(drinkReminder: DrinkReminder): Result<LocalDateTime>
     fun cancel(drinkReminder: DrinkReminder)
     
 }

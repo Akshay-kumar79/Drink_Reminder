@@ -9,5 +9,6 @@ sealed interface RemindersEvent {
     data class OnSelectedReminderTypeChange(val reminderType: ReminderType): RemindersEvent
     data class OnReminderTypeDropdownExpandedChange(val isShowing: Boolean): RemindersEvent
     data class OnDeleteReminder(val drinkReminder: DrinkReminder): RemindersEvent
+    data class OnPermissionResult(val permission: String, val isGranted: Boolean) : RemindersEvent
     
 }

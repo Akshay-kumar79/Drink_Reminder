@@ -3,13 +3,12 @@ package com.akshaw.drinkreminder.core.data.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.akshaw.drinkreminder.core.data.local.MyDatabase
 import com.akshaw.drinkreminder.core.util.ReminderType
-import com.akshaw.drinkreminder.core.domain.mapper.toDrinkReminder
-import com.akshaw.drinkreminder.core.domain.repository.ReminderScheduler
+import com.akshaw.drinkreminder.core.domain.use_case.RescheduleAllTSDrinkReminders
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,31 +16,22 @@ import javax.inject.Inject
 class TimeChangeReceiver : BroadcastReceiver() {
     
     @Inject
-    lateinit var reminderScheduler: ReminderScheduler
+    lateinit var rescheduleAllTSDrinkReminders: RescheduleAllTSDrinkReminders
     
-    @Inject
-    lateinit var database: MyDatabase
-    
-    private val drinkReminderDao = database.drinkReminderDao
-    
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onReceive(context: Context, intent: Intent) {
         
         val action = intent.action
         if (Intent.ACTION_TIME_CHANGED == action || Intent.ACTION_TIMEZONE_CHANGED == action) {
-    
+            
             /** Cancel and Re-Schedule all reminder only if reminder type is set to [ReminderType.TSReminder] */
             // TODO change value to get from preference to check reminder type
             val isReminderTypeTS = true
             if (isReminderTypeTS) {
-                receiverScope.launch(Dispatchers.IO) {
-                    drinkReminderDao.getAllDrinkReminders().first()
-                        .forEach {
-                            
-                            // alarms should automatically updated in schedule method
-                            // but still cancelling here just to make sure
-                            reminderScheduler.cancel(it.toDrinkReminder())
-                            reminderScheduler.schedule(it.toDrinkReminder())
-                        }
+                val pendingResult = goAsync()
+                GlobalScope.launch(Dispatchers.IO) {
+                    rescheduleAllTSDrinkReminders()
+                    pendingResult.finish()
                 }
             }
         }

@@ -15,15 +15,23 @@
     <string name="female">Female</string>
     <string name="male">Male</string>
     <string name="next">Next</string>
+
     <string name="what_s_your_gender">What\'s your Gender?</string>
     <string name="what_s_your_age">What\'s your Age?</string>
     <string name="what_s_your_weight">What\'s your weight?</string>
     <string name="what_s_your_bed_time">What\'s your bed time?</string>
     <string name="what_s_your_wake_up_time">What\'s your wake-up time?</string>
+    <string name="grant_permission">Grant Permission</string>
+
+
     <string name="let_us_know_you_better">Let us know you better</string>
     <string name="let_us_know_you_for_better_goals">Let us know you for better goals</string>
     <string name="let_us_know_you_for_better_goals_calculation">Let us know you for better goals calculation</string>
     <string name="let_us_know_you_for_better_reminder_settings">Let us know you for better reminder settings</string>
+    <string name="onboarding_grant_permission_summary">We need notification permission and set exact alarm permission,
+so we can remind you for drinks on time</string>
+
+
     <string name="years">years</string>
     <string name="done">Done</string>
     <string name="water">Water</string>

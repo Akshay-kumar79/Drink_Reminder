@@ -19,30 +19,33 @@ data class OnboardingState(
     val wakeupTimeUnit: TimeUnit = Constants.WAKE_TIME_DEFAULT_UNIT
 )
 
-enum class OnboardingPage{
+enum class OnboardingPage {
     GENDER,
     AGE,
     WEIGHT,
     BED_TIME,
-    WAKEUP_TIME
+    WAKEUP_TIME,
+    PERMISSION
 }
 
-fun OnboardingPage.nextPage(): OnboardingPage?{
-    return when(this){
+fun OnboardingPage.nextPage(): OnboardingPage? {
+    return when (this) {
         OnboardingPage.GENDER -> OnboardingPage.AGE
         OnboardingPage.AGE -> OnboardingPage.WEIGHT
         OnboardingPage.WEIGHT -> OnboardingPage.BED_TIME
         OnboardingPage.BED_TIME -> OnboardingPage.WAKEUP_TIME
-        OnboardingPage.WAKEUP_TIME -> null
+        OnboardingPage.WAKEUP_TIME -> OnboardingPage.PERMISSION
+        OnboardingPage.PERMISSION -> null
     }
 }
 
-fun OnboardingPage.previousPage(): OnboardingPage?{
-    return when(this){
+fun OnboardingPage.previousPage(): OnboardingPage? {
+    return when (this) {
         OnboardingPage.GENDER -> null
         OnboardingPage.AGE -> OnboardingPage.GENDER
         OnboardingPage.WEIGHT -> OnboardingPage.AGE
         OnboardingPage.BED_TIME -> OnboardingPage.WEIGHT
         OnboardingPage.WAKEUP_TIME -> OnboardingPage.BED_TIME
+        OnboardingPage.PERMISSION -> OnboardingPage.WAKEUP_TIME
     }
 }

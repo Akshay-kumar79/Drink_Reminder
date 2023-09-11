@@ -11,6 +11,7 @@ import com.akshaw.drinkreminder.core.util.UiText
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
 import com.akshaw.drinkreminder.core.domain.use_case.AddTrackableDrink
+import com.akshaw.drinkreminder.core.domain.use_case.RescheduleAllTSDrinkReminders
 import com.akshaw.drinkreminder.waterdomain.use_case.*
 import com.akshaw.drinkreminder.waterpresentation.common.events.DialogAddForgottenDrinkEvent
 import com.akshaw.drinkreminder.waterpresentation.home.events.DialogAddTrackableDrinkEvent
@@ -41,6 +42,7 @@ class WaterHomeViewModel @Inject constructor(
     private val deleteTrackableDrink: DeleteTrackableDrink,
     private val deleteDrink: DeleteDrink,
     private val getAllDrinks: GetAllDrinks,
+    private val rescheduleAllTSDrinkReminders: RescheduleAllTSDrinkReminders
 ) : ViewModel() {
     
     
@@ -104,6 +106,12 @@ class WaterHomeViewModel @Inject constructor(
         trackableDrinks.onEach {
             _selectedTrackableDrink.value = getSelectedTrackableDrink(it, waterUnit.value)
         }.launchIn(viewModelScope)
+        
+        
+        // Reschedule all reminders from local database
+        viewModelScope.launch {
+            rescheduleAllTSDrinkReminders()
+        }
     }
     
     fun onEvent(event: WaterHomeEvent) = viewModelScope.launch {

@@ -14,7 +14,6 @@ android {
 }
 
 dependencies {
-    
     // Android Materials
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -43,6 +42,9 @@ dependencies {
     
     // Number picker
     implementation(libs.number.picker)
+    
+    // Kotlin serialization
+    implementation(libs.kotlinx.serialization.json)
     
     // Local unit tests
     testImplementation(libs.androidx.test.core)

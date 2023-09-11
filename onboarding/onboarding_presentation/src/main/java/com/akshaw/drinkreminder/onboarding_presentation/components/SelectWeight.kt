@@ -13,7 +13,7 @@ import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.util.Utility
 import com.akshaw.drinkreminder.core.util.WeightUnit
-import com.akshaw.drinkreminder.onboarding_presentation.OnboardingEvent
+import com.akshaw.drinkreminder.onboarding_presentation.events.OnboardingEvent
 import com.akshaw.drinkreminder.onboarding_presentation.OnboardingViewModel
 import com.shawnlin.numberpicker.NumberPicker
 import kotlin.math.roundToInt

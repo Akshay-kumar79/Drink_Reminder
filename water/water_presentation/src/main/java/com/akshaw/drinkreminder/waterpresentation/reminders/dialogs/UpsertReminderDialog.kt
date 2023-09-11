@@ -41,7 +41,7 @@ import com.shawnlin.numberpicker.NumberPicker
 import java.time.DayOfWeek
 
 
-@Preview(backgroundColor = 0xFFFFFFFF)
+@Preview(backgroundColor = 0xFFFFFFFF, showBackground = true)
 @Composable
 private fun UpsertReminderDialogPreview() {
     DrinkReminderTheme {
@@ -109,8 +109,7 @@ private fun ReminderBottomSheet(
 ) {
     Box(
         modifier = Modifier
-            .padding(top = 24.dp)
-            .padding(horizontal = 24.dp),
+            .padding(24.dp),
     ) {
         Icon(
             modifier = Modifier

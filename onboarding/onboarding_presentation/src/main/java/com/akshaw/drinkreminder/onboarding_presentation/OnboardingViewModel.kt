@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.onboarding_presentation
 
+import android.Manifest
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -20,25 +21,13 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.akshaw.drinkreminder.core.R
-import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
-import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
-import com.akshaw.drinkreminder.core.domain.use_case.AddTrackableDrink
-import com.akshaw.drinkreminder.core.domain.use_case.ChangeWaterQuantityByUnit
-import com.akshaw.drinkreminder.core.domain.use_case.GetRecommendedDailyWaterIntake
-import com.akshaw.drinkreminder.core.domain.use_case.ScheduleDrinkReminder
-import com.akshaw.drinkreminder.core.domain.use_case.UpsertDrinkReminder
-import com.akshaw.drinkreminder.core.util.Constants
-import com.akshaw.drinkreminder.core.util.WaterUnit
-import com.akshaw.drinkreminder.core.util.withLocalTime
-import com.akshaw.drinkreminder.onboarding_domain.use_case.SaveAndScheduleInitialReminders
+import com.akshaw.drinkreminder.onboarding_domain.use_case.SaveInitialReminders
 import com.akshaw.drinkreminder.onboarding_domain.use_case.SaveInitialDailyIntakeGoal
 import com.akshaw.drinkreminder.onboarding_domain.use_case.SaveInitialTrackableDrinks
-import kotlinx.coroutines.flow.first
-import java.time.DayOfWeek
-import java.time.Duration
-import java.time.LocalDateTime
-import java.time.LocalTime
-import kotlin.math.floor
+import com.akshaw.drinkreminder.corecompose.theme.events.NotificationPermissionDialogEvent
+import com.akshaw.drinkreminder.onboarding_presentation.events.OnboardingEvent
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
@@ -46,7 +35,7 @@ class OnboardingViewModel @Inject constructor(
     private val getLocalTime: GetLocalTime,
     private val getNextPage: GetNextPage,
     private val getPreviousPage: GetPreviousPage,
-    private val saveAndScheduleInitialReminders: SaveAndScheduleInitialReminders,
+    private val saveInitialReminders: SaveInitialReminders,
     private val saveInitialTrackableDrinks: SaveInitialTrackableDrinks,
     private val saveInitialDailyIntakeGoal: SaveInitialDailyIntakeGoal
 ) : ViewModel() {
@@ -54,8 +43,27 @@ class OnboardingViewModel @Inject constructor(
     var state by mutableStateOf(OnboardingState())
         private set
     
+    
+    /** Permissions */
+    private val _hasNotificationPermission = MutableStateFlow(true)
+    val hasNotificationPermission = _hasNotificationPermission.asStateFlow()
+    
+    private val _hasExactAlarmPermission = MutableStateFlow(true)
+    val hasExactAlarmPermission = _hasExactAlarmPermission.asStateFlow()
+    
+    // mutable state of dialog to be shown when notification permission is not granted, for greater than android 13
+    private val _isReRequestNotificationPermDialogVisible = MutableStateFlow(false)
+    val isReRequestNotificationPermDialogVisible = _isReRequestNotificationPermDialogVisible.asStateFlow()
+    
+    /** One Time events */
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
+    
+    init {
+        // workaround to keep stateflow value updated, if it doesn't have active collector
+        viewModelScope.launch { hasNotificationPermission.collect {} }
+        viewModelScope.launch { hasExactAlarmPermission.collect {} }
+    }
     
     fun onEvent(event: OnboardingEvent) {
         when (event) {
@@ -97,10 +105,10 @@ class OnboardingViewModel @Inject constructor(
                 viewModelScope.launch {
                     // Save default trackable drink first time
                     saveInitialTrackableDrinks()
-    
-                    // Set initial reminders for first time
-                    saveAndScheduleInitialReminders()
-    
+                    
+                    // Save initial reminders for first time
+                    saveInitialReminders()
+                    
                     // Save recommended daily water intake goal first time
                     saveInitialDailyIntakeGoal()
                     
@@ -141,6 +149,42 @@ class OnboardingViewModel @Inject constructor(
             
             OnboardingEvent.OnBackClick -> {
                 navigateToPreviousPage()
+            }
+            
+            is OnboardingEvent.ChangeHasNotificationPermission -> {
+                _hasNotificationPermission.value = event.hasPermission
+            }
+            
+            is OnboardingEvent.ChangeHasExactAlarmPermission -> {
+                _hasExactAlarmPermission.value = event.hasPermission
+            }
+            
+            is OnboardingEvent.OnPermissionResult -> {
+                if (!event.isGranted) {
+                    when (event.permission) {
+                        Manifest.permission.POST_NOTIFICATIONS -> {
+                            _isReRequestNotificationPermDialogVisible.value = true
+                        }
+                    }
+                } else {
+                    when (event.permission) {
+                        Manifest.permission.POST_NOTIFICATIONS -> {
+                            _hasNotificationPermission.value = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    fun onEvent(event: NotificationPermissionDialogEvent) {
+        when (event) {
+            NotificationPermissionDialogEvent.ShowDialog -> {
+                _isReRequestNotificationPermDialogVisible.value = true
+            }
+            
+            NotificationPermissionDialogEvent.DismissDialog -> {
+                _isReRequestNotificationPermDialogVisible.value = false
             }
         }
     }
@@ -188,11 +232,15 @@ class OnboardingViewModel @Inject constructor(
                         triggerErrorEvent()
                     }
             }
+            
+            OnboardingPage.PERMISSION -> {
+                navigateToNextPage()
+            }
         }
     }
     
     private suspend fun navigateToNextPage() {
-        getNextPage(state.page)
+        getNextPage(state.page, hasNotificationPermission.value && hasExactAlarmPermission.value)
             .onSuccess { nextPage ->
                 // Successfully get next page
                 state = state.copy(
@@ -205,8 +253,8 @@ class OnboardingViewModel @Inject constructor(
                 // Save default trackable drink first time
                 saveInitialTrackableDrinks()
                 
-                // Set initial reminders for first time
-                saveAndScheduleInitialReminders()
+                // Save initial reminders for first time
+                saveInitialReminders()
                 
                 // Save recommended daily water intake goal first time
                 saveInitialDailyIntakeGoal()
@@ -215,8 +263,6 @@ class OnboardingViewModel @Inject constructor(
                 _uiEvent.send(UiEvent.Success)
                 
             }
-        
-        getNextPage(state.page)
     }
     
     private fun navigateToPreviousPage() {

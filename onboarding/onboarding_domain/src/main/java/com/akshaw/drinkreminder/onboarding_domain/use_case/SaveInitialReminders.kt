@@ -10,10 +10,9 @@ import java.time.Duration
 import java.time.LocalTime
 import javax.inject.Inject
 
-class SaveAndScheduleInitialReminders @Inject constructor(
+class SaveInitialReminders @Inject constructor(
     private val preferences: Preferences,
     private val upsertDrinkReminder: UpsertDrinkReminder,
-    private val scheduleDrinkReminder: ScheduleDrinkReminder
 ) {
     
     suspend operator fun invoke() {
@@ -46,8 +45,7 @@ class SaveAndScheduleInitialReminders @Inject constructor(
                 isReminderOn = true,
                 activeDays = DayOfWeek.values().toList()
             )
-            val id = upsertDrinkReminder(drinkReminder)
-            scheduleDrinkReminder(drinkReminder.copy(id = id))
+            upsertDrinkReminder(drinkReminder)
         }
     }
     

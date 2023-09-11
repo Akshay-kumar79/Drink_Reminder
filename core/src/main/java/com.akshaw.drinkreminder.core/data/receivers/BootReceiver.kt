@@ -3,10 +3,12 @@ package com.akshaw.drinkreminder.core.data.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.akshaw.drinkreminder.core.data.local.MyDatabase
 import com.akshaw.drinkreminder.core.util.ReminderType
 import com.akshaw.drinkreminder.core.domain.mapper.toDrinkReminder
 import com.akshaw.drinkreminder.core.domain.repository.ReminderScheduler
+import com.akshaw.drinkreminder.core.domain.use_case.RescheduleAllTSDrinkReminders
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -19,12 +21,7 @@ import javax.inject.Inject
 class BootReceiver : BroadcastReceiver() {
     
     @Inject
-    lateinit var reminderScheduler: ReminderScheduler
-    
-    @Inject
-    lateinit var database: MyDatabase
-    
-    private val drinkReminderDao = database.drinkReminderDao
+    lateinit var rescheduleAllTSDrinkReminders: RescheduleAllTSDrinkReminders
     
     @OptIn(DelicateCoroutinesApi::class)
     override fun onReceive(context: Context, intent: Intent) {
@@ -35,25 +32,12 @@ class BootReceiver : BroadcastReceiver() {
             // TODO change value to get from preference to check reminder type
             val isReminderTypeTS = true
             if (isReminderTypeTS) {
-                receiverScope.launch(Dispatchers.IO) {
-                    drinkReminderDao.getAllDrinkReminders().first()
-                        .forEach {
-                            reminderScheduler.schedule(it.toDrinkReminder())
-                        }
+                val pendingResult = goAsync()
+                GlobalScope.launch(Dispatchers.IO) {
+                    rescheduleAllTSDrinkReminders()
+                    pendingResult.finish()
                 }
             }
-            
         }
     }
-    
-    
 }
-
-/**
- *  Will not run longer than 10s
- */
-@OptIn(DelicateCoroutinesApi::class)
-val BroadcastReceiver.receiverScope: GlobalScope
-    get() = GlobalScope.also {
-        goAsync()
-    }

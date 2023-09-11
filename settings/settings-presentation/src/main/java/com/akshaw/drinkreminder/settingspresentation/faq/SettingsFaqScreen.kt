@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
 
+// TODO add faq to check notification and alrm permission if alrm not working
 @Composable
 fun SettingsFaqScreen(
     onBackClicked: () -> Unit

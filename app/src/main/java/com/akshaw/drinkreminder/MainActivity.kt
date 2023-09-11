@@ -1,6 +1,12 @@
 package com.akshaw.drinkreminder
 
+import android.app.Activity
+import android.app.AlarmManager
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -10,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -77,7 +84,10 @@ class MainActivity : ComponentActivity() {
                                                 inclusive = true
                                             }
                                         }
-                                    }
+                                    },
+                                    shouldShowRequestPermissionRationale = ::shouldShowRequestPermissionRationale,
+                                    openAppSettings = ::openAppSettings,
+                                    openAppSetExactAlarmPermissionSettings = ::openAppSetExactAlarmPermissionSettings
                                 )
                             }
                             
@@ -135,7 +145,10 @@ class MainActivity : ComponentActivity() {
                                     snackbarHostState = snackbarHostState,
                                     onBackClicked = {
                                         navController.popBackStack()
-                                    }
+                                    },
+                                    shouldShowRequestPermissionRationale = ::shouldShowRequestPermissionRationale,
+                                    openAppSettings = ::openAppSettings,
+                                    openAppSetExactAlarmPermissionSettings = ::openAppSetExactAlarmPermissionSettings
                                 )
                             }
                             
@@ -161,6 +174,25 @@ class MainActivity : ComponentActivity() {
                 }
             }
             
+        }
+    }
+}
+
+private fun Activity.openAppSettings() {
+    Intent(
+        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+        Uri.fromParts("package", packageName, null)
+    ).also(::startActivity)
+}
+
+private fun Activity.openAppSetExactAlarmPermissionSettings() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val alarmManager = ContextCompat.getSystemService(this, AlarmManager::class.java)
+        if (alarmManager?.canScheduleExactAlarms() == false) {
+            Intent().also { intent ->
+                intent.action = Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+                startActivity(intent)
+            }
         }
     }
 }

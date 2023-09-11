@@ -1,9 +1,13 @@
 package com.akshaw.drinkreminder.core.data.repository
 
+import android.Manifest
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Log
 import com.akshaw.drinkreminder.core.data.receivers.ReminderReceiver
 import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
 import com.akshaw.drinkreminder.core.domain.repository.ReminderScheduler
@@ -20,11 +24,11 @@ class ReminderSchedulerImpl(private val context: Context) : ReminderScheduler {
     
     private val alarmManager = context.getSystemService(AlarmManager::class.java)
     
-    override fun schedule(drinkReminder: DrinkReminder): LocalDateTime? {
+    override fun schedule(drinkReminder: DrinkReminder): Result<LocalDateTime> {
         if (drinkReminder.isReminderOn && drinkReminder.activeDays.isNotEmpty()) {
             
             val intent = Intent(context, ReminderReceiver::class.java)
-            intent.putExtra(INTENT_DRINK_REMINDER_KEY, drinkReminder)
+            intent.putExtra(INTENT_DRINK_REMINDER_KEY, drinkReminder.encodeToJsonString())
             
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
@@ -35,15 +39,27 @@ class ReminderSchedulerImpl(private val context: Context) : ReminderScheduler {
             
             val nextAlarmTime = getNextAlarmTime(drinkReminder)
             
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                nextAlarmTime,
-                pendingIntent
-            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+            ) {
+                return Result.failure(NoNotificationPermissionException())
+            }
             
-            return LocalDateTime.ofInstant(Instant.ofEpochMilli(nextAlarmTime), TimeZone.getDefault().toZoneId())
+            try {
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    nextAlarmTime,
+                    pendingIntent
+                )
+            } catch (e: Exception) {
+                return Result.failure(NoExactAlarmPermissionException())
+            }
+            
+            return Result.success(
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(nextAlarmTime), TimeZone.getDefault().toZoneId())
+            )
         }
-        return null
+        return Result.failure(ReminderOffException())
     }
     
     override fun cancel(drinkReminder: DrinkReminder) {
@@ -55,7 +71,10 @@ class ReminderSchedulerImpl(private val context: Context) : ReminderScheduler {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
         )
         
-        alarmManager.cancel(pendingIntent)
+        try {
+            alarmManager.cancel(pendingIntent)
+        } catch (e: Exception) {
+        }
     }
     
     companion object {
@@ -87,18 +106,22 @@ class ReminderSchedulerImpl(private val context: Context) : ReminderScheduler {
                     .withSecond(0)
                     .withNano(0)
             }.run {
-                
+                var dateTime = this
                 // keep forwarding the day until the day in not in list of activeDays in DrinkReminder (to make sure reminder only buzz on active days)
-                while (!drinkReminder.activeDays.contains(this.dayOfWeek)) {
-                    
+                while (!drinkReminder.activeDays.contains(dateTime.dayOfWeek)) {
+
                     // loop should not run more than 7 time as there is only 7 days a week
-                    plusDays(1)
+                    dateTime = dateTime.plusDays(1)
                 }
                 
-                atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
             }
             
             return nextAlarmDateTime
         }
     }
+    
+    inner class NoExactAlarmPermissionException : Exception("Permission not allowed to set exact alarm")
+    inner class NoNotificationPermissionException : Exception("Permission not allowed to show notification")
+    inner class ReminderOffException : Exception("Reminder is off or no day is selected")
 }
