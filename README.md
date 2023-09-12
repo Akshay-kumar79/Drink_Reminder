@@ -1,4 +1,4 @@
-# Drink_Reminder
+# Drink Reminder
 
 This repository contains "Drink Reminder" app source code. 
 
