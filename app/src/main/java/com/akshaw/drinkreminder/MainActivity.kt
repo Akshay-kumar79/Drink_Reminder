@@ -7,15 +7,21 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
@@ -34,6 +40,7 @@ import com.akshaw.drinkreminder.onboarding_presentation.OnBoardingScreen
 import com.akshaw.drinkreminder.settingspresentation.bug_report.SettingsBugReportScreen
 import com.akshaw.drinkreminder.settingspresentation.faq.SettingsFaqScreen
 import com.akshaw.drinkreminder.settingspresentation.settings.SettingsScreen
+import com.akshaw.drinkreminder.ui.Animations
 import com.akshaw.drinkreminder.ui.presentation.components.BottomNavigationBar
 import com.akshaw.drinkreminder.waterpresentation.reminders.WaterReminderScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -91,7 +98,19 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             
-                            composable(route = Route.WaterHomeScreen.route) {
+                            composable(
+                                route = Route.WaterHomeScreen.route,
+                                exitTransition = {
+                                    if (this.targetState.destination.route == Route.WaterReminderScreen.route) {
+                                        Animations.AppHorizontalSlide.exit(this)
+                                    } else Animations.Default.exit()
+                                },
+                                popEnterTransition = {
+                                    if (this.initialState.destination.route == Route.WaterReminderScreen.route) {
+                                        Animations.AppHorizontalSlide.popEnter(this)
+                                    } else Animations.Default.enter()
+                                }
+                            ) {
                                 WaterHomeScreen(
                                     snackbarHostState = snackbarHostState,
                                     onReminderClick = {
@@ -100,7 +119,21 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             
-                            composable(route = Route.WaterReportScreen.route) {
+                            composable(
+                                route = Route.WaterReportScreen.route,
+                                exitTransition = {
+                                    Log.v("MYTAG", "${this.targetState.destination.route}")
+                                    
+                                    if (this.targetState.destination.route == Route.WaterADayDrinkScreen.route + "/{${WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT}}") {
+                                        Animations.AppVerticalSlide.exit(this)
+                                    } else Animations.Default.exit()
+                                },
+                                popEnterTransition = {
+                                    if (this.initialState.destination.route == Route.WaterADayDrinkScreen.route + "/{${WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT}}") {
+                                        Animations.AppVerticalSlide.popEnter(this)
+                                    } else Animations.Default.enter()
+                                }
+                            ) {
                                 WaterReportScreen(
                                     onADayDrinkClick = { date ->
                                         navController.navigate(Route.WaterADayDrinkScreen.route + "/" + date.format(DateTimeFormatter.ISO_LOCAL_DATE))
@@ -115,7 +148,17 @@ class MainActivity : ComponentActivity() {
                                         type = NavType.StringType
                                         defaultValue = LocalDate.now().toString()
                                     }
-                                )
+                                ),
+                                enterTransition = {
+                                    if (this.initialState.destination.route == Route.WaterReportScreen.route) {
+                                        Animations.AppVerticalSlide.enter(this)
+                                    } else Animations.Default.enter()
+                                },
+                                popExitTransition = {
+                                    if (this.targetState.destination.route == Route.WaterReportScreen.route) {
+                                        Animations.AppVerticalSlide.popExit(this)
+                                    } else Animations.Default.exit()
+                                }
                             ) {
                                 WaterADayDrinkScreen(
                                     snackbarHostState = snackbarHostState,
@@ -125,7 +168,19 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             
-                            composable(route = Route.SettingsScreen.route) {
+                            composable(
+                                route = Route.SettingsScreen.route,
+                                exitTransition = {
+                                    if (this.targetState.destination.route == Route.WaterReminderScreen.route) {
+                                        Animations.AppHorizontalSlide.exit(this)
+                                    } else Animations.Default.exit()
+                                },
+                                popEnterTransition = {
+                                    if (this.initialState.destination.route == Route.WaterReminderScreen.route) {
+                                        Animations.AppHorizontalSlide.popEnter(this)
+                                    } else Animations.Default.enter()
+                                }
+                            ) {
                                 SettingsScreen(
                                     snackbarHostState = snackbarHostState,
                                     onRemindersClick = {
@@ -140,7 +195,19 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             
-                            composable(route = Route.WaterReminderScreen.route) {
+                            composable(
+                                route = Route.WaterReminderScreen.route,
+                                enterTransition = {
+                                    if (this.initialState.destination.route in setOf(Route.WaterHomeScreen.route, Route.SettingsScreen.route)) {
+                                        Animations.AppHorizontalSlide.enter(this)
+                                    } else Animations.Default.enter()
+                                },
+                                popExitTransition = {
+                                    if (this.targetState.destination.route in setOf(Route.WaterHomeScreen.route, Route.SettingsScreen.route)) {
+                                        Animations.AppHorizontalSlide.popExit(this)
+                                    } else Animations.Default.exit()
+                                }
+                            ) {
                                 WaterReminderScreen(
                                     snackbarHostState = snackbarHostState,
                                     onBackClicked = {
@@ -160,7 +227,9 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             
-                            composable(route = Route.SettingsBugReportScreen.route) {
+                            composable(
+                                route = Route.SettingsBugReportScreen.route
+                            ) {
                                 SettingsBugReportScreen(
                                     onBackClicked = {
                                         navController.popBackStack()
