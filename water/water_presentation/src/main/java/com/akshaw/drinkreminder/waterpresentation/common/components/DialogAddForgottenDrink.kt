@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.waterpresentation.common.components
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -54,6 +56,9 @@ fun DialogAddForgottenDrink(
     onHourChange: (hour: Int) -> Unit,
     onMinuteChange: (minute: Int) -> Unit
 ) {
+    
+    val view = LocalView.current
+    
     if (isDialogShowing)
         Dialog(
             onDismissRequest = {
@@ -121,7 +126,7 @@ fun DialogAddForgottenDrink(
                                 value = hour
                                 typeface = ResourcesCompat.getFont(context, R.font.roboto_regular)
                                 setSelectedTypeface(ResourcesCompat.getFont(context, R.font.roboto_regular))
-                                setOnValueChangedListener { picker, oldVal, newVal ->
+                                setOnValueChangedListener { _, _, newVal ->
                                     onHourChange(newVal)
                                 }
                             }
@@ -174,7 +179,7 @@ fun DialogAddForgottenDrink(
                                 value = minute
                                 typeface = ResourcesCompat.getFont(context, R.font.roboto_regular)
                                 setSelectedTypeface(ResourcesCompat.getFont(context, R.font.roboto_regular))
-                                setOnValueChangedListener { picker, oldVal, newVal ->
+                                setOnValueChangedListener { _, _, newVal ->
                                     onMinuteChange(newVal)
                                 }
                             }
@@ -192,6 +197,7 @@ fun DialogAddForgottenDrink(
                         modifier = Modifier
                             .clip(RoundedCornerShape(10.dp))
                             .clickable {
+                                view.playSoundEffect(SoundEffectConstants.CLICK)
                                 onCancel()
                             }
                             .padding(4.dp),
@@ -207,6 +213,7 @@ fun DialogAddForgottenDrink(
                             .padding(end = 16.dp)
                             .clip(RoundedCornerShape(10.dp))
                             .clickable {
+                                view.playSoundEffect(SoundEffectConstants.CLICK)
                                 onConfirm()
                             }
                             .padding(4.dp),

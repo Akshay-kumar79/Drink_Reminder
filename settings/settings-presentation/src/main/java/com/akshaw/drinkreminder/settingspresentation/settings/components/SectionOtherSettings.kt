@@ -1,11 +1,13 @@
 package com.akshaw.drinkreminder.settingspresentation.settings.components
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -20,6 +22,8 @@ fun SectionOtherSettings(
     onBugReportClick: () -> Unit,
     onPrivacyPolicyClick: () -> Unit
 ) {
+    val view = LocalView.current
+    
     Column(
         modifier = modifier
     ) {
@@ -78,7 +82,7 @@ fun SectionOtherSettings(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
-                
+                    view.playSoundEffect(SoundEffectConstants.CLICK)
                 },
             mainText = "Version",
             // TODO show version from BUILD CONFIG

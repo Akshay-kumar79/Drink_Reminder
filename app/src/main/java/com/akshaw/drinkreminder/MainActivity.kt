@@ -10,18 +10,12 @@ import android.provider.Settings
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
@@ -44,6 +38,7 @@ import com.akshaw.drinkreminder.ui.Animations
 import com.akshaw.drinkreminder.ui.presentation.components.BottomNavigationBar
 import com.akshaw.drinkreminder.waterpresentation.reminders.WaterReminderScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -114,7 +109,10 @@ class MainActivity : ComponentActivity() {
                                 WaterHomeScreen(
                                     snackbarHostState = snackbarHostState,
                                     onReminderClick = {
-                                        navController.navigate(Route.WaterReminderScreen.route)
+                                        lifecycleScope.launch {
+                                            delay(200)
+                                            navController.navigate(Route.WaterReminderScreen.route)
+                                        }
                                     }
                                 )
                             }
@@ -184,7 +182,10 @@ class MainActivity : ComponentActivity() {
                                 SettingsScreen(
                                     snackbarHostState = snackbarHostState,
                                     onRemindersClick = {
-                                        navController.navigate(Route.WaterReminderScreen.route)
+                                        lifecycleScope.launch {
+                                            delay(200)
+                                            navController.navigate(Route.WaterReminderScreen.route)
+                                        }
                                     },
                                     onFaqClick = {
                                         navController.navigate(Route.SettingsFaqScreen.route)

@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.waterpresentation.home
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -39,6 +41,7 @@ fun WaterHomeScreen(
 ) {
     
     val context = LocalContext.current
+    val view = LocalView.current
     val scope = rememberCoroutineScope()
     
     // Screen State
@@ -85,6 +88,7 @@ fun WaterHomeScreen(
             ) {
                 IconButton(
                     onClick = {
+                        view.playSoundEffect(SoundEffectConstants.CLICK)
                         onReminderClick()
                     },
                     modifier = Modifier
@@ -162,6 +166,7 @@ fun WaterHomeScreen(
                         .padding(horizontal = 84.dp),
                     shape = RoundedCornerShape(16.dp),
                     onClick = {
+                        view.playSoundEffect(SoundEffectConstants.CLICK)
                         viewModel.onEvent(WaterHomeEvent.OnDrinkClick)
                     }) {
                     Text(
@@ -184,6 +189,7 @@ fun WaterHomeScreen(
                         .padding(end = 16.dp)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
+                            view.playSoundEffect(SoundEffectConstants.CLICK)
                             viewModel.onEvent(DialogAddForgottenDrinkEvent.OnAddForgotDrinkClick)
                         }
                         .padding(4.dp),
@@ -236,7 +242,7 @@ fun WaterHomeScreen(
             
         }
         
-        itemsIndexed(todayDrinks) { index, drink ->
+        itemsIndexed(todayDrinks) { _, drink ->
             DrinkItem(
                 modifier = Modifier
                     .fillMaxWidth()

@@ -2,6 +2,7 @@ package com.akshaw.drinkreminder.settingspresentation.settings
 
 import android.content.Intent
 import android.net.Uri
+import android.view.SoundEffectConstants
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
@@ -58,6 +60,7 @@ fun SettingsScreen(
 ) {
     
     val context = LocalContext.current
+    val view = LocalView.current
     
     
     val isUnitDialogShowing by viewModel.isChangeUnitDialogShowing.collectAsState()
@@ -138,6 +141,7 @@ fun SettingsScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
+                        view.playSoundEffect(SoundEffectConstants.CLICK)
                         onRemindersClick()
                     }
             ) {
@@ -188,9 +192,11 @@ fun SettingsScreen(
             weightUnit = currentWeightUnit,
             dailyIntakeGoal = currentDailyIntakeGoal,
             onUnitClick = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 viewModel.onEvent(ChangeUnitDialogEvent.ShowDialog)
             },
             onDailyIntakeClick = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 viewModel.onEvent(DailyIntakeGoalDialogEvent.ShowDialog)
             }
         )
@@ -208,18 +214,23 @@ fun SettingsScreen(
             bedTime = currentBedTime,
             wakeUpTime = currentWakeupTime,
             onGenderClick = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 viewModel.onEvent(ChangeGenderDialogEvent.ShowDialog)
             },
             onAgeClick = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 viewModel.onEvent(ChangeAgeDialogEvent.ShowDialog)
             },
             onWeightClick = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 viewModel.onEvent(ChangeWeightDialogEvent.ShowDialog)
             },
             onBedTimeClick = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 viewModel.onEvent(ChangeBedTimeDialogEvent.ShowDialog)
             },
             onWakeUpTimeClick = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 viewModel.onEvent(ChangeWakeupTimeDialogEvent.ShowDialog)
             }
         )
@@ -231,12 +242,15 @@ fun SettingsScreen(
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.background),
             onFaqClick = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 onFaqClick()
             },
             onBugReportClick = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 onBugReportClick()
             },
             onPrivacyPolicyClick = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 val url = Constants.PRIVACY_POLICY_URL
                 if (url.startsWith("https://") || url.startsWith("http://")) {
                     val uriUrl = Uri.parse(url)

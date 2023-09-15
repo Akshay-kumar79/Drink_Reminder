@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.waterpresentation.report
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -37,6 +39,8 @@ fun WaterReportScreen(
     viewModel: WaterReportViewModel = hiltViewModel(),
     onADayDrinkClick: (date: LocalDate) -> Unit
 ) {
+    
+    val view = LocalView.current
     
     val goal by viewModel.goal.collectAsState()
     val currentWaterUnit by viewModel.waterUnit.collectAsState()
@@ -104,6 +108,7 @@ fun WaterReportScreen(
                         .offset(x = (-20).dp),
                     cardBackground = CardDefaults.cardColors(MaterialTheme.colorScheme.primary.copy(alpha = .15f)),
                     onClick = {
+                        view.playSoundEffect(SoundEffectConstants.CLICK)
                         onADayDrinkClick(LocalDate.now())
                     },
                     dayText = "Today",
@@ -119,6 +124,7 @@ fun WaterReportScreen(
                         .padding(start = 0.dp, end = 16.dp),
                     cardBackground = CardDefaults.cardColors(MaterialTheme.colorScheme.primary.copy(alpha = .15f)),
                     onClick = {
+                        view.playSoundEffect(SoundEffectConstants.CLICK)
                         onADayDrinkClick(LocalDate.now().minusDays(1))
                     },
                     dayText = "Yesterday",
@@ -135,6 +141,7 @@ fun WaterReportScreen(
                         .offset(x = (-10).dp),
                     cardBackground = CardDefaults.cardColors(MaterialTheme.colorScheme.primary.copy(alpha = .15f)),
                     onClick = {
+                        view.playSoundEffect(SoundEffectConstants.CLICK)
                         onADayDrinkClick(LocalDate.now().minusDays(2))
                     },
                     dayText = LocalDate.now().minusDays(2).format(
@@ -152,6 +159,7 @@ fun WaterReportScreen(
                 .align(Alignment.CenterHorizontally),
             selectedChart = selectedChart,
             onSelect = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 viewModel.onEvent(WaterReportEvent.OnChartTypeChange(it))
             }
         )

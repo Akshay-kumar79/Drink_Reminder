@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.waterpresentation.reminders.components
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -69,6 +71,8 @@ private fun DayOfWeekComp(
     dayOfWeek: DayOfWeek,
     onDaySelectionChange: (dayOfWeek: DayOfWeek) -> Unit
 ) {
+    val view = LocalView.current
+    
     Box(
         modifier = Modifier
             .size(42.dp)
@@ -79,6 +83,7 @@ private fun DayOfWeekComp(
                 else
                     MaterialTheme.colorScheme.inverseSurface
             ).clickable {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 onDaySelectionChange(dayOfWeek)
             },
         contentAlignment = Alignment.Center

@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.waterpresentation.common.components
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -12,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -33,6 +35,7 @@ fun DrinkItem(
     waterUnit: WaterUnit,
     onDeleteClick: () -> Unit
 ) {
+    val view = LocalView.current
 
     Row(
         modifier = modifier
@@ -74,6 +77,7 @@ fun DrinkItem(
                     RoundedCornerShape(16.dp)
                 )
                 .clickable {
+                    view.playSoundEffect(SoundEffectConstants.CLICK)
                     onDeleteClick()
                 }
                 .padding(8.dp),

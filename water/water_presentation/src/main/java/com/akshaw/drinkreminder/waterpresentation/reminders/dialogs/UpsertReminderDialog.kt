@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.waterpresentation.reminders.dialogs
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
@@ -62,7 +64,7 @@ private fun UpsertReminderDialogPreview() {
 }
 
 /**
- *  @param selectedDays: map with key as DayOfWeek.value and value as true of false (if day is selected or not).
+ *  @param selectedDays: map with key as DayOfWeek.value and value as true or false (if day is selected or not).
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -94,7 +96,7 @@ fun UpsertReminderDialog(
 }
 
 /**
- *  @param selectedDays: map with key as DayOfWeek.value and value as true of false (if day is selected or not).
+ *  @param selectedDays: map with key as DayOfWeek.value and value as true or false (if day is selected or not).
  */
 @Composable
 private fun ReminderBottomSheet(
@@ -107,6 +109,8 @@ private fun ReminderBottomSheet(
     onMinuteChange: (minute: Int) -> Unit,
     onDaySelectionChange: (dayOfWeek: DayOfWeek) -> Unit
 ) {
+    val view = LocalView.current
+    
     Box(
         modifier = Modifier
             .padding(24.dp),
@@ -118,6 +122,7 @@ private fun ReminderBottomSheet(
                     RoundedCornerShape(16.dp)
                 )
                 .clickable {
+                    view.playSoundEffect(SoundEffectConstants.CLICK)
                     onCancel()
                 }
                 .padding(8.dp)
@@ -172,7 +177,7 @@ private fun ReminderBottomSheet(
                             value = hour
                             typeface = ResourcesCompat.getFont(context, R.font.roboto_regular)
                             setSelectedTypeface(ResourcesCompat.getFont(context, R.font.roboto_regular))
-                            setOnValueChangedListener { picker, oldVal, newVal ->
+                            setOnValueChangedListener { _, _, newVal ->
                                 onHourChange(newVal)
                             }
                         }
@@ -225,7 +230,7 @@ private fun ReminderBottomSheet(
                             value = minute
                             typeface = ResourcesCompat.getFont(context, R.font.roboto_regular)
                             setSelectedTypeface(ResourcesCompat.getFont(context, R.font.roboto_regular))
-                            setOnValueChangedListener { picker, oldVal, newVal ->
+                            setOnValueChangedListener { _, _, newVal ->
                                 onMinuteChange(newVal)
                             }
                         }
@@ -253,6 +258,7 @@ private fun ReminderBottomSheet(
             Spacer(modifier = Modifier.height(16.dp))
             FloatingActionButton(
                 onClick = {
+                    view.playSoundEffect(SoundEffectConstants.CLICK)
                     onButtonClick()
                 },
                 modifier = Modifier

@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.settingspresentation.settings.dialogs
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -55,6 +57,8 @@ fun ChangeWeightDialog(
     onConfirm: () -> Unit,
     onWeightChange: (weight: Int) -> Unit,
 ) {
+    val view = LocalView.current
+    
     Dialog(
         onDismissRequest = {
             onCancel()
@@ -104,7 +108,7 @@ fun ChangeWeightDialog(
                             value = weight
                             typeface = ResourcesCompat.getFont(context, R.font.roboto_regular)
                             setSelectedTypeface(ResourcesCompat.getFont(context, R.font.roboto_regular))
-                            setOnValueChangedListener { picker, oldVal, newVal ->
+                            setOnValueChangedListener { _, _, newVal ->
                                 onWeightChange(newVal)
                             }
                         }
@@ -123,6 +127,7 @@ fun ChangeWeightDialog(
                     modifier = Modifier
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
+                            view.playSoundEffect(SoundEffectConstants.CLICK)
                             onCancel()
                         }
                         .padding(4.dp),
@@ -138,6 +143,7 @@ fun ChangeWeightDialog(
                         .padding(end = 16.dp)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
+                            view.playSoundEffect(SoundEffectConstants.CLICK)
                             onConfirm()
                         }
                         .padding(4.dp),

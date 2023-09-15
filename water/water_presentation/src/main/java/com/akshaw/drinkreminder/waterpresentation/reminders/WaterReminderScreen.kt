@@ -1,6 +1,7 @@
 package com.akshaw.drinkreminder.waterpresentation.reminders
 
 import android.Manifest
+import android.view.SoundEffectConstants
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -49,8 +51,8 @@ fun WaterReminderScreen(
     openAppSettings: () -> Unit,
     openAppSetExactAlarmPermissionSettings: () -> Unit
 ) {
+    val view = LocalView.current
     val context = LocalContext.current
-    
     
     val isReRequestNotificationPermDialogVisible by viewModel.isReRequestNotificationPermDialogVisible.collectAsState()
     val isReRequestExactAlarmPermDialogVisible by viewModel.isReRequestExactAlarmPermDialogVisible.collectAsState()
@@ -106,6 +108,7 @@ fun WaterReminderScreen(
                         modifier = Modifier
                             .padding(start = 4.dp),
                         onClick = {
+                            view.playSoundEffect(SoundEffectConstants.CLICK)
                             onBackClicked()
                         }
                     ) {
@@ -182,6 +185,7 @@ fun WaterReminderScreen(
                                 )
                             },
                             onClick = {
+                                view.playSoundEffect(SoundEffectConstants.CLICK)
                                 viewModel.onEvent(RemindersEvent.OnSelectedReminderTypeChange(selectionOption))
                                 viewModel.onEvent(RemindersEvent.OnReminderTypeDropdownExpandedChange(false))
                             },

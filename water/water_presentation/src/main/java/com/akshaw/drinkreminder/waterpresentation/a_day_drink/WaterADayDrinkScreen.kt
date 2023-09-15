@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.waterpresentation.a_day_drink
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -34,6 +36,8 @@ fun WaterADayDrinkScreen(
     viewModel: WaterADayDrinkViewModel = hiltViewModel(),
     onBackClicked: () -> Unit
 ) {
+    val view = LocalView.current
+    
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     
@@ -75,6 +79,7 @@ fun WaterADayDrinkScreen(
                     modifier = Modifier
                         .padding(start = 4.dp),
                     onClick = {
+                        view.playSoundEffect(SoundEffectConstants.CLICK)
                         onBackClicked()
                     }
                 ) {
@@ -145,7 +150,7 @@ fun WaterADayDrinkScreen(
                         drink = drink,
                         waterUnit = waterUnit,
                         onDeleteClick = {
-                            viewModel.onEvent(com.akshaw.drinkreminder.waterpresentation.a_day_drink.WaterADayDrinkEvent.OnDrinkDeleteClick(drink))
+                            viewModel.onEvent(WaterADayDrinkEvent.OnDrinkDeleteClick(drink))
                             snackbarHostState.currentSnackbarData?.dismiss()
                             scope.launch {
                                 val result = snackbarHostState.showSnackbar(
@@ -155,7 +160,7 @@ fun WaterADayDrinkScreen(
                                 )
                                 
                                 if (result == SnackbarResult.ActionPerformed) {
-                                    viewModel.onEvent(com.akshaw.drinkreminder.waterpresentation.a_day_drink.WaterADayDrinkEvent.RestoreDrink)
+                                    viewModel.onEvent(WaterADayDrinkEvent.RestoreDrink)
                                 }
                             }
                         }
@@ -170,6 +175,7 @@ fun WaterADayDrinkScreen(
         
         FloatingActionButton(
             onClick = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 viewModel.onEvent(DialogAddForgottenDrinkEvent.OnAddForgotDrinkClick)
             },
             modifier = Modifier

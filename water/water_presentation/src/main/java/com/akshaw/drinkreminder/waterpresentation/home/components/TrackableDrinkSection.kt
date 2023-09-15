@@ -1,6 +1,7 @@
 package com.akshaw.drinkreminder.waterpresentation.home.components
 
 import android.content.Context
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -41,6 +43,9 @@ fun TrackableDrinkSection(
     addTrackableDrinkDialogQuantity: String,
     isRemoveTrackableDrinkDialogShowing: Boolean
 ) {
+    
+    val view = LocalView.current
+    
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceEvenly
@@ -50,6 +55,7 @@ fun TrackableDrinkSection(
                 .align(Alignment.CenterVertically)
                 .clip(RoundedCornerShape(10.dp))
                 .clickable {
+                    view.playSoundEffect(SoundEffectConstants.CLICK)
                     viewModel.onEvent(DialogRemoveTrackableDrinkEvent.OnRemoveTrackableDrinkClick)
                 }
                 .height(34.dp)
@@ -68,9 +74,11 @@ fun TrackableDrinkSection(
         DialogRemoveTrackableDrink(
             isDialogShowing = isRemoveTrackableDrinkDialogShowing,
             onCancel = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 viewModel.onEvent(DialogRemoveTrackableDrinkEvent.OnDismiss)
             },
             onConfirm = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 viewModel.onEvent(DialogRemoveTrackableDrinkEvent.OnConfirmClick)
             }
         )
@@ -114,7 +122,7 @@ fun TrackableDrinkSection(
                             value = trackableDrinks.indexOf(selectedTrackableDrink).let { if (it < 0) 0 else it}
                             typeface = ResourcesCompat.getFont(context, R.font.roboto_medium)
                             setSelectedTypeface(ResourcesCompat.getFont(context, R.font.roboto_medium))
-                            setOnValueChangedListener { picker, oldVal, newVal ->
+                            setOnValueChangedListener { _, _, newVal ->
                                 viewModel.onEvent(
                                     WaterHomeEvent.OnTrackableDrinkChange(
                                         trackableDrinks[newVal]
@@ -134,6 +142,7 @@ fun TrackableDrinkSection(
                 .align(Alignment.CenterVertically)
                 .clip(RoundedCornerShape(10.dp))
                 .clickable {
+                    view.playSoundEffect(SoundEffectConstants.CLICK)
                     viewModel.onEvent(DialogAddTrackableDrinkEvent.OnAddTrackableDrinkClick)
                 }
                 .height(34.dp)
@@ -153,12 +162,14 @@ fun TrackableDrinkSection(
             isDialogShowing = isAddTrackableDrinkDialogShowing,
             quantity = addTrackableDrinkDialogQuantity,
             onCancel = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 viewModel.onEvent(DialogAddTrackableDrinkEvent.OnDismiss)
             },
             onQuantityChange = {
                 viewModel.onEvent(DialogAddTrackableDrinkEvent.OnQuantityAmountChange(it))
             },
             onConfirm = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 viewModel.onEvent(DialogAddTrackableDrinkEvent.OnConfirmClick)
             }
         )

@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.waterpresentation.reminders.components
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.FloatingActionButton
@@ -8,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.akshaw.drinkreminder.core.R
@@ -26,7 +28,7 @@ fun TSReminderSection(
     onReminderSwitchChange: (drinkReminder: DrinkReminder, isReminderOn: Boolean) -> Unit,
     onDeleteReminder: (drinkReminder: DrinkReminder) -> Unit
 ) {
-    
+    val view = LocalView.current
     
     Column(modifier = modifier) {
         
@@ -36,8 +38,8 @@ fun TSReminderSection(
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.background),
                 drinkReminder = it,
-                onClick = {
-                    onReminderClick(it)
+                onClick = { drinkReminder ->
+                    onReminderClick(drinkReminder)
                 },
                 onSwitchCheckChange = { drinkReminder, isReminderOn ->
                     onReminderSwitchChange(drinkReminder, isReminderOn)
@@ -50,6 +52,7 @@ fun TSReminderSection(
         Spacer(modifier = Modifier.height(16.dp))
         FloatingActionButton(
             onClick = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 onAddNewReminderClick()
             },
             modifier = Modifier
@@ -66,8 +69,5 @@ fun TSReminderSection(
         }
         Spacer(modifier = Modifier.height(32.dp))
         
-        
     }
-    
-    
 }

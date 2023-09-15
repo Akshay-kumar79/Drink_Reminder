@@ -1,24 +1,25 @@
 package com.akshaw.drinkreminder.corecompose.theme.composables
 
-import androidx.compose.foundation.gestures.Orientation
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalMinimumTouchTargetEnforcement
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -34,7 +35,7 @@ import com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme
 private fun RadioGroupPreview() {
     DrinkReminderTheme {
         val items = remember { setOf("ml", "fl oz") }
-        var pos by remember { mutableStateOf(0) }
+        var pos by remember { mutableIntStateOf(0) }
         
         RadioGroup(
             items = items,
@@ -68,7 +69,7 @@ fun RadioGroup(
                 Column(
                     modifier = modifier
                 ) {
-                    renderRadioButtons(
+                    RenderRadioButtons(
                         items = items,
                         orientation = orientation,
                         selectedPosition = selectedPosition,
@@ -82,7 +83,7 @@ fun RadioGroup(
                 Row(
                     modifier = modifier
                 ) {
-                    renderRadioButtons(
+                    RenderRadioButtons(
                         items = items,
                         orientation = orientation,
                         selectedPosition = selectedPosition,
@@ -98,13 +99,15 @@ fun RadioGroup(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun renderRadioButtons(
+private fun RenderRadioButtons(
     items: Set<String>,
     orientation: RadioGroupOrientation,
     selectedPosition: Int,
     radioButtonSpace: Dp,
     onItemSelect: (pos: Int) -> Unit
 ) {
+    val view = LocalView.current
+    
     items.forEachIndexed { index, text ->
         
         val itemPadding = when (orientation) {
@@ -112,7 +115,7 @@ private fun renderRadioButtons(
             RadioGroupOrientation.Horizontal -> PaddingValues(start = if (index > 0) radioButtonSpace else 0.dp)
         }
         
-        CompositionLocalProvider(LocalMinimumTouchTargetEnforcement provides false) {
+        CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
             Row(
                 modifier = Modifier
                     .padding(itemPadding),
@@ -121,7 +124,10 @@ private fun renderRadioButtons(
             ) {
                 RadioButton(
                     selected = if (selectedPosition >= 0) selectedPosition == index else index == 0,
-                    onClick = { onItemSelect(index) }
+                    onClick = {
+                        view.playSoundEffect(SoundEffectConstants.CLICK)
+                        onItemSelect(index)
+                    }
                 )
                 
                 Text(

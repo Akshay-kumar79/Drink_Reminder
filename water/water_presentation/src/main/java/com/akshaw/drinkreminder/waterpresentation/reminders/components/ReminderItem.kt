@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.waterpresentation.reminders.components
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -18,9 +19,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -66,6 +70,9 @@ fun ReminderItem(
     onDeleteReminder: (drinkReminder: DrinkReminder) -> Unit
 ) {
     
+    val view = LocalView.current
+    val hapticFeedback = LocalHapticFeedback.current
+    
     var isPopupShowing by remember { mutableStateOf(false) }
     var pressOffset by remember { mutableStateOf(DpOffset.Zero) }
     var itemHeight by remember { mutableStateOf(0.dp) }
@@ -79,10 +86,12 @@ fun ReminderItem(
             .pointerInput(true) {
                 detectTapGestures(
                     onLongPress = {
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                         pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
                         isPopupShowing = true
                     },
                     onTap = {
+                        view.playSoundEffect(SoundEffectConstants.CLICK)
                         onClick(updatedDrinkReminder)
                     }
                 )
@@ -141,6 +150,7 @@ fun ReminderItem(
                         )
                     },
                     onClick = {
+                        view.playSoundEffect(SoundEffectConstants.CLICK)
                         onDeleteReminder(drinkReminder)
                         isPopupShowing = false
                     }
@@ -154,6 +164,7 @@ fun ReminderItem(
                 .scale(.65f),
             checked = drinkReminder.isReminderOn,
             onCheckedChange = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
                 onSwitchCheckChange(drinkReminder, it)
             }
         )

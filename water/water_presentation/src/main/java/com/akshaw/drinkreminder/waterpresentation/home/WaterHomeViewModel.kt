@@ -26,12 +26,13 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.inject.Inject
 
+// TODO Add restriction to add 0 quantity trackable drink and forgotten drink and other restriction if any
 @HiltViewModel
 class WaterHomeViewModel @Inject constructor(
-    private val preferences: Preferences,
+      preferences: Preferences,
     private val filterADayDrinks: FilterADayDrinks,
     private val getDrinkProgress: GetDrinkProgress,
-    private val getAllTrackableDrinks: GetAllTrackableDrinks,
+      getAllTrackableDrinks: GetAllTrackableDrinks,
     private val filterTrackableDrinksByUnit: FilterTrackableDrinksByUnit,
     private val getSelectedTrackableDrink: GetSelectedTrackableDrink,
     private val getLocalTime: GetLocalTime,
@@ -41,7 +42,7 @@ class WaterHomeViewModel @Inject constructor(
     private val addDrink: AddDrink,
     private val deleteTrackableDrink: DeleteTrackableDrink,
     private val deleteDrink: DeleteDrink,
-    private val getAllDrinks: GetAllDrinks,
+     getAllDrinks: GetAllDrinks,
     private val rescheduleAllTSDrinkReminders: RescheduleAllTSDrinkReminders
 ) : ViewModel() {
     
@@ -67,7 +68,7 @@ class WaterHomeViewModel @Inject constructor(
     private val _selectedTrackableDrink = MutableStateFlow(TrackableDrink(-1, 0.0, WaterUnit.ML))
     val selectedTrackableDrink = _selectedTrackableDrink.asStateFlow()
     
-    var recentlyDeleteDrink: Drink? = null
+    private var recentlyDeleteDrink: Drink? = null
     
     
     /** Add Forgotten Drink Dialog States */

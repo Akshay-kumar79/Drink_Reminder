@@ -1,11 +1,8 @@
 package com.akshaw.drinkreminder.settingspresentation.settings.dialogs
 
-import android.util.Log
-import androidx.compose.foundation.Image
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,42 +14,28 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalMinimumTouchTargetEnforcement
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.util.WaterUnit
-import com.akshaw.drinkreminder.core.util.WeightUnit
 import com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme
-import com.akshaw.drinkreminder.corecompose.theme.composables.RadioGroup
-import kotlin.math.ceil
 import kotlin.math.floor
-import kotlin.math.roundToInt
 
 @Preview(showSystemUi = true, apiLevel = 33)
 @Composable
@@ -79,6 +62,7 @@ fun DailyIntakeGoalDialog(
     onCancel: () -> Unit,
     onConfirm: () -> Unit,
 ) {
+    val view = LocalView.current
     
     Dialog(
         onDismissRequest = { onCancel() }
@@ -117,10 +101,11 @@ fun DailyIntakeGoalDialog(
                 Icon(
                     modifier = Modifier
                         .clickable {
+                            view.playSoundEffect(SoundEffectConstants.CLICK)
                             onReset()
                         },
                     imageVector = Icons.Filled.Refresh,
-                    contentDescription = "refresh"
+                    contentDescription = "reset"
                 )
                 
             }
@@ -154,6 +139,7 @@ fun DailyIntakeGoalDialog(
                     modifier = Modifier
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
+                            view.playSoundEffect(SoundEffectConstants.CLICK)
                             onCancel()
                         }
                         .padding(4.dp),
@@ -169,6 +155,7 @@ fun DailyIntakeGoalDialog(
                         .padding(end = 16.dp)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
+                            view.playSoundEffect(SoundEffectConstants.CLICK)
                             onConfirm()
                         }
                         .padding(4.dp),
