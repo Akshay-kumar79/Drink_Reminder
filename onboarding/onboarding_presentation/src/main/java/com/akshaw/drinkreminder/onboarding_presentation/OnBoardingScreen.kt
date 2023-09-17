@@ -47,11 +47,11 @@ import com.akshaw.drinkreminder.onboarding_presentation.components.SelectWakeupT
 import com.akshaw.drinkreminder.onboarding_presentation.components.SelectWeight
 import kotlinx.coroutines.flow.collectLatest
 import com.akshaw.drinkreminder.core.R
-import com.akshaw.drinkreminder.corecompose.theme.composables.NotificationPermissionTextProvider
-import com.akshaw.drinkreminder.corecompose.theme.composables.PermissionDialog
+import com.akshaw.drinkreminder.corecompose.composables.NotificationPermissionTextProvider
+import com.akshaw.drinkreminder.corecompose.composables.PermissionDialog
 import com.akshaw.drinkreminder.onboarding_presentation.components.OnboardingGrantPermission
 import com.akshaw.drinkreminder.onboarding_presentation.components.Permission
-import com.akshaw.drinkreminder.corecompose.theme.events.NotificationPermissionDialogEvent
+import com.akshaw.drinkreminder.corecompose.events.NotificationPermissionDialogEvent
 import com.akshaw.drinkreminder.onboarding_presentation.events.OnboardingEvent
 
 @Composable

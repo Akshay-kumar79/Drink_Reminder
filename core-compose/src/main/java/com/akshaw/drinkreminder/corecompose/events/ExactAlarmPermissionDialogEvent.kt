@@ -1,4 +1,4 @@
-package com.akshaw.drinkreminder.corecompose.theme.events
+package com.akshaw.drinkreminder.corecompose.events
 
 sealed interface ExactAlarmPermissionDialogEvent{
     

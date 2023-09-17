@@ -10,8 +10,8 @@ import com.akshaw.drinkreminder.core.util.UiText
 import com.akshaw.drinkreminder.waterdomain.use_case.CancelDrinkReminder
 import com.akshaw.drinkreminder.waterdomain.use_case.DeleteDrinkReminder
 import com.akshaw.drinkreminder.waterdomain.use_case.GetAllDrinkReminders
-import com.akshaw.drinkreminder.corecompose.theme.events.ExactAlarmPermissionDialogEvent
-import com.akshaw.drinkreminder.corecompose.theme.events.NotificationPermissionDialogEvent
+import com.akshaw.drinkreminder.corecompose.events.ExactAlarmPermissionDialogEvent
+import com.akshaw.drinkreminder.corecompose.events.NotificationPermissionDialogEvent
 import com.akshaw.drinkreminder.waterdomain.use_case.AddAndScheduleDrinkReminder
 import com.akshaw.drinkreminder.waterdomain.use_case.SwitchDrinkReminder
 import com.akshaw.drinkreminder.waterdomain.use_case.UpdateAndScheduleDrinkReminder

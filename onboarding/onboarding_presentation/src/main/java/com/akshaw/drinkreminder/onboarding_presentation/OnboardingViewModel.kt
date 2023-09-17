@@ -24,7 +24,7 @@ import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.onboarding_domain.use_case.SaveInitialReminders
 import com.akshaw.drinkreminder.onboarding_domain.use_case.SaveInitialDailyIntakeGoal
 import com.akshaw.drinkreminder.onboarding_domain.use_case.SaveInitialTrackableDrinks
-import com.akshaw.drinkreminder.corecompose.theme.events.NotificationPermissionDialogEvent
+import com.akshaw.drinkreminder.corecompose.events.NotificationPermissionDialogEvent
 import com.akshaw.drinkreminder.onboarding_presentation.events.OnboardingEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

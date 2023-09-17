@@ -1,4 +1,4 @@
-package com.akshaw.drinkreminder.corecompose.theme.composables
+package com.akshaw.drinkreminder.corecompose.composables
 
 import android.view.SoundEffectConstants
 import androidx.compose.foundation.layout.Arrangement

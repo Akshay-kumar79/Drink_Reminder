@@ -33,8 +33,8 @@ import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme
-import com.akshaw.drinkreminder.corecompose.theme.composables.RadioGroup
-import com.akshaw.drinkreminder.corecompose.theme.composables.RadioGroupOrientation
+import com.akshaw.drinkreminder.corecompose.composables.RadioGroup
+import com.akshaw.drinkreminder.corecompose.composables.RadioGroupOrientation
 
 @Preview(showSystemUi = true, apiLevel = 33)
 @Composable

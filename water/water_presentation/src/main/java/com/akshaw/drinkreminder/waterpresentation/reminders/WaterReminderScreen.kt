@@ -28,11 +28,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.ReminderType
 import com.akshaw.drinkreminder.core.util.UiEvent
-import com.akshaw.drinkreminder.corecompose.theme.composables.ExactAlarmPermissionTextProvider
-import com.akshaw.drinkreminder.corecompose.theme.composables.NotificationPermissionTextProvider
-import com.akshaw.drinkreminder.corecompose.theme.composables.PermissionDialog
-import com.akshaw.drinkreminder.corecompose.theme.events.ExactAlarmPermissionDialogEvent
-import com.akshaw.drinkreminder.corecompose.theme.events.NotificationPermissionDialogEvent
+import com.akshaw.drinkreminder.corecompose.composables.ExactAlarmPermissionTextProvider
+import com.akshaw.drinkreminder.corecompose.composables.NotificationPermissionTextProvider
+import com.akshaw.drinkreminder.corecompose.composables.PermissionDialog
+import com.akshaw.drinkreminder.corecompose.events.ExactAlarmPermissionDialogEvent
+import com.akshaw.drinkreminder.corecompose.events.NotificationPermissionDialogEvent
 import com.akshaw.drinkreminder.waterpresentation.reminders.components.AIReminderSection
 import com.akshaw.drinkreminder.waterpresentation.reminders.components.TSReminderSection
 import com.akshaw.drinkreminder.waterpresentation.reminders.dialogs.UpsertReminderDialog
