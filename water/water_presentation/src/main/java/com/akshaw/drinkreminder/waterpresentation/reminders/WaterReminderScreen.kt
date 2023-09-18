@@ -1,6 +1,7 @@
 package com.akshaw.drinkreminder.waterpresentation.reminders
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.view.SoundEffectConstants
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,7 +27,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.core.R
-import com.akshaw.drinkreminder.core.util.ReminderType
+import com.akshaw.drinkreminder.core.domain.preferences.elements.ReminderType
+import com.akshaw.drinkreminder.core.domain.preferences.elements.getDescription
+import com.akshaw.drinkreminder.core.domain.preferences.elements.getText
 import com.akshaw.drinkreminder.core.util.UiEvent
 import com.akshaw.drinkreminder.corecompose.composables.ExactAlarmPermissionTextProvider
 import com.akshaw.drinkreminder.corecompose.composables.NotificationPermissionTextProvider
@@ -41,6 +44,7 @@ import com.akshaw.drinkreminder.waterpresentation.reminders.events.TSReminderMod
 import com.akshaw.drinkreminder.waterpresentation.reminders.events.UpsertReminderDialogEvent
 import kotlinx.coroutines.flow.collectLatest
 
+@SuppressLint("InlinedApi")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WaterReminderScreen(
@@ -241,10 +245,6 @@ fun WaterReminderScreen(
                         viewModel.onEvent(RemindersEvent.OnDeleteReminder(it))
                     }
                 )
-                
-                ReminderType.Invalid -> {
-                
-                }
             }
         }
         

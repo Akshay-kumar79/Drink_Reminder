@@ -1,6 +1,6 @@
 package com.akshaw.drinkreminder.waterpresentation.reminders.events
 
-import com.akshaw.drinkreminder.core.util.ReminderType
+import com.akshaw.drinkreminder.core.domain.preferences.elements.ReminderType
 import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
 
 sealed interface RemindersEvent {

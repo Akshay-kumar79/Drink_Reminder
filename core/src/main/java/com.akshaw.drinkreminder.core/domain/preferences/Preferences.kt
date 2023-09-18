@@ -1,6 +1,7 @@
 package com.akshaw.drinkreminder.core.domain.preferences
 
 import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
+import com.akshaw.drinkreminder.core.domain.preferences.elements.ReminderType
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import kotlinx.coroutines.flow.Flow
@@ -52,6 +53,13 @@ interface Preferences {
             when (it) {
                 Gender.Male -> "male"
                 Gender.Female -> "female"
+            }
+        }
+        
+        val reminderTypeValues = ReminderType.values().associateWith {
+            when (it) {
+                ReminderType.TSReminder -> "time_specific_reminder"
+                ReminderType.AIReminder -> "automatic_interval_reminder"
             }
         }
         

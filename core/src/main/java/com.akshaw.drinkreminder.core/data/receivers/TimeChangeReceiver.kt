@@ -3,7 +3,7 @@ package com.akshaw.drinkreminder.core.data.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.akshaw.drinkreminder.core.util.ReminderType
+import com.akshaw.drinkreminder.core.domain.preferences.elements.ReminderType
 import com.akshaw.drinkreminder.core.domain.use_case.RescheduleAllTSDrinkReminders
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.DelicateCoroutinesApi
