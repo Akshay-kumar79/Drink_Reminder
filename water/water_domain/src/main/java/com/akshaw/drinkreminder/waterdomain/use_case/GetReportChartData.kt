@@ -1,7 +1,7 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
 import com.akshaw.drinkreminder.core.domain.model.Drink
-import com.akshaw.drinkreminder.core.util.ChartType
+import com.akshaw.drinkreminder.waterdomain.utils.ChartType
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import java.time.*
 import javax.inject.Inject

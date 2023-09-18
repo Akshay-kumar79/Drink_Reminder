@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
-import com.akshaw.drinkreminder.core.util.ChartType
+import com.akshaw.drinkreminder.waterdomain.utils.ChartType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

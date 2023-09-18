@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
-import com.akshaw.drinkreminder.core.util.ChartType
+import com.akshaw.drinkreminder.waterdomain.utils.ChartType
 import java.time.LocalDate
 import java.time.Year
 import java.time.format.DateTimeFormatter

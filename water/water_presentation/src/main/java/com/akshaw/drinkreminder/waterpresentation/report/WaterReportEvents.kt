@@ -1,6 +1,6 @@
 package com.akshaw.drinkreminder.waterpresentation.report
 
-import com.akshaw.drinkreminder.core.util.ChartType
+import com.akshaw.drinkreminder.waterdomain.utils.ChartType
 import java.time.LocalDate
 
 sealed interface WaterReportEvent{
