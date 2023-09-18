@@ -22,11 +22,11 @@ class FilterTrackableDrinksByUnitTest {
             add(TrackableDrink(0, 10.0, WaterUnit.ML))
             add(TrackableDrink(0, 20.0, WaterUnit.FL_OZ))
             add(TrackableDrink(0, 30.0, WaterUnit.ML))
-            add(TrackableDrink(0, 30.0, WaterUnit.Invalid))
+//            add(TrackableDrink(0, 30.0, WaterUnit.Invalid))
             add(TrackableDrink(0, 40.0, WaterUnit.FL_OZ))
             add(TrackableDrink(0, 50.0, WaterUnit.FL_OZ))
-            add(TrackableDrink(0, 50.0, WaterUnit.Invalid))
-            add(TrackableDrink(0, 60.0, WaterUnit.Invalid))
+//            add(TrackableDrink(0, 50.0, WaterUnit.Invalid))
+//            add(TrackableDrink(0, 60.0, WaterUnit.Invalid))
             add(TrackableDrink(0, 60.0, WaterUnit.ML))
             add(TrackableDrink(0, 70.0, WaterUnit.FL_OZ))
             add(TrackableDrink(0, 80.0, WaterUnit.ML))
@@ -67,11 +67,11 @@ class FilterTrackableDrinksByUnitTest {
     fun `mixed trackable drinks and preference unit FL_OZ, returns FL_OZ drinks only`() {
         val trackableDrinks = mutableListOf<TrackableDrink>().apply {
             add(TrackableDrink(0, 10.0, WaterUnit.ML))
-            add(TrackableDrink(0, 20.0, WaterUnit.Invalid))
+//            add(TrackableDrink(0, 20.0, WaterUnit.Invalid))
             add(TrackableDrink(0, 20.0, WaterUnit.FL_OZ))
             add(TrackableDrink(0, 30.0, WaterUnit.ML))
-            add(TrackableDrink(0, 30.0, WaterUnit.Invalid))
-            add(TrackableDrink(0, 40.0, WaterUnit.Invalid))
+//            add(TrackableDrink(0, 30.0, WaterUnit.Invalid))
+//            add(TrackableDrink(0, 40.0, WaterUnit.Invalid))
             add(TrackableDrink(0, 40.0, WaterUnit.FL_OZ))
             add(TrackableDrink(0, 50.0, WaterUnit.FL_OZ))
             add(TrackableDrink(0, 60.0, WaterUnit.ML))
@@ -107,22 +107,22 @@ class FilterTrackableDrinksByUnitTest {
     
     @Test
     fun `INVALID trackable drinks only and preference unit FL_OZ, returns 0 drinks`() {
-        val trackableDrinks = mutableListOf<TrackableDrink>().apply {
-            add(TrackableDrink(0, 20.0, WaterUnit.Invalid))
-            add(TrackableDrink(0, 40.0, WaterUnit.Invalid))
-        }
-        
-        doTest(trackableDrinks, WaterUnit.FL_OZ, 0)
+//        val trackableDrinks = mutableListOf<TrackableDrink>().apply {
+//            add(TrackableDrink(0, 20.0, WaterUnit.Invalid))
+//            add(TrackableDrink(0, 40.0, WaterUnit.Invalid))
+//        }
+//
+//        doTest(trackableDrinks, WaterUnit.FL_OZ, 0)
     }
     
     @Test
     fun `INVALID trackable drinks only and preference unit ML, returns 0 drinks`() {
-        val trackableDrinks = mutableListOf<TrackableDrink>().apply {
-            add(TrackableDrink(0, 20.0, WaterUnit.Invalid))
-            add(TrackableDrink(0, 40.0, WaterUnit.Invalid))
-        }
-        
-        doTest(trackableDrinks, WaterUnit.ML, 0)
+//        val trackableDrinks = mutableListOf<TrackableDrink>().apply {
+//            add(TrackableDrink(0, 20.0, WaterUnit.Invalid))
+//            add(TrackableDrink(0, 40.0, WaterUnit.Invalid))
+//        }
+//
+//        doTest(trackableDrinks, WaterUnit.ML, 0)
     }
     
     

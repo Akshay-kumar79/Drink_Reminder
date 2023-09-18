@@ -20,7 +20,6 @@ class ValidateQuantityTest {
         preferences = FakePreference()
         filterOutDigits = FilterOutDigits()
         validateQuantity = ValidateQuantity(
-            preferences,
             filterOutDigits
         )
     }
