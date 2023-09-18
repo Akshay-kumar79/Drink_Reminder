@@ -50,7 +50,7 @@ fun SelectWakeupTime(viewModel: OnboardingViewModel, modifier: Modifier){
                     value = viewModel.state.wakeupTimeHour
                     typeface = ResourcesCompat.getFont(context, R.font.ubuntu_medium)
                     setSelectedTypeface(ResourcesCompat.getFont(context, R.font.ubuntu_medium))
-                    setOnValueChangedListener { picker, oldVal, newVal ->
+                    setOnValueChangedListener { _, _, _ ->
                         viewModel.onEvent(OnboardingEvent.OnWakeupTimeHourChange(value))
                     }
                 }
@@ -103,7 +103,7 @@ fun SelectWakeupTime(viewModel: OnboardingViewModel, modifier: Modifier){
                     value = viewModel.state.wakeupTimeMinute
                     typeface = ResourcesCompat.getFont(context, R.font.ubuntu_medium)
                     setSelectedTypeface(ResourcesCompat.getFont(context, R.font.ubuntu_medium))
-                    setOnValueChangedListener { picker, oldVal, newVal ->
+                    setOnValueChangedListener { _, _, _ ->
                         viewModel.onEvent(OnboardingEvent.OnWakeupTimeMinuteChange(value))
                     }
                 }
@@ -114,7 +114,7 @@ fun SelectWakeupTime(viewModel: OnboardingViewModel, modifier: Modifier){
             factory = { context ->
                 NumberPicker(context).apply {
                     formatter = NumberPicker.Formatter {
-                        TimeUnit.getNameFromId(it)
+                        TimeUnit.getNameFromId(it) ?: ""
                     }
                     setDividerDistance(Utility.getFloatFromDp(context, 60f).roundToInt())
                     setDividerThickness(Utility.getFloatFromDp(context, 0.5f).roundToInt())
@@ -130,7 +130,7 @@ fun SelectWakeupTime(viewModel: OnboardingViewModel, modifier: Modifier){
                     value = viewModel.state.wakeupTimeUnit.id
                     typeface = ResourcesCompat.getFont(context, R.font.ubuntu_medium)
                     setSelectedTypeface(ResourcesCompat.getFont(context, R.font.ubuntu_medium))
-                    setOnValueChangedListener { picker, oldVal, newVal ->
+                    setOnValueChangedListener { _, _, _ ->
                         viewModel.onEvent(
                             OnboardingEvent.OnWakeupTimeUnitChange(
                                 TimeUnit.fromId(value)

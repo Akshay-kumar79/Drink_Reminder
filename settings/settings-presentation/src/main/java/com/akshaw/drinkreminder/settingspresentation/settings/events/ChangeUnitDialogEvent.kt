@@ -1,7 +1,7 @@
 package com.akshaw.drinkreminder.settingspresentation.settings.events
 
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
-import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
 
 sealed interface ChangeUnitDialogEvent {
     object ShowDialog: ChangeUnitDialogEvent

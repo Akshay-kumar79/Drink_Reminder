@@ -2,14 +2,14 @@ package com.akshaw.drinkreminder.onboarding_presentation.events
 
 import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.core.util.TimeUnit
-import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
 
 sealed interface OnboardingEvent {
     object OnNextClick : OnboardingEvent
     data class OnGenderClick(val gender: Gender) : OnboardingEvent
     data class OnAgeChange(val age: Int) : OnboardingEvent
     data class OnWeightChange(val weight: Int) : OnboardingEvent
-    data class OnWeightUnitChange(val unit: WeightUnit) : OnboardingEvent
+    data class OnWeightUnitChange(val unit: WeightUnit?) : OnboardingEvent
     data class OnBedTimeHourChange(val hour: Int) : OnboardingEvent
     data class OnBedTimeMinuteChange(val minute: Int) : OnboardingEvent
     data class OnBedTimeUnitChange(val unit: TimeUnit?) : OnboardingEvent

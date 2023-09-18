@@ -3,6 +3,7 @@ package com.akshaw.drinkreminder.core.domain.preferences
 import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.core.domain.preferences.elements.ReminderType
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
 
 object Persistent {
     
@@ -14,9 +15,16 @@ object Persistent {
     }
     
     val waterUnitValues = WaterUnit.values().associateWith {
-        when(it){
+        when (it) {
             WaterUnit.ML -> "ml"
             WaterUnit.FL_OZ -> "fl oz"
+        }
+    }
+    
+    val weightUnitValues = WeightUnit.values().associateWith {
+        when (it) {
+            WeightUnit.KG -> "kg"
+            WeightUnit.LBS -> "lbs"
         }
     }
     
@@ -26,5 +34,5 @@ object Persistent {
             ReminderType.AIReminder -> "automatic_interval_reminder"
         }
     }
-
+    
 }

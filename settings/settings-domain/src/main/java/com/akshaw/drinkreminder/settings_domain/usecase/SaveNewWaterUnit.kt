@@ -14,17 +14,11 @@ class SaveNewWaterUnit @Inject constructor(
     private val changeWaterQuantityByUnit: ChangeWaterQuantityByUnit
 ) {
     
-    /**
-     *  @return [Result.success] -> if current water unit from [Preferences] is same as newWaterUnit
-     *  Or if newWaterUnit is saved successfully in preference with new converted dailyWaterIntakeGoal
-     *
-     *  [Result.failure] -> if failed to convert current daily water intake goal quantity to newWaterUnit quantity
-     */
-    suspend operator fun invoke(newWaterUnit: WaterUnit): Result<Unit> {
+    suspend operator fun invoke(newWaterUnit: WaterUnit) {
         
         val currentWaterUnit = preferences.getWaterUnit().first()
         if (currentWaterUnit == newWaterUnit) {
-            return Result.success(Unit)
+            return
         }
         
         val currentDailyWaterIntake = preferences.getDailyWaterIntakeGoal().first()
@@ -33,9 +27,6 @@ class SaveNewWaterUnit @Inject constructor(
         
         preferences.saveDailyWaterIntakeGoal(newDailyWaterIntake)
         preferences.saveWaterUnit(newWaterUnit)
-        
-        return Result.success(Unit)
-        
     }
     
 }

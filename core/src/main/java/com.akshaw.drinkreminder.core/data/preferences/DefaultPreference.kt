@@ -17,7 +17,7 @@ import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
-import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -65,9 +65,16 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
         }
     }
     
+    /**
+     *  Value are stored as string in preference extracted from [Persistent.weightUnitValues]
+     *  for there respective [WeightUnit]
+     */
     override suspend fun saveWeightUnit(unit: WeightUnit) {
         dataStore.edit { preference ->
-            preference[weightUnitKey] = unit.name
+            // Here getValue should not throw NoSuchElementException as genderValues have
+            // all the value for there respective genders and if not then genderValues should
+            // give compile-time error
+            preference[weightUnitKey] = Persistent.weightUnitValues.getValue(unit)
         }
     }
     
@@ -141,7 +148,8 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
     }
     
     override fun getWeightUnit(): Flow<WeightUnit> = dataStore.data.map { preference ->
-        WeightUnit.fromString(preference[weightUnitKey] ?: Constants.DEFAULT_WEIGHT_UNIT.name)
+        val reveredWeightUnitValues = Persistent.weightUnitValues.entries.associateBy({ it.value }) { it.key }
+        reveredWeightUnitValues.getOrDefault(preference[weightUnitKey] ?: "", Constants.DEFAULT_WEIGHT_UNIT)
     }
     
     @Suppress("KotlinConstantConditions")

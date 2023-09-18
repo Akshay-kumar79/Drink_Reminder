@@ -3,7 +3,7 @@ package com.akshaw.drinkreminder.onboarding_domain.utils
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.core.util.TimeUnit
-import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
 
 data class OnboardingState(
     val page: OnboardingPage = OnboardingPage.GENDER,

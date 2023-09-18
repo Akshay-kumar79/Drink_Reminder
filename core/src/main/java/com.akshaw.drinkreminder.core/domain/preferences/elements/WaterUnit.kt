@@ -7,7 +7,7 @@ private const val FL_OZ_ = "fl oz"
 
 enum class WaterUnit(val text: String, val id: Int) {
     
-    /** ids should not have number gap except INVALID WeightUnit */
+    /** ids should not have number gap*/
     ML(ML_, 100),
     FL_OZ(FL_OZ_, 101);
     
@@ -19,20 +19,5 @@ enum class WaterUnit(val text: String, val id: Int) {
                 else -> Constants.DEFAULT_WATER_UNIT
             }
         }
-        
-        private fun fromId(id: Int): WaterUnit? {
-            return when (id) {
-                100 -> ML
-                101 -> FL_OZ
-                else -> null
-            }
-        }
-        
-        fun fromIdToText(id: Int): String? {
-            return fromId(id)?.text
-        }
-        
-        fun maxID() = FL_OZ.id
-        fun minID() = ML.id
     }
 }

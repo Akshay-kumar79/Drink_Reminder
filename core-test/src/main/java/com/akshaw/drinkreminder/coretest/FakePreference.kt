@@ -5,7 +5,7 @@ import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
-import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.time.LocalTime
@@ -16,7 +16,7 @@ class FakePreference : Preferences {
     private var gender: String = Constants.DEFAULT_GENDER.name
     private var age: Int = Constants.DEFAULT_AGE
     private var weight: Float = Constants.DEFAULT_WEIGHT
-    private var weightUnit: String = Constants.DEFAULT_WEIGHT_UNIT.name
+    private var weightUnit: String = Constants.DEFAULT_WEIGHT_UNIT.text
     private var waterUnit: String = Constants.DEFAULT_WATER_UNIT.text
     private var selectedTrackableDrinkId: Long = Constants.DEFAULT_SELECTED_TRACKABLE_DRINK_ID
     private var dailyWaterIntakeGoal: Double = Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL
@@ -40,7 +40,7 @@ class FakePreference : Preferences {
     }
     
     override suspend fun saveWeightUnit(unit: WeightUnit) {
-        this.weightUnit = unit.name
+        this.weightUnit = unit.text
     }
     
     override suspend fun saveBedTime(time: LocalTime) {

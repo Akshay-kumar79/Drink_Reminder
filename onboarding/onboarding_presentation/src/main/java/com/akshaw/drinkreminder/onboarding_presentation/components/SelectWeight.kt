@@ -12,7 +12,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.util.Utility
-import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
 import com.akshaw.drinkreminder.onboarding_presentation.events.OnboardingEvent
 import com.akshaw.drinkreminder.onboarding_presentation.OnboardingViewModel
 import com.shawnlin.numberpicker.NumberPicker
@@ -44,7 +44,7 @@ fun SelectWeight(viewModel: OnboardingViewModel, modifier: Modifier) {
                     value = viewModel.state.weight.roundToInt()
                     typeface = ResourcesCompat.getFont(context, R.font.ubuntu_medium)
                     setSelectedTypeface(ResourcesCompat.getFont(context, R.font.ubuntu_medium))
-                    setOnValueChangedListener { picker, oldVal, newVal ->
+                    setOnValueChangedListener { _, _, _ ->
                         viewModel.onEvent(OnboardingEvent.OnWeightChange(value))
                     }
                 }
@@ -55,7 +55,7 @@ fun SelectWeight(viewModel: OnboardingViewModel, modifier: Modifier) {
             factory = { context ->
                 NumberPicker(context).apply {
                     formatter = NumberPicker.Formatter {
-                        WeightUnit.fromIdToName(it)
+                        WeightUnit.fromIdToName(it) ?: ""
                     }
                     setDividerDistance(Utility.getFloatFromDp(context, 60f).roundToInt())
                     setDividerThickness(Utility.getFloatFromDp(context, 0.5f).roundToInt())
@@ -71,7 +71,7 @@ fun SelectWeight(viewModel: OnboardingViewModel, modifier: Modifier) {
                     value = viewModel.state.weightUnit.id
                     typeface = ResourcesCompat.getFont(context, R.font.ubuntu_medium)
                     setSelectedTypeface(ResourcesCompat.getFont(context, R.font.ubuntu_medium))
-                    setOnValueChangedListener { picker, oldVal, newVal ->
+                    setOnValueChangedListener { _, _, _ ->
                         viewModel.onEvent(
                             OnboardingEvent.OnWeightUnitChange(
                                 WeightUnit.fromId(value)

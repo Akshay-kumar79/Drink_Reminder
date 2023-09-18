@@ -50,7 +50,7 @@ fun SelectBedTime(viewModel: OnboardingViewModel, modifier: Modifier) {
                     value = viewModel.state.bedTimeHour
                     typeface = ResourcesCompat.getFont(context, R.font.ubuntu_medium)
                     setSelectedTypeface(ResourcesCompat.getFont(context, R.font.ubuntu_medium))
-                    setOnValueChangedListener { picker, oldVal, newVal ->
+                    setOnValueChangedListener { _, _, _ ->
                         viewModel.onEvent(OnboardingEvent.OnBedTimeHourChange(value))
                     }
                 }
@@ -103,7 +103,7 @@ fun SelectBedTime(viewModel: OnboardingViewModel, modifier: Modifier) {
                     value = viewModel.state.bedTimeMinute
                     typeface = ResourcesCompat.getFont(context, R.font.ubuntu_medium)
                     setSelectedTypeface(ResourcesCompat.getFont(context, R.font.ubuntu_medium))
-                    setOnValueChangedListener { picker, oldVal, newVal ->
+                    setOnValueChangedListener { _, _, _ ->
                         viewModel.onEvent(OnboardingEvent.OnBedTimeMinuteChange(value))
                     }
                 }
@@ -114,7 +114,7 @@ fun SelectBedTime(viewModel: OnboardingViewModel, modifier: Modifier) {
             factory = { context ->
                 NumberPicker(context).apply {
                     formatter = NumberPicker.Formatter {
-                        TimeUnit.getNameFromId(it)
+                        TimeUnit.getNameFromId(it) ?: ""
                     }
                     setDividerDistance(Utility.getFloatFromDp(context, 60f).roundToInt())
                     setDividerThickness(Utility.getFloatFromDp(context, 0.5f).roundToInt())
@@ -130,7 +130,7 @@ fun SelectBedTime(viewModel: OnboardingViewModel, modifier: Modifier) {
                     value = viewModel.state.bedTimeUnit.id
                     typeface = ResourcesCompat.getFont(context, R.font.ubuntu_medium)
                     setSelectedTypeface(ResourcesCompat.getFont(context, R.font.ubuntu_medium))
-                    setOnValueChangedListener { picker, oldVal, newVal ->
+                    setOnValueChangedListener { _, _, _ ->
                         viewModel.onEvent(
                             OnboardingEvent.OnBedTimeUnitChange(
                                 TimeUnit.fromId(value)

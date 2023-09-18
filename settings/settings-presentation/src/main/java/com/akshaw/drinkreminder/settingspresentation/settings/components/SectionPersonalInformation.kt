@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
-import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
 import com.akshaw.drinkreminder.core.util.formatted24HourTime
 import java.time.LocalTime
 import kotlin.math.floor
@@ -85,7 +85,7 @@ fun SectionPersonalInformation(
                     onWeightClick()
                 },
             mainText = "Weight",
-            summaryText = "${floor(weight).toInt()} ${weightUnit.name}",
+            summaryText = "${floor(weight).toInt()} ${weightUnit.text}",
             iconResId = R.drawable.icon_awesome_weight
         )
         

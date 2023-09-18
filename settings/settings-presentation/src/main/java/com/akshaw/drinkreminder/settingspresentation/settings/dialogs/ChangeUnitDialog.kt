@@ -31,7 +31,7 @@ import androidx.compose.ui.window.Dialog
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
-import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
 import com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme
 import com.akshaw.drinkreminder.corecompose.composables.RadioGroup
 import com.akshaw.drinkreminder.corecompose.composables.RadioGroupOrientation
@@ -132,7 +132,7 @@ fun ChangeUnitDialog(
                     
                     // Weight Unit radio group
                     RadioGroup(
-                        items = allWeightUnits.map { it.name }.toSet(),
+                        items = allWeightUnits.map { it.text }.toSet(),
                         orientation = RadioGroupOrientation.Horizontal,
                         selectedPosition = allWeightUnits.indexOf(selectedWeightUnit),
                         onItemSelect = {

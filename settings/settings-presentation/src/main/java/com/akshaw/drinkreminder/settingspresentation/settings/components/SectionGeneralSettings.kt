@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
-import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
 import kotlin.math.floor
 
 @Composable
@@ -53,7 +53,7 @@ fun SectionGeneralSettings(
                     onUnitClick()
                 },
             mainText = "Unit",
-            summaryText = "${waterUnit.text}/${weightUnit.name}",
+            summaryText = "${waterUnit.text}/${weightUnit.text}",
             iconResId = R.drawable.meter
         )
         

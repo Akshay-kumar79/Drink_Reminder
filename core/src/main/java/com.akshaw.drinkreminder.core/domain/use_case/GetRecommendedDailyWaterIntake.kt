@@ -3,7 +3,7 @@ package com.akshaw.drinkreminder.core.domain.use_case
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
-import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
 import javax.inject.Inject
 import kotlin.math.floor
 import kotlin.math.roundToInt
@@ -24,7 +24,6 @@ class GetRecommendedDailyWaterIntake @Inject constructor(
      * @param currentWaterUnit preferred [WaterUnit] for the output amount
      *
      * @return [Result.failure]
-     * - if currentWeightUnit type is invalid,
      * - if current age is less than 13 year and more than [Constants.MAX_AGE] year,
      * - if currentWeight is less than 11 kg and more than [Constants.MAX_WEIGHT] kg
      *
@@ -39,10 +38,7 @@ class GetRecommendedDailyWaterIntake @Inject constructor(
         currentWaterUnit: WaterUnit
     ): Result<Int> {
         
-        val currentWeightInKg = changeWeightByUnit(currentWeight, currentWeightUnit, WeightUnit.KG)
-            .getOrElse {
-                return Result.failure(it)
-            }.roundToInt()
+        val currentWeightInKg = changeWeightByUnit(currentWeight, currentWeightUnit, WeightUnit.KG).roundToInt()
         
         val recommendedDailyIntakeInMl = when (currentAge) {
             in (13..18) -> {

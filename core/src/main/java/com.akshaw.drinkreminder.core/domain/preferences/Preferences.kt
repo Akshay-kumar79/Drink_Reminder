@@ -2,7 +2,7 @@ package com.akshaw.drinkreminder.core.domain.preferences
 
 import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
-import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalTime
 

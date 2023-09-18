@@ -1,7 +1,7 @@
 package com.akshaw.drinkreminder.core.domain.use_case
 
 import com.akshaw.drinkreminder.core.util.Constants
-import com.akshaw.drinkreminder.core.util.WeightUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
 import javax.inject.Inject
 
 /**
@@ -15,17 +15,14 @@ class ChangeWeightByUnit @Inject constructor() {
      *  @param currentWeightUnit the weight unit of the weight
      *  @param newWeightUnit the weight unit to which weight need to be converted
      *
-     *  @return[Result.success] with new weight
-     *
-     *  [Result.failure] if newWightUnit type is [WeightUnit.Invalid]
+     *  @return new weight
      */
-    operator fun invoke(weight: Float, currentWeightUnit: WeightUnit, newWeightUnit: WeightUnit): Result<Float> {
+    operator fun invoke(weight: Float, currentWeightUnit: WeightUnit, newWeightUnit: WeightUnit): Float {
         val newWeight = when (currentWeightUnit) {
             WeightUnit.KG -> {
                 when (newWeightUnit) {
                     WeightUnit.KG -> weight
                     WeightUnit.LBS -> (weight * Constants.KG_TO_LBS).toFloat()
-                    WeightUnit.Invalid -> return Result.failure(Exception("Something went wrong"))
                 }
             }
             
@@ -33,20 +30,11 @@ class ChangeWeightByUnit @Inject constructor() {
                 when (newWeightUnit) {
                     WeightUnit.KG -> (weight * Constants.LBS_TO_KG).toFloat()
                     WeightUnit.LBS -> weight
-                    WeightUnit.Invalid -> return Result.failure(Exception("Something went wrong"))
-                }
-            }
-            
-            WeightUnit.Invalid -> {
-                when (newWeightUnit) {
-                    WeightUnit.KG -> weight
-                    WeightUnit.LBS -> weight
-                    WeightUnit.Invalid -> return Result.failure(Exception("Something went wrong"))
                 }
             }
         }
         
-        return Result.success(newWeight)
+        return newWeight
     }
     
 }

@@ -10,7 +10,6 @@ import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
 import com.akshaw.drinkreminder.corecompose.uievents.UiText
-import com.akshaw.drinkreminder.core.util.WeightUnit
 import com.akshaw.drinkreminder.onboarding_domain.use_case.GetNextPage
 import com.akshaw.drinkreminder.onboarding_domain.use_case.GetPreviousPage
 import com.akshaw.drinkreminder.onboarding_domain.utils.OnboardingPage
@@ -150,9 +149,13 @@ class OnboardingViewModel @Inject constructor(
             }
             
             is OnboardingEvent.OnWeightUnitChange -> {
-                state = state.copy(
-                    weightUnit = event.unit
-                )
+                viewModelScope.launch {
+                    event.unit?.let {
+                        state = state.copy(
+                            weightUnit = it
+                        )
+                    } ?: triggerErrorEvent()
+                }
             }
             
             OnboardingEvent.OnBackClick -> {
@@ -210,13 +213,9 @@ class OnboardingViewModel @Inject constructor(
             }
             
             OnboardingPage.WEIGHT -> {
-                if (state.weightUnit != WeightUnit.Invalid) {
-                    preferences.saveWeight(state.weight)
-                    preferences.saveWeightUnit(state.weightUnit)
-                    navigateToNextPage()
-                } else {
-                    triggerErrorEvent()
-                }
+                preferences.saveWeight(state.weight)
+                preferences.saveWeightUnit(state.weightUnit)
+                navigateToNextPage()
             }
             
             OnboardingPage.BED_TIME -> {
