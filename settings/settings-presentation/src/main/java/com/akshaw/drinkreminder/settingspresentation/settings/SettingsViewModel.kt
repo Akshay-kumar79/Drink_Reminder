@@ -7,8 +7,8 @@ import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import com.akshaw.drinkreminder.core.domain.use_case.GetRecommendedDailyWaterIntake
 import com.akshaw.drinkreminder.core.util.Constants
-import com.akshaw.drinkreminder.core.util.UiEvent
-import com.akshaw.drinkreminder.core.util.UiText
+import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
+import com.akshaw.drinkreminder.corecompose.uievents.UiText
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import com.akshaw.drinkreminder.settings_domain.usecase.SaveNewWaterUnit
@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch

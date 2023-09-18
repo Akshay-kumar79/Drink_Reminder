@@ -6,8 +6,8 @@ import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import com.akshaw.drinkreminder.core.util.Constants
-import com.akshaw.drinkreminder.core.util.UiEvent
-import com.akshaw.drinkreminder.core.util.UiText
+import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
+import com.akshaw.drinkreminder.corecompose.uievents.UiText
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
 import com.akshaw.drinkreminder.core.domain.use_case.AddTrackableDrink

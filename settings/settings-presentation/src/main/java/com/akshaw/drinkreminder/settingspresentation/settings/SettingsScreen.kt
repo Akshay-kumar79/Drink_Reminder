@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.Constants
-import com.akshaw.drinkreminder.core.util.UiEvent
+import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
 import com.akshaw.drinkreminder.settingspresentation.settings.components.*
 import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.ChangeAgeDialog
 import com.akshaw.drinkreminder.settingspresentation.settings.dialogs.ChangeGenderDialog

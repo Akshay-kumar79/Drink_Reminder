@@ -7,8 +7,8 @@ import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import com.akshaw.drinkreminder.core.util.Constants
-import com.akshaw.drinkreminder.core.util.UiEvent
-import com.akshaw.drinkreminder.core.util.UiText
+import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
+import com.akshaw.drinkreminder.corecompose.uievents.UiText
 import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import com.akshaw.drinkreminder.waterdomain.use_case.AddDrink
 import com.akshaw.drinkreminder.waterdomain.use_case.DeleteDrink
@@ -26,9 +26,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WaterADayDrinkViewModel @Inject constructor(
-    private val preferences: Preferences,
-    private val savedStateHandle: SavedStateHandle,
-    private val waterRepository: WaterRepository,
+    preferences: Preferences,
+    savedStateHandle: SavedStateHandle,
+    waterRepository: WaterRepository,
     private val filterADayDrinks: FilterADayDrinks,
     private val getLocalTime: GetLocalTime,
     private val addDrink: AddDrink,
@@ -41,7 +41,7 @@ class WaterADayDrinkViewModel @Inject constructor(
     }
     
     /** Screen State */
-    val currentDate = savedStateHandle.get<String>(CURRENT_DAY_ARGUMENT)?.let {
+    val currentDate: LocalDate = savedStateHandle.get<String>(CURRENT_DAY_ARGUMENT)?.let {
         LocalDate.parse(it)
     } ?: LocalDate.now()
     
@@ -51,7 +51,7 @@ class WaterADayDrinkViewModel @Inject constructor(
     
     val waterUnit = preferences.getWaterUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)
     
-    var recentlyDeleteDrink: Drink? = null
+    private var recentlyDeleteDrink: Drink? = null
     
     /** Add Forgotten Drink Dialog States */
     private val _isAddForgottenDrinkDialogShowing = MutableStateFlow(false)
@@ -78,7 +78,7 @@ class WaterADayDrinkViewModel @Inject constructor(
                 recentlyDeleteDrink = event.drink
             }
             
-            com.akshaw.drinkreminder.waterpresentation.a_day_drink.WaterADayDrinkEvent.RestoreDrink -> {
+            WaterADayDrinkEvent.RestoreDrink -> {
                 addDrink(recentlyDeleteDrink ?: return@launch)
                     .onFailure {
                         showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))

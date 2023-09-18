@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.core.R
-import com.akshaw.drinkreminder.core.util.UiEvent
+import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
 import com.akshaw.drinkreminder.waterpresentation.common.components.DialogAddForgottenDrink
 import com.akshaw.drinkreminder.waterpresentation.common.components.DrinkItem
 import com.akshaw.drinkreminder.waterpresentation.common.events.DialogAddForgottenDrinkEvent

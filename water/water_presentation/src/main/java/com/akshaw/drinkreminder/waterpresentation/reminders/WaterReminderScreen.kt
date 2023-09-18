@@ -30,7 +30,7 @@ import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.domain.preferences.elements.ReminderType
 import com.akshaw.drinkreminder.core.domain.preferences.elements.getDescription
 import com.akshaw.drinkreminder.core.domain.preferences.elements.getText
-import com.akshaw.drinkreminder.core.util.UiEvent
+import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
 import com.akshaw.drinkreminder.corecompose.composables.ExactAlarmPermissionTextProvider
 import com.akshaw.drinkreminder.corecompose.composables.NotificationPermissionTextProvider
 import com.akshaw.drinkreminder.corecompose.composables.PermissionDialog

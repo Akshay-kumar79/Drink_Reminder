@@ -1,4 +1,4 @@
-package com.akshaw.drinkreminder.core.util
+package com.akshaw.drinkreminder.corecompose.uievents
 
 import android.content.Context
 

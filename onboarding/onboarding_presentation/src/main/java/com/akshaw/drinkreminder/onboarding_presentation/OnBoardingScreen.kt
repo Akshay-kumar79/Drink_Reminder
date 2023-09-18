@@ -2,10 +2,8 @@ package com.akshaw.drinkreminder.onboarding_presentation
 
 import android.Manifest
 import android.app.AlarmManager
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.provider.Settings
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -38,7 +36,7 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import com.akshaw.drinkreminder.core.util.UiEvent
+import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
 import com.akshaw.drinkreminder.onboarding_domain.utils.OnboardingPage
 import com.akshaw.drinkreminder.onboarding_presentation.components.SelectAge
 import com.akshaw.drinkreminder.onboarding_presentation.components.SelectBedTime

@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akshaw.drinkreminder.core.data.repository.ReminderSchedulerImpl
 import com.akshaw.drinkreminder.core.domain.preferences.elements.ReminderType
-import com.akshaw.drinkreminder.core.util.UiEvent
-import com.akshaw.drinkreminder.core.util.UiText
+import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
+import com.akshaw.drinkreminder.corecompose.uievents.UiText
 import com.akshaw.drinkreminder.waterdomain.use_case.CancelDrinkReminder
 import com.akshaw.drinkreminder.waterdomain.use_case.DeleteDrinkReminder
 import com.akshaw.drinkreminder.waterdomain.use_case.GetAllDrinkReminders
