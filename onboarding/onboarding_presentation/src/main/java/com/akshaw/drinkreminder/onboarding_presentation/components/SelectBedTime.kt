@@ -114,7 +114,7 @@ fun SelectBedTime(viewModel: OnboardingViewModel, modifier: Modifier) {
             factory = { context ->
                 NumberPicker(context).apply {
                     formatter = NumberPicker.Formatter {
-                        TimeUnit.fromIdToName(it)
+                        TimeUnit.getNameFromId(it)
                     }
                     setDividerDistance(Utility.getFloatFromDp(context, 60f).roundToInt())
                     setDividerThickness(Utility.getFloatFromDp(context, 0.5f).roundToInt())

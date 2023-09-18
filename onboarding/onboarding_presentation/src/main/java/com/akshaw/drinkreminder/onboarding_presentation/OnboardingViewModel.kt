@@ -86,9 +86,13 @@ class OnboardingViewModel @Inject constructor(
             }
             
             is OnboardingEvent.OnBedTimeUnitChange -> {
-                state = state.copy(
-                    bedTimeUnit = event.unit
-                )
+                viewModelScope.launch {
+                    event.unit?.let {
+                        state = state.copy(
+                            bedTimeUnit = it
+                        )
+                    } ?: triggerErrorEvent()
+                }
             }
             
             is OnboardingEvent.OnGenderClick -> {
@@ -130,9 +134,13 @@ class OnboardingViewModel @Inject constructor(
             }
             
             is OnboardingEvent.OnWakeupTimeUnitChange -> {
-                state = state.copy(
-                    wakeupTimeUnit = event.unit
-                )
+                viewModelScope.launch {
+                    event.unit?.let {
+                        state = state.copy(
+                            wakeupTimeUnit = event.unit
+                        )
+                    } ?: triggerErrorEvent()
+                }
             }
             
             is OnboardingEvent.OnWeightChange -> {

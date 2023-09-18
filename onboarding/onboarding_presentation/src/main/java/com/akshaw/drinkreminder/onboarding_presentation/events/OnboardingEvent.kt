@@ -12,10 +12,10 @@ sealed interface OnboardingEvent {
     data class OnWeightUnitChange(val unit: WeightUnit) : OnboardingEvent
     data class OnBedTimeHourChange(val hour: Int) : OnboardingEvent
     data class OnBedTimeMinuteChange(val minute: Int) : OnboardingEvent
-    data class OnBedTimeUnitChange(val unit: TimeUnit) : OnboardingEvent
+    data class OnBedTimeUnitChange(val unit: TimeUnit?) : OnboardingEvent
     data class OnWakeupTimeHourChange(val hour: Int) : OnboardingEvent
     data class OnWakeupTimeMinuteChange(val minute: Int) : OnboardingEvent
-    data class OnWakeupTimeUnitChange(val unit: TimeUnit) : OnboardingEvent
+    data class OnWakeupTimeUnitChange(val unit: TimeUnit?) : OnboardingEvent
     object OnBackClick : OnboardingEvent
     object OnSkipClick : OnboardingEvent
     data class ChangeHasNotificationPermission(val hasPermission: Boolean): OnboardingEvent
