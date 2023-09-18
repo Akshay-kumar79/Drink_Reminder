@@ -1,6 +1,6 @@
 package com.akshaw.drinkreminder.onboarding_presentation.events
 
-import com.akshaw.drinkreminder.core.util.Gender
+import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.core.util.TimeUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 

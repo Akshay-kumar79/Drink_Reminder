@@ -1,6 +1,6 @@
 package com.akshaw.drinkreminder.settingspresentation.settings.events
 
-import com.akshaw.drinkreminder.core.util.Gender
+import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 
 sealed interface ChangeGenderDialogEvent {
     

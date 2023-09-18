@@ -11,7 +11,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.akshaw.drinkreminder.core.util.Gender
+import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.onboarding_presentation.events.OnboardingEvent
 import com.akshaw.drinkreminder.onboarding_presentation.OnboardingViewModel
 import com.akshaw.drinkreminder.core.R
@@ -24,7 +24,7 @@ fun SelectGender(viewModel: OnboardingViewModel, modifier: Modifier) {
         GenderSelectable(
             text = stringResource(id = R.string.female),
             drawableRes = R.drawable.ic_icon_awesome_female,
-            isSelected = viewModel.state.gender is Gender.Female,
+            isSelected = viewModel.state.gender == Gender.Female,
             cardColor = MaterialTheme.colorScheme.primary.copy(alpha = .15f),
             selectedCardColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
             itemColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
@@ -50,7 +50,7 @@ fun SelectGender(viewModel: OnboardingViewModel, modifier: Modifier) {
         GenderSelectable(
             text = stringResource(id = R.string.male),
             drawableRes = R.drawable.ic_icon_awesome_male,
-            isSelected = viewModel.state.gender is Gender.Male,
+            isSelected = viewModel.state.gender == Gender.Male,
             cardColor = MaterialTheme.colorScheme.primary.copy(alpha = .15f),
             selectedCardColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
             itemColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),

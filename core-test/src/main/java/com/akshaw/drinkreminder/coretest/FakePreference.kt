@@ -2,7 +2,7 @@ package com.akshaw.drinkreminder.coretest
 
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.util.Constants
-import com.akshaw.drinkreminder.core.util.Gender
+import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +14,7 @@ class FakePreference : Preferences {
     
     private var gender: String = Constants.DEFAULT_GENDER.name
     private var age: Int = Constants.DEFAULT_AGE
-    private var weight: Float = Constants.DEFAULT_WEIGHT.toFloat()
+    private var weight: Float = Constants.DEFAULT_WEIGHT
     private var weightUnit: String = Constants.DEFAULT_WEIGHT_UNIT.name
     private var waterUnit: String = Constants.DEFAULT_WATER_UNIT.name
     private var selectedTrackableDrinkId: Long = Constants.DEFAULT_SELECTED_TRACKABLE_DRINK_ID
@@ -27,7 +27,7 @@ class FakePreference : Preferences {
     
     
     override suspend fun saveGender(gender: Gender) {
-        this.gender = gender.name
+        this.gender = Preferences.genderValues.getValue(gender)
     }
     
     override suspend fun saveAge(age: Int) {
@@ -75,7 +75,8 @@ class FakePreference : Preferences {
     
     override fun getGender(): Flow<Gender> {
         return flow {
-            emit(Gender.fromString(gender))
+            val reveredGenderValues = Preferences.genderValues.entries.associateBy({ it.value }) { it.key }
+            emit(reveredGenderValues.getOrDefault(gender, Constants.DEFAULT_GENDER))
         }
     }
     

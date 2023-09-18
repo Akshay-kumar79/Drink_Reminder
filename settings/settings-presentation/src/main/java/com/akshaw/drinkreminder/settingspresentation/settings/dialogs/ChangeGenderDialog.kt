@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.Constants
-import com.akshaw.drinkreminder.core.util.Gender
+import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme
 import com.akshaw.drinkreminder.corecompose.composables.RadioGroup
 import com.akshaw.drinkreminder.corecompose.composables.RadioGroupOrientation

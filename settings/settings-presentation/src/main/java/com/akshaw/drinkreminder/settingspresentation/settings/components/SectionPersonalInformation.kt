@@ -12,11 +12,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
-import com.akshaw.drinkreminder.core.util.Gender
+import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import com.akshaw.drinkreminder.core.util.formatted24HourTime
 import java.time.LocalTime
-import kotlin.math.ceil
 import kotlin.math.floor
 
 @Composable

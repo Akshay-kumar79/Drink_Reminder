@@ -14,7 +14,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.util.Constants
-import com.akshaw.drinkreminder.core.util.Gender
+import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import java.time.LocalTime
@@ -39,10 +39,16 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
     private val dailyWaterIntakeGoalKey = doublePreferencesKey(Preferences.KEY_DAILY_WATER_INTAKE_GOAL)
     private val isOnboardingCompletedKey = booleanPreferencesKey(Preferences.KEY_IS_ONBOARDING_COMPLETED)
     
-    
+    /**
+     *  Value are stored as string in preference extracted from [Preferences.genderValues]
+     *  for there respective gender
+     */
     override suspend fun saveGender(gender: Gender) {
         dataStore.edit { preference ->
-            preference[genderKey] = gender.name
+            // Here getValue should not throw NoSuchElementException as genderValues have
+            // all the value for there respective genders and if not then genderValues should
+            // give compile-time error
+            preference[genderKey] = Preferences.genderValues.getValue(gender)
         }
     }
     
@@ -114,7 +120,8 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
     
     
     override fun getGender(): Flow<Gender> = dataStore.data.map { preference ->
-        Gender.fromString(preference[genderKey] ?: Constants.DEFAULT_GENDER.name)
+        val reveredGenderValues = Preferences.genderValues.entries.associateBy({ it.value }) { it.key }
+        reveredGenderValues.getOrDefault(preference[genderKey] ?: "", Constants.DEFAULT_GENDER)
     }
     
     override fun getAge(): Flow<Int> = dataStore.data.map { preference ->
@@ -129,6 +136,7 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
         WeightUnit.fromString(preference[weightUnitKey] ?: Constants.DEFAULT_WEIGHT_UNIT.name)
     }
     
+    @Suppress("KotlinConstantConditions")
     override fun getBedTime(): Flow<LocalTime> = dataStore.data.map { preference ->
         val defaultTime = buildString {
             append(if (Constants.BED_TIME_DEFAULT_HOUR < 10) "0${Constants.BED_TIME_DEFAULT_HOUR}" else Constants.BED_TIME_DEFAULT_HOUR)
@@ -147,6 +155,7 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
         }
     }
     
+    @Suppress("KotlinConstantConditions")
     override fun getWakeupTime(): Flow<LocalTime> = dataStore.data.map { preference ->
         val defaultTime = buildString {
             append(if (Constants.WAKE_TIME_DEFAULT_HOUR < 10) "0${Constants.WAKE_TIME_DEFAULT_HOUR}" else Constants.WAKE_TIME_DEFAULT_HOUR)

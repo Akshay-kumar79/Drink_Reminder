@@ -1,6 +1,6 @@
 package com.akshaw.drinkreminder.core.domain.preferences
 
-import com.akshaw.drinkreminder.core.util.Gender
+import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import kotlinx.coroutines.flow.Flow
@@ -30,9 +30,13 @@ interface Preferences {
     fun getSelectedTrackableDrinkId(): Flow<Long>
     fun getDailyWaterIntakeGoal(): Flow<Double>
     fun getIsOnboardingCompleted(): Flow<Boolean>
-
-    companion object{
-
+    
+    /**
+     *  These value should not be changed as these are stored in preference and changing these may
+     *  cause compatibility issues with older versions of app.
+     */
+    companion object {
+        
         const val KEY_GENDER = "gender"
         const val KEY_AGE = "age"
         const val KEY_WEIGHT = "weight"
@@ -44,6 +48,13 @@ interface Preferences {
         const val KEY_DAILY_WATER_INTAKE_GOAL = "daily_water_intake_goal"
         const val KEY_IS_ONBOARDING_COMPLETED = "is_onboarding_completed"
         
+        val genderValues = Gender.values().associateWith {
+            when (it) {
+                Gender.Male -> "male"
+                Gender.Female -> "female"
+            }
+        }
+        
     }
-
+    
 }

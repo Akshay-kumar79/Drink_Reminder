@@ -1,5 +1,7 @@
 package com.akshaw.drinkreminder.core.util
 
+import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
+
 object Constants {
     
     const val KG_TO_LBS = 2.20462262185
