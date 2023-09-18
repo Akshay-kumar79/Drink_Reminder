@@ -1,9 +1,8 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
 import com.akshaw.drinkreminder.core.domain.model.Drink
-import com.akshaw.drinkreminder.core.domain.preferences.Preferences
-import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
+import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import javax.inject.Inject
 
 /**
@@ -22,22 +21,16 @@ class DrinkNow @Inject constructor(
         if (trackableDrink.amount <= 0)
             return Result.failure(Exception("Invalid quantity"))
         
-        if (trackableDrink.unit == WaterUnit.Invalid)
-            return Result.failure(Exception("Invalid water unit"))
-        
         addDrink(
             Drink(
                 waterIntake = trackableDrink.amount,
                 unit = trackableDrink.unit
             )
-        ).onSuccess {
+        ).let {
             preferences.saveSelectedTrackableDrinkId(trackableDrink.id ?: -1)
             return Result.success(it)
-        }.onFailure {
-            return Result.failure(Exception(it.message ?: "Something went wrong"))
         }
         
-        return Result.failure(Exception("Something went wrong"))
     }
     
 }

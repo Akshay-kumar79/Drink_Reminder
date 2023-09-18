@@ -5,7 +5,7 @@ import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.AddTrackableDrink
 import com.akshaw.drinkreminder.core.domain.use_case.ChangeWaterQuantityByUnit
 import com.akshaw.drinkreminder.core.util.Constants
-import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import kotlin.math.floor
@@ -17,7 +17,7 @@ class SaveInitialTrackableDrinks @Inject constructor(
 ) {
     
     suspend operator fun invoke() {
-    
+        
         if (preferences.getIsOnboardingCompleted().first()) {
             return
         }
@@ -32,7 +32,7 @@ class SaveInitialTrackableDrinks @Inject constructor(
             
             addTrackableDrink(
                 TrackableDrink(
-                    amount = floor(changeWaterQuantityByUnit(it, WaterUnit.ML, WaterUnit.FL_OZ).getOrDefault(0.0)),
+                    amount = floor(changeWaterQuantityByUnit(it, WaterUnit.ML, WaterUnit.FL_OZ)),
                     unit = WaterUnit.FL_OZ
                 )
             )

@@ -1,8 +1,7 @@
 package com.akshaw.drinkreminder.core.domain.preferences
 
 import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
-import com.akshaw.drinkreminder.core.domain.preferences.elements.ReminderType
-import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalTime
@@ -48,20 +47,6 @@ interface Preferences {
         const val KEY_SELECTED_TRACKABLE_DRINK_ID = "selected_trackable_drink_id"
         const val KEY_DAILY_WATER_INTAKE_GOAL = "daily_water_intake_goal"
         const val KEY_IS_ONBOARDING_COMPLETED = "is_onboarding_completed"
-        
-        val genderValues = Gender.values().associateWith {
-            when (it) {
-                Gender.Male -> "male"
-                Gender.Female -> "female"
-            }
-        }
-        
-        val reminderTypeValues = ReminderType.values().associateWith {
-            when (it) {
-                ReminderType.TSReminder -> "time_specific_reminder"
-                ReminderType.AIReminder -> "automatic_interval_reminder"
-            }
-        }
         
     }
     

@@ -22,7 +22,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.Utility
-import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
 import com.akshaw.drinkreminder.waterpresentation.home.events.WaterHomeEvent
 import com.akshaw.drinkreminder.waterpresentation.home.WaterHomeViewModel
@@ -109,7 +109,7 @@ fun TrackableDrinkSection(
                             selectedTextSize = Utility.getFloatFromSp(context, 16f)
                             textColor = primary
                             displayedValues = trackableDrinks.map {
-                                "${it.amount.toInt()} ${waterUnit.name}"
+                                "${it.amount.toInt()} ${waterUnit.text}"
                             }.toTypedArray().let {
                                 if (it.isEmpty())
                                     arrayOf("")

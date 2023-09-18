@@ -2,7 +2,7 @@ package com.akshaw.drinkreminder.core.domain.use_case
 
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
-import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import javax.inject.Inject
 import kotlin.math.floor
@@ -27,7 +27,6 @@ class GetRecommendedDailyWaterIntake @Inject constructor(
      * - if currentWeightUnit type is invalid,
      * - if current age is less than 13 year and more than [Constants.MAX_AGE] year,
      * - if currentWeight is less than 11 kg and more than [Constants.MAX_WEIGHT] kg
-     * - if program reached the end of the function which shouldn't be the case
      *
      * [Result.success] if not failure then is surely a success with your
      * recommended daily water intake amount as per your currentWaterUnit
@@ -73,13 +72,9 @@ class GetRecommendedDailyWaterIntake @Inject constructor(
         }
         
         changeWaterQuantityByUnit(recommendedDailyIntakeInMl.toDouble(), WaterUnit.ML, currentWaterUnit)
-            .onSuccess {
+            .let {
                 return Result.success(floor(it).toInt())
-            }.onFailure {
-                return Result.failure(Exception(it.message))
             }
-        
-        return Result.failure(Exception("Something went wrong"))
         
     }
     

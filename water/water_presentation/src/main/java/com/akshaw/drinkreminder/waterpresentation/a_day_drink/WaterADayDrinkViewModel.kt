@@ -80,9 +80,6 @@ class WaterADayDrinkViewModel @Inject constructor(
             
             WaterADayDrinkEvent.RestoreDrink -> {
                 addDrink(recentlyDeleteDrink ?: return@launch)
-                    .onFailure {
-                        showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
-                    }
                 recentlyDeleteDrink = null
             }
         }
@@ -112,9 +109,7 @@ class WaterADayDrinkViewModel @Inject constructor(
                                 waterIntake = addForgottenDrinkDialogQuantity.value.toDoubleOrNull() ?: 0.0,
                                 unit = waterUnit.value
                             )
-                        ).onFailure {
-                            showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
-                        }
+                        )
                     }
                     .onFailure {
                         showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))

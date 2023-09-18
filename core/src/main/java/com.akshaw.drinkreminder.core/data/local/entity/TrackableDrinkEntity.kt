@@ -2,7 +2,6 @@ package com.akshaw.drinkreminder.core.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.akshaw.drinkreminder.core.util.WaterUnit
 
 @Entity(tableName = "trackable_drinks_table")
 data class TrackableDrinkEntity(

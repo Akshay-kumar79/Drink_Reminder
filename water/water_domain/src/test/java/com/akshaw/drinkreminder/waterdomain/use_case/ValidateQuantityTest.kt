@@ -3,7 +3,7 @@ package com.akshaw.drinkreminder.waterdomain.use_case
 import com.akshaw.drinkreminder.coretest.FakePreference
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.FilterOutDigits
-import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.google.common.truth.Truth.assertThat
 
 import org.junit.Before

@@ -106,7 +106,7 @@ fun WaterHomeScreen(
                 
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    text = "${floor(goal).toInt()} ${waterUnit.name}",
+                    text = "${floor(goal).toInt()} ${waterUnit.text}",
                     fontSize = 44.sp,
                     fontFamily = FontFamily(
                         Font(
@@ -121,7 +121,7 @@ fun WaterHomeScreen(
                 
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Completed: ${progress.roundToInt()} ${waterUnit.name}",
+                    text = "Completed: ${progress.roundToInt()} ${waterUnit.text}",
                     fontSize = 14.sp,
                     fontFamily = FontFamily(
                         Font(

@@ -8,7 +8,7 @@ import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
 import com.akshaw.drinkreminder.corecompose.uievents.UiText
-import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
 import com.akshaw.drinkreminder.core.domain.use_case.AddTrackableDrink
 import com.akshaw.drinkreminder.core.domain.use_case.RescheduleAllTSDrinkReminders
@@ -29,10 +29,10 @@ import javax.inject.Inject
 // TODO Add restriction to add 0 quantity trackable drink and forgotten drink and other restriction if any
 @HiltViewModel
 class WaterHomeViewModel @Inject constructor(
-      preferences: Preferences,
+    preferences: Preferences,
     private val filterADayDrinks: FilterADayDrinks,
     private val getDrinkProgress: GetDrinkProgress,
-      getAllTrackableDrinks: GetAllTrackableDrinks,
+    getAllTrackableDrinks: GetAllTrackableDrinks,
     private val filterTrackableDrinksByUnit: FilterTrackableDrinksByUnit,
     private val getSelectedTrackableDrink: GetSelectedTrackableDrink,
     private val getLocalTime: GetLocalTime,
@@ -42,7 +42,7 @@ class WaterHomeViewModel @Inject constructor(
     private val addDrink: AddDrink,
     private val deleteTrackableDrink: DeleteTrackableDrink,
     private val deleteDrink: DeleteDrink,
-     getAllDrinks: GetAllDrinks,
+    getAllDrinks: GetAllDrinks,
     private val rescheduleAllTSDrinkReminders: RescheduleAllTSDrinkReminders
 ) : ViewModel() {
     
@@ -126,18 +126,18 @@ class WaterHomeViewModel @Inject constructor(
                         showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
                     }
             }
+            
             is WaterHomeEvent.OnTrackableDrinkChange -> {
                 _selectedTrackableDrink.value = event.drink
             }
+            
             is WaterHomeEvent.OnDrinkDeleteClick -> {
                 deleteDrink(event.drink)
                 recentlyDeleteDrink = event.drink
             }
+            
             WaterHomeEvent.RestoreDrink -> {
                 addDrink(recentlyDeleteDrink ?: return@launch)
-                    .onFailure {
-                        showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
-                    }
                 recentlyDeleteDrink = null
             }
         }
@@ -151,6 +151,7 @@ class WaterHomeViewModel @Inject constructor(
                 _addForgottenDrinkDialogMinute.value = LocalTime.now().minute
                 _isAddForgottenDrinkDialogShowing.value = true
             }
+            
             DialogAddForgottenDrinkEvent.OnConfirmClick -> {
                 getLocalTime(
                     addForgottenDrinkDialogHour.value,
@@ -166,24 +167,26 @@ class WaterHomeViewModel @Inject constructor(
                                 waterIntake = addForgottenDrinkDialogQuantity.value.toDoubleOrNull() ?: 0.0,
                                 unit = waterUnit.value
                             )
-                        ).onFailure {
-                            showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
-                        }
+                        )
                     }
                     .onFailure {
                         showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
                     }
                 _isAddForgottenDrinkDialogShowing.value = false
             }
+            
             DialogAddForgottenDrinkEvent.OnDismiss -> {
                 _isAddForgottenDrinkDialogShowing.value = false
             }
+            
             is DialogAddForgottenDrinkEvent.OnHourChange -> {
                 _addForgottenDrinkDialogHour.value = event.hour
             }
+            
             is DialogAddForgottenDrinkEvent.OnMinuteChange -> {
                 _addForgottenDrinkDialogMinute.value = event.minute
             }
+            
             is DialogAddForgottenDrinkEvent.OnQuantityAmountChange -> {
                 validateQuantity(event.amount, waterUnit.value)
                     .onSuccess {
@@ -205,10 +208,12 @@ class WaterHomeViewModel @Inject constructor(
                     }
                 
             }
+            
             DialogAddTrackableDrinkEvent.OnAddTrackableDrinkClick -> {
                 _addTrackableDrinkDialogQuantity.value = ""
                 _isAddTrackableDrinkDialogShowing.value = true
             }
+            
             is DialogAddTrackableDrinkEvent.OnConfirmClick -> {
                 addTrackableDrink(
                     TrackableDrink(
@@ -220,6 +225,7 @@ class WaterHomeViewModel @Inject constructor(
                 }
                 _isAddTrackableDrinkDialogShowing.value = false
             }
+            
             DialogAddTrackableDrinkEvent.OnDismiss -> {
                 _isAddTrackableDrinkDialogShowing.value = false
             }
@@ -231,10 +237,12 @@ class WaterHomeViewModel @Inject constructor(
             DialogRemoveTrackableDrinkEvent.OnRemoveTrackableDrinkClick -> {
                 _isRemoveTrackableDrinkDialogShowing.value = true
             }
+            
             DialogRemoveTrackableDrinkEvent.OnConfirmClick -> {
                 deleteTrackableDrink(selectedTrackableDrink.value)
                 _isRemoveTrackableDrinkDialogShowing.value = false
             }
+            
             DialogRemoveTrackableDrinkEvent.OnDismiss -> {
                 _isRemoveTrackableDrinkDialogShowing.value = false
             }

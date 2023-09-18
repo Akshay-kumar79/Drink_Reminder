@@ -1,8 +1,8 @@
 package com.akshaw.drinkreminder.core.domain.mapper
 
 import com.akshaw.drinkreminder.core.data.local.entity.DrinkEntity
-import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.domain.model.Drink
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import java.time.Instant
 import java.time.ZoneId
 
@@ -20,6 +20,6 @@ fun Drink.toDrinkEntity(): DrinkEntity{
         id = id,
         milli = dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
         waterIntake = waterIntake,
-        unit = unit.name
+        unit = unit.text
     )
 }

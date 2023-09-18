@@ -1,8 +1,8 @@
 package com.akshaw.drinkreminder.core.domain.mapper
 
 import com.akshaw.drinkreminder.core.data.local.entity.TrackableDrinkEntity
-import com.akshaw.drinkreminder.core.util.WaterUnit
 import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 
 fun TrackableDrinkEntity.toTrackableDrink(): TrackableDrink {
     return TrackableDrink(
@@ -16,6 +16,6 @@ fun TrackableDrink.toTrackableDrinkEntity(): TrackableDrinkEntity{
     return TrackableDrinkEntity(
         id = id,
         amount = amount,
-        unit = unit.name
+        unit = unit.text
     )
 }

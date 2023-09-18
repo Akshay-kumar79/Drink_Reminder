@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
-import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.util.formatted24HourTime
 import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.domain.model.convertUnit
@@ -53,7 +53,7 @@ fun DrinkItem(
                 .weight(1f)
                 .align(Alignment.CenterVertically)
                 .padding(start = 32.dp),
-            text = "${ceil(drink.convertUnit(waterUnit).waterIntake).roundToInt()} ${waterUnit.name}",
+            text = "${ceil(drink.convertUnit(waterUnit).waterIntake).roundToInt()} ${waterUnit.text}",
             fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.Normal)),
             fontSize = 16.sp,
             color = MaterialTheme.colorScheme.onBackground

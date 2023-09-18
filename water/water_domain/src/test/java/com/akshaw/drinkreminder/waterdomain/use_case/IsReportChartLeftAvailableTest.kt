@@ -1,6 +1,6 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
-import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.util.ChartType
 import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.google.common.truth.Truth.assertThat

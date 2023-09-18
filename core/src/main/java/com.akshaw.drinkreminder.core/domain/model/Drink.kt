@@ -1,7 +1,7 @@
 package com.akshaw.drinkreminder.core.domain.model
 
 import com.akshaw.drinkreminder.core.util.Constants
-import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import java.time.LocalDateTime
 
 data class Drink(
@@ -23,14 +23,9 @@ fun Drink.convertUnit(newUnit: WaterUnit): Drink {
                         unit = WaterUnit.ML
                     )
                 }
-                WaterUnit.Invalid -> {
-                    this.copy(
-                        waterIntake = 0.0,
-                        unit = WaterUnit.ML
-                    )
-                }
             }
         }
+        
         WaterUnit.FL_OZ -> {
             when (unit) {
                 WaterUnit.ML -> {
@@ -39,20 +34,9 @@ fun Drink.convertUnit(newUnit: WaterUnit): Drink {
                         unit = WaterUnit.FL_OZ
                     )
                 }
+                
                 WaterUnit.FL_OZ -> this.copy()
-                WaterUnit.Invalid -> {
-                    this.copy(
-                        waterIntake = 0.0,
-                        unit = WaterUnit.FL_OZ
-                    )
-                }
             }
-        }
-        WaterUnit.Invalid -> {
-            this.copy(
-                waterIntake = 0.0,
-                unit = WaterUnit.Invalid
-            )
         }
     }
 }

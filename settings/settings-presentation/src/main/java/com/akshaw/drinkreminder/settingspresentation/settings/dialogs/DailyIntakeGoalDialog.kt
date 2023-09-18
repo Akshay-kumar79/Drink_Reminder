@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.Constants
-import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme
 import kotlin.math.floor
 
@@ -115,11 +115,12 @@ fun DailyIntakeGoalDialog(
                     .fillMaxWidth()
                     .padding(horizontal = 18.dp),
                 value = dailyIntakeGoal.toFloat(),
-                valueRange = when(currentWaterUnit){
-                    WaterUnit.ML, WaterUnit.Invalid ->
-                        Constants.MIN_DAILY_WATER_INTAKE_GOAL_ML.toFloat() ..Constants.MAX_DAILY_WATER_INTAKE_GOAL_ML.toFloat()
+                valueRange = when (currentWaterUnit) {
+                    WaterUnit.ML ->
+                        Constants.MIN_DAILY_WATER_INTAKE_GOAL_ML.toFloat()..Constants.MAX_DAILY_WATER_INTAKE_GOAL_ML.toFloat()
+                    
                     WaterUnit.FL_OZ ->
-                        Constants.MIN_DAILY_WATER_INTAKE_GOAL_FL_OZ.toFloat() ..Constants.MAX_DAILY_WATER_INTAKE_GOAL_FL_OZ.toFloat()
+                        Constants.MIN_DAILY_WATER_INTAKE_GOAL_FL_OZ.toFloat()..Constants.MAX_DAILY_WATER_INTAKE_GOAL_FL_OZ.toFloat()
                 },
                 onValueChange = {
                     onDailyIntakeGoalChange(it.toDouble())

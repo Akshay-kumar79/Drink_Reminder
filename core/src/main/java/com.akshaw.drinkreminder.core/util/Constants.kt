@@ -1,6 +1,7 @@
 package com.akshaw.drinkreminder.core.util
 
 import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 
 object Constants {
     

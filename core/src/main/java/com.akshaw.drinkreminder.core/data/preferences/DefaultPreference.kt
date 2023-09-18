@@ -12,10 +12,11 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.akshaw.drinkreminder.core.domain.preferences.Persistent
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
-import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -40,15 +41,15 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
     private val isOnboardingCompletedKey = booleanPreferencesKey(Preferences.KEY_IS_ONBOARDING_COMPLETED)
     
     /**
-     *  Value are stored as string in preference extracted from [Preferences.genderValues]
-     *  for there respective gender
+     *  Value are stored as string in preference extracted from [Persistent.genderValues]
+     *  for there respective [Gender]
      */
     override suspend fun saveGender(gender: Gender) {
         dataStore.edit { preference ->
             // Here getValue should not throw NoSuchElementException as genderValues have
             // all the value for there respective genders and if not then genderValues should
             // give compile-time error
-            preference[genderKey] = Preferences.genderValues.getValue(gender)
+            preference[genderKey] = Persistent.genderValues.getValue(gender)
         }
     }
     
@@ -94,9 +95,16 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
         }
     }
     
+    /**
+     *  Value are stored as string in preference extracted from [Persistent.waterUnitValues]
+     *  for there respective [WaterUnit]
+     */
     override suspend fun saveWaterUnit(unit: WaterUnit) {
         dataStore.edit { preference ->
-            preference[waterUnitKey] = unit.name
+            // Here getValue should not throw NoSuchElementException as waterUnitValues have
+            // all the value for there respective WaterUnit and if not then waterUnitValues should
+            // give compile-time error
+            preference[waterUnitKey] = Persistent.waterUnitValues.getValue(unit)
         }
     }
     
@@ -120,7 +128,7 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
     
     
     override fun getGender(): Flow<Gender> = dataStore.data.map { preference ->
-        val reveredGenderValues = Preferences.genderValues.entries.associateBy({ it.value }) { it.key }
+        val reveredGenderValues = Persistent.genderValues.entries.associateBy({ it.value }) { it.key }
         reveredGenderValues.getOrDefault(preference[genderKey] ?: "", Constants.DEFAULT_GENDER)
     }
     
@@ -175,7 +183,8 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
     }
     
     override fun getWaterUnit(): Flow<WaterUnit> = dataStore.data.map { preference ->
-        WaterUnit.fromString(preference[waterUnitKey] ?: Constants.DEFAULT_WATER_UNIT.name)
+        val reveredWaterUnitValues = Persistent.waterUnitValues.entries.associateBy({ it.value }) { it.key }
+        reveredWaterUnitValues.getOrDefault(preference[waterUnitKey] ?: "", Constants.DEFAULT_WATER_UNIT)
     }
     
     override fun getSelectedTrackableDrinkId(): Flow<Long> = dataStore.data.map { preference ->

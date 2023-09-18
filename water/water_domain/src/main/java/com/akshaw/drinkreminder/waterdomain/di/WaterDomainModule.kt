@@ -1,7 +1,6 @@
 package com.akshaw.drinkreminder.waterdomain.di
 
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
-import com.akshaw.drinkreminder.core.domain.use_case.FilterOutDigits
 import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import com.akshaw.drinkreminder.waterdomain.use_case.*
 import dagger.Module
@@ -16,7 +15,7 @@ object WaterDomainModule {
     
     @Provides
     @Singleton
-    fun providesGetDrinkProgress(preferences: Preferences): GetDrinkProgress {
+    fun providesGetDrinkProgress(): GetDrinkProgress {
         return GetDrinkProgress()
     }
     
@@ -30,24 +29,6 @@ object WaterDomainModule {
     @Singleton
     fun providesGetSelectedTrackableDrinkId(preferences: Preferences): GetSelectedTrackableDrink {
         return GetSelectedTrackableDrink(preferences)
-    }
-    
-    @Provides
-    @Singleton
-    fun providesDrinkNow(preferences: Preferences, addDrink: AddDrink): DrinkNow {
-        return DrinkNow(preferences, addDrink)
-    }
-    
-    @Provides
-    @Singleton
-    fun provideValidateQuantity(preferences: Preferences, filterOutDigits: FilterOutDigits): ValidateQuantity {
-        return ValidateQuantity(preferences, filterOutDigits)
-    }
-    
-    @Provides
-    @Singleton
-    fun provideAddDrink(waterRepository: WaterRepository): AddDrink {
-        return AddDrink(waterRepository)
     }
     
     @Provides

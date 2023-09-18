@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
-import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import kotlin.math.ceil
 
 @Composable
@@ -57,7 +57,7 @@ fun AverageReports(
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     modifier = Modifier,
-                    text = "${ceil(weeklyAverageProgress).toInt()} ${currentWaterUnit.name}",
+                    text = "${ceil(weeklyAverageProgress).toInt()} ${currentWaterUnit.text}",
                     fontSize = 20.sp,
                     fontFamily = FontFamily(
                         Font(

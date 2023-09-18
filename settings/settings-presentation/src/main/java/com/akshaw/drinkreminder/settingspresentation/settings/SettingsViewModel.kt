@@ -9,7 +9,7 @@ import com.akshaw.drinkreminder.core.domain.use_case.GetRecommendedDailyWaterInt
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
 import com.akshaw.drinkreminder.corecompose.uievents.UiText
-import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import com.akshaw.drinkreminder.settings_domain.usecase.SaveNewWaterUnit
 import com.akshaw.drinkreminder.settings_domain.usecase.SaveNewWeightUnit

@@ -1,9 +1,10 @@
 package com.akshaw.drinkreminder.coretest
 
+import com.akshaw.drinkreminder.core.domain.preferences.Persistent
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
-import com.akshaw.drinkreminder.core.util.WaterUnit
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.util.WeightUnit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,7 +17,7 @@ class FakePreference : Preferences {
     private var age: Int = Constants.DEFAULT_AGE
     private var weight: Float = Constants.DEFAULT_WEIGHT
     private var weightUnit: String = Constants.DEFAULT_WEIGHT_UNIT.name
-    private var waterUnit: String = Constants.DEFAULT_WATER_UNIT.name
+    private var waterUnit: String = Constants.DEFAULT_WATER_UNIT.text
     private var selectedTrackableDrinkId: Long = Constants.DEFAULT_SELECTED_TRACKABLE_DRINK_ID
     private var dailyWaterIntakeGoal: Double = Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL
     private var isOnboardingCompleted: Boolean = Constants.DEFAULT_IS_ONBOARDING_COMPLETED
@@ -27,7 +28,7 @@ class FakePreference : Preferences {
     
     
     override suspend fun saveGender(gender: Gender) {
-        this.gender = Preferences.genderValues.getValue(gender)
+        this.gender = Persistent.genderValues.getValue(gender)
     }
     
     override suspend fun saveAge(age: Int) {
@@ -57,7 +58,7 @@ class FakePreference : Preferences {
     }
     
     override suspend fun saveWaterUnit(unit: WaterUnit) {
-        this.waterUnit = unit.name
+        this.waterUnit = unit.text
     }
     
     override suspend fun saveSelectedTrackableDrinkId(id: Long) {
@@ -75,7 +76,7 @@ class FakePreference : Preferences {
     
     override fun getGender(): Flow<Gender> {
         return flow {
-            val reveredGenderValues = Preferences.genderValues.entries.associateBy({ it.value }) { it.key }
+            val reveredGenderValues = Persistent.genderValues.entries.associateBy({ it.value }) { it.key }
             emit(reveredGenderValues.getOrDefault(gender, Constants.DEFAULT_GENDER))
         }
     }

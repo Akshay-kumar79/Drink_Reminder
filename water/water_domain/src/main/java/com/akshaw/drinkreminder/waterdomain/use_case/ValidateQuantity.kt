@@ -1,8 +1,7 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
-import com.akshaw.drinkreminder.core.domain.preferences.Preferences
+import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.domain.use_case.FilterOutDigits
-import com.akshaw.drinkreminder.core.util.WaterUnit
 import javax.inject.Inject
 
 /**
@@ -16,7 +15,6 @@ import javax.inject.Inject
  *      -> if filtered digit string length greater than 2 and current water unit is FL_OZ
  */
 class ValidateQuantity @Inject constructor(
-    private val preferences: Preferences,
     private val filterOutDigits: FilterOutDigits
 ) {
     operator fun invoke(amount: String, currentWaterUnit: WaterUnit): Result<String> {
@@ -24,7 +22,6 @@ class ValidateQuantity @Inject constructor(
         val maxDigits = when (currentWaterUnit) {
             WaterUnit.ML -> 3
             WaterUnit.FL_OZ -> 2
-            WaterUnit.Invalid -> 0
         }
         
         val filteredAmount = filterOutDigits(amount)
