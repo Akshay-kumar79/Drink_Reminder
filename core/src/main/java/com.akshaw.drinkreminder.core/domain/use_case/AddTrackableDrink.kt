@@ -9,9 +9,10 @@ import javax.inject.Inject
  *  Inserts TrackableDrink to database
  *
  *  returns
- *  -> Success with trackableDrink id, if waterUnit is not Invalid
+ *  -> Success with trackableDrink id
  *
  *  -> Failure with Exception,
+ *  - if [TrackableDrink.amount] <= 0
  *  - if [TrackableDrink] with same amount and unit already exist in database
  */
 class AddTrackableDrink @Inject constructor(
@@ -19,6 +20,10 @@ class AddTrackableDrink @Inject constructor(
 ) {
     
     suspend operator fun invoke(trackableDrink: TrackableDrink): Result<Long> {
+        
+        if (trackableDrink.amount <= 0) {
+            return Result.failure(Exception("Drink quantity isn't valid"))
+        }
         
         waterRepository.getAllTrackableDrinks().first()
             .forEach {

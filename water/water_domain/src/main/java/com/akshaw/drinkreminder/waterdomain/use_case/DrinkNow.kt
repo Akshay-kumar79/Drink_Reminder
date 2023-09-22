@@ -6,14 +6,22 @@ import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import javax.inject.Inject
 
 /**
- * -> returns failure, if trackable drink id is -1
- * -> returns success with id, if trackable drink is genuine
+ *  Add Drink to local database with current date and time
  */
 class DrinkNow @Inject constructor(
     private val preferences: Preferences,
     private val addDrink: AddDrink
 ) {
     
+    /**
+     * @return failure,
+     * - if [trackableDrink] id is -1
+     * - if [trackableDrink] amount <= 0
+     * - if [AddDrink] returns [Result.failure]
+     * - if program reached the end of function which should not happen
+     *
+     *  success with id, if trackable drink is genuine
+     */
     suspend operator fun invoke(trackableDrink: TrackableDrink): Result<Long> {
         if (trackableDrink.id == -1L)
             return Result.failure(Exception("Add some drink quantity"))
@@ -26,11 +34,13 @@ class DrinkNow @Inject constructor(
                 waterIntake = trackableDrink.amount,
                 unit = trackableDrink.unit
             )
-        ).let {
+        ).onSuccess {
             preferences.saveSelectedTrackableDrinkId(trackableDrink.id ?: -1)
             return Result.success(it)
+        }.onFailure {
+            return Result.failure(it)
         }
         
+        return Result.failure(Exception("Something went wrong"))
     }
-    
 }

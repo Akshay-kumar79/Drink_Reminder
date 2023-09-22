@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
-import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
 import com.akshaw.drinkreminder.corecompose.uievents.UiText
@@ -22,11 +21,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.inject.Inject
 
-// TODO Add restriction to add 0 quantity trackable drink and forgotten drink and other restriction if any
 @HiltViewModel
 class WaterHomeViewModel @Inject constructor(
     preferences: Preferences,
@@ -35,7 +32,6 @@ class WaterHomeViewModel @Inject constructor(
     getAllTrackableDrinks: GetAllTrackableDrinks,
     private val filterTrackableDrinksByUnit: FilterTrackableDrinksByUnit,
     private val getSelectedTrackableDrink: GetSelectedTrackableDrink,
-    private val getLocalTime: GetLocalTime,
     private val validateQuantity: ValidateQuantity,
     private val drinkNow: DrinkNow,
     private val addTrackableDrink: AddTrackableDrink,
@@ -43,7 +39,8 @@ class WaterHomeViewModel @Inject constructor(
     private val deleteTrackableDrink: DeleteTrackableDrink,
     private val deleteDrink: DeleteDrink,
     getAllDrinks: GetAllDrinks,
-    private val rescheduleAllTSDrinkReminders: RescheduleAllTSDrinkReminders
+    private val rescheduleAllTSDrinkReminders: RescheduleAllTSDrinkReminders,
+    private val addForgottenDrink: AddForgottenDrink
 ) : ViewModel() {
     
     
@@ -135,6 +132,9 @@ class WaterHomeViewModel @Inject constructor(
             
             WaterHomeEvent.RestoreDrink -> {
                 addDrink(recentlyDeleteDrink ?: return@launch)
+                    .onFailure {
+                        showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
+                    }
                 recentlyDeleteDrink = null
             }
         }
@@ -150,25 +150,14 @@ class WaterHomeViewModel @Inject constructor(
             }
             
             DialogAddForgottenDrinkEvent.OnConfirmClick -> {
-                getLocalTime(
+                addForgottenDrink(
                     addForgottenDrinkDialogHour.value,
-                    addForgottenDrinkDialogMinute.value
-                )
-                    .onSuccess { localTime ->
-                        addDrink(
-                            Drink(
-                                dateTime = LocalDateTime.of(
-                                    LocalDate.now(),
-                                    localTime
-                                ),
-                                waterIntake = addForgottenDrinkDialogQuantity.value.toDoubleOrNull() ?: 0.0,
-                                unit = waterUnit.value
-                            )
-                        )
-                    }
-                    .onFailure {
-                        showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
-                    }
+                    addForgottenDrinkDialogMinute.value,
+                    LocalDate.now(),
+                    addForgottenDrinkDialogQuantity.value.toDoubleOrNull()
+                ).onFailure {
+                    showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
+                }
                 _isAddForgottenDrinkDialogShowing.value = false
             }
             

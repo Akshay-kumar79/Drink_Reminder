@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
-import com.akshaw.drinkreminder.core.domain.use_case.GetLocalTime
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
 import com.akshaw.drinkreminder.corecompose.uievents.UiText
 import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import com.akshaw.drinkreminder.waterdomain.use_case.AddDrink
+import com.akshaw.drinkreminder.waterdomain.use_case.AddForgottenDrink
 import com.akshaw.drinkreminder.waterdomain.use_case.DeleteDrink
 import com.akshaw.drinkreminder.waterdomain.use_case.FilterADayDrinks
 import com.akshaw.drinkreminder.waterdomain.use_case.ValidateQuantity
@@ -20,7 +20,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.inject.Inject
 
@@ -30,10 +29,10 @@ class WaterADayDrinkViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     waterRepository: WaterRepository,
     private val filterADayDrinks: FilterADayDrinks,
-    private val getLocalTime: GetLocalTime,
     private val addDrink: AddDrink,
     private val validateQuantity: ValidateQuantity,
-    private val deleteDrink: DeleteDrink
+    private val deleteDrink: DeleteDrink,
+    private val addForgottenDrink: AddForgottenDrink
 ) : ViewModel() {
     
     companion object {
@@ -80,6 +79,9 @@ class WaterADayDrinkViewModel @Inject constructor(
             
             WaterADayDrinkEvent.RestoreDrink -> {
                 addDrink(recentlyDeleteDrink ?: return@launch)
+                    .onFailure {
+                        showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
+                    }
                 recentlyDeleteDrink = null
             }
         }
@@ -95,25 +97,14 @@ class WaterADayDrinkViewModel @Inject constructor(
             }
             
             DialogAddForgottenDrinkEvent.OnConfirmClick -> {
-                getLocalTime(
+                addForgottenDrink(
                     addForgottenDrinkDialogHour.value,
-                    addForgottenDrinkDialogMinute.value
-                )
-                    .onSuccess { localTime ->
-                        addDrink(
-                            Drink(
-                                dateTime = LocalDateTime.of(
-                                    currentDate,
-                                    localTime
-                                ),
-                                waterIntake = addForgottenDrinkDialogQuantity.value.toDoubleOrNull() ?: 0.0,
-                                unit = waterUnit.value
-                            )
-                        )
-                    }
-                    .onFailure {
-                        showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
-                    }
+                    addForgottenDrinkDialogMinute.value,
+                    currentDate,
+                    addForgottenDrinkDialogQuantity.value.toDoubleOrNull()
+                ).onFailure {
+                    showSnackbar(UiText.DynamicString(it.message ?: "Something went wrong"))
+                }
                 _isAddForgottenDrinkDialogShowing.value = false
             }
             

@@ -5,18 +5,24 @@ import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import javax.inject.Inject
 
 /**
- *  Inserts Drink to database
- *
- *  @return
- *  -> Success with drink id
+ * Inserts Drink to database
  */
 class AddDrink @Inject constructor(
     private val waterRepository: WaterRepository
 ) {
     
-    suspend operator fun invoke(drink: Drink): Long {
+    /**
+     *  @return
+     *  - [Result.failure] if [drink]'s waterIntake <= 0
+     *  - [Result.success] with drink id
+     */
+    suspend operator fun invoke(drink: Drink): Result<Long> {
         
-        return waterRepository.insertDrink(drink)
+        if (drink.waterIntake <= 0) {
+            return Result.failure(Exception("Drink quantity isn't valid"))
+        }
+        
+        return Result.success(waterRepository.insertDrink(drink))
     }
     
 }
