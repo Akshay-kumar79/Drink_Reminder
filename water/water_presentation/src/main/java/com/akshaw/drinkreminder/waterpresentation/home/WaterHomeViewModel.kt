@@ -64,7 +64,6 @@ class WaterHomeViewModel @Inject constructor(
         filterTrackableDrinksByUnit(waterUnit, allTrackableDrinks)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     
-    // TODO fix wrong selected trackable drink initially
     private val _selectedTrackableDrink = MutableStateFlow(TrackableDrink(-1, 0.0, WaterUnit.ML))
     val selectedTrackableDrink = _selectedTrackableDrink.asStateFlow()
     
