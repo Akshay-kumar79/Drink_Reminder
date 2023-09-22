@@ -136,14 +136,9 @@ class WaterReportViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0)
     
     
-    // TODO get live changes from preferences
-    // TODO load goal from preferences
     
     fun onEvent(event: WaterReportEvent) = viewModelScope.launch {
         when (event) {
-            is WaterReportEvent.OnADayProgressClick -> {
-                //TODO navigate to A Day Drinks Screen
-            }
             is WaterReportEvent.OnChartTypeChange -> {
                 _selectedChart.value = event.chartType
             }
