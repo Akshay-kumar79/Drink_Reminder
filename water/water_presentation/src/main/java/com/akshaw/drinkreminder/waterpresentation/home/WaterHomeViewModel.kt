@@ -100,8 +100,6 @@ class WaterHomeViewModel @Inject constructor(
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
     
-    // TODO calculate goal
-    // TODO listen to preference changes
     init {
         trackableDrinks.onEach {
             _selectedTrackableDrink.value = getSelectedTrackableDrink(it, waterUnit.value)
