@@ -6,7 +6,6 @@ import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalTime
 
-// TODO have different keys for saving isInitial value are saved
 interface Preferences {
     
     suspend fun saveGender(gender: Gender)
