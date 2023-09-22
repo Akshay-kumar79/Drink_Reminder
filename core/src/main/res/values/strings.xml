@@ -116,7 +116,6 @@ so we can remind you for drinks on time</string>
     <string name="close">close</string>
     <string name="add_reminder">Add Reminder</string>
     <string name="times_day">times / day</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="light_mode">Light Mode</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="system_default">System Default</string>

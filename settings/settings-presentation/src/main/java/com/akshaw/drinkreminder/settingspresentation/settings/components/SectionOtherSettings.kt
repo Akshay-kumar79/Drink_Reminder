@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
+import com.akshaw.drinkreminder.settings.presentation.BuildConfig
 
 @Composable
 fun SectionOtherSettings(
@@ -85,9 +86,7 @@ fun SectionOtherSettings(
                     view.playSoundEffect(SoundEffectConstants.CLICK)
                 },
             mainText = "Version",
-            // TODO show version from BUILD CONFIG
-//            summaryText = BuildConfig.VERSION_NAME,
-            summaryText = "1.0.1",
+            summaryText = BuildConfig.VERSION_NAME,
             iconResId = R.drawable.versions
         )
         

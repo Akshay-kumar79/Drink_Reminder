@@ -11,7 +11,7 @@ plugins {
 
 android {
     appNamespace()
-    appDefaultConfig()
+    appDefaultConfig(project)
     appSigningConfigs(project)
     applicationBuildTypes()
 }

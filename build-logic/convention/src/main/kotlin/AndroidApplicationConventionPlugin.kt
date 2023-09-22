@@ -1,5 +1,5 @@
 import com.akshaw.convention.Android
-import com.akshaw.convention.buildFeatures
+import com.akshaw.convention.buildFeaturesCompose
 import com.akshaw.convention.composeOptions
 import com.akshaw.convention.configureKotlinAndroid
 import com.android.build.api.dsl.ApplicationExtension
@@ -18,7 +18,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             extensions.configure(ApplicationExtension::class.java) {
                 configureKotlinAndroid(this)
                 targetSdk()
-                buildFeatures()
+                buildFeaturesCompose()
                 composeOptions()
             }
             

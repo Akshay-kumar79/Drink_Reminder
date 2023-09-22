@@ -10,7 +10,7 @@ plugins {
 android {
     libNamespace(Projects.Implementation.CORE_TEST)
     libDefaultConfig()
-    libBuildTypes()
+    libBuildTypes(project)
 }
 
 dependencies {

@@ -10,7 +10,7 @@ plugins {
 android {
     libNamespace(Projects.Implementation.Feature.WATER_PRESENTATION)
     libDefaultConfig()
-    libBuildTypes()
+    libBuildTypes(project)
 }
 
 dependencies {

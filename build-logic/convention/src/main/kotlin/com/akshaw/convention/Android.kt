@@ -20,6 +20,12 @@ internal fun Project.configureKotlinAndroid(
     }
 }
 
+fun CommonExtension<*, *, *, *, *>.buildFeatures() {
+    buildFeatures {
+        buildConfig = true
+    }
+}
+
 fun CommonExtension<*, *, *, *, *>.commonSdk() {
     defaultConfig.minSdk = Android.Sdk.MIN
     compileSdk = Android.Sdk.COMPILE
@@ -90,8 +96,11 @@ fun BaseAppModuleExtension.applicationBuildTypes() {
     }
 }
 
-fun LibraryExtension.libBuildTypes() {
+fun LibraryExtension.libBuildTypes(project: Project) {
     buildTypes {
+        configureEach {
+            buildConfigField("String", "VERSION_NAME", project.findVersionProperty(Config.VersionProperties.Version.NAME).asString())
+        }
         named("debug") {
             isMinifyEnabled = false
         }
@@ -106,11 +115,11 @@ fun LibraryExtension.libBuildTypes() {
     }
 }
 
-fun BaseAppModuleExtension.appDefaultConfig() {
+fun BaseAppModuleExtension.appDefaultConfig(project: Project) {
     defaultConfig {
         applicationId = Android.APPLICATION_ID
-        versionCode = 2
-        versionName = "1.0.1"
+        versionName = project.findVersionProperty(Config.VersionProperties.Version.NAME)
+        versionCode = project.findVersionProperty(Config.VersionProperties.Version.CODE).toInt()
         
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

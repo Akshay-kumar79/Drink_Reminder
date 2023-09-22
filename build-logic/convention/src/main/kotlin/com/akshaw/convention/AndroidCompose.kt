@@ -8,13 +8,16 @@ internal fun Project.configureKotlinAndroidCompose(
     commonExtension: CommonExtension<*, *, *, *, *>
 ) {
     commonExtension.apply {
-        buildFeatures()
+        buildFeaturesCompose()
         composeOptions()
     }
 }
 
-fun CommonExtension<*, *, *, *, *>.buildFeatures() {
-    buildFeatures.compose = true
+fun CommonExtension<*, *, *, *, *>.buildFeaturesCompose() {
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
 }
 
 fun CommonExtension<*, *, *, *, *>.composeOptions() {

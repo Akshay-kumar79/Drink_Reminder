@@ -1,3 +1,4 @@
+import com.akshaw.convention.buildFeatures
 import com.akshaw.convention.configureKotlinAndroid
 import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Plugin
@@ -16,6 +17,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             
             extensions.configure(LibraryExtension::class.java) {
                 configureKotlinAndroid(this)
+                buildFeatures()
             }
         }
     }

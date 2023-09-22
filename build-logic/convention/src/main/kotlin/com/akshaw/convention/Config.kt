@@ -1,6 +1,7 @@
 package com.akshaw.convention
 
 import org.gradle.api.Project
+import org.jetbrains.kotlin.konan.properties.loadProperties
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -21,6 +22,16 @@ object Config {
         }
     }
     
+    object VersionProperties {
+        
+        const val FILE = "version.properties"
+        
+        object Version {
+            const val NAME = "versionName"
+            const val CODE = "versionCode"
+        }
+    }
+    
 }
 
 fun Project.findLocalProperty(property: String): String? {
@@ -34,3 +45,10 @@ fun Project.findLocalProperty(property: String): String? {
         null
     }
 }
+
+fun Project.findVersionProperty(property: String): String {
+    return loadProperties("${rootDir}/${Config.VersionProperties.FILE}")
+        .getProperty(property)
+}
+
+fun Any?.asString() = "\"$this\""
