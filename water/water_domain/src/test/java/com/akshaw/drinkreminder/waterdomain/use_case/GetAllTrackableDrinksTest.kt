@@ -3,6 +3,7 @@ package com.akshaw.drinkreminder.waterdomain.use_case
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
 import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
+import com.akshaw.drinkreminder.coretest.repository.FakeWaterRepository
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.runBlocking
@@ -16,7 +17,7 @@ class GetAllTrackableDrinksTest {
     
     @Before
     fun setUp() {
-        waterRepository = com.akshaw.drinkreminder.waterdomain.repository.FakeWaterRepository()
+        waterRepository = FakeWaterRepository()
         getAllTrackableDrink = GetAllTrackableDrinks(waterRepository)
     }
     

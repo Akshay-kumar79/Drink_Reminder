@@ -3,6 +3,7 @@ package com.akshaw.drinkreminder.core.domain.mapper
 import com.akshaw.drinkreminder.core.data.local.entity.DrinkEntity
 import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
+import com.akshaw.drinkreminder.core.util.Constants
 import java.time.Instant
 import java.time.ZoneId
 
@@ -11,7 +12,7 @@ fun DrinkEntity.toDrink(): Drink {
         id = id,
         dateTime = Instant.ofEpochMilli(milli).atZone(ZoneId.systemDefault()).toLocalDateTime(),
         waterIntake = waterIntake,
-        unit = WaterUnit.fromString(unit)
+        unit = WaterUnit.fromString(unit) ?: Constants.DEFAULT_WATER_UNIT
     )
 }
 

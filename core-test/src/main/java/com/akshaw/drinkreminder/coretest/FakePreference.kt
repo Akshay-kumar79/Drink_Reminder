@@ -113,7 +113,7 @@ class FakePreference : Preferences {
     
     override fun getWaterUnit(): Flow<WaterUnit> {
         return flow {
-            emit(WaterUnit.fromString(waterUnit))
+            emit(WaterUnit.fromString(waterUnit) ?: Constants.DEFAULT_WATER_UNIT)
         }
     }
     

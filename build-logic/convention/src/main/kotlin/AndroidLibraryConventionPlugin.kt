@@ -13,6 +13,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 apply("kotlin-kapt")
                 apply("com.google.dagger.hilt.android")
                 apply("org.jetbrains.kotlin.plugin.serialization")
+                apply("de.mannodermaus.android-junit5")
             }
             
             extensions.configure(LibraryExtension::class.java) {

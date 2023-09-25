@@ -6,7 +6,6 @@ object Projects {
         
         const val CORE = ":core"
         const val CORE_COMPOSE = ":core-compose"
-        const val CORE_TEST = ":core-test"
         
         object Feature {
             const val ONBOARDING_DOMAIN = ":onboarding:onboarding_domain"
@@ -19,6 +18,11 @@ object Projects {
             const val SETTINGS_PRESENTATION = ":settings:settings-presentation"
         }
         
+    }
+    
+    object TestImplementation{
+    
+        const val CORE_TEST = ":core-test"
     }
     
 }

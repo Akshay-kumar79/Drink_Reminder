@@ -9,9 +9,9 @@ import javax.inject.Inject
  *  Inserts TrackableDrink to database
  *
  *  returns
- *  -> Success with trackableDrink id
+ *  -> [Result.success] with trackableDrink id
  *
- *  -> Failure with Exception,
+ *  -> [Result.failure] with Exception,
  *  - if [TrackableDrink.amount] <= 0
  *  - if [TrackableDrink] with same amount and unit already exist in database
  */
