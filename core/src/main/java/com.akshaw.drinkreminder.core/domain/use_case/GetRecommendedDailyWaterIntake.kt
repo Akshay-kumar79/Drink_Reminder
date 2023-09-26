@@ -39,7 +39,9 @@ class GetRecommendedDailyWaterIntake @Inject constructor(
         currentWaterUnit: WaterUnit
     ): Result<Int> {
         
-        val currentWeightInKg = changeWeightByUnit(currentWeight, currentWeightUnit, WeightUnit.KG).roundToInt()
+        val currentWeightInKg = changeWeightByUnit(currentWeight, currentWeightUnit, WeightUnit.KG).getOrElse {
+            return Result.failure(SWWException())
+        }.roundToInt()
         
         val recommendedDailyIntakeInMl = when (currentAge) {
             in (13..18) -> {

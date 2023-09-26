@@ -3,6 +3,7 @@ package com.akshaw.drinkreminder.settings_domain.usecase
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.ChangeWaterQuantityByUnit
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
+import com.akshaw.drinkreminder.core.util.SWWException
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ class SaveNewWaterUnit @Inject constructor(
         val currentDailyWaterIntake = preferences.getDailyWaterIntakeGoal().first()
         
         val newDailyWaterIntake = changeWaterQuantityByUnit(currentDailyWaterIntake, currentWaterUnit, newWaterUnit).getOrElse {
-            return Result.failure(it)
+            return Result.failure(SWWException())
         }
         
         preferences.saveDailyWaterIntakeGoal(newDailyWaterIntake)

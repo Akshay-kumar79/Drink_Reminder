@@ -95,7 +95,7 @@ class FakePreference : Preferences {
     
     override fun getWeightUnit(): Flow<WeightUnit> {
         return flow {
-            emit(WeightUnit.fromString(weightUnit))
+            emit(WeightUnit.fromString(weightUnit) ?: Constants.DEFAULT_WEIGHT_UNIT)
         }
     }
     

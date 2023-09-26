@@ -7,7 +7,6 @@ import javax.inject.Inject
 /**
  *  Convert weight with new weight unit
  */
-// @Inject is used to make ChangeWeightByUnit available to DaggerHilt to be able to inject
 class ChangeWeightByUnit @Inject constructor() {
     
     /**
@@ -15,26 +14,40 @@ class ChangeWeightByUnit @Inject constructor() {
      *  @param currentWeightUnit the weight unit of the weight
      *  @param newWeightUnit the weight unit to which weight need to be converted
      *
-     *  @return new weight
+     *  @return
+     *  -> [Result.failure] if [weight] is negative
+     *
+     *  -> [Result.success]
+     *  - with [weight], if [currentWeightUnit] is same as [newWeightUnit]
+     *  - with new weight, if everything is ok
      */
-    operator fun invoke(weight: Float, currentWeightUnit: WeightUnit, newWeightUnit: WeightUnit): Float {
-        val newWeight = when (currentWeightUnit) {
-            WeightUnit.KG -> {
-                when (newWeightUnit) {
-                    WeightUnit.KG -> weight
-                    WeightUnit.LBS -> (weight * Constants.KG_TO_LBS).toFloat()
-                }
-            }
-            
-            WeightUnit.LBS -> {
-                when (newWeightUnit) {
-                    WeightUnit.KG -> (weight * Constants.LBS_TO_KG).toFloat()
-                    WeightUnit.LBS -> weight
+    @Suppress("KotlinConstantConditions")
+    operator fun invoke(weight: Float, currentWeightUnit: WeightUnit, newWeightUnit: WeightUnit): Result<Float> {
+        val newWeight = weight.let {
+            if (it < 0.0)
+                return Result.failure(Exception("Negative weight"))
+            else if (currentWeightUnit == newWeightUnit) {
+                return Result.success(weight)
+            } else {
+                when (currentWeightUnit) {
+                    WeightUnit.KG -> {
+                        when (newWeightUnit) {
+                            WeightUnit.KG -> weight
+                            WeightUnit.LBS -> (weight * Constants.KG_TO_LBS).toFloat()
+                        }
+                    }
+                    
+                    WeightUnit.LBS -> {
+                        when (newWeightUnit) {
+                            WeightUnit.KG -> (weight * Constants.LBS_TO_KG).toFloat()
+                            WeightUnit.LBS -> weight
+                        }
+                    }
                 }
             }
         }
         
-        return newWeight
+        return Result.success(newWeight)
     }
     
 }

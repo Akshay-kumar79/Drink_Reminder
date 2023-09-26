@@ -1,7 +1,5 @@
 package com.akshaw.drinkreminder.core.domain.preferences.elements
 
-import com.akshaw.drinkreminder.core.util.Constants
-
 private const val KG_ = "kg"
 private const val LBS_ = "lbs"
 
@@ -12,11 +10,11 @@ enum class WeightUnit(val text: String, val id: Int) {
      LBS(LBS_, 101);
 
     companion object {
-        fun fromString(text: String?): WeightUnit {
+        fun fromString(text: String?): WeightUnit? {
             return when (text) {
                 KG_ -> KG
                 LBS_ -> LBS
-                else -> Constants.DEFAULT_WEIGHT_UNIT
+                else -> null
             }
         }
 
