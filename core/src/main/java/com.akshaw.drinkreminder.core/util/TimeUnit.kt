@@ -7,7 +7,7 @@ enum class TimeUnit(val id: Int) {
     AM(100),
     PM(101);
     
-    companion object{
+    companion object {
         fun fromId(id: Int): TimeUnit? {
             return when (id) {
                 100 -> AM
@@ -15,11 +15,19 @@ enum class TimeUnit(val id: Int) {
                 else -> null
             }
         }
-    
+        
+        fun fromString(name: String): TimeUnit? {
+            return when (name) {
+                AM.name -> AM
+                PM.name -> PM
+                else -> null
+            }
+        }
+        
         fun getNameFromId(id: Int): String? {
             return fromId(id)?.name
         }
-    
+        
         fun maxID() = PM.id
         fun minID() = AM.id
     }
