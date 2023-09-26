@@ -4,6 +4,7 @@ import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
+import com.akshaw.drinkreminder.core.util.SWWException
 import javax.inject.Inject
 import kotlin.math.floor
 import kotlin.math.roundToInt
@@ -53,7 +54,7 @@ class GetRecommendedDailyWaterIntake @Inject constructor(
                         1500 + (20 * (currentWeightInKg - 20))
                     }
                     
-                    else -> return Result.failure(Exception("Something went wrong"))
+                    else -> return Result.failure(SWWException())
                 }
             }
             
@@ -64,14 +65,19 @@ class GetRecommendedDailyWaterIntake @Inject constructor(
                 }
             }
             
-            else -> return Result.failure(Exception("Something went wrong"))
+            else -> return Result.failure(SWWException())
         }
         
         changeWaterQuantityByUnit(recommendedDailyIntakeInMl.toDouble(), WaterUnit.ML, currentWaterUnit)
-            .let {
+            .onSuccess {
                 return Result.success(floor(it).toInt())
             }
+            .onFailure {
+                return Result.failure(SWWException())
+            }
         
+        
+        return Result.failure(SWWException())
     }
     
 }
