@@ -7,6 +7,7 @@ import assertk.assertions.isTrue
 import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
 import com.akshaw.drinkreminder.core.util.NoExactAlarmPermissionException
 import com.akshaw.drinkreminder.core.util.NoNotificationPermissionException
+import com.akshaw.drinkreminder.core.util.truncateToMinutes
 import com.akshaw.drinkreminder.coretest.repository.FakeReminderRepository
 import com.akshaw.drinkreminder.coretest.repository.FakeReminderScheduler
 import kotlinx.coroutines.runBlocking
@@ -46,7 +47,7 @@ class RescheduleAllTSDrinkRemindersTest {
         
         assertThat(reminderScheduler.reminders.size).isEqualTo(drinkReminders.size)
         drinkReminders.forEach {
-            assertThat(reminderScheduler.reminders.contains(it)).isTrue()
+            assertThat(reminderScheduler.reminders.contains(it.copy(time = it.time.truncateToMinutes()))).isTrue()
         }
     }
     
