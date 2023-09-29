@@ -3,8 +3,9 @@ package com.akshaw.drinkreminder.waterpresentation.reminders
 import android.Manifest
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.akshaw.drinkreminder.core.data.repository.ReminderSchedulerImpl
 import com.akshaw.drinkreminder.core.domain.preferences.elements.ReminderType
+import com.akshaw.drinkreminder.core.util.NoExactAlarmPermissionException
+import com.akshaw.drinkreminder.core.util.NoNotificationPermissionException
 import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
 import com.akshaw.drinkreminder.corecompose.uievents.UiText
 import com.akshaw.drinkreminder.waterdomain.use_case.CancelDrinkReminder
@@ -108,11 +109,11 @@ class WaterReminderViewModel @Inject constructor(
                     switchDrinkReminder(event.drinkReminder, event.isReminderOn)
                         .onFailure {
                             when (it) {
-                                is ReminderSchedulerImpl.NoNotificationPermissionException -> {
+                                is NoNotificationPermissionException -> {
                                     _isReRequestNotificationPermDialogVisible.value = true
                                 }
                                 
-                                is ReminderSchedulerImpl.NoExactAlarmPermissionException -> {
+                                is NoExactAlarmPermissionException -> {
                                     _isReRequestExactAlarmPermDialogVisible.value = true
                                 }
                             }

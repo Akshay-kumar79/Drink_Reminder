@@ -70,7 +70,6 @@ number-picker = { module = "io.github.ShawnLin013:number-picker", version.ref = 
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidxTestCore" }
 junit = { module = "junit:junit", version.ref = "junit" }
 androidx-arch-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "androidxArchCoreTesting" }
-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "mockwebserver" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
@@ -80,6 +79,7 @@ junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.re
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junitJupiter" }
 junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junitJupiter" }
 assetk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertk" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 
 androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidxEspressoCore" }
@@ -101,8 +101,8 @@ test = [
     "junit-jupiter-api",
     "junit-jupiter-engine",
     "junit-jupiter-params",
-    "truth",
-    "assetk"
+    "assetk",
+    "kotlinx-coroutines-test"
 ]
 
 

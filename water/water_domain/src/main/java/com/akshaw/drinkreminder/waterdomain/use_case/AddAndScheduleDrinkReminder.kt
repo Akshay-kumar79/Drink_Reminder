@@ -1,9 +1,10 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
-import com.akshaw.drinkreminder.core.data.repository.ReminderSchedulerImpl
 import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
 import com.akshaw.drinkreminder.core.domain.use_case.ScheduleDrinkReminder
 import com.akshaw.drinkreminder.core.domain.use_case.UpsertDrinkReminder
+import com.akshaw.drinkreminder.core.util.NoExactAlarmPermissionException
+import com.akshaw.drinkreminder.core.util.NoNotificationPermissionException
 import java.time.DayOfWeek
 import java.time.LocalTime
 import javax.inject.Inject
@@ -35,7 +36,7 @@ class AddAndScheduleDrinkReminder @Inject constructor(
         val id = upsertDrinkReminder(drinkReminder)
         scheduleDrinkReminder(drinkReminder.copy(id = id))
             .onFailure {
-                if (it is ReminderSchedulerImpl.NoExactAlarmPermissionException || it is ReminderSchedulerImpl.NoNotificationPermissionException) {
+                if (it is NoExactAlarmPermissionException || it is NoNotificationPermissionException) {
                     upsertDrinkReminder(drinkReminder.copy(id = id, isReminderOn = false))
                 }
             }
