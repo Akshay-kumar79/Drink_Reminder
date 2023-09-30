@@ -7,7 +7,6 @@ import javax.inject.Inject
 /**
  *  Convert water quantity with new water unit
  */
-// @Inject is used to make ChangeWaterQuantityByUnit available to DaggerHilt to be able to inject
 class ChangeWaterQuantityByUnit @Inject constructor() {
     
     /**
@@ -15,26 +14,41 @@ class ChangeWaterQuantityByUnit @Inject constructor() {
      *  @param currentWaterUnit the water unit of the currentQuantity
      *  @param newWaterUnit the water unit to which currentQuantity need to be converted
      *
-     *  @return new water quantity
+     *  @return
+     *  -> [Result.failure] if [waterQuantity] is negative
+     *
+     *  -> [Result.success]
+     *  - with [waterQuantity], if [currentWaterUnit] is same as [newWaterUnit]
+     *  - with new water quantity, if everything is ok
      */
-    operator fun invoke(waterQuantity: Double, currentWaterUnit: WaterUnit, newWaterUnit: WaterUnit): Double {
-        val newWaterQuantity = when (currentWaterUnit) {
-            WaterUnit.ML -> {
-                when (newWaterUnit) {
-                    WaterUnit.ML -> waterQuantity
-                    WaterUnit.FL_OZ -> waterQuantity * Constants.ML_TO_FLOZ
-                }
-            }
-            
-            WaterUnit.FL_OZ -> {
-                when (newWaterUnit) {
-                    WaterUnit.ML -> waterQuantity * Constants.FLOZ_TO_ML
-                    WaterUnit.FL_OZ -> waterQuantity
+    @Suppress("KotlinConstantConditions")
+    operator fun invoke(waterQuantity: Double, currentWaterUnit: WaterUnit, newWaterUnit: WaterUnit): Result<Double> {
+        
+        val newWaterQuantity = waterQuantity.let {
+            if (it < 0.0)
+                return Result.failure(Exception("Negative quantity"))
+            else if (currentWaterUnit == newWaterUnit) {
+                return Result.success(waterQuantity)
+            } else {
+                when (currentWaterUnit) {
+                    WaterUnit.ML -> {
+                        when (newWaterUnit) {
+                            WaterUnit.ML -> waterQuantity
+                            WaterUnit.FL_OZ -> waterQuantity * Constants.ML_TO_FLOZ
+                        }
+                    }
+                    
+                    WaterUnit.FL_OZ -> {
+                        when (newWaterUnit) {
+                            WaterUnit.ML -> waterQuantity * Constants.FLOZ_TO_ML
+                            WaterUnit.FL_OZ -> waterQuantity
+                        }
+                    }
                 }
             }
         }
         
-        return newWaterQuantity
+        return Result.success(newWaterQuantity)
     }
     
 }

@@ -22,20 +22,24 @@ class SaveInitialTrackableDrinks @Inject constructor(
             return
         }
         
-        Constants.DEFAULT_TRACKABLE_DRINKS.forEach {
+        Constants.DEFAULT_TRACKABLE_DRINKS.forEach { trackableDrinkAmount ->
             addTrackableDrink(
                 TrackableDrink(
-                    amount = it,
+                    amount = trackableDrinkAmount,
                     unit = WaterUnit.ML
                 )
             )
             
-            addTrackableDrink(
-                TrackableDrink(
-                    amount = floor(changeWaterQuantityByUnit(it, WaterUnit.ML, WaterUnit.FL_OZ)),
-                    unit = WaterUnit.FL_OZ
-                )
-            )
+            changeWaterQuantityByUnit(trackableDrinkAmount, WaterUnit.ML, WaterUnit.FL_OZ)
+                .onSuccess {
+                    addTrackableDrink(
+                        TrackableDrink(
+                            amount = floor(it),
+                            unit = WaterUnit.FL_OZ
+                        )
+                    )
+                }
+            
         }
     }
     

@@ -4,7 +4,7 @@ import com.akshaw.drinkreminder.coretest.FakePreference
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
-import com.akshaw.drinkreminder.waterdomain.repository.FakeWaterRepository
+import com.akshaw.drinkreminder.coretest.repository.FakeWaterRepository
 import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking

@@ -7,10 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
 import com.akshaw.drinkreminder.core.data.receivers.ReminderReceiver
 import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
 import com.akshaw.drinkreminder.core.domain.repository.ReminderScheduler
+import com.akshaw.drinkreminder.core.util.NoExactAlarmPermissionException
+import com.akshaw.drinkreminder.core.util.NoNotificationPermissionException
+import com.akshaw.drinkreminder.core.util.ReminderOffException
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -73,8 +75,7 @@ class ReminderSchedulerImpl(private val context: Context) : ReminderScheduler {
         
         try {
             alarmManager.cancel(pendingIntent)
-        } catch (e: Exception) {
-        }
+        } catch (e: Exception){ e.printStackTrace() }
     }
     
     companion object {
@@ -121,7 +122,4 @@ class ReminderSchedulerImpl(private val context: Context) : ReminderScheduler {
         }
     }
     
-    inner class NoExactAlarmPermissionException : Exception("Permission not allowed to set exact alarm")
-    inner class NoNotificationPermissionException : Exception("Permission not allowed to show notification")
-    inner class ReminderOffException : Exception("Reminder is off or no day is selected")
 }

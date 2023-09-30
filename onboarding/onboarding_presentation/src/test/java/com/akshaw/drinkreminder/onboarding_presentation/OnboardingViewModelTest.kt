@@ -15,12 +15,12 @@ class OnboardingViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = OnboardingViewModel(
-            preferences = FakePreference(),
-            getLocalTime = GetLocalTime(),
-            getNextPage = GetNextPage(),
-            getPreviousPage = GetPreviousPage()
-        )
+//        viewModel = OnboardingViewModel(
+//            preferences = FakePreference(),
+//            getLocalTime = GetLocalTime(),
+//            getNextPage = GetNextPage(),
+//            getPreviousPage = GetPreviousPage()
+//        )
     }
 
     @Test

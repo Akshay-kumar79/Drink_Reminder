@@ -1,9 +1,10 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
-import com.akshaw.drinkreminder.core.data.repository.ReminderSchedulerImpl
 import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
 import com.akshaw.drinkreminder.core.domain.use_case.ScheduleDrinkReminder
 import com.akshaw.drinkreminder.core.domain.use_case.UpsertDrinkReminder
+import com.akshaw.drinkreminder.core.util.NoExactAlarmPermissionException
+import com.akshaw.drinkreminder.core.util.NoNotificationPermissionException
 import javax.inject.Inject
 
 class SwitchDrinkReminder @Inject constructor(
@@ -20,7 +21,7 @@ class SwitchDrinkReminder @Inject constructor(
                     upsertDrinkReminder(drinkReminder.copy(isReminderOn = true))
                 }
                 .onFailure {
-                    if (it is ReminderSchedulerImpl.NoExactAlarmPermissionException || it is ReminderSchedulerImpl.NoNotificationPermissionException) {
+                    if (it is NoExactAlarmPermissionException || it is NoNotificationPermissionException) {
                         upsertDrinkReminder(drinkReminder.copy(isReminderOn = false))
                         return Result.failure(it)
                     }

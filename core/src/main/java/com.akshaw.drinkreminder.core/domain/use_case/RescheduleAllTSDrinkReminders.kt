@@ -1,7 +1,8 @@
 package com.akshaw.drinkreminder.core.domain.use_case
 
-import com.akshaw.drinkreminder.core.data.repository.ReminderSchedulerImpl
 import com.akshaw.drinkreminder.core.domain.repository.ReminderRepository
+import com.akshaw.drinkreminder.core.util.NoExactAlarmPermissionException
+import com.akshaw.drinkreminder.core.util.NoNotificationPermissionException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
@@ -23,7 +24,7 @@ class RescheduleAllTSDrinkReminders @Inject constructor(
                 scheduleDrinkReminder(drinkReminder)
                     .onFailure {
                         withContext(Dispatchers.IO) {
-                            if (it is ReminderSchedulerImpl.NoExactAlarmPermissionException || it is ReminderSchedulerImpl.NoNotificationPermissionException)
+                            if (it is NoExactAlarmPermissionException || it is NoNotificationPermissionException)
                                 reminderRepository.upsertDrinkReminder(drinkReminder.copy(isReminderOn = false))
                         }
                     }

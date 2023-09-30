@@ -1,10 +1,9 @@
 package com.akshaw.drinkreminder.core.util
 
-import android.util.Log
-import androidx.room.util.newStringBuilder
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.temporal.ChronoUnit
 
 fun LocalTime.formatted24HourTime(): String {
     return "${
@@ -41,3 +40,5 @@ fun LocalDateTime.withLocalTime(localTime: LocalTime): LocalDateTime {
     withNano(localTime.nano)
     return this
 }
+
+fun LocalTime.truncateToMinutes(): LocalTime = this.truncatedTo(ChronoUnit.MINUTES)

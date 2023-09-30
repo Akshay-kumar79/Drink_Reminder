@@ -4,6 +4,9 @@ import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
+import com.akshaw.drinkreminder.core.util.AgeOutOfLimitException
+import com.akshaw.drinkreminder.core.util.SWWException
+import com.akshaw.drinkreminder.core.util.WeightOutOfLimitException
 import javax.inject.Inject
 import kotlin.math.floor
 import kotlin.math.roundToInt
@@ -19,8 +22,8 @@ class GetRecommendedDailyWaterIntake @Inject constructor(
     /**
      * @param currentAge current age of the user
      * @param currentWeight current weight of the user
-     * @param currentWeightUnit current WeightUnit
-     * @param gender You know it i know it
+     * @param currentWeightUnit current [WeightUnit]
+     * @param gender [Gender]
      * @param currentWaterUnit preferred [WaterUnit] for the output amount
      *
      * @return [Result.failure]
@@ -38,7 +41,9 @@ class GetRecommendedDailyWaterIntake @Inject constructor(
         currentWaterUnit: WaterUnit
     ): Result<Int> {
         
-        val currentWeightInKg = changeWeightByUnit(currentWeight, currentWeightUnit, WeightUnit.KG).roundToInt()
+        val currentWeightInKg = changeWeightByUnit(currentWeight, currentWeightUnit, WeightUnit.KG).getOrElse {
+            return Result.failure(SWWException())
+        }.roundToInt()
         
         val recommendedDailyIntakeInMl = when (currentAge) {
             in (13..18) -> {
@@ -53,7 +58,7 @@ class GetRecommendedDailyWaterIntake @Inject constructor(
                         1500 + (20 * (currentWeightInKg - 20))
                     }
                     
-                    else -> return Result.failure(Exception("Something went wrong"))
+                    else -> return Result.failure(WeightOutOfLimitException())
                 }
             }
             
@@ -64,14 +69,19 @@ class GetRecommendedDailyWaterIntake @Inject constructor(
                 }
             }
             
-            else -> return Result.failure(Exception("Something went wrong"))
+            else -> return Result.failure(AgeOutOfLimitException())
         }
         
         changeWaterQuantityByUnit(recommendedDailyIntakeInMl.toDouble(), WaterUnit.ML, currentWaterUnit)
-            .let {
+            .onSuccess {
                 return Result.success(floor(it).toInt())
             }
+            .onFailure {
+                return Result.failure(SWWException())
+            }
         
+        
+        return Result.failure(SWWException())
     }
     
 }

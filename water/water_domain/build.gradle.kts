@@ -17,7 +17,6 @@ dependencies {
     
     // Module
     implementation(project(Projects.Implementation.CORE))
-    implementation(project(Projects.Implementation.CORE_TEST))
     
     // Android Materials
     implementation(libs.androidx.core.ktx)
@@ -46,6 +45,7 @@ dependencies {
     implementation(libs.number.picker)
     
     // Local unit tests
+    testImplementation(project(Projects.TestImplementation.CORE_TEST))
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.junit)
     testImplementation(libs.androidx.arch.core.testing)
