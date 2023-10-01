@@ -3,15 +3,18 @@ package com.akshaw.drinkreminder.onboarding_domain.use_case
 import com.akshaw.drinkreminder.onboarding_domain.utils.OnboardingPage
 import com.akshaw.drinkreminder.onboarding_domain.utils.nextPage
 
-
+/**
+ *  Provides Next Onboarding page to be shown
+ */
 class GetNextPage {
     
     /**
-     * @return - [Result.success] with next page if calculated next page is not null,
-     *  if next page is [OnboardingPage.PERMISSION] and [hasAllPermission] is true then
-     *  [OnboardingPage.PERMISSION] page will be skipped
+     * @return
+     * -> [Result.success] with next page if [OnboardingPage.nextPage] is not null for
+     * [currentPage], if next page is [OnboardingPage.PERMISSION] and [hasAllPermission]
+     * is true then [OnboardingPage.PERMISSION] page will be skipped
      *
-     *  - [Result.failure] if next page is null,
+     *  -> [Result.failure] if next page is null,
      *  It indicates that onboarding is finished
      *
      */

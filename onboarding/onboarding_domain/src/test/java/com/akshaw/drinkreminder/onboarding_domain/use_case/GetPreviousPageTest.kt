@@ -1,15 +1,17 @@
 package com.akshaw.drinkreminder.onboarding_domain.use_case
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import assertk.assertions.isTrue
 import com.akshaw.drinkreminder.onboarding_domain.utils.OnboardingPage
-import com.google.common.truth.Truth.assertThat
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class GetPreviousPageTest {
 
     private lateinit var getPreviousPage: GetPreviousPage
 
-    @Before
+    @BeforeEach
     fun setUp() {
         getPreviousPage = GetPreviousPage()
     }
