@@ -14,7 +14,7 @@ class GetNextPage {
      * [currentPage], if next page is [OnboardingPage.PERMISSION] and [hasAllPermission]
      * is true then [OnboardingPage.PERMISSION] page will be skipped
      *
-     *  -> [Result.failure] if next page is null,
+     *  -> [Result.failure] if [OnboardingPage.nextPage] is null for [currentPage],
      *  It indicates that onboarding is finished
      *
      */

@@ -5,49 +5,57 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isTrue
 import com.akshaw.drinkreminder.onboarding_domain.utils.OnboardingPage
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
+import java.util.stream.Stream
 
 class GetPreviousPageTest {
-
+    
     private lateinit var getPreviousPage: GetPreviousPage
-
+    
     @BeforeEach
     fun setUp() {
         getPreviousPage = GetPreviousPage()
     }
-
-    @Test
-    fun `Gender page, return failure`(){
-        val result = getPreviousPage(OnboardingPage.GENDER)
+    
+    @ParameterizedTest
+    @MethodSource("getPreviousPageSuccessArgs")
+    fun `getPreviousPage with favourable success input, returns success with expected previous page`(
+        inputPage: OnboardingPage,
+        expectedPreviousPage: OnboardingPage
+    ) {
+        val result = getPreviousPage(inputPage)
+        
+        assertThat(result.isSuccess).isTrue()
+        assertThat(result.getOrThrow()).isEqualTo(expectedPreviousPage)
+    }
+    
+    @ParameterizedTest
+    @MethodSource("getPreviousPageFailureArgs")
+    fun `getPreviousPage with favourable failure input, returns failure`(
+        inputPage: OnboardingPage
+    ) {
+        val result = getPreviousPage(inputPage)
+        
         assertThat(result.isFailure).isTrue()
     }
-
-    @Test
-    fun `Age page, return success with Gender page`(){
-        val result = getPreviousPage(OnboardingPage.AGE)
-        assertThat(result.isSuccess).isTrue()
-        assertThat(result.getOrNull()).isEqualTo(OnboardingPage.GENDER)
+    
+    
+    companion object {
+        @JvmStatic
+        fun getPreviousPageSuccessArgs(): Stream<Arguments> = Stream.of(
+            Arguments.arguments(OnboardingPage.PERMISSION, OnboardingPage.WAKEUP_TIME),
+            Arguments.arguments(OnboardingPage.WAKEUP_TIME, OnboardingPage.BED_TIME),
+            Arguments.arguments(OnboardingPage.BED_TIME, OnboardingPage.WEIGHT),
+            Arguments.arguments(OnboardingPage.WEIGHT, OnboardingPage.AGE),
+            Arguments.arguments(OnboardingPage.AGE, OnboardingPage.GENDER),
+        )
+        
+        @JvmStatic
+        fun getPreviousPageFailureArgs(): Stream<Arguments> = Stream.of(
+            Arguments.arguments(OnboardingPage.GENDER),
+        )
     }
-
-    @Test
-    fun `Weight page, return success with Age page`(){
-        val result = getPreviousPage(OnboardingPage.WEIGHT)
-        assertThat(result.isSuccess).isTrue()
-        assertThat(result.getOrNull()).isEqualTo(OnboardingPage.AGE)
-    }
-
-    @Test
-    fun `BedTime page, return success with Weight page`(){
-        val result = getPreviousPage(OnboardingPage.BED_TIME)
-        assertThat(result.isSuccess).isTrue()
-        assertThat(result.getOrNull()).isEqualTo(OnboardingPage.WEIGHT)
-    }
-
-    @Test
-    fun `wakeupTime page, return success with BedTime page`(){
-        val result = getPreviousPage(OnboardingPage.WAKEUP_TIME)
-        assertThat(result.isSuccess).isTrue()
-        assertThat(result.getOrNull()).isEqualTo(OnboardingPage.BED_TIME)
-    }
-
+    
 }
