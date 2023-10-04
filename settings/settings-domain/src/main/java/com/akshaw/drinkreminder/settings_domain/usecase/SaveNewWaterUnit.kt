@@ -4,6 +4,7 @@ import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.ChangeWaterQuantityByUnit
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.util.SWWException
+import com.akshaw.drinkreminder.core.util.SameWaterUnitException
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -15,11 +16,21 @@ class SaveNewWaterUnit @Inject constructor(
     private val changeWaterQuantityByUnit: ChangeWaterQuantityByUnit
 ) {
     
+    /**
+     *  @param newWaterUnit [WaterUnit] that need to be stored
+     *
+     *  @return
+     *  -> [Result.success] if new unit is stored in preference successfully
+     *
+     *  -> [Result.failure]
+     *  - with [SameWaterUnitException] if current water is same as [newWaterUnit]
+     *  - with [SWWException] if failed to convert unit of daily water intake goal
+     */
     suspend operator fun invoke(newWaterUnit: WaterUnit): Result<Unit> {
         
         val currentWaterUnit = preferences.getWaterUnit().first()
         if (currentWaterUnit == newWaterUnit) {
-            return Result.failure(Exception("Current water unit is same"))
+            return Result.failure(SameWaterUnitException())
         }
         
         val currentDailyWaterIntake = preferences.getDailyWaterIntakeGoal().first()

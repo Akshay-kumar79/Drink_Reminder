@@ -7,3 +7,5 @@ class AgeOutOfLimitException : Exception("Age is not in the limit")
 class NoExactAlarmPermissionException : Exception("Permission not allowed to set exact alarm")
 class NoNotificationPermissionException : Exception("Permission not allowed to show notification")
 class ReminderOffException : Exception("Reminder is off or no day is selected")
+
+class SameWaterUnitException: Exception("Current water unit is same")
