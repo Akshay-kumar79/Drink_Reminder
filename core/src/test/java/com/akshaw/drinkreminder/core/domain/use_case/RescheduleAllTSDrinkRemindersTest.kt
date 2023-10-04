@@ -87,17 +87,17 @@ class RescheduleAllTSDrinkRemindersTest {
         @JvmStatic
         fun rescheduleFailArgs(): Stream<Arguments> = Stream.of(
             Arguments.arguments(listOf(
-                DrinkReminder(0, LocalTime.now(), true, DayOfWeek.values().toList()),
                 DrinkReminder(1, LocalTime.now(), false, DayOfWeek.values().toList()),
                 DrinkReminder(2, LocalTime.now(), false, DayOfWeek.values().toList()),
                 DrinkReminder(3, LocalTime.now(), true, DayOfWeek.values().toList()),
+                DrinkReminder(4, LocalTime.now(), true, DayOfWeek.values().toList()),
             ), NoNotificationPermissionException()),
             Arguments.arguments(listOf<DrinkReminder>(), NoNotificationPermissionException()),
             Arguments.arguments(listOf(
-                DrinkReminder(0, LocalTime.now(), true, DayOfWeek.values().toList()),
                 DrinkReminder(1, LocalTime.now(), true, DayOfWeek.values().toList()),
                 DrinkReminder(2, LocalTime.now(), true, DayOfWeek.values().toList()),
                 DrinkReminder(3, LocalTime.now(), false, DayOfWeek.values().toList()),
+                DrinkReminder(4, LocalTime.now(), true, DayOfWeek.values().toList()),
             ), NoExactAlarmPermissionException()),
             Arguments.arguments(listOf<DrinkReminder>(), NoExactAlarmPermissionException()),
         )

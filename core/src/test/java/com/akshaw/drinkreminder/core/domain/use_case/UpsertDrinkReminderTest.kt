@@ -25,7 +25,7 @@ class UpsertDrinkReminderTest {
     @Test
     fun `add new drink reminder test`() = runBlocking {
         val drinkReminder = DrinkReminder(
-            0,
+            1,
             LocalTime.of(2, 2, 2, 2),
             true,
             DayOfWeek.values().toList()
@@ -44,7 +44,7 @@ class UpsertDrinkReminderTest {
     @Test
     fun `update drink reminder test`() = runBlocking {
         val drinkReminder = DrinkReminder(
-            0,
+            1,
             LocalTime.of(2, 2, 2, 2),
             true,
             DayOfWeek.values().toList()
@@ -67,14 +67,14 @@ class UpsertDrinkReminderTest {
     @Test
     fun `add new drink reminder when one other already exist`() = runBlocking {
         val drinkReminder = DrinkReminder(
-            0,
+            1,
             LocalTime.of(2, 2, 2, 2),
             true,
             DayOfWeek.values().toList()
         )
     
         reminderRepository.drinkReminders.add(DrinkReminder(
-            1, LocalTime.now(), false, DayOfWeek.values().toList()
+            2, LocalTime.now(), false, DayOfWeek.values().toList()
         ))
         assertThat(reminderRepository.drinkReminders.size).isEqualTo(1)
     

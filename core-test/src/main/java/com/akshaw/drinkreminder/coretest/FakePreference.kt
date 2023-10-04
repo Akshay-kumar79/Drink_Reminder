@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class FakePreference : Preferences {
     
@@ -44,14 +45,14 @@ class FakePreference : Preferences {
     }
     
     override suspend fun saveBedTime(time: LocalTime) {
-        val formatter = DateTimeFormatter.ofPattern("hh:mm")
+        val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH)
         val timeString = time.format(formatter)
         
         this.bedTime = timeString
     }
     
     override suspend fun saveWakeupTime(time: LocalTime) {
-        val formatter = DateTimeFormatter.ofPattern("hh:mm")
+        val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH)
         val timeString = time.format(formatter)
         
         this.wakeupTime = timeString
