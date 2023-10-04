@@ -10,6 +10,11 @@ import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import kotlin.math.floor
 
+/**
+ *  Saves [Constants.DEFAULT_TRACKABLE_DRINKS] to local database when [Preferences.getIsOnboardingCompleted] is false
+ *
+ *  [Constants.DEFAULT_TRACKABLE_DRINKS] is converted in other [WaterUnit] and saved in all available waterUnits
+ */
 class SaveInitialTrackableDrinks @Inject constructor(
     private val preferences: Preferences,
     private val addTrackableDrink: AddTrackableDrink,
