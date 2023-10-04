@@ -9,3 +9,4 @@ class NoNotificationPermissionException : Exception("Permission not allowed to s
 class ReminderOffException : Exception("Reminder is off or no day is selected")
 
 class SameWaterUnitException: Exception("Current water unit is same")
+class SameWeightUnitException: Exception("Current weight unit is same")
