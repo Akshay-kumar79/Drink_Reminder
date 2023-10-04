@@ -10,3 +10,5 @@ class ReminderOffException : Exception("Reminder is off or no day is selected")
 
 class SameWaterUnitException: Exception("Current water unit is same")
 class SameWeightUnitException: Exception("Current weight unit is same")
+
+class InvalidDrinkQuantityException: Exception("Drink quantity isn't valid")

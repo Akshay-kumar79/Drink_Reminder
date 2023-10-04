@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.number.picker)
     
     // Local unit tests
+    testImplementation(libs.bundles.test)
     testImplementation(project(Projects.TestImplementation.CORE_TEST))
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.junit)
