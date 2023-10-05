@@ -6,12 +6,15 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
- *  return flow that emits all the trackable in database and there changes
+ *  Get all [TrackableDrink] from local database
  */
 class GetAllTrackableDrinks @Inject constructor(
     private val repository: WaterRepository
 ) {
     
+    /**
+     *  @return flow that emits list of [TrackableDrink] in database and there changes
+     */
     operator fun invoke(): Flow<List<TrackableDrink>> {
         return repository.getAllTrackableDrinks()
     }
