@@ -1,11 +1,11 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
-import com.google.common.truth.Truth.assertThat
-
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 
 class GetWeeklyAverageFrequencyTest {
@@ -13,7 +13,7 @@ class GetWeeklyAverageFrequencyTest {
     private lateinit var filterADayDrinks: FilterADayDrinks
     private lateinit var getWeeklyAverageFrequency: GetWeeklyAverageFrequency
     
-    @Before
+    @BeforeEach
     fun setUp() {
         filterADayDrinks = FilterADayDrinks()
         getWeeklyAverageFrequency = GetWeeklyAverageFrequency(filterADayDrinks)
