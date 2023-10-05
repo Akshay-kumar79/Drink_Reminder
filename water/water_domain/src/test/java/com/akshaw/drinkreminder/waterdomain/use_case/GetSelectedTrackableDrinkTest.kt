@@ -1,20 +1,21 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import com.akshaw.drinkreminder.coretest.FakePreference
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
-import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class GetSelectedTrackableDrinkTest {
 
     private lateinit var getSelectedTrackableDrink: GetSelectedTrackableDrink
     private lateinit var preferences: Preferences
 
-    @Before
+    @BeforeEach
     fun setUp() {
         preferences = FakePreference()
         getSelectedTrackableDrink = GetSelectedTrackableDrink(preferences)
