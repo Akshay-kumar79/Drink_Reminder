@@ -12,3 +12,5 @@ class SameWaterUnitException: Exception("Current water unit is same")
 class SameWeightUnitException: Exception("Current weight unit is same")
 
 class InvalidDrinkQuantityException: Exception("Drink quantity isn't valid")
+
+class AddSomeDrinksException: Exception("Add some drink quantity")
