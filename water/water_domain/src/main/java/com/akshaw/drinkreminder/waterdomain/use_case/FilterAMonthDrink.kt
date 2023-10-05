@@ -4,10 +4,16 @@ import com.akshaw.drinkreminder.core.domain.model.Drink
 import java.time.YearMonth
 
 /**
- * returns list of drinks on provided yearMonth after filtering allDrinks
+ * Filter drinks for one month
  */
 class FilterAMonthDrink {
     
+    /**
+     * @param yearMonth month of which drinks need to be filtered
+     * @param allDrinks list of drinks from which drinks will be filtered
+     *
+     *  @return list of drinks for provided [yearMonth] after filtering [allDrinks]
+     */
     operator fun invoke(yearMonth: YearMonth, allDrinks: List<Drink>): List<Drink> {
         
         return allDrinks.filter { drink ->

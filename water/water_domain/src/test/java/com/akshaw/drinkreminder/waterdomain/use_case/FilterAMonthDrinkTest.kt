@@ -1,11 +1,12 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import assertk.assertions.isGreaterThan
 import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
-import com.google.common.truth.Truth.assertThat
-
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Month
@@ -16,7 +17,7 @@ class FilterAMonthDrinkTest {
     private lateinit var filterAMonthDrink: FilterAMonthDrink
     private lateinit var allDrinks: List<Drink>
     
-    @Before
+    @BeforeEach
     fun setUp() {
         filterAMonthDrink = FilterAMonthDrink()
     
