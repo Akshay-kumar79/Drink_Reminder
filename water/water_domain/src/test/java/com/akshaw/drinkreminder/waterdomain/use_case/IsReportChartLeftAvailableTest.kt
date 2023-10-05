@@ -1,12 +1,13 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
+import assertk.assertThat
+import assertk.assertions.isFalse
+import assertk.assertions.isTrue
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.waterdomain.utils.ChartType
 import com.akshaw.drinkreminder.core.domain.model.Drink
-import com.google.common.truth.Truth.assertThat
-
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Month
@@ -16,7 +17,7 @@ class IsReportChartLeftAvailableTest {
     
     private lateinit var isReportChartLeftAvailable: IsReportChartLeftAvailable
     
-    @Before
+    @BeforeEach
     fun setUp() {
         isReportChartLeftAvailable = IsReportChartLeftAvailable()
     }
