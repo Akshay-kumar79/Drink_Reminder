@@ -47,31 +47,7 @@ dependencies {
     // Local unit tests
     testImplementation(libs.bundles.test)
     testImplementation(project(Projects.TestImplementation.CORE_TEST))
-    testImplementation(libs.androidx.test.core)
-    testImplementation(libs.junit)
-    testImplementation(libs.androidx.arch.core.testing)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.truth)
-    testImplementation(libs.mockwebserver)
-    testImplementation(libs.mockk)
-    debugImplementation(libs.androidx.ui.test.manifest)
-    
-    // Instrumentation tests
-    androidTestImplementation(libs.hilt.android.testing)
-    kaptAndroidTest(libs.dagger.hilt.android.compiler)
-    androidTestImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.ext.junit)
-    androidTestImplementation(libs.kotlinx.coroutines.test)
-    androidTestImplementation(libs.androidx.arch.core.testing)
-    androidTestImplementation(libs.truth)
-    androidTestImplementation(libs.androidx.test.core.ktx)
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.mockwebserver)
-    androidTestImplementation(libs.mockk.android)
-    androidTestImplementation(libs.androidx.runner)
     
     // Debug implementations
     debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 }

@@ -1,13 +1,14 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import assertk.assertions.isTrue
 import com.akshaw.drinkreminder.coretest.FakePreference
 import com.akshaw.drinkreminder.core.domain.preferences.Preferences
 import com.akshaw.drinkreminder.core.domain.use_case.FilterOutDigits
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
-import com.google.common.truth.Truth.assertThat
-
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class ValidateQuantityTest {
     
@@ -15,7 +16,7 @@ class ValidateQuantityTest {
     private lateinit var filterOutDigits: FilterOutDigits
     private lateinit var validateQuantity: ValidateQuantity
     
-    @Before
+    @BeforeEach
     fun setUp() {
         preferences = FakePreference()
         filterOutDigits = FilterOutDigits()
