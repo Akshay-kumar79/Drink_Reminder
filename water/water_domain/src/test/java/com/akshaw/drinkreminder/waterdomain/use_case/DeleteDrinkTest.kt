@@ -5,11 +5,10 @@ import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import com.akshaw.drinkreminder.coretest.repository.FakeWaterRepository
 import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 
 class DeleteDrinkTest {
@@ -17,30 +16,24 @@ class DeleteDrinkTest {
     private lateinit var waterRepository: WaterRepository
     private lateinit var deleteDrink: DeleteDrink
     
-    @Before
+    @BeforeEach
     fun setUp() {
         waterRepository = FakeWaterRepository()
         deleteDrink = DeleteDrink(waterRepository)
     }
     
-    // Bass ek hi hai
     @Test
-    fun `delete drink`() = runBlocking{
+    fun `delete drink`() = runBlocking {
         val drink = Drink(
             dateTime = LocalDateTime.now(),
             waterIntake = 32.0,
             unit = WaterUnit.FL_OZ
         )
+        
         waterRepository.insertDrink(drink)
-    
-        waterRepository.getAllDrink().collectLatest {
-            assertThat(it.size).isEqualTo(1)
-        }
+        assertThat(waterRepository.getAllDrink().first().size).isEqualTo(1)
         
         deleteDrink(drink)
-        
-        waterRepository.getAllDrink().collectLatest {
-            assertThat(it.size).isEqualTo(0)
-        }
+        assertThat(waterRepository.getAllDrink().first().size).isEqualTo(0)
     }
 }
