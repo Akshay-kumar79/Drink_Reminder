@@ -1,12 +1,12 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.domain.model.Drink
 import com.akshaw.drinkreminder.waterdomain.utils.ChartType
-import com.google.common.truth.Truth.assertThat
-
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Month
@@ -20,7 +20,7 @@ class GetReportChartDataTest {
     private lateinit var filterAMonthDrink: FilterAMonthDrink
     private lateinit var getReportChartData: GetReportChartData
     
-    @Before
+    @BeforeEach
     fun setUp() {
         getDrinkProgress = GetDrinkProgress()
         filterADayDrinks = FilterADayDrinks()
