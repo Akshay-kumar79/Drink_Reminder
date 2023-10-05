@@ -1,22 +1,22 @@
 package com.akshaw.drinkreminder.waterdomain.use_case
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
 import com.akshaw.drinkreminder.core.domain.repository.WaterRepository
 import com.akshaw.drinkreminder.coretest.repository.FakeWaterRepository
-import com.google.common.truth.Truth
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class DeleteTrackableDrinkTest {
     
     private lateinit var waterRepository: WaterRepository
     private lateinit var deleteTrackableDrink: DeleteTrackableDrink
     
-    @Before
+    @BeforeEach
     fun setUp() {
         waterRepository = FakeWaterRepository()
         deleteTrackableDrink = DeleteTrackableDrink(waterRepository)
@@ -29,15 +29,9 @@ class DeleteTrackableDrinkTest {
             unit = WaterUnit.FL_OZ
         )
         waterRepository.insertTrackableDrink(drink)
-    
-        waterRepository.getAllTrackableDrinks().collectLatest {
-            Truth.assertThat(it.size).isEqualTo(1)
-        }
+        assertThat(waterRepository.getAllTrackableDrinks().first().size).isEqualTo(1)
     
         deleteTrackableDrink(drink)
-    
-        waterRepository.getAllTrackableDrinks().collectLatest {
-            Truth.assertThat(it.size).isEqualTo(0)
-        }
+        assertThat(waterRepository.getAllTrackableDrinks().first().size).isEqualTo(0)
     }
 }
