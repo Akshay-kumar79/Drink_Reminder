@@ -43,23 +43,25 @@ fun WaterReportChart(
         modifier = modifier
     ) {
         
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         
         Row(
             modifier = Modifier
-                .height(24.dp)
+                .height(36.dp)
                 .align(Alignment.CenterHorizontally)
         ) {
             IconButton(
                 modifier = Modifier
-                    .size(24.dp)
-                    .padding(end = 16.dp),
+                    .padding(end = 10.dp)
+                    .size(36.dp)
+                    .align(Alignment.CenterVertically),
                 onClick = {
                     onChartLeftClick()
                 },
                 enabled = isChartLeftAvailable
             ) {
                 Icon(
+                    modifier = Modifier.size(14.dp),
                     imageVector = ImageVector.vectorResource(id = R.drawable.left_arrow_icon),
                     contentDescription = null
                 )
@@ -76,6 +78,7 @@ fun WaterReportChart(
                         val lastDay = chartSelectedWeeksFirstDay.plusWeeks(1).minusDays(1).format(formatter)
                         "$firstDay - $lastDay"
                     }
+                    
                     ChartType.YEAR -> chartSelectedYear.value.toString()
                 },
                 fontSize = 16.sp,
@@ -90,14 +93,16 @@ fun WaterReportChart(
             
             IconButton(
                 modifier = Modifier
-                    .size(24.dp)
-                    .padding(start = 16.dp),
+                    .padding(start = 10.dp)
+                    .size(36.dp)
+                    .align(Alignment.CenterVertically),
                 onClick = {
                     onChartRightClick()
                 },
                 enabled = isChartRightAvailable
             ) {
                 Icon(
+                    modifier = Modifier.size(14.dp),
                     imageVector = ImageVector.vectorResource(id = R.drawable.right_arrow_icon),
                     contentDescription = null
                 )
@@ -136,7 +141,7 @@ fun WaterReportChart(
                             modifier = Modifier
                                 .height(16.dp)
                                 .align(Alignment.CenterHorizontally)
-                                .rotate(when(selectedChart) {
+                                .rotate(when (selectedChart) {
                                     ChartType.WEEK -> 0f
                                     ChartType.YEAR -> -20f
                                 }),
@@ -152,12 +157,12 @@ fun WaterReportChart(
                                 ChartType.YEAR -> {
                                     try {
                                         months[index]
-                                    }catch (e: Exception){
+                                    } catch (e: Exception) {
                                         ""
                                     }
                                 }
                             },
-                            fontSize = when(selectedChart){
+                            fontSize = when (selectedChart) {
                                 ChartType.WEEK -> 16.sp
                                 ChartType.YEAR -> 10.sp
                             },
