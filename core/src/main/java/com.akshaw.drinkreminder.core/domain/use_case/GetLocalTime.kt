@@ -1,7 +1,6 @@
 package com.akshaw.drinkreminder.core.domain.use_case
 
 import com.akshaw.drinkreminder.core.util.TimeUnit
-import com.akshaw.drinkreminder.core.util.truncateToMinutes
 import java.time.LocalTime
 
 /**
@@ -50,10 +49,7 @@ class GetLocalTime {
         
         return try {
             Result.success(
-                LocalTime.now()
-                    .withHour(clock24Hour)
-                    .withMinute(minute)
-                    .truncateToMinutes()
+                LocalTime.of(clock24Hour, minute)
             )
         } catch (e: Exception) {
             Result.failure(e)
