@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -38,7 +37,6 @@ import com.akshaw.drinkreminder.ui.Animations
 import com.akshaw.drinkreminder.ui.presentation.components.BottomNavigationBar
 import com.akshaw.drinkreminder.waterpresentation.reminders.WaterReminderScreen
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -110,7 +108,6 @@ class MainActivity : ComponentActivity() {
                                     snackbarHostState = snackbarHostState,
                                     onReminderClick = {
                                         lifecycleScope.launch {
-                                            delay(200)
                                             navController.navigate(Route.WaterReminderScreen.route)
                                         }
                                     }
@@ -120,8 +117,6 @@ class MainActivity : ComponentActivity() {
                             composable(
                                 route = Route.WaterReportScreen.route,
                                 exitTransition = {
-                                    Log.v("MYTAG", "${this.targetState.destination.route}")
-                                    
                                     if (this.targetState.destination.route == Route.WaterADayDrinkScreen.route + "/{${WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT}}") {
                                         Animations.AppVerticalSlide.exit(this)
                                     } else Animations.Default.exit()
@@ -183,7 +178,6 @@ class MainActivity : ComponentActivity() {
                                     snackbarHostState = snackbarHostState,
                                     onRemindersClick = {
                                         lifecycleScope.launch {
-                                            delay(200)
                                             navController.navigate(Route.WaterReminderScreen.route)
                                         }
                                     },

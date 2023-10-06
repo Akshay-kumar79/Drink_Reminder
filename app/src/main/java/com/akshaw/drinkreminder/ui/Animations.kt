@@ -21,7 +21,7 @@ object Animations {
     
     object AppHorizontalSlide {
         
-        private const val animTweenDuration = 100
+        private const val animTweenDuration = 150
         
         fun enter(scope: AnimatedContentTransitionScope<*>): EnterTransition {
             return scope.slideIntoContainer(
@@ -67,7 +67,7 @@ object Animations {
     
     object AppVerticalSlide {
         
-        private const val animTweenDuration = 100
+        private const val animTweenDuration = 150
         
         fun enter(scope: AnimatedContentTransitionScope<*>): EnterTransition {
             return scope.slideIntoContainer(
