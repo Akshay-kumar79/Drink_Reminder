@@ -7,12 +7,27 @@ import com.akshaw.drinkreminder.core.util.NoExactAlarmPermissionException
 import com.akshaw.drinkreminder.core.util.NoNotificationPermissionException
 import javax.inject.Inject
 
+/**
+ *  Use case to turn on or off a [DrinkReminder] saved in local db
+ */
 class SwitchDrinkReminder @Inject constructor(
     private val upsertDrinkReminder: UpsertDrinkReminder,
     private val scheduleDrinkReminder: ScheduleDrinkReminder,
     private val cancelDrinkReminder: CancelDrinkReminder
 ) {
     
+    /**
+     *  This use case reschedule reminder when turned on
+     *
+     *  @param drinkReminder [DrinkReminder] in local db that needs to be updated and rescheduled
+     *  @param isReminderOn [Boolean] value indicating whether to turn on or off
+     *
+     *  @return
+     *  -> [Result.success] when switch successful
+     *
+     *  -> [Result.failure] when failed to schedule reminder in case user doesn't have required permission.
+     *  Exception should be either [NoExactAlarmPermissionException] or [NoNotificationPermissionException]
+     */
     suspend operator fun invoke(drinkReminder: DrinkReminder, isReminderOn: Boolean): Result<Unit> {
         
         if (isReminderOn) {
