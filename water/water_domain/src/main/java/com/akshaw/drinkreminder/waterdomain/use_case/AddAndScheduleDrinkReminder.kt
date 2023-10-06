@@ -21,12 +21,25 @@ class AddAndScheduleDrinkReminder @Inject constructor(
     /**
      *  @param hour hour of day for which reminder will be scheduled
      *  @param minute minute for which reminder will be scheduled
-     *  @param selectedDays a map containing [DayOfWeek.ordinal] as key and boolean
-     *  for respective [DayOfWeek] indicating if the day is selected or not
+     *  @param selectedDays a map containing [DayOfWeek.getValue] as key and a boolean
+     *  value for respective [DayOfWeek] indicating if the day is selected or not
+     *
+     *  @return
+     *  -> [Result.success] if successfully scheduled and added [DrinkReminder] irrespective of
+     *  user have all permission or not.
+     *
+     *  -> [Result.failure] if failed parse [LocalTime] from [hour] and [minute]
      */
-    suspend operator fun invoke(hour: Int, minute: Int, selectedDays: Map<Int, Boolean>) {
+    suspend operator fun invoke(hour: Int, minute: Int, selectedDays: Map<Int, Boolean>): Result<Unit> {
+        
+        val localTime = try {
+            LocalTime.of(hour, minute)
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+        
         val drinkReminder = DrinkReminder(
-            time = LocalTime.now().withHour(hour).withMinute(minute),
+            time = localTime,
             isReminderOn = true,
             activeDays = DayOfWeek.values().filter {
                 selectedDays[it.value] == true
@@ -40,7 +53,8 @@ class AddAndScheduleDrinkReminder @Inject constructor(
                     upsertDrinkReminder(drinkReminder.copy(id = id, isReminderOn = false))
                 }
             }
-       
+        
+        return Result.success(Unit)
     }
     
 }

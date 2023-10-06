@@ -9,20 +9,15 @@ class FakeReminderRepository : ReminderRepository {
     
     val drinkReminders = mutableListOf<DrinkReminder>()
     
-    private var newID: Long = 1
+    private var newID: Long = 0
     
     override suspend fun upsertDrinkReminder(drinkReminder: DrinkReminder): Long {
         drinkReminders.size
         
-        return if (drinkReminder.id == 0L) {
-            if (drinkReminders.isEmpty()) {
-                drinkReminders.add(drinkReminder)
-                0L
-            } else {
-                generateNewId()
-                drinkReminders.add(drinkReminder.copy(id = newID))
-                newID
-            }
+        return if (drinkReminder.id < 1L) {
+            generateNewId()
+            drinkReminders.add(drinkReminder.copy(id = newID))
+            newID
         } else {
             drinkReminders.removeIf { it.id == drinkReminder.id }
             drinkReminders.add(drinkReminder)
@@ -47,8 +42,6 @@ class FakeReminderRepository : ReminderRepository {
     }
     
     private fun generateNewId() {
-        while (drinkReminders.any { it.id == newID }) {
-            newID++
-        }
+        newID++
     }
 }

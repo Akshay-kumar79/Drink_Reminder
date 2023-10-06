@@ -3,6 +3,7 @@ package com.akshaw.drinkreminder.waterpresentation.reminders
 import android.Manifest
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.domain.preferences.elements.ReminderType
 import com.akshaw.drinkreminder.core.util.NoExactAlarmPermissionException
 import com.akshaw.drinkreminder.core.util.NoNotificationPermissionException
@@ -139,15 +140,16 @@ class WaterReminderViewModel @Inject constructor(
                     deleteDrinkReminder(event.drinkReminder)
                 }
             }
-             is RemindersEvent.OnPermissionResult -> {
-                 if (!event.isGranted) {
-                     when (event.permission) {
-                         Manifest.permission.POST_NOTIFICATIONS -> {
-                             _isReRequestNotificationPermDialogVisible.value = true
-                         }
-                     }
-                 }
-             }
+            
+            is RemindersEvent.OnPermissionResult -> {
+                if (!event.isGranted) {
+                    when (event.permission) {
+                        Manifest.permission.POST_NOTIFICATIONS -> {
+                            _isReRequestNotificationPermDialogVisible.value = true
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -193,6 +195,11 @@ class WaterReminderViewModel @Inject constructor(
                         when (it) {
                             TSReminderMode.AddNewReminder -> {
                                 addAndScheduleDrinkReminder(setReminderDialogHour.value, setReminderDialogMinute.value, selectedDays.value)
+                                    .onFailure { throwable ->
+                                        throwable.message?.let { errorMessage ->
+                                            showSnackbar(UiText.DynamicString(errorMessage))
+                                        } ?: showSnackbar(UiText.StringResource(R.string.error_something_went_wrong))
+                                    }
                             }
                             
                             is TSReminderMode.UpdateReminder -> {
@@ -233,11 +240,17 @@ class WaterReminderViewModel @Inject constructor(
             ExactAlarmPermissionDialogEvent.ShowDialog -> {
                 _isReRequestExactAlarmPermDialogVisible.value = true
             }
-    
+            
             ExactAlarmPermissionDialogEvent.DismissDialog -> {
                 _isReRequestExactAlarmPermDialogVisible.value = false
             }
         }
+    }
+    
+    private suspend fun showSnackbar(message: UiText) {
+        _uiEvent.send(
+            UiEvent.ShowSnackBar(message)
+        )
     }
     
 }
