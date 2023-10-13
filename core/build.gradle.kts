@@ -14,18 +14,6 @@ android {
 }
 
 dependencies {
-    // Android Materials
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.material3)
-    
-    // Compose
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    
-    //Navigation
-    implementation(libs.androidx.navigation.compose)
     
     // Dagger - Hilt
     implementation(libs.dagger.hilt.android)
@@ -40,9 +28,6 @@ dependencies {
     // Data Store
     implementation(libs.androidx.datastore)
     
-    // Number picker
-    implementation(libs.number.picker)
-    
     // Kotlin serialization
     implementation(libs.kotlinx.serialization.json)
     
@@ -50,6 +35,4 @@ dependencies {
     testImplementation(libs.bundles.test)
     testImplementation(project(Projects.TestImplementation.CORE_TEST))
     
-    // Debug implementations
-    debugImplementation(libs.androidx.ui.tooling)
 }
