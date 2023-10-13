@@ -1,7 +1,8 @@
 [versions]
 # Plugin versions
 androidGradlePlugin = "8.1.1"
-kotlinAndroidPlugin = "1.8.22"
+kotlinAndroidPlugin = "1.8.22"   # change ksp compatible verision as well when updating kotlin version
+kspPlugin = "1.8.22-1.0.11"
 hiltAndroidPlugin = "2.43.2"
 androidJunit5Plugin = "1.9.3.0"
 
@@ -111,5 +112,6 @@ android-application = { id = "com.android.application", version.ref = "androidGr
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroidPlugin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinAndroidPlugin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "kspPlugin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroidPlugin" }
 android-junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "androidJunit5Plugin" }

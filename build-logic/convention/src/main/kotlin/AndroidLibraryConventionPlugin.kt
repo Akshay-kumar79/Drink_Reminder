@@ -11,6 +11,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
                 apply("kotlin-kapt")
+                apply("com.google.devtools.ksp")
                 apply("com.google.dagger.hilt.android")
                 apply("org.jetbrains.kotlin.plugin.serialization")
                 apply("de.mannodermaus.android-junit5")

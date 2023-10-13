@@ -13,6 +13,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
                 apply("kotlin-kapt")
+                apply("com.google.devtools.ksp")
             }
             
             extensions.configure(ApplicationExtension::class.java) {
