@@ -9,8 +9,6 @@ import com.akshaw.drinkreminder.core.domain.use_case.GetRecommendedDailyWaterInt
 import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
 import com.akshaw.drinkreminder.corecompose.uievents.UiText
-import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
-import com.akshaw.drinkreminder.core.domain.preferences.elements.WeightUnit
 import com.akshaw.drinkreminder.settings_domain.usecase.SaveNewWaterUnit
 import com.akshaw.drinkreminder.settings_domain.usecase.SaveNewWeightUnit
 import com.akshaw.drinkreminder.settingspresentation.settings.events.ChangeAgeDialogEvent
@@ -50,10 +48,10 @@ class SettingsViewModel @Inject constructor(
     private val _isChangeUnitDialogShowing = MutableStateFlow(false)
     val isChangeUnitDialogShowing = _isChangeUnitDialogShowing.asStateFlow()
     
-    private val _selectedWaterUnit = MutableStateFlow<WaterUnit>(Constants.DEFAULT_WATER_UNIT)
+    private val _selectedWaterUnit = MutableStateFlow(Constants.DEFAULT_WATER_UNIT)
     val selectedWaterUnit = _selectedWaterUnit.asStateFlow()
     
-    private val _selectedWeightUnit = MutableStateFlow<WeightUnit>(Constants.DEFAULT_WEIGHT_UNIT)
+    private val _selectedWeightUnit = MutableStateFlow(Constants.DEFAULT_WEIGHT_UNIT)
     val selectedWeightUnit = _selectedWeightUnit.asStateFlow()
     
     

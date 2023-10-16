@@ -11,17 +11,17 @@ import dagger.hilt.android.scopes.ViewModelScoped
 @Module
 @InstallIn(ViewModelComponent::class)
 object OnboardingModule {
-
+    
     @Provides
     @ViewModelScoped
-    fun provideGetNextPage(): com.akshaw.drinkreminder.onboarding_domain.use_case.GetNextPage {
-        return com.akshaw.drinkreminder.onboarding_domain.use_case.GetNextPage()
+    fun provideGetNextPage(): GetNextPage {
+        return GetNextPage()
     }
-
+    
     @Provides
     @ViewModelScoped
-    fun provideGetPreviousPage(): com.akshaw.drinkreminder.onboarding_domain.use_case.GetPreviousPage {
-        return com.akshaw.drinkreminder.onboarding_domain.use_case.GetPreviousPage()
+    fun provideGetPreviousPage(): GetPreviousPage {
+        return GetPreviousPage()
     }
-
+    
 }

@@ -1,4 +1,5 @@
 package com.akshaw.drinkreminder.settingspresentation.faq
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
 
-// TODO add faq to check notification and alrm permission if alrm not working
+// TODO add faq to check notification and alarm permission if alarm not working
 @Composable
 fun SettingsFaqScreen(
     onBackClicked: () -> Unit

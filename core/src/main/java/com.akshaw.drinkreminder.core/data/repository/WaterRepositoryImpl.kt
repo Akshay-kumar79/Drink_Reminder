@@ -13,17 +13,17 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class WaterRepositoryImpl @Inject constructor(
-    private val database: MyDatabase
+    database: MyDatabase
 ) : WaterRepository {
-
+    
     private val drinkDao = database.drinkDao
     private val trackableDrinkDao = database.trackableDrinkDao
-
-
+    
+    
     override suspend fun insertDrink(drink: Drink): Long {
         return drinkDao.insert(drink.toDrinkEntity())
     }
-
+    
     override fun getAllDrink(): Flow<List<Drink>> {
         return drinkDao.getAllDrinks().map {
             it.map { drinkEntity ->
@@ -31,20 +31,20 @@ class WaterRepositoryImpl @Inject constructor(
             }
         }
     }
-
+    
     override suspend fun removeDrink(drink: Drink) {
         drinkDao.removeDrink(drink.toDrinkEntity())
     }
-
+    
     override suspend fun clearDrink() {
         drinkDao.clear()
     }
-
-
+    
+    
     override suspend fun insertTrackableDrink(trackableDrink: TrackableDrink): Long {
         return trackableDrinkDao.insert(trackableDrink.toTrackableDrinkEntity())
     }
-
+    
     override fun getAllTrackableDrinks(): Flow<List<TrackableDrink>> {
         return trackableDrinkDao.getAllTrackableDrinks().map {
             it.map { trackableDrinkEntity ->
@@ -52,13 +52,13 @@ class WaterRepositoryImpl @Inject constructor(
             }
         }
     }
-
+    
     override suspend fun removeTrackableDrink(trackableDrink: TrackableDrink) {
         trackableDrinkDao.removeTrackableDrink(trackableDrink.toTrackableDrinkEntity())
     }
-
+    
     override suspend fun clearTrackableDrink() {
         trackableDrinkDao.clear()
     }
-
+    
 }

@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.akshaw.drinkreminder.core.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DialogAddTrackableDrink(
     modifier: Modifier = Modifier,
@@ -47,7 +46,7 @@ fun DialogAddTrackableDrink(
                     fontFamily = FontFamily(Font(R.font.ubuntu_bold, FontWeight.Bold)),
                     fontSize = 20.sp,
                 )
-
+                
                 TextField(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -64,7 +63,7 @@ fun DialogAddTrackableDrink(
                         imeAction = ImeAction.Done
                     )
                 )
-
+                
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -83,7 +82,7 @@ fun DialogAddTrackableDrink(
                         fontSize = 16.sp,
                         color = MaterialTheme.colorScheme.onBackground
                     )
-
+                    
                     Spacer(modifier = Modifier.width(36.dp))
                     Text(
                         modifier = Modifier

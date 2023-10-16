@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsBugReportScreen(
     onBackClicked: () -> Unit

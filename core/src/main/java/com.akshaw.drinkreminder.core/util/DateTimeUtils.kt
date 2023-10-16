@@ -1,7 +1,6 @@
 package com.akshaw.drinkreminder.core.util
 
 import java.time.DayOfWeek
-import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
@@ -31,14 +30,6 @@ fun List<DayOfWeek>.formattedString(): String {
                 append(", ")
         }
     }
-}
-
-fun LocalDateTime.withLocalTime(localTime: LocalTime): LocalDateTime {
-    withHour(localTime.hour)
-    withMinute(localTime.minute)
-    withSecond(localTime.second)
-    withNano(localTime.nano)
-    return this
 }
 
 fun LocalTime.truncateToMinutes(): LocalTime = this.truncatedTo(ChronoUnit.MINUTES)

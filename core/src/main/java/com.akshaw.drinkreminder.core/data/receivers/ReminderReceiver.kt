@@ -3,7 +3,6 @@ package com.akshaw.drinkreminder.core.data.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import com.akshaw.drinkreminder.core.domain.MyNotification
 import com.akshaw.drinkreminder.core.domain.MyNotificationManager
 import com.akshaw.drinkreminder.core.data.repository.ReminderSchedulerImpl
@@ -24,8 +23,8 @@ class ReminderReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         
         val drinkReminder = intent?.let {
-            it.getStringExtra(ReminderSchedulerImpl.INTENT_DRINK_REMINDER_KEY)?.let {
-                DrinkReminder.decodeFromJsonString(it)
+            it.getStringExtra(ReminderSchedulerImpl.INTENT_DRINK_REMINDER_KEY)?.let { jsonDrinkReminder ->
+                DrinkReminder.decodeFromJsonString(jsonDrinkReminder)
             }
             
         } ?: return

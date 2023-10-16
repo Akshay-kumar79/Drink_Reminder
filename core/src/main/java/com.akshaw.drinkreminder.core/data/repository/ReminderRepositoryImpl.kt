@@ -20,7 +20,9 @@ class ReminderRepositoryImpl(
     
     override fun getAllDrinkReminders(): Flow<List<DrinkReminder>> {
         return drinkReminderDao.getAllDrinkReminders().map {
-            it.map { it.toDrinkReminder() }
+            it.map { drinkReminder ->
+                drinkReminder.toDrinkReminder()
+            }
         }
     }
     
