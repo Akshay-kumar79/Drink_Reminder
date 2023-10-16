@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Drink Reminder</string>
 
     <string name="error_something_went_wrong">Oops, Something Went Wrong</string>
@@ -53,7 +53,7 @@ so we can remind you for drinks on time</string>
     <string name="water_unit">Water Unit</string>
     <string name="weight_unit">Weight Unit</string>
     <string name="ok">OK</string>
-    <string name="cancel">CANCEL</string>
+    <string name="cancel" tools:ignore="ButtonCase">CANCEL</string>
     <string name="daily_intake">Daily Water Intake</string>
     <string name="age">Age</string>
     <string name="gender">Gender</string>
