@@ -45,7 +45,7 @@ fun CommonExtension<*, *, *, *, *>.kotlinOptions() {
 }
 
 fun CommonExtension<*, *, *, *, *>.packagingOptions() {
-    packagingOptions {
+    packaging {
         resources {
             excludes += mutableSetOf(
                 "/META-INF/LICENSE.md",

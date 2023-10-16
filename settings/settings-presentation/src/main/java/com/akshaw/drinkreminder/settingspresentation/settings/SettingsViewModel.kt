@@ -125,7 +125,7 @@ class SettingsViewModel @Inject constructor(
     
     init {
         /** Workaround to keep all stateflow values updated, because i don't know other ways.
-        (if [MutableStateFlow] have active collector than value keeps updated) */
+        (if mutable state flow have active collector than value keeps updated) */
         setOf(
             currentWaterUnit,
             currentWeightUnit,

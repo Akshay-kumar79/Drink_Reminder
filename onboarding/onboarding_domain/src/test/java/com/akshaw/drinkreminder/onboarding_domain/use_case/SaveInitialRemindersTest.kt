@@ -105,7 +105,7 @@ class SaveInitialRemindersTest {
     }
     
     /**
-     *  @return list of [LocalTime] starting from [firstReminderTime] upto size of [numberOfReminders]
+     *  @return list of [LocalTime] starting from [firstReminderTime] up-to size of [numberOfReminders]
      *  with a gap of 90 minutes
      */
     private fun getReminders(firstReminderTime: LocalTime, numberOfReminders: Int): List<LocalTime> {
