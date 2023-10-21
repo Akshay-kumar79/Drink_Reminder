@@ -14,6 +14,11 @@ android {
     appDefaultConfig(project)
     appSigningConfigs(project)
     applicationBuildTypes()
+    
+    lint {
+        baseline = file("${project.rootDir}/config/lint/baseline.xml")
+        checkDependencies = true
+    }
 }
 
 dependencies {
@@ -24,7 +29,7 @@ dependencies {
     implementation(project(Projects.Implementation.Feature.ONBOARDING_PRESENTATION))
     implementation(project(Projects.Implementation.Feature.WATER_PRESENTATION))
     implementation(project(Projects.Implementation.Feature.SETTINGS_PRESENTATION))
-
+    
     // Android Materials
     implementation(libs.androidx.material3)
     
