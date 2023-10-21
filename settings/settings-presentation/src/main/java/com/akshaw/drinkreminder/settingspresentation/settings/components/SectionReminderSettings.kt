@@ -22,6 +22,7 @@ import com.akshaw.drinkreminder.core.R
 // TODO remove if no plan to use in future
 
 @Composable
+@Suppress("unused")
 fun SectionReminderSettings(
     modifier: Modifier,
     onNotificationSoundClick: () -> Unit,

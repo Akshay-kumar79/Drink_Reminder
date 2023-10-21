@@ -49,7 +49,7 @@ fun SelectAge(viewModel: OnboardingViewModel, modifier: Modifier) {
                     value = viewModel.state.age
                     typeface = ResourcesCompat.getFont(context, R.font.ubuntu_medium)
                     setSelectedTypeface(ResourcesCompat.getFont(context, R.font.ubuntu_medium))
-                    setOnValueChangedListener { picker, oldVal, newVal ->
+                    setOnValueChangedListener { _, _, _ ->
                         viewModel.onEvent(
                             OnboardingEvent.OnAgeChange(value)
                         )

@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 package com.akshaw.drinkreminder.corecompose.theme
 
 import androidx.compose.ui.graphics.Color

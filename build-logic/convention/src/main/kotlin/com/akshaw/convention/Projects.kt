@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 package com.akshaw.convention
 
 object Projects {

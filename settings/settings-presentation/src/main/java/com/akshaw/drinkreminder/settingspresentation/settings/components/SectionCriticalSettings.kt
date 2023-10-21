@@ -17,6 +17,7 @@ import com.akshaw.drinkreminder.core.R
 // TODO remove if not to be used in future
 
 @Composable
+@Suppress("unused")
 fun SectionCriticalSettings(
     modifier: Modifier,
     onResetDataClick: () -> Unit

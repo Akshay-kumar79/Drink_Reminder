@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 package com.akshaw.convention
 
 import com.android.build.api.dsl.CommonExtension
@@ -9,6 +10,7 @@ import org.gradle.api.plugins.ExtensionAware
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import java.io.File
 
+@Suppress("UnusedReceiverParameter")
 internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *>
 ) {

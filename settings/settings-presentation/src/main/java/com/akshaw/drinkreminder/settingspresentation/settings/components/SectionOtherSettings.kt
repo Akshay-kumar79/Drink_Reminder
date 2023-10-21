@@ -19,7 +19,9 @@ import com.akshaw.drinkreminder.settings.presentation.BuildConfig
 @Composable
 fun SectionOtherSettings(
     modifier: Modifier,
+    @Suppress("UNUSED_PARAMETER")
     onFaqClick: () -> Unit,
+    @Suppress("UNUSED_PARAMETER")
     onBugReportClick: () -> Unit,
     onPrivacyPolicyClick: () -> Unit
 ) {

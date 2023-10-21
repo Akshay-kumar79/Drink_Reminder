@@ -61,7 +61,7 @@ class AddDrinkTest {
         val result = addDrink(
             Drink(
                 dateTime = LocalDateTime.now(),
-                waterIntake = 0.0,
+                waterIntake = amount,
                 unit = WaterUnit.fromString(drinkUnit)!!
             )
         )

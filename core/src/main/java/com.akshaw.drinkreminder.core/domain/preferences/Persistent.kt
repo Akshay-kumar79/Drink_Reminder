@@ -28,6 +28,7 @@ object Persistent {
         }
     }
     
+    @Suppress("unused")
     val reminderTypeValues = ReminderType.values().associateWith {
         when (it) {
             ReminderType.TSReminder -> "time_specific_reminder"

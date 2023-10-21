@@ -71,6 +71,7 @@ class WaterADayDrinkViewModel @Inject constructor(
     
     
     fun onEvent(event: WaterADayDrinkEvent) = viewModelScope.launch {
+        @Suppress("LiftReturnOrAssignment")
         when (event) {
             is WaterADayDrinkEvent.OnDrinkDeleteClick -> {
                 deleteDrink(event.drink)

@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -62,7 +63,7 @@ fun SettingsFaqScreen(
         Text(
             modifier = Modifier
                 .padding(horizontal = 24.dp),
-            text = "Q: Why doesn’t the Reminder work?",
+            text = stringResource(id = R.string.q_why_doesn_t_the_reminder_work),
             fontSize = 12.sp,
             fontFamily = FontFamily(
                 Font(
