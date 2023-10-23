@@ -17,6 +17,9 @@ android {
     
     lint {
         baseline = file("${project.rootDir}/config/lint/baseline.xml")
+        htmlOutput = file("${project.parent?.buildDir}/reports/lint/lint.html")
+        textReport = false
+        xmlReport = false
         checkDependencies = true
     }
 }
