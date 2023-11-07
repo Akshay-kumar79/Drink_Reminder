@@ -75,7 +75,7 @@ class ReminderSchedulerImpl(private val context: Context) : ReminderScheduler {
         
         try {
             alarmManager.cancel(pendingIntent)
-        } catch (e: Exception){ e.printStackTrace() }
+        } finally { }
     }
     
     companion object {
@@ -110,7 +110,7 @@ class ReminderSchedulerImpl(private val context: Context) : ReminderScheduler {
                 var dateTime = this
                 // keep forwarding the day until the day in not in list of activeDays in DrinkReminder (to make sure reminder only buzz on active days)
                 while (!drinkReminder.activeDays.contains(dateTime.dayOfWeek)) {
-
+                    
                     // loop should not run more than 7 time as there is only 7 days a week
                     dateTime = dateTime.plusDays(1)
                 }
