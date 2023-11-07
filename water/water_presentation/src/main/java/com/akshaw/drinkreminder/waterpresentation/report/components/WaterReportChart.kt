@@ -119,7 +119,7 @@ fun WaterReportChart(
             val days = listOf("Mo", "Tu", "We", "Th", "Fr", "Sa", "Su")
             val months = listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
             
-            chartData.forEachIndexed { index, it ->
+            chartData.forEachIndexed { index, data ->
                 
                 Box(
                     modifier = Modifier
@@ -130,7 +130,7 @@ fun WaterReportChart(
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height((2 * it).dp)
+                                .height((2 * data).dp)
                                 .clip(RoundedCornerShape(12.dp))
                                 .background(MaterialTheme.colorScheme.primary.copy(alpha = .6f))
                         ) {
@@ -180,8 +180,8 @@ fun WaterReportChart(
                         modifier = Modifier
                             .align(Alignment.TopCenter)
                             .padding(top = 4.dp)
-                            .offset(y = if (it > 10) (0).dp else (-20).dp),
-                        text = it.toString(),
+                            .offset(y = if (data > 10) (0).dp else (-20).dp),
+                        text = data.toString(),
                         fontSize = 12.sp,
                         fontFamily = FontFamily(
                             Font(
@@ -189,7 +189,7 @@ fun WaterReportChart(
                                 FontWeight.Normal
                             )
                         ),
-                        color = if (it > 10)
+                        color = if (data > 10)
                             MaterialTheme.colorScheme.onPrimary
                         else
                             MaterialTheme.colorScheme.onBackground
