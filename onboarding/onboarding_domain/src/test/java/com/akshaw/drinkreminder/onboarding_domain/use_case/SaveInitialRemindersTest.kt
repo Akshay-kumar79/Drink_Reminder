@@ -111,7 +111,7 @@ class SaveInitialRemindersTest {
     private fun getReminders(firstReminderTime: LocalTime, numberOfReminders: Int): List<LocalTime> {
         var tempTime = firstReminderTime
         val times = mutableListOf<LocalTime>()
-        for (i in 1..numberOfReminders) {
+        (1..numberOfReminders).forEach { _ ->
             times.add(tempTime)
             tempTime = tempTime.plusMinutes(90)
         }
