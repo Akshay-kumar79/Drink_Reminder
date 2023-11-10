@@ -23,7 +23,7 @@ import com.shawnlin.numberpicker.NumberPicker
 import kotlin.math.roundToInt
 import com.akshaw.drinkreminder.core.R
 
-
+@Suppress("MagicNumber")
 @Composable
 fun SelectAge(viewModel: OnboardingViewModel, modifier: Modifier) {
     Row(

@@ -17,6 +17,7 @@ import com.akshaw.drinkreminder.onboarding_presentation.OnboardingViewModel
 import com.shawnlin.numberpicker.NumberPicker
 import kotlin.math.roundToInt
 
+@Suppress("MagicNumber")
 @Composable
 fun SelectWakeupTime(viewModel: OnboardingViewModel, modifier: Modifier){
     Row(
