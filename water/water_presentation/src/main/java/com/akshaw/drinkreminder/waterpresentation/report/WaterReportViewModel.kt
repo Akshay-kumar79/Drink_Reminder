@@ -31,11 +31,14 @@ class WaterReportViewModel @Inject constructor(
     getWeeklyAverageFrequency: GetWeeklyAverageFrequency
 ) : ViewModel() {
     
-    val goal = preferences.getDailyWaterIntakeGoal().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL)
+    val goal = preferences.getDailyWaterIntakeGoal()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL)
     
-    val waterUnit = preferences.getWaterUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)
+    val waterUnit = preferences.getWaterUnit()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)
     
-    private val allDrinks = getAllDrinks().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+    private val allDrinks = getAllDrinks()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     
     val todayProgress = combine(allDrinks, waterUnit) { allDrinks, waterUnit ->
         getDrinkProgress(filterADayDrinks(LocalDate.now(), allDrinks), waterUnit)

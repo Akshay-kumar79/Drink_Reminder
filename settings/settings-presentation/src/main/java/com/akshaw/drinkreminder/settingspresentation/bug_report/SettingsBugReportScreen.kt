@@ -77,7 +77,9 @@ fun SettingsBugReportScreen(
         Text(
             modifier = Modifier
                 .padding(horizontal = 24.dp),
-            text = "System info(App v1.0.5, Model CPH1909, OS v8.1.0, Screen 720x1424, en _ US, GMT+05:30, engine com.google.android.tts /  , lang , select com.google.android.tts / Speech Services by Google):",
+            text = "System info(App v1.0.5, Model CPH1909, OS v8.1.0, Screen 720x1424, " +
+                    "en _ US, GMT+05:30, engine com.google.android.tts /  " +
+                    ", lang , select com.google.android.tts / Speech Services by Google):",
             fontSize = 12.sp,
             fontFamily = FontFamily(
                 Font(

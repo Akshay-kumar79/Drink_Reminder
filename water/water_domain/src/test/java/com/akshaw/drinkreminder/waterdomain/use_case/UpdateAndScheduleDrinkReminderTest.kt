@@ -142,7 +142,9 @@ class UpdateAndScheduleDrinkReminderTest {
         assertThat(result.isSuccess).isTrue()
         
         assertThat(reminderRepository.drinkReminders.size).isEqualTo(1)
-        assertThat(reminderRepository.drinkReminders.first()).isEqualTo(drinkReminder.copy(time = LocalTime.of(newHour, newMinute), isReminderOn = false))
+        assertThat(reminderRepository.drinkReminders.first()).isEqualTo(
+            drinkReminder.copy(time = LocalTime.of(newHour, newMinute), isReminderOn = false)
+        )
     }
     
 }

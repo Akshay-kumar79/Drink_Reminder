@@ -81,7 +81,8 @@ fun SettingsFaqScreen(
             text = "A: There are several reasons. You may check settings as follows:\n" +
                     "1. Is your bed time and wake-up time set appropriately?\n" +
                     "2. Have you enabled Drink Water Reminder to auto start on your phone?\n" +
-                    "3. Have you installed third-party apps like \"Clean Master\" which may prohibit Drink Water Reminder running in background and send notifications?\n" +
+                    "3. Have you installed third-party apps like \"Clean Master\" which may prohibit " +
+                    "Drink Water Reminder running in background and send notifications?\n" +
                     "4. Have you turned off the reminder?\n" +
                     "5. may be your battery optimization is on for this app. please turn off battery optimization for \"Drink Water Reminder\".",
             fontSize = 12.sp,

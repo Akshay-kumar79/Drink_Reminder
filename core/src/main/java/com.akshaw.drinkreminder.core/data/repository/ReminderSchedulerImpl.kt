@@ -108,7 +108,8 @@ class ReminderSchedulerImpl(private val context: Context) : ReminderScheduler {
                     .withNano(0)
             }.run {
                 var dateTime = this
-                // keep forwarding the day until the day in not in list of activeDays in DrinkReminder (to make sure reminder only buzz on active days)
+                // keep forwarding the day until the day in not in list of activeDays
+                // in DrinkReminder (to make sure reminder only buzz on active days)
                 while (!drinkReminder.activeDays.contains(dateTime.dayOfWeek)) {
                     
                     // loop should not run more than 7 time as there is only 7 days a week

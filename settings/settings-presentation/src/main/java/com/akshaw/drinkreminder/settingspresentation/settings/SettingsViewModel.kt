@@ -56,7 +56,8 @@ class SettingsViewModel @Inject constructor(
     
     
     // Daily Intake Goal
-    val dailyIntakeGoal = preferences.getDailyWaterIntakeGoal().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL)
+    val dailyIntakeGoal = preferences.getDailyWaterIntakeGoal()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_DAILY_WATER_INTAKE_GOAL)
     
     private val _isChangeDailyGoalDialogShowing = MutableStateFlow(false)
     val isChangeDailyGoalDialogShowing = _isChangeDailyGoalDialogShowing.asStateFlow()

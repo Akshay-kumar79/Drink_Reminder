@@ -117,12 +117,18 @@ class MainActivity : ComponentActivity() {
                             composable(
                                 route = Route.WaterReportScreen.route,
                                 exitTransition = {
-                                    if (this.targetState.destination.route == Route.WaterADayDrinkScreen.route + "/{${WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT}}") {
+                                    if (
+                                        this.targetState.destination.route == Route.WaterADayDrinkScreen.route
+                                        + "/{${WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT}}"
+                                    ) {
                                         Animations.AppVerticalSlide.exit(this)
                                     } else Animations.Default.exit()
                                 },
                                 popEnterTransition = {
-                                    if (this.initialState.destination.route == Route.WaterADayDrinkScreen.route + "/{${WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT}}") {
+                                    if (
+                                        this.initialState.destination.route == Route.WaterADayDrinkScreen.route
+                                        + "/{${WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT}}"
+                                    ) {
                                         Animations.AppVerticalSlide.popEnter(this)
                                     } else Animations.Default.enter()
                                 }

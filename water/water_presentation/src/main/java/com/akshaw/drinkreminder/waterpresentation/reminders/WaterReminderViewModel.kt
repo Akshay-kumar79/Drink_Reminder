@@ -169,7 +169,10 @@ class WaterReminderViewModel @Inject constructor(
                     }
                     
                     is TSReminderMode.UpdateReminder -> {
-                        _selectedDays.value = DayOfWeek.values().associateBy({ it.value }, { event.reminderMode.drinkReminder.activeDays.contains(it) })
+                        _selectedDays.value = DayOfWeek.values().associateBy(
+                            { it.value },
+                            { event.reminderMode.drinkReminder.activeDays.contains(it) }
+                        )
                         _setReminderDialogHour.value = event.reminderMode.drinkReminder.time.hour
                         _setReminderDialogMinute.value = event.reminderMode.drinkReminder.time.minute
                     }
@@ -203,7 +206,12 @@ class WaterReminderViewModel @Inject constructor(
                             }
                             
                             is TSReminderMode.UpdateReminder -> {
-                                updateAndScheduleDrinkReminder(it.drinkReminder, setReminderDialogHour.value, setReminderDialogMinute.value, selectedDays.value)
+                                updateAndScheduleDrinkReminder(
+                                    it.drinkReminder,
+                                    setReminderDialogHour.value,
+                                    setReminderDialogMinute.value,
+                                    selectedDays.value
+                                )
                             }
                         }
                     } ?: kotlin.run {
