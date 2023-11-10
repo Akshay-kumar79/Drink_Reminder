@@ -28,6 +28,9 @@ val Context.dataStore: DataStore<androidx.datastore.preferences.core.Preferences
 
 class DefaultPreference(private val dataStore: DataStore<androidx.datastore.preferences.core.Preferences>) : Preferences {
     
+    companion object{
+        const val MIN_TWO_DIGIT_NUMBER = 10
+    }
     
     private val genderKey = stringPreferencesKey(Preferences.KEY_GENDER)
     private val ageKey = intPreferencesKey(Preferences.KEY_AGE)
@@ -155,9 +158,9 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
     @Suppress("KotlinConstantConditions")
     override fun getBedTime(): Flow<LocalTime> = dataStore.data.map { preference ->
         val defaultTime = buildString {
-            append(if (Constants.BED_TIME_DEFAULT_HOUR < 10) "0${Constants.BED_TIME_DEFAULT_HOUR}" else Constants.BED_TIME_DEFAULT_HOUR)
+            append(if (Constants.BED_TIME_DEFAULT_HOUR < MIN_TWO_DIGIT_NUMBER) "0${Constants.BED_TIME_DEFAULT_HOUR}" else Constants.BED_TIME_DEFAULT_HOUR)
             append(":")
-            append(if (Constants.BED_TIME_DEFAULT_MINUTE < 10) "0${Constants.BED_TIME_DEFAULT_MINUTE}" else Constants.BED_TIME_DEFAULT_MINUTE)
+            append(if (Constants.BED_TIME_DEFAULT_MINUTE < MIN_TWO_DIGIT_NUMBER) "0${Constants.BED_TIME_DEFAULT_MINUTE}" else Constants.BED_TIME_DEFAULT_MINUTE)
         }
         
         
@@ -174,9 +177,9 @@ class DefaultPreference(private val dataStore: DataStore<androidx.datastore.pref
     @Suppress("KotlinConstantConditions")
     override fun getWakeupTime(): Flow<LocalTime> = dataStore.data.map { preference ->
         val defaultTime = buildString {
-            append(if (Constants.WAKE_TIME_DEFAULT_HOUR < 10) "0${Constants.WAKE_TIME_DEFAULT_HOUR}" else Constants.WAKE_TIME_DEFAULT_HOUR)
+            append(if (Constants.WAKE_TIME_DEFAULT_HOUR < MIN_TWO_DIGIT_NUMBER) "0${Constants.WAKE_TIME_DEFAULT_HOUR}" else Constants.WAKE_TIME_DEFAULT_HOUR)
             append(":")
-            append(if (Constants.WAKE_TIME_DEFAULT_MINUTE < 10) "0${Constants.WAKE_TIME_DEFAULT_MINUTE}" else Constants.WAKE_TIME_DEFAULT_MINUTE)
+            append(if (Constants.WAKE_TIME_DEFAULT_MINUTE < MIN_TWO_DIGIT_NUMBER) "0${Constants.WAKE_TIME_DEFAULT_MINUTE}" else Constants.WAKE_TIME_DEFAULT_MINUTE)
         }
         
         
