@@ -5,6 +5,9 @@ import com.akshaw.drinkreminder.core.domain.model.Drink
 import java.time.LocalDate
 import javax.inject.Inject
 
+private const val PERCENTAGE_MAX = 100.0
+private const val DAYS_IN_A_WEEK = 7.0
+
 /**
  *  returns the percentage of number of days the daily goal completed in last week
  *  i.e (number of day goal completed in the last week) * 100 / 7
@@ -28,7 +31,7 @@ class GetWeeklyAverageCompletion @Inject constructor(
             }
             iteratingDay = iteratingDay.plusDays(1)
         }
-        return totalCompletion * 100.0 / 7.0
+        return totalCompletion * PERCENTAGE_MAX / DAYS_IN_A_WEEK
     }
     
 }
