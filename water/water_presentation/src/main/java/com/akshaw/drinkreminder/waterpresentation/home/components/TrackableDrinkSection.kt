@@ -31,6 +31,7 @@ import com.akshaw.drinkreminder.waterpresentation.home.events.DialogRemoveTracka
 import com.shawnlin.numberpicker.NumberPicker
 import kotlin.math.roundToInt
 
+@Suppress("MagicNumber")
 @Composable
 fun TrackableDrinkSection(
     modifier: Modifier = Modifier,

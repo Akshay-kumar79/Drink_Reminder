@@ -43,6 +43,7 @@ private fun DialogAddForgottenDrinkPreview() {
     )
 }
 
+@Suppress("MagicNumber")
 @Composable
 fun DialogAddForgottenDrink(
     modifier: Modifier = Modifier,
