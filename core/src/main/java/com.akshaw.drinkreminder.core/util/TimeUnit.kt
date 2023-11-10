@@ -1,17 +1,19 @@
 package com.akshaw.drinkreminder.core.util
 
+/** ids should not have number gap (for number picker purpose in UI) */
+private const val AM_ID = 100
+private const val PM_ID = 101
 
 enum class TimeUnit(val id: Int) {
     
-    /** ids should not have number gap (for number picker purpose in UI) */
-    AM(100),
-    PM(101);
+    AM(AM_ID),
+    PM(PM_ID);
     
     companion object {
         fun fromId(id: Int): TimeUnit? {
             return when (id) {
-                100 -> AM
-                101 -> PM
+                AM_ID -> AM
+                PM_ID -> PM
                 else -> null
             }
         }
