@@ -15,6 +15,7 @@ import com.akshaw.drinkreminder.core.R
 import kotlin.math.ceil
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Suppress("MagicNumber")
 @Composable
 fun ADayProgressCard(
     modifier: Modifier,
