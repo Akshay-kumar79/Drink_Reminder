@@ -49,6 +49,7 @@ private fun ChangeWeightDialogPreview() {
     }
 }
 
+@Suppress("MagicNumber")
 @Composable
 fun ChangeWeightDialog(
     modifier: Modifier = Modifier,

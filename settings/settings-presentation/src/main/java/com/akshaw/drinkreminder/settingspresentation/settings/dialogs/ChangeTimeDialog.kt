@@ -51,6 +51,7 @@ private fun ChangeTimeDialogPreview() {
     }
 }
 
+@Suppress("MagicNumber")
 @Composable
 fun ChangeTimeDialog(
     modifier: Modifier = Modifier,
