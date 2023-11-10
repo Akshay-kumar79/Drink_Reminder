@@ -5,6 +5,8 @@ import java.time.LocalDate
 import javax.inject.Inject
 import kotlin.math.ceil
 
+private const val DAYS_IN_WEEK = 7.0
+
 /**
  *  returns average number of drinks in last week on daily basis
  *  i.e ceiling of (total number of drink in last week) / 7
@@ -25,7 +27,7 @@ class GetWeeklyAverageFrequency @Inject constructor(
             totalDrinks += filterADayDrinks(iteratingDay, allDrinks).size
             iteratingDay = iteratingDay.plusDays(1)
         }
-        return ceil(totalDrinks / 7.0).toInt()
+        return ceil(totalDrinks / DAYS_IN_WEEK).toInt()
     }
     
 }
