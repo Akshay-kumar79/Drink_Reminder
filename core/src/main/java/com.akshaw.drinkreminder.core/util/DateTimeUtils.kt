@@ -4,6 +4,7 @@ import java.time.DayOfWeek
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
+@Suppress("MagicNumber")
 fun LocalTime.formatted24HourTime(): String {
     return "${
         if (hour <= 9)
@@ -21,6 +22,7 @@ fun LocalTime.formatted24HourTime(): String {
 /**
  *  @return string containing all days with first 3 letter in the list separated by a comma and space(", ")
  */
+@Suppress("MagicNumber")
 fun List<DayOfWeek>.formattedString(): String {
     return buildString {
         this@formattedString.forEachIndexed { index, dayOfWeek ->
