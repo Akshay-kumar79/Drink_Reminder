@@ -98,6 +98,7 @@ fun UpsertReminderDialog(
 /**
  *  @param selectedDays: map with key as DayOfWeek.value and value as true or false (if day is selected or not).
  */
+@Suppress("MagicNumber")
 @Composable
 private fun ReminderBottomSheet(
     selectedDays: Map<Int, Boolean>,
