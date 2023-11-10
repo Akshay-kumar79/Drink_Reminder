@@ -14,6 +14,7 @@ import kotlin.math.roundToInt
 /**
  *  Get the recommended daily water intake as per your preferred [WaterUnit]
  */
+@Suppress("MagicNumber")
 class GetRecommendedDailyWaterIntake @Inject constructor(
     private val changeWaterQuantityByUnit: ChangeWaterQuantityByUnit,
     private val changeWeightByUnit: ChangeWeightByUnit
