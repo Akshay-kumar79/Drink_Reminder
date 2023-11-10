@@ -18,6 +18,7 @@ import com.akshaw.drinkreminder.onboarding_presentation.OnboardingViewModel
 import com.shawnlin.numberpicker.NumberPicker
 import kotlin.math.roundToInt
 
+@Suppress("MagicNumber")
 @Composable
 fun SelectWeight(viewModel: OnboardingViewModel, modifier: Modifier) {
     Row(

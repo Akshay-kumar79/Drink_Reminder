@@ -49,6 +49,7 @@ private fun ChangeAgeDialogPreview() {
     }
 }
 
+@Suppress("MagicNumber")
 @Composable
 fun ChangeAgeDialog(
     modifier: Modifier = Modifier,
