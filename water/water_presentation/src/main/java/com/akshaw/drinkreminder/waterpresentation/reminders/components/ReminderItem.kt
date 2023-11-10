@@ -61,6 +61,7 @@ private fun ReminderItemPreview() {
     }
 }
 
+@Suppress("MagicNumber")
 @Composable
 fun ReminderItem(
     modifier: Modifier = Modifier,
