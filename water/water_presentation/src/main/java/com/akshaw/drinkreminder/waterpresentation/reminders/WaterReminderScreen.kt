@@ -214,7 +214,7 @@ fun WaterReminderScreen(
                     )
                 ),
                 textAlign = TextAlign.Center,
-                lineHeight = TextUnit(14f, TextUnitType.Sp),
+                lineHeight = 14.sp,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.height(20.dp))
