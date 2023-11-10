@@ -14,6 +14,7 @@ import javax.inject.Inject
  *      -> if filtered digit string length greater than 3 and current water unit is ML
  *      -> if filtered digit string length greater than 2 and current water unit is FL_OZ
  */
+@Suppress("MagicNumber")
 class ValidateQuantity @Inject constructor(
     private val filterOutDigits: FilterOutDigits
 ) {
