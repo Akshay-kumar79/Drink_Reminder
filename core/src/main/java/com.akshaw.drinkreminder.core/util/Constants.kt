@@ -50,6 +50,7 @@ object Constants {
     const val DEFAULT_IS_ONBOARDING_COMPLETED = false
     
     /** Default trackable drinks */
+    @Suppress("MagicNumber")
     val DEFAULT_TRACKABLE_DRINKS = listOf(50.0, 100.0, 200.0, 300.0, 500.0) // in ml
     
     // Privacy policy
