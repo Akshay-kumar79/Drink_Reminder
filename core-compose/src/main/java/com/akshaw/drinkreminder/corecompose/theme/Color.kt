@@ -1,4 +1,4 @@
-@file:Suppress("unused")
+@file:Suppress("unused", "MagicNumber")
 package com.akshaw.drinkreminder.corecompose.theme
 
 import androidx.compose.ui.graphics.Color
