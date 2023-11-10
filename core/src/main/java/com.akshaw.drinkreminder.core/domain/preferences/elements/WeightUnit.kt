@@ -1,13 +1,16 @@
 package com.akshaw.drinkreminder.core.domain.preferences.elements
 
+private const val KG_ID = 100
+private const val LBS_ID = 101
+
 private const val KG_ = "kg"
 private const val LBS_ = "lbs"
 
 enum class WeightUnit(val text: String, val id: Int) {
 
     /** ids should not have number gap*/
-     KG(KG_, 100),
-     LBS(LBS_, 101);
+     KG(KG_, KG_ID),
+     LBS(LBS_, LBS_ID);
 
     companion object {
         fun fromString(text: String?): WeightUnit? {
@@ -20,8 +23,8 @@ enum class WeightUnit(val text: String, val id: Int) {
 
         fun fromId(id: Int): WeightUnit? {
             return when (id) {
-                100 -> KG
-                101 -> LBS
+                KG_ID -> KG
+                LBS_ID -> LBS
                 else -> null
             }
         }
