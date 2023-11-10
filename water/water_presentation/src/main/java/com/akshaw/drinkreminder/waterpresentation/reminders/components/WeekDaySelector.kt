@@ -88,6 +88,7 @@ private fun DayOfWeekComp(
             },
         contentAlignment = Alignment.Center
     ) {
+        @Suppress("MagicNumber")
         Text(
             text = dayOfWeek.name.take(3),
             fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.Normal)),
