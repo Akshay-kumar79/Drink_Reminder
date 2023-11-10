@@ -411,6 +411,7 @@ naming:
     minimumFunctionNameLength: 3
   FunctionNaming:
     active: true
+    ignoreAnnotated: ['Composable']
     excludes: [
       '**/test/**',
       '**/androidTest/**',
