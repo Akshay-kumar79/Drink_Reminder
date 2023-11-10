@@ -6,6 +6,7 @@ import java.time.LocalTime
 /**
  *  Provided [LocalTime] object
  */
+@Suppress("MagicNumber")
 class GetLocalTime {
     
     /**
