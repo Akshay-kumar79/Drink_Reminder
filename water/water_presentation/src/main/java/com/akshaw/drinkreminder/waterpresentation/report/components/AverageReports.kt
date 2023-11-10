@@ -19,6 +19,7 @@ import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import kotlin.math.ceil
 
+@Suppress("MagicNumber")
 @Composable
 fun AverageReports(
     modifier: Modifier = Modifier,
@@ -73,7 +74,7 @@ fun AverageReports(
                 CircularProgressIndicator(
                     modifier = Modifier
                         .size(64.dp),
-                    progress = (weeklyAverageProgress/goal).toFloat().coerceIn(0f, 1f),
+                    progress = (weeklyAverageProgress / goal).toFloat().coerceIn(0f, 1f),
                     strokeWidth = 6.dp,
                     color = MaterialTheme.colorScheme.primary.copy(alpha = .6f)
                 )
@@ -82,7 +83,7 @@ fun AverageReports(
                     modifier = Modifier
                         .align(Alignment.Center)
                         .padding(start = 6.dp),
-                    text = "${ceil(weeklyAverageProgress*100/goal).toInt()}%",
+                    text = "${ceil(weeklyAverageProgress * 100 / goal).toInt()}%",
                     fontSize = 16.sp,
                     fontFamily = FontFamily(
                         Font(
@@ -121,7 +122,7 @@ fun AverageReports(
                     ),
                     color = MaterialTheme.colorScheme.onBackground
                 )
-        
+                
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     modifier = Modifier,
@@ -136,7 +137,7 @@ fun AverageReports(
                     color = MaterialTheme.colorScheme.onBackground
                 )
             }
-    
+            
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -154,7 +155,7 @@ fun AverageReports(
                     ),
                     color = MaterialTheme.colorScheme.onBackground
                 )
-        
+                
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     modifier = Modifier,
