@@ -17,6 +17,7 @@ import javax.inject.Inject
  *  These reminders are calculated based on [Preferences.getBedTime] and [Preferences.getWakeupTime]
  *  in a way that all reminders are between wakeup time and bed time
  */
+@Suppress("MagicNumber")
 class SaveInitialReminders @Inject constructor(
     private val preferences: Preferences,
     private val upsertDrinkReminder: UpsertDrinkReminder,
