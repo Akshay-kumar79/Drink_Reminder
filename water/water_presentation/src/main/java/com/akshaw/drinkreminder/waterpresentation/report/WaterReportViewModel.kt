@@ -60,6 +60,7 @@ class WaterReportViewModel @Inject constructor(
     private val _chartSelectedYear = MutableStateFlow(Year.now())
     val chartSelectedYear = _chartSelectedYear.asStateFlow()
     
+    @Suppress("MagicNumber")
     val chartData = combine(
         allDrinks,
         selectedChart,
@@ -68,7 +69,7 @@ class WaterReportViewModel @Inject constructor(
         goal,
         waterUnit
     ) { values ->
-    
+        
         val allDrinks = values[0] as List<Drink>
         val selectedChart = values[1] as ChartType
         val chartSelectedWeeksFirstDay = values[2] as LocalDate
@@ -136,18 +137,19 @@ class WaterReportViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0)
     
     
-    
     fun onEvent(event: WaterReportEvent) = viewModelScope.launch {
         when (event) {
             is WaterReportEvent.OnChartTypeChange -> {
                 _selectedChart.value = event.chartType
             }
+            
             WaterReportEvent.OnChartLeftClick -> {
                 when (selectedChart.value) {
                     ChartType.WEEK -> _chartSelectedWeeksFirstDay.value = chartSelectedWeeksFirstDay.value.minusWeeks(1)
                     ChartType.YEAR -> _chartSelectedYear.value = chartSelectedYear.value.minusYears(1)
                 }
             }
+            
             WaterReportEvent.OnChartRightClick -> {
                 when (selectedChart.value) {
                     ChartType.WEEK -> _chartSelectedWeeksFirstDay.value = chartSelectedWeeksFirstDay.value.plusWeeks(1)
