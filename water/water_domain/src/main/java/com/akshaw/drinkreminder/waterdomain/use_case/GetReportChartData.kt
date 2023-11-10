@@ -7,6 +7,12 @@ import java.time.*
 import javax.inject.Inject
 import kotlin.math.ceil
 
+private const val MIN_CHART_VALUE = 0
+private const val MAX_CHART_VALUE = 100
+
+// Resolution of detekt warning "MagicNumber"
+private const val PERCENTAGE_MAX = 100
+
 /**
  *  returns
  *  -> list of size 7 with progress of the week in percentage (0..100), if selectedChart is of type WEEK
@@ -35,12 +41,13 @@ class GetReportChartData @Inject constructor(
                         day,
                         allDrinks
                     ), currentWaterUnit)
-                    val percent = progress * 100 / goal
+                    val percent = progress * PERCENTAGE_MAX / goal
                     data.add(
-                        ceil(percent).toInt().coerceIn(0, 100)
+                        ceil(percent).toInt().coerceIn(MIN_CHART_VALUE, MAX_CHART_VALUE)
                     )
                 }
             }
+            
             ChartType.YEAR -> {
                 Month.values().forEach {
                     val month = YearMonth.of(chartSelectedYear.value, it)
@@ -49,9 +56,9 @@ class GetReportChartData @Inject constructor(
                         allDrinks
                     ), currentWaterUnit)
                     val numberOfDayInMonth = month.lengthOfMonth()
-                    val percent = (totalProgress * 100)/(goal * numberOfDayInMonth)
+                    val percent = (totalProgress * PERCENTAGE_MAX) / (goal * numberOfDayInMonth)
                     data.add(
-                        ceil(percent).toInt().coerceIn(0, 100)
+                        ceil(percent).toInt().coerceIn(MIN_CHART_VALUE, MAX_CHART_VALUE)
                     )
                 }
             }
