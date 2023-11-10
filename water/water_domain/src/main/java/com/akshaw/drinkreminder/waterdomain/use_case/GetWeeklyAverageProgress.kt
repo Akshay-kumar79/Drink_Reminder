@@ -5,6 +5,8 @@ import com.akshaw.drinkreminder.core.domain.model.Drink
 import java.time.LocalDate
 import javax.inject.Inject
 
+private const val DAYS_IN_WEEK = 7.0
+
 /**
  *  return the average to progress made in last week
  *  i.e (total progress in last week / 7)
@@ -16,7 +18,7 @@ class GetWeeklyAverageProgress @Inject constructor(
     private val filterADayDrinks: FilterADayDrinks
 ) {
     
-    operator fun invoke(allDrink: List<Drink>, currentWaterUnit: WaterUnit): Double{
+    operator fun invoke(allDrink: List<Drink>, currentWaterUnit: WaterUnit): Double {
         var totalAWeekProgress = 0.0
         val weekLastDay = LocalDate.now()
         val weekFirstDay = weekLastDay.minusWeeks(1).plusDays(1)
@@ -26,7 +28,7 @@ class GetWeeklyAverageProgress @Inject constructor(
             totalAWeekProgress += getDrinkProgress(filterADayDrinks(iteratingDay, allDrink), currentWaterUnit)
             iteratingDay = iteratingDay.plusDays(1)
         }
-        return totalAWeekProgress/7
+        return totalAWeekProgress / DAYS_IN_WEEK
     }
     
 }
