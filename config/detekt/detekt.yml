@@ -640,6 +640,9 @@ style:
     active: false
     singleLine: 'necessary'
     multiLine: 'consistent'
+# Remove in later versions as it is deprecated
+  OptionalWhenBraces:
+    active: false
   CanBeNonNullable:
     active: false
   CascadingCallWrapping:
