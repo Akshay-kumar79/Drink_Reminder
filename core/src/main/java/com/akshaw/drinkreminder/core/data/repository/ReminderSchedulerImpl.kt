@@ -75,7 +75,7 @@ class ReminderSchedulerImpl(private val context: Context) : ReminderScheduler {
         
         try {
             alarmManager.cancel(pendingIntent)
-        } finally { }
+        } catch (_: Exception) { }
     }
     
     companion object {
