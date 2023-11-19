@@ -14,16 +14,28 @@ private const val MAX_CHART_VALUE = 100
 private const val PERCENTAGE_MAX = 100
 
 /**
- *  returns
- *  -> list of size 7 with progress of the week in percentage (0..100), if selectedChart is of type WEEK
- *  -> list of size 12 with progress of the year in percentage (0..100), if selectedChart is of type YEAR
+ *  Create Report chart of type [ChartType.WEEK] and [ChartType.YEAR]
  */
 class GetReportChartData @Inject constructor(
     private val getDrinkProgress: GetDrinkProgress,
     private val filterADayDrinks: FilterADayDrinks,
     private val filterAMonthDrink: FilterAMonthDrink
 ) {
-    
+    /**
+     *  @param allDrinks list of all [Drink] that need to be converted
+     *  @param selectedChart [ChartType] to be created
+     *  @param chartSelectedWeeksFirstDay used to calculate the week for which chart
+     *  will be created. used only when [selectedChart] type is [ChartType.WEEK]
+     *  @param chartSelectedYear year for which chart will be created. used only
+     *  when [selectedChart] type is [ChartType.YEAR]
+     *  @param goal user's daily water intake goal
+     *  @param currentWaterUnit user's current water unit
+     *
+     *  @return
+     *  -> list of size 7 with progress of the week in percentage (0..100), if selectedChart is of type WEEK
+     *  -> list of size 12 with progress of the year in percentage (0..100), if selectedChart is of type YEAR
+     */
+    @Suppress("LongParameterList")
     operator fun invoke(
         allDrinks: List<Drink>,
         selectedChart: ChartType,
