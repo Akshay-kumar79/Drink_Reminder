@@ -24,27 +24,19 @@ class ChangeWaterQuantityByUnit @Inject constructor() {
     @Suppress("KotlinConstantConditions")
     operator fun invoke(waterQuantity: Double, currentWaterUnit: WaterUnit, newWaterUnit: WaterUnit): Result<Double> {
         
-        val newWaterQuantity = waterQuantity.let {
-            if (it < 0.0)
-                return Result.failure(Exception("Negative quantity"))
-            else if (currentWaterUnit == newWaterUnit) {
-                return Result.success(waterQuantity)
-            } else {
-                when (currentWaterUnit) {
-                    WaterUnit.ML -> {
-                        when (newWaterUnit) {
-                            WaterUnit.ML -> waterQuantity
-                            WaterUnit.FL_OZ -> waterQuantity * Constants.ML_TO_FLOZ
-                        }
-                    }
-                    
-                    WaterUnit.FL_OZ -> {
-                        when (newWaterUnit) {
-                            WaterUnit.ML -> waterQuantity * Constants.FLOZ_TO_ML
-                            WaterUnit.FL_OZ -> waterQuantity
-                        }
-                    }
-                }
+        val newWaterQuantity = if (waterQuantity < 0.0)
+            return Result.failure(Exception("Negative quantity"))
+        else if (currentWaterUnit == newWaterUnit) {
+            return Result.success(waterQuantity)
+        } else when (currentWaterUnit) {
+            WaterUnit.ML -> when (newWaterUnit) {
+                WaterUnit.ML -> waterQuantity
+                WaterUnit.FL_OZ -> waterQuantity * Constants.ML_TO_FLOZ
+            }
+            
+            WaterUnit.FL_OZ -> when (newWaterUnit) {
+                WaterUnit.ML -> waterQuantity * Constants.FLOZ_TO_ML
+                WaterUnit.FL_OZ -> waterQuantity
             }
         }
         

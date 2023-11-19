@@ -23,27 +23,20 @@ class ChangeWeightByUnit @Inject constructor() {
      */
     @Suppress("KotlinConstantConditions")
     operator fun invoke(weight: Float, currentWeightUnit: WeightUnit, newWeightUnit: WeightUnit): Result<Float> {
-        val newWeight = weight.let {
-            if (it < 0.0)
-                return Result.failure(Exception("Negative weight"))
-            else if (currentWeightUnit == newWeightUnit) {
-                return Result.success(weight)
-            } else {
-                when (currentWeightUnit) {
-                    WeightUnit.KG -> {
-                        when (newWeightUnit) {
-                            WeightUnit.KG -> weight
-                            WeightUnit.LBS -> (weight * Constants.KG_TO_LBS).toFloat()
-                        }
-                    }
-                    
-                    WeightUnit.LBS -> {
-                        when (newWeightUnit) {
-                            WeightUnit.KG -> (weight * Constants.LBS_TO_KG).toFloat()
-                            WeightUnit.LBS -> weight
-                        }
-                    }
-                }
+        val newWeight = if (weight < 0.0)
+            return Result.failure(Exception("Negative weight"))
+        else if (currentWeightUnit == newWeightUnit) {
+            return Result.success(weight)
+        } else when (currentWeightUnit) {
+            WeightUnit.KG -> when (newWeightUnit) {
+                WeightUnit.KG -> weight
+                WeightUnit.LBS -> (weight * Constants.KG_TO_LBS).toFloat()
+            }
+            
+            
+            WeightUnit.LBS -> when (newWeightUnit) {
+                WeightUnit.KG -> (weight * Constants.LBS_TO_KG).toFloat()
+                WeightUnit.LBS -> weight
             }
         }
         
