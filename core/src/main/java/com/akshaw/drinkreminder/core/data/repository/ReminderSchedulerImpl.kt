@@ -46,7 +46,7 @@ class ReminderSchedulerImpl(private val context: Context) : ReminderScheduler {
             ) {
                 return Result.failure(NoNotificationPermissionException())
             }
-            
+            @Suppress("SwallowedException")
             try {
                 alarmManager.setExactAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,

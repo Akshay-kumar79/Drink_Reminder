@@ -137,7 +137,8 @@ fun WaterReportChart(
                         ) {
                         
                         }
-                        
+    
+                        @Suppress("SwallowedException")
                         Text(
                             modifier = Modifier
                                 .height(16.dp)
