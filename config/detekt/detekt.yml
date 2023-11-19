@@ -772,6 +772,7 @@ style:
     maxChainedCalls: 5
   MaxLineLength:
     active: true
+    ignoreAnnotated: ['Test']
     maxLineLength: 150
     excludePackageStatements: true
     excludeImportStatements: true
