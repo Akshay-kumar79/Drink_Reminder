@@ -878,6 +878,7 @@ style:
     active: true
   UnusedPrivateMember:
     active: true
+    ignoreAnnotated: ['Preview']
     allowedNames: ''
   UnusedPrivateProperty:
     active: true

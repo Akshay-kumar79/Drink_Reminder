@@ -74,6 +74,7 @@ class SaveInitialRemindersTest {
     
     companion object {
         
+        @Suppress("UnusedPrivateMember")
         @JvmStatic
         private fun onboardingNotCompArgs(): Stream<Arguments> = Stream.of(
             Arguments.arguments(LocalTime.of(7, 0), LocalTime.of(21, 0), 10, LocalTime.of(7, 15)),
@@ -88,6 +89,7 @@ class SaveInitialRemindersTest {
             Arguments.arguments(LocalTime.of(21, 0), LocalTime.of(9, 0), 8, LocalTime.of(21, 45))
         )
         
+        @Suppress("UnusedPrivateMember")
         @JvmStatic
         private fun onboardingCompArgs(): Stream<Arguments> = Stream.of(
             Arguments.arguments(LocalTime.of(7, 0), LocalTime.of(21, 0)),
