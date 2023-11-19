@@ -25,11 +25,11 @@ class GetNextPage {
             if (nextPage == OnboardingPage.PERMISSION && hasAllPermission) {
                 nextPage.nextPage()?.let {
                     Result.success(it)
-                } ?: Result.failure(Exception())
+                } ?: Result.failure(Exception("next page not found"))
             } else {
                 Result.success(nextPage)
             }
-        } ?: Result.failure(Exception())
+        } ?: Result.failure(Exception("next page not found"))
     }
     
 }

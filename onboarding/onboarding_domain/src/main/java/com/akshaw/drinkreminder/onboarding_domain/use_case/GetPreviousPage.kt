@@ -20,7 +20,7 @@ class GetPreviousPage {
         return currentPage.previousPage()?.let { previousPage ->
             Result.success(previousPage)
         } ?: kotlin.run {
-            Result.failure(Exception())
+            Result.failure(Exception("previous page not found"))
         }
     }
     
