@@ -167,6 +167,7 @@ complexity:
     threshold: 60
   LongParameterList:
     active: true
+    ignoreAnnotated: ['Composable', 'ParameterizedTest', 'HiltViewModel']
     functionThreshold: 6
     constructorThreshold: 7
     ignoreDefaultParameters: false
