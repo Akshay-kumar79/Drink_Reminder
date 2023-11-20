@@ -19,6 +19,7 @@ detekt {
     buildUponDefaultConfig = true
     source.setFrom(files(projectDir))
     config.setFrom(file("${rootProject.rootDir}/config/detekt/detekt.yml"))
+    baseline = file("${rootProject.rootDir}/config/detekt/baseline.xml")
 }
 
 tasks.withType(Detekt::class.java).configureEach {
@@ -34,3 +35,18 @@ tasks.withType(Detekt::class.java).configureEach {
         html.required.set(true)
     }
 }
+
+val detektProjectBaseline by tasks.registering(io.gitlab.arturbosch.detekt.DetektCreateBaselineTask::class) {
+    description = "Overrides current baseline."
+    buildUponDefaultConfig.set(true)
+    ignoreFailures.set(true)
+    parallel.set(true)
+    setSource(files(rootDir))
+    config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
+    baseline.set(file("$rootDir/config/detekt/baseline.xml"))
+    include("**/*.kt")
+    include("**/*.kts")
+    exclude("**/resources/**")
+    exclude("**/build/**")
+}
+
