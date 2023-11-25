@@ -79,7 +79,7 @@ fun WaterHomeScreen(
     }
     
     LazyColumn(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxSize()
     ) {
         
         item {
