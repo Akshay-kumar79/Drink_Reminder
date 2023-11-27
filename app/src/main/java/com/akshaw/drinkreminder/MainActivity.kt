@@ -104,34 +104,34 @@ class MainActivity : ComponentActivity() {
                             composable(
                                 route = Route.MainScreen.route,
                                 exitTransition = {
-                                    when (this.targetState.destination.route) {
-                                        Route.WaterReminderScreen.route -> {
-                                            Animations.AppHorizontalSlide.exit(this)
-                                        }
-                                        Route.WaterADayDrinkScreen.route
-                                                + "/{${WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT}}" -> {
-                                            Animations.AppVerticalSlide.exit(this)
-                                        }
-                                        else -> Animations.Default.exit()
+                                    if (this.targetState.destination.route
+                                        in setOf(
+                                            Route.WaterReminderScreen.route,
+                                            Route.WaterADayDrinkScreen.route + "/{${WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT}}"
+                                        )
+                                    ) {
+                                        Animations.AppVerticalSlide.exit(this)
+                                    } else {
+                                        Animations.Default.exit()
                                     }
                                 },
                                 popEnterTransition = {
-                                    when (this.initialState.destination.route) {
-                                        Route.WaterReminderScreen.route -> {
-                                            Animations.AppHorizontalSlide.popEnter(this)
-                                        }
-                                        Route.WaterADayDrinkScreen.route
-                                                + "/{${WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT}}" -> {
-                                            Animations.AppVerticalSlide.popEnter(this)
-                                        }
-                                        else -> Animations.Default.enter()
+                                    if (this.targetState.destination.route
+                                        in setOf(
+                                            Route.WaterReminderScreen.route,
+                                            Route.WaterADayDrinkScreen.route + "/{${WaterADayDrinkViewModel.CURRENT_DAY_ARGUMENT}}"
+                                        )
+                                    ) {
+                                        Animations.AppVerticalSlide.popEnter(this)
+                                    } else {
+                                        Animations.Default.enter()
                                     }
                                 },
                             ) {
                                 BackHandler {
                                     lifecycleScope.launch {
                                         if (currentBottomNavScreen.currentPage != 0)
-                                            currentBottomNavScreen.scrollToPage(0)
+                                            currentBottomNavScreen.animateScrollToPage(0)
                                         else {
                                             finish()
                                         }
@@ -175,12 +175,12 @@ class MainActivity : ComponentActivity() {
                                 route = Route.WaterReminderScreen.route,
                                 enterTransition = {
                                     if (this.initialState.destination.route == Route.MainScreen.route) {
-                                        Animations.AppHorizontalSlide.enter(this)
+                                        Animations.AppVerticalSlide.enter(this)
                                     } else Animations.Default.enter()
                                 },
                                 popExitTransition = {
                                     if (this.targetState.destination.route == Route.MainScreen.route) {
-                                        Animations.AppHorizontalSlide.popExit(this)
+                                        Animations.AppVerticalSlide.popExit(this)
                                     } else Animations.Default.exit()
                                 }
                             ) {

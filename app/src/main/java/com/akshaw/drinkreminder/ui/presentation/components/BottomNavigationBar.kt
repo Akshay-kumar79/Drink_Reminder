@@ -86,7 +86,7 @@ private fun RowScope.AddNavigationBarItem(
     
     val onClick = {
         coroutineScope.launch {
-            currentBottomNavScreen.scrollToPage(screen.page)
+            currentBottomNavScreen.animateScrollToPage(screen.page)
         }
         Unit
     }
@@ -116,7 +116,7 @@ private fun RowScope.AddNavigationBarItem(
                 onClick = onClick
             )
         }
-    
+        
         // Ripple Effect
         Box(modifier = Modifier
             .fillMaxSize()
