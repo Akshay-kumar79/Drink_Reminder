@@ -36,7 +36,6 @@ fun DialogAddTrackableDrink(
             Card(
                 modifier = modifier,
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
             ) {
                 Text(
                     modifier = Modifier
