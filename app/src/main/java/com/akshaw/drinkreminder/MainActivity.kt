@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.*
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
@@ -128,8 +129,9 @@ class MainActivity : ComponentActivity() {
                                     }
                                 },
                             ) {
+                                val scope = rememberCoroutineScope()
                                 BackHandler {
-                                    lifecycleScope.launch {
+                                    scope.launch {
                                         if (currentBottomNavScreen.currentPage != 0)
                                             currentBottomNavScreen.animateScrollToPage(0)
                                         else {
