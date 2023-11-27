@@ -1,6 +1,7 @@
 package com.akshaw.drinkreminder.ui.presentation.components
 
 import android.util.Log
+import android.view.SoundEffectConstants
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -27,6 +28,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -82,10 +84,12 @@ private fun RowScope.AddNavigationBarItem(
     currentBottomNavScreen: PagerState
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val view = LocalView.current
     val interactionSource = remember { MutableInteractionSource() }
     
     val onClick = {
         coroutineScope.launch {
+            view.playSoundEffect(SoundEffectConstants.CLICK)
             currentBottomNavScreen.animateScrollToPage(screen.page)
         }
         Unit
