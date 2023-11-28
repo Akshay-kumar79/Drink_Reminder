@@ -139,7 +139,7 @@ fun WaterADayDrinkScreen(
                     
                 }
                 
-                items(todayDrinks) { drink ->
+                items(todayDrinks, key = { it.id }) { drink ->
                     DrinkItem(
                         modifier = Modifier
                             .fillMaxWidth()
