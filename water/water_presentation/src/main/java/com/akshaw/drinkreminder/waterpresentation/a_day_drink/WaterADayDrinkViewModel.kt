@@ -16,9 +16,11 @@ import com.akshaw.drinkreminder.waterdomain.use_case.FilterADayDrinks
 import com.akshaw.drinkreminder.waterdomain.use_case.ValidateQuantity
 import com.akshaw.drinkreminder.waterpresentation.common.events.DialogAddForgottenDrinkEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
@@ -45,7 +47,9 @@ class WaterADayDrinkViewModel @Inject constructor(
     } ?: LocalDate.now()
     
     val todayDrinks = waterRepository.getAllDrink().map {
-        filterADayDrinks(currentDate, it)
+        withContext(Dispatchers.IO){
+            filterADayDrinks(currentDate, it)
+        }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     
     val waterUnit = preferences.getWaterUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)

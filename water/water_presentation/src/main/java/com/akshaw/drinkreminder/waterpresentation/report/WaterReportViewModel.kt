@@ -9,8 +9,10 @@ import com.akshaw.drinkreminder.core.util.Constants
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.domain.model.Drink
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.Year
@@ -41,15 +43,21 @@ class WaterReportViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     
     val todayProgress = combine(allDrinks, waterUnit) { allDrinks, waterUnit ->
-        getDrinkProgress(filterADayDrinks(LocalDate.now(), allDrinks), waterUnit)
+        withContext(Dispatchers.IO){
+            getDrinkProgress(filterADayDrinks(LocalDate.now(), allDrinks), waterUnit)
+        }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
     
     val yesterdayProgress = combine(allDrinks, waterUnit) { allDrinks, waterUnit ->
-        getDrinkProgress(filterADayDrinks(LocalDate.now().minusDays(1), allDrinks), waterUnit)
+        withContext(Dispatchers.IO){
+            getDrinkProgress(filterADayDrinks(LocalDate.now().minusDays(1), allDrinks), waterUnit)
+        }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
     
     val dayBeforeYesterdayProgress = combine(allDrinks, waterUnit) { allDrinks, waterUnit ->
-        getDrinkProgress(filterADayDrinks(LocalDate.now().minusDays(2), allDrinks), waterUnit)
+        withContext(Dispatchers.IO){
+            getDrinkProgress(filterADayDrinks(LocalDate.now().minusDays(2), allDrinks), waterUnit)
+        }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
     
     
@@ -73,21 +81,23 @@ class WaterReportViewModel @Inject constructor(
         waterUnit
     ) { values ->
         
-        val allDrinks = values[0] as List<Drink>
-        val selectedChart = values[1] as ChartType
-        val chartSelectedWeeksFirstDay = values[2] as LocalDate
-        val chartSelectedYear = values[3] as Year
-        val goal = values[4] as Double
-        val waterUnit = values[5] as WaterUnit
-        
-        getReportChartData(
-            allDrinks,
-            selectedChart,
-            chartSelectedWeeksFirstDay,
-            chartSelectedYear,
-            goal,
-            waterUnit
-        )
+        withContext(Dispatchers.IO){
+            val allDrinks = values[0] as List<Drink>
+            val selectedChart = values[1] as ChartType
+            val chartSelectedWeeksFirstDay = values[2] as LocalDate
+            val chartSelectedYear = values[3] as Year
+            val goal = values[4] as Double
+            val waterUnit = values[5] as WaterUnit
+    
+            getReportChartData(
+                allDrinks,
+                selectedChart,
+                chartSelectedWeeksFirstDay,
+                chartSelectedYear,
+                goal,
+                waterUnit
+            )
+        }
         
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     
@@ -98,12 +108,14 @@ class WaterReportViewModel @Inject constructor(
         chartSelectedYear
     ) { allDrinks, selectedChart, chartSelectedWeeksFirstDay, chartSelectedYear ->
         
-        isReportChartLeftAvailable(
-            allDrinks,
-            selectedChart,
-            chartSelectedWeeksFirstDay,
-            chartSelectedYear
-        )
+        withContext(Dispatchers.IO){
+            isReportChartLeftAvailable(
+                allDrinks,
+                selectedChart,
+                chartSelectedWeeksFirstDay,
+                chartSelectedYear
+            )
+        }
         
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
     
@@ -114,29 +126,35 @@ class WaterReportViewModel @Inject constructor(
         chartSelectedYear
     ) { allDrinks, selectedChart, chartSelectedWeeksFirstDay, chartSelectedYear ->
         
-        isReportChartRightAvailable(
-            allDrinks,
-            selectedChart,
-            chartSelectedWeeksFirstDay,
-            chartSelectedYear
-        )
+        withContext(Dispatchers.IO){
+            isReportChartRightAvailable(
+                allDrinks,
+                selectedChart,
+                chartSelectedWeeksFirstDay,
+                chartSelectedYear
+            )
+        }
         
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
     
     // Average Report States
     val weeklyAverageProgress = combine(allDrinks, waterUnit) { allDrinks, waterUnit ->
-        getWeeklyAverageProgress(allDrinks, waterUnit)
+        withContext(Dispatchers.IO){
+            getWeeklyAverageProgress(allDrinks, waterUnit)
+        }
         
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
     
     val weeklyAverageCompletion = combine(allDrinks, goal, waterUnit) { allDrinks, goal, waterUnit ->
-        getWeeklyAverageCompletion(allDrinks, goal, waterUnit)
-        
+        withContext(Dispatchers.IO){
+            getWeeklyAverageCompletion(allDrinks, goal, waterUnit)
+        }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
     
     val weeklyAverageFrequency = allDrinks.map { allDrinks ->
-        getWeeklyAverageFrequency(allDrinks)
-        
+        withContext(Dispatchers.IO){
+            getWeeklyAverageFrequency(allDrinks)
+        }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0)
     
     

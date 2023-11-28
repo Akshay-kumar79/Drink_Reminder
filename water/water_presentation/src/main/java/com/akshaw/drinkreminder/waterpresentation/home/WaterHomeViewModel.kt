@@ -17,9 +17,11 @@ import com.akshaw.drinkreminder.waterpresentation.home.events.DialogAddTrackable
 import com.akshaw.drinkreminder.waterpresentation.home.events.DialogRemoveTrackableDrinkEvent
 import com.akshaw.drinkreminder.waterpresentation.home.events.WaterHomeEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
@@ -51,15 +53,21 @@ class WaterHomeViewModel @Inject constructor(
     val waterUnit = preferences.getWaterUnit().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)
     
     val todayDrinks = getAllDrinks().map {
-        filterADayDrinks(LocalDate.now(), it)
+        withContext(Dispatchers.IO) {
+            filterADayDrinks(LocalDate.now(), it)
+        }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     
     val progress = combine(todayDrinks, waterUnit) { todayDrinks, waterUnit ->
-        getDrinkProgress(todayDrinks, waterUnit)
+        withContext(Dispatchers.IO) {
+            getDrinkProgress(todayDrinks, waterUnit)
+        }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
     
     val trackableDrinks = combine(getAllTrackableDrinks(), waterUnit) { allTrackableDrinks, waterUnit ->
-        filterTrackableDrinksByUnit(waterUnit, allTrackableDrinks)
+        withContext(Dispatchers.IO) {
+            filterTrackableDrinksByUnit(waterUnit, allTrackableDrinks)
+        }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     
     private val _selectedTrackableDrink = MutableStateFlow(TrackableDrink(-1, 0.0, WaterUnit.ML))
@@ -100,13 +108,17 @@ class WaterHomeViewModel @Inject constructor(
     
     init {
         trackableDrinks.onEach {
-            _selectedTrackableDrink.value = getSelectedTrackableDrink(it, waterUnit.value)
+            withContext(Dispatchers.IO) {
+                _selectedTrackableDrink.value = getSelectedTrackableDrink(it, waterUnit.value)
+            }
         }.launchIn(viewModelScope)
         
         
         // Reschedule all reminders from local database
         viewModelScope.launch {
-            rescheduleAllTSDrinkReminders()
+            withContext(Dispatchers.IO) {
+                rescheduleAllTSDrinkReminders()
+            }
         }
     }
     
