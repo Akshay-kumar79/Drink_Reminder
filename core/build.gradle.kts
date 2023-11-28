@@ -11,6 +11,10 @@ android {
     libNamespace(Projects.Implementation.CORE)
     libDefaultConfig()
     libBuildTypes(project)
+    
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
 }
 
 dependencies {

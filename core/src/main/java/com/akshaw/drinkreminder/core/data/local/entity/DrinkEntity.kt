@@ -6,8 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "drinks_table")
 data class DrinkEntity(
     @PrimaryKey(autoGenerate = true)
-    var id: Long? = null,
-    
+    var id: Long = 0,
     var milli: Long = System.currentTimeMillis(),
     var waterIntake: Double,
     var unit: String

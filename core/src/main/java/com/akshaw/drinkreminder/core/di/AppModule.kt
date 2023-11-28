@@ -47,7 +47,7 @@ object AppModule {
             app,
             MyDatabase::class.java,
             MyDatabase.DATABASE_NAME
-        ).build()
+        ).addMigrations(MyDatabase.migration1To2).build()
     }
     
     @Provides

@@ -5,7 +5,7 @@ import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import java.time.LocalDateTime
 
 data class Drink(
-    var id: Long? = null,
+    var id: Long = 0,
     var dateTime: LocalDateTime = LocalDateTime.now(),
     var waterIntake: Double,
     var unit: WaterUnit
