@@ -15,7 +15,7 @@ import java.time.LocalTime
 @Serializable
 data class DrinkReminder(
     
-    val id: Long = -1,
+    val id: Long = 0,
     @Serializable(with = LocalTimeAsStringSerializer::class)
     var time: LocalTime,
     var isReminderOn: Boolean = true,
