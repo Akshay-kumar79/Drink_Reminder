@@ -70,10 +70,17 @@ internal fun String.namespace() = this.substringAfterLast(":").replace("-", ".")
 fun BaseAppModuleExtension.appSigningConfigs(project: Project) {
     signingConfigs {
         create("beta") {
-            storeFile = File(project.findLocalProperty(Config.LocalProperties.SingingConfig.Beta.STORE_FILE).toString())
-            storePassword = project.findLocalProperty(Config.LocalProperties.SingingConfig.Beta.STORE_PASSWORD).toString()
-            keyAlias = project.findLocalProperty(Config.LocalProperties.SingingConfig.Beta.KEY_ALIAS).toString()
-            keyPassword = project.findLocalProperty(Config.LocalProperties.SingingConfig.Beta.KEY_PASSWORD).toString()
+            storeFile = File(project.findLocalProperty(Config.LocalProperties.SingingConfig.STORE_FILE).toString())
+            storePassword = project.findLocalProperty(Config.LocalProperties.SingingConfig.STORE_PASSWORD).toString()
+            keyAlias = project.findLocalProperty(Config.LocalProperties.SingingConfig.KEY_ALIAS).toString()
+            keyPassword = project.findLocalProperty(Config.LocalProperties.SingingConfig.KEY_PASSWORD).toString()
+        }
+        
+        create("release"){
+            storeFile = File(project.findLocalProperty(Config.LocalProperties.SingingConfig.STORE_FILE).toString())
+            storePassword = project.findLocalProperty(Config.LocalProperties.SingingConfig.STORE_PASSWORD).toString()
+            keyAlias = project.findLocalProperty(Config.LocalProperties.SingingConfig.KEY_ALIAS).toString()
+            keyPassword = project.findLocalProperty(Config.LocalProperties.SingingConfig.KEY_PASSWORD).toString()
         }
     }
 }
@@ -94,6 +101,7 @@ fun BaseAppModuleExtension.applicationBuildTypes() {
         named("release") {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 }

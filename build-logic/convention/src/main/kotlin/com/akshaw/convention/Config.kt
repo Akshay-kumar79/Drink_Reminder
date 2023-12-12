@@ -12,13 +12,10 @@ object Config {
         const val FILE = "local.properties"
         
         object SingingConfig {
-            
-            object Beta {
-                const val STORE_FILE = "beta.upload.storeFile"
-                const val STORE_PASSWORD = "beta.upload.storePassword"
-                const val KEY_ALIAS = "beta.upload.keyAlias"
-                const val KEY_PASSWORD = "beta.upload.keyPassword"
-            }
+            const val STORE_FILE = "storeFile"
+            const val STORE_PASSWORD = "storePassword"
+            const val KEY_ALIAS = "keyAlias"
+            const val KEY_PASSWORD = "keyPassword"
         }
     }
     
