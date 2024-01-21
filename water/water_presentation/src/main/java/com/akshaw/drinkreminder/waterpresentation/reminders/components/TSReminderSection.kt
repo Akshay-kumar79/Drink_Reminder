@@ -14,6 +14,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
+import com.akshaw.drinkreminder.corecompose.utils.bounceClick
 
 
 /**
@@ -56,6 +57,7 @@ fun TSReminderSection(
                 onAddNewReminderClick()
             },
             modifier = Modifier
+                .bounceClick()
                 .fillMaxWidth()
                 .height(52.dp)
                 .padding(horizontal = 16.dp),

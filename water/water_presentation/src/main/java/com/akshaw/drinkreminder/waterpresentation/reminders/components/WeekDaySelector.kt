@@ -2,7 +2,6 @@ package com.akshaw.drinkreminder.waterpresentation.reminders.components
 
 import android.view.SoundEffectConstants
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -24,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme
+import com.akshaw.drinkreminder.corecompose.utils.bounceClick
 import java.time.DayOfWeek
 
 @Preview
@@ -75,6 +75,10 @@ private fun DayOfWeekComp(
     
     Box(
         modifier = Modifier
+            .bounceClick {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
+                onDaySelectionChange(dayOfWeek)
+            }
             .size(42.dp)
             .clip(CircleShape)
             .background(
@@ -82,10 +86,7 @@ private fun DayOfWeekComp(
                     MaterialTheme.colorScheme.primary
                 else
                     MaterialTheme.colorScheme.inverseSurface
-            ).clickable {
-                view.playSoundEffect(SoundEffectConstants.CLICK)
-                onDaySelectionChange(dayOfWeek)
-            },
+            ),
         contentAlignment = Alignment.Center
     ) {
         @Suppress("MagicNumber")
@@ -96,7 +97,7 @@ private fun DayOfWeekComp(
             color = if (selected)
                 MaterialTheme.colorScheme.onPrimary
             else
-            MaterialTheme.colorScheme.inverseOnSurface
+                MaterialTheme.colorScheme.inverseOnSurface
         )
     }
 }

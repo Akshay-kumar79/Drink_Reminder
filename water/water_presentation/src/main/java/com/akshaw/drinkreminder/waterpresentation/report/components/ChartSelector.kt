@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
+import com.akshaw.drinkreminder.corecompose.utils.bounceClick
 import com.akshaw.drinkreminder.waterdomain.utils.ChartType
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,6 +29,7 @@ fun ChartSelector(
     ) {
         Card(
             modifier = Modifier
+                .bounceClick()
                 .height(32.dp)
                 .width(84.dp),
             shape = RoundedCornerShape(8.dp),
@@ -64,6 +66,7 @@ fun ChartSelector(
         
         Card(
             modifier = Modifier
+                .bounceClick()
                 .height(32.dp)
                 .width(84.dp),
             shape = RoundedCornerShape(8.dp),

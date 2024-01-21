@@ -12,9 +12,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
+import com.akshaw.drinkreminder.corecompose.utils.bounceClick
 import kotlin.math.ceil
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Suppress("MagicNumber")
 @Composable
 fun ADayProgressCard(
@@ -26,12 +26,12 @@ fun ADayProgressCard(
     goal: Double
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier
+            .bounceClick {
+                onClick()
+            },
         colors = cardBackground,
         shape = RoundedCornerShape(16.dp),
-        onClick = {
-            onClick()
-        }
     ) {
         
         Column(
@@ -59,7 +59,7 @@ fun ADayProgressCard(
                     .fillMaxWidth()
                     .height(8.dp)
                     .clip(RoundedCornerShape(45.dp)),
-                progress = (progress/goal).coerceIn(0.0, 1.0).toFloat(),
+                progress = (progress / goal).coerceIn(0.0, 1.0).toFloat(),
                 trackColor = MaterialTheme.colorScheme.background
             )
             
@@ -82,7 +82,7 @@ fun ADayProgressCard(
                 )
                 
                 Text(
-                    text = "${ceil(progress*100/goal).coerceIn(0.0, 100.0).toInt()}%",
+                    text = "${ceil(progress * 100 / goal).coerceIn(0.0, 100.0).toInt()}%",
                     fontSize = 16.sp,
                     fontFamily = FontFamily(
                         Font(

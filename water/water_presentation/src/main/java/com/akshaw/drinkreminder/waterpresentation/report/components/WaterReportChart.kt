@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akshaw.drinkreminder.core.R
+import com.akshaw.drinkreminder.corecompose.utils.bounceClick
 import com.akshaw.drinkreminder.waterdomain.utils.ChartType
 import java.time.LocalDate
 import java.time.Year
@@ -53,6 +54,7 @@ fun WaterReportChart(
         ) {
             IconButton(
                 modifier = Modifier
+                    .bounceClick()
                     .padding(end = 10.dp)
                     .size(36.dp)
                     .align(Alignment.CenterVertically),
@@ -94,6 +96,7 @@ fun WaterReportChart(
             
             IconButton(
                 modifier = Modifier
+                    .bounceClick()
                     .padding(start = 10.dp)
                     .size(36.dp)
                     .align(Alignment.CenterVertically),

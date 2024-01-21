@@ -6,12 +6,15 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.akshaw.drinkreminder.navigation.Route
 import com.akshaw.drinkreminder.settingspresentation.settings.SettingsScreen
 import com.akshaw.drinkreminder.waterpresentation.home.WaterHomeScreen
 import com.akshaw.drinkreminder.waterpresentation.report.WaterReportScreen
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -21,6 +24,8 @@ fun MainScreen(
     snackbarHostState: SnackbarHostState,
     navController: NavController
 ) {
+    val coroutineScope = rememberCoroutineScope()
+    
     HorizontalPager(
         modifier = Modifier
             .fillMaxSize(),
@@ -31,13 +36,19 @@ fun MainScreen(
             0 -> WaterHomeScreen(
                 snackbarHostState = snackbarHostState,
                 onReminderClick = {
-                    navController.navigate(Route.WaterReminderScreen.route)
+                    coroutineScope.launch {
+                        delay(100)
+                        navController.navigate(Route.WaterReminderScreen.route)
+                    }
                 }
             )
             
             1 -> WaterReportScreen(
                 onADayDrinkClick = { date ->
-                    navController.navigate(Route.WaterADayDrinkScreen.route + "/" + date.format(DateTimeFormatter.ISO_LOCAL_DATE))
+                    coroutineScope.launch {
+                        delay(100)
+                        navController.navigate(Route.WaterADayDrinkScreen.route + "/" + date.format(DateTimeFormatter.ISO_LOCAL_DATE))
+                    }
                 }
             )
             

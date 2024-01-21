@@ -3,7 +3,6 @@ package com.akshaw.drinkreminder.waterpresentation.home.components
 import android.content.Context
 import android.view.SoundEffectConstants
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -24,6 +23,7 @@ import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.Utility
 import com.akshaw.drinkreminder.core.domain.preferences.elements.WaterUnit
 import com.akshaw.drinkreminder.core.domain.model.TrackableDrink
+import com.akshaw.drinkreminder.corecompose.utils.bounceClick
 import com.akshaw.drinkreminder.waterpresentation.home.events.WaterHomeEvent
 import com.akshaw.drinkreminder.waterpresentation.home.WaterHomeViewModel
 import com.akshaw.drinkreminder.waterpresentation.home.events.DialogAddTrackableDrinkEvent
@@ -53,12 +53,12 @@ fun TrackableDrinkSection(
     ) {
         Box(
             modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .clip(RoundedCornerShape(10.dp))
-                .clickable {
+                .bounceClick {
                     view.playSoundEffect(SoundEffectConstants.CLICK)
                     viewModel.onEvent(DialogRemoveTrackableDrinkEvent.OnRemoveTrackableDrinkClick)
                 }
+                .align(Alignment.CenterVertically)
+                .clip(RoundedCornerShape(10.dp))
                 .height(34.dp)
                 .width(52.dp)
                 .background(MaterialTheme.colorScheme.primary),
@@ -71,7 +71,7 @@ fun TrackableDrinkSection(
                 tint = MaterialTheme.colorScheme.onPrimary
             )
         }
-
+        
         DialogRemoveTrackableDrink(
             isDialogShowing = isRemoveTrackableDrinkDialogShowing,
             onCancel = {
@@ -83,7 +83,7 @@ fun TrackableDrinkSection(
                 viewModel.onEvent(DialogRemoveTrackableDrinkEvent.OnConfirmClick)
             }
         )
-
+        
         Box(
             contentAlignment = Alignment.Center
         ) {
@@ -94,7 +94,7 @@ fun TrackableDrinkSection(
                     .clip(RoundedCornerShape(12.dp))
                     .background(MaterialTheme.colorScheme.surfaceVariant)
             )
-
+            
             val surfaceVariant = MaterialTheme.colorScheme.onSurfaceVariant.toArgb()
             val primary = MaterialTheme.colorScheme.primary.toArgb()
             key(trackableDrinks.size) {
@@ -120,7 +120,7 @@ fun TrackableDrinkSection(
                             wrapSelectorWheel = trackableDrinks.size >= 5
                             textSize = Utility.getFloatFromSp(context, 16f)
                             wheelItemCount = 5
-                            value = trackableDrinks.indexOf(selectedTrackableDrink).let { if (it < 0) 0 else it}
+                            value = trackableDrinks.indexOf(selectedTrackableDrink).let { if (it < 0) 0 else it }
                             typeface = ResourcesCompat.getFont(context, R.font.roboto_medium)
                             setSelectedTypeface(ResourcesCompat.getFont(context, R.font.roboto_medium))
                             setOnValueChangedListener { _, _, newVal ->
@@ -134,22 +134,22 @@ fun TrackableDrinkSection(
                     }
                 )
             }
-
+            
         }
-
-
+        
+        
         Box(
             modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .clip(RoundedCornerShape(10.dp))
-                .clickable {
+                .bounceClick {
                     view.playSoundEffect(SoundEffectConstants.CLICK)
                     viewModel.onEvent(DialogAddTrackableDrinkEvent.OnAddTrackableDrinkClick)
                 }
+                .align(Alignment.CenterVertically)
+                .clip(RoundedCornerShape(10.dp))
                 .height(34.dp)
                 .width(52.dp)
                 .background(MaterialTheme.colorScheme.primary),
-
+            
             ) {
             Icon(
                 modifier = Modifier.align(Alignment.Center),
@@ -158,7 +158,7 @@ fun TrackableDrinkSection(
                 tint = MaterialTheme.colorScheme.onPrimary
             )
         }
-
+        
         DialogAddTrackableDrink(
             isDialogShowing = isAddTrackableDrinkDialogShowing,
             quantity = addTrackableDrinkDialogQuantity,

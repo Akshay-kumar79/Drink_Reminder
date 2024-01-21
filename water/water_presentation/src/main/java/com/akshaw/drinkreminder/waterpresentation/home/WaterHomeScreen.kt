@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
+import com.akshaw.drinkreminder.corecompose.utils.bounceClick
 import com.akshaw.drinkreminder.waterpresentation.common.components.DialogAddForgottenDrink
 import com.akshaw.drinkreminder.waterpresentation.common.components.DrinkItem
 import com.akshaw.drinkreminder.waterpresentation.home.components.TrackableDrinkSection
@@ -92,6 +93,7 @@ fun WaterHomeScreen(
                         onReminderClick()
                     },
                     modifier = Modifier
+                        .bounceClick()
                         .padding(
                             top = 8.dp,
                             end = 8.dp
@@ -163,7 +165,8 @@ fun WaterHomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp)
-                        .padding(horizontal = 84.dp),
+                        .padding(horizontal = 84.dp)
+                        .bounceClick(),
                     shape = RoundedCornerShape(16.dp),
                     onClick = {
                         view.playSoundEffect(SoundEffectConstants.CLICK)
@@ -185,13 +188,13 @@ fun WaterHomeScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(end = 16.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .clickable {
+                        .bounceClick {
                             view.playSoundEffect(SoundEffectConstants.CLICK)
                             viewModel.onEvent(DialogAddForgottenDrinkEvent.OnAddForgotDrinkClick)
                         }
+                        .align(Alignment.End)
+                        .padding(end = 16.dp)
+                        .clip(RoundedCornerShape(10.dp))
                         .padding(4.dp),
                     text = "forgot to add?",
                     fontFamily = FontFamily(

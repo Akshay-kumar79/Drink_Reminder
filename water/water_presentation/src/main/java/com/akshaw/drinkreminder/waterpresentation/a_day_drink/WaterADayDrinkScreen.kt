@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
+import com.akshaw.drinkreminder.corecompose.utils.bounceClick
 import com.akshaw.drinkreminder.waterpresentation.common.components.DialogAddForgottenDrink
 import com.akshaw.drinkreminder.waterpresentation.common.components.DrinkItem
 import com.akshaw.drinkreminder.waterpresentation.common.events.DialogAddForgottenDrinkEvent
@@ -179,6 +180,7 @@ fun WaterADayDrinkScreen(
                 viewModel.onEvent(DialogAddForgottenDrinkEvent.OnAddForgotDrinkClick)
             },
             modifier = Modifier
+                .bounceClick()
                 .align(Alignment.BottomEnd)
                 .padding(24.dp),
             containerColor = MaterialTheme.colorScheme.primary

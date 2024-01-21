@@ -39,6 +39,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.core.util.Utility
 import com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme
+import com.akshaw.drinkreminder.corecompose.utils.bounceClick
 import com.akshaw.drinkreminder.waterpresentation.reminders.components.WeekDaySelector
 import com.shawnlin.numberpicker.NumberPicker
 import java.time.DayOfWeek
@@ -267,6 +268,7 @@ private fun ReminderBottomSheet(
                     onButtonClick()
                 },
                 modifier = Modifier
+                    .bounceClick()
                     .fillMaxWidth(),
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
