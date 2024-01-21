@@ -1,8 +1,12 @@
 package com.akshaw.drinkreminder.waterpresentation.reminders.components
 
 import android.view.SoundEffectConstants
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -13,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -38,6 +43,7 @@ import com.akshaw.drinkreminder.core.util.formatted24HourTime
 import com.akshaw.drinkreminder.core.util.formattedString
 import com.akshaw.drinkreminder.corecompose.theme.DrinkReminderTheme
 import com.akshaw.drinkreminder.core.domain.model.DrinkReminder
+import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalTime
 
@@ -82,8 +88,11 @@ fun ReminderItem(
     
     val updatedDrinkReminder by rememberUpdatedState(drinkReminder)
     
+    val coroutineScope = rememberCoroutineScope()
+    val interactionSource = remember { MutableInteractionSource() }
     Row(
         modifier = modifier
+            .indication(interactionSource, LocalIndication.current)
             .pointerInput(true) {
                 detectTapGestures(
                     onLongPress = {
@@ -92,8 +101,14 @@ fun ReminderItem(
                         isPopupShowing = true
                     },
                     onTap = {
-                        view.playSoundEffect(SoundEffectConstants.CLICK)
-                        onClick(updatedDrinkReminder)
+                        coroutineScope.launch {
+                            val press = PressInteraction.Press(it)
+                            interactionSource.emit(press)
+                            interactionSource.emit(PressInteraction.Release(press))
+                            
+                            view.playSoundEffect(SoundEffectConstants.CLICK)
+                            onClick(updatedDrinkReminder)
+                        }
                     }
                 )
             }
