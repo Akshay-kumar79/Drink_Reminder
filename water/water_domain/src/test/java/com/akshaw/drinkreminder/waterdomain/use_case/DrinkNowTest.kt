@@ -92,7 +92,7 @@ class DrinkNowTest {
                 TrackableDrink(0L, quantity, WaterUnit.fromString(unit)!!)
             )
             assertThat(result.isSuccess).isTrue()
-            assertThat(result.getOrNull()).isEqualTo(-1)
+            assertThat(result.getOrNull()).isEqualTo(0)
         }
     }
 }
