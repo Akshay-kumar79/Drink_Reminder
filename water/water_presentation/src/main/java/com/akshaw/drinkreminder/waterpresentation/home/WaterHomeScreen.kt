@@ -93,7 +93,6 @@ fun WaterHomeScreen(
                         onReminderClick()
                     },
                     modifier = Modifier
-                        .bounceClick()
                         .padding(
                             top = 8.dp,
                             end = 8.dp
