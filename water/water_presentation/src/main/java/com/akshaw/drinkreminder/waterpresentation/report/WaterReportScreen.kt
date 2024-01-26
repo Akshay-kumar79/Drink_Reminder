@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -98,14 +99,22 @@ fun WaterReportScreen(
                 .fillMaxWidth()
                 .height(IntrinsicSize.Max)
         ) {
-            Image(
-                modifier = Modifier
-                    .padding(start = 16.dp, top = 20.dp),
-                imageVector = ImageVector.vectorResource(
-                    if(gender == Gender.Male) R.drawable.standing_person_image else R.drawable.standing_female_1
-                ),
-                contentDescription = null
-            )
+            
+            if (gender == Gender.Male) {
+                Image(
+                    modifier = Modifier
+                        .padding(start = 4.dp, top = 20.dp),
+                    painter = painterResource(R.drawable.standing_female_2),
+                    contentDescription = null
+                )
+            } else {
+                Image(
+                    modifier = Modifier
+                        .padding(start = 16.dp, top = 20.dp),
+                    imageVector = ImageVector.vectorResource(R.drawable.standing_person_image),
+                    contentDescription = null
+                )
+            }
             
             Column(
                 modifier = Modifier
