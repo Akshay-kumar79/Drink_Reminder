@@ -3,7 +3,16 @@ package com.akshaw.drinkreminder.waterpresentation.report
 import android.view.SoundEffectConstants
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -18,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -26,13 +36,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.akshaw.drinkreminder.core.R
+import com.akshaw.drinkreminder.core.domain.preferences.elements.Gender
 import com.akshaw.drinkreminder.waterpresentation.report.components.ADayProgressCard
 import com.akshaw.drinkreminder.waterpresentation.report.components.AverageReports
 import com.akshaw.drinkreminder.waterpresentation.report.components.ChartSelector
 import com.akshaw.drinkreminder.waterpresentation.report.components.WaterReportChart
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Locale
 
 @Composable
 fun WaterReportScreen(
@@ -44,6 +55,7 @@ fun WaterReportScreen(
     
     val goal by viewModel.goal.collectAsState()
     val currentWaterUnit by viewModel.waterUnit.collectAsState()
+    val gender by viewModel.gender.collectAsState()
     val todayProgress by viewModel.todayProgress.collectAsState()
     val yesterdayProgress by viewModel.yesterdayProgress.collectAsState()
     val dayBeforeYesterdayProgress by viewModel.dayBeforeYesterdayProgress.collectAsState()
@@ -88,16 +100,30 @@ fun WaterReportScreen(
                 .fillMaxWidth()
                 .height(IntrinsicSize.Max)
         ) {
-            Image(
-                modifier = Modifier
-                    .padding(start = 16.dp, top = 20.dp),
-                imageVector = ImageVector.vectorResource(id = R.drawable.standing_person_image),
-                contentDescription = null
-            )
+            
+            if (gender == Gender.Male) {
+                Image(
+                    modifier = Modifier
+                        .weight(4f)
+                        .padding(start = 8.dp, top = 12.dp, end = 10.dp),
+                    painter = painterResource(R.drawable.standing_female),
+                    contentDescription = null
+                )
+            } else {
+                Image(
+                    modifier = Modifier
+                        .weight(4f)
+                        .padding(start = 16.dp, top = 20.dp),
+                    imageVector = ImageVector.vectorResource(R.drawable.standing_person_image),
+                    contentDescription = null
+                )
+            }
+            
             
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxHeight()
+                    .weight(10f)
             ) {
                 
                 ADayProgressCard(

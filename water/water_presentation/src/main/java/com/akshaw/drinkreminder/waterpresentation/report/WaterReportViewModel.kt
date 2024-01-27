@@ -39,6 +39,9 @@ class WaterReportViewModel @Inject constructor(
     val waterUnit = preferences.getWaterUnit()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_WATER_UNIT)
     
+    val gender = preferences.getGender()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Constants.DEFAULT_GENDER)
+    
     private val allDrinks = getAllDrinks()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     
