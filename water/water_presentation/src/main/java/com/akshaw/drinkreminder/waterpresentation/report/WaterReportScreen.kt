@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -103,22 +104,26 @@ fun WaterReportScreen(
             if (gender == Gender.Male) {
                 Image(
                     modifier = Modifier
-                        .padding(start = 4.dp, top = 20.dp),
-                    painter = painterResource(R.drawable.standing_female_2),
+                        .weight(4f)
+                        .padding(start = 8.dp, top = 12.dp, end = 10.dp),
+                    painter = painterResource(R.drawable.standing_female),
                     contentDescription = null
                 )
             } else {
                 Image(
                     modifier = Modifier
+                        .weight(4f)
                         .padding(start = 16.dp, top = 20.dp),
                     imageVector = ImageVector.vectorResource(R.drawable.standing_person_image),
                     contentDescription = null
                 )
             }
             
+            
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxHeight()
+                    .weight(10f)
             ) {
                 
                 ADayProgressCard(
