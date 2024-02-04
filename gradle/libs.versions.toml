@@ -38,7 +38,7 @@ material = "1.9.0"
 kotlinxSerializationJson = "1.5.1"
 
 # Test
-junitJupiter = "5.9.3"
+junitJupiter = "5.10.2"
 assertk = "0.26.1"
 
 [libraries]
