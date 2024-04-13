@@ -24,6 +24,7 @@ abstract class MyDatabase : RoomDatabase() {
         const val DATABASE_NAME = "my_database"
         
         // Changed DrinkEntity.id type from Long? to Long and added default to 0
+        @Suppress("MaxLineLength")
         val migration1To2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 // Create the new table
