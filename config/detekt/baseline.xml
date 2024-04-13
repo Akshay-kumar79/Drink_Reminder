@@ -1,12 +1,13 @@
 <?xml version="1.0" ?>
 <SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
     <ID>CyclomaticComplexMethod:OnBoardingScreen.kt$@Composable fun OnBoardingScreen( snackbarHostState: SnackbarHostState, viewModel: OnboardingViewModel = hiltViewModel(), onProcessFinish: () -&gt; Unit, shouldShowRequestPermissionRationale: (permission: String) -&gt; Boolean, openAppSettings: () -&gt; Unit, openAppSetExactAlarmPermissionSettings: () -&gt; Unit )</ID>
     <ID>CyclomaticComplexMethod:OnboardingViewModel.kt$OnboardingViewModel$fun onEvent(event: OnboardingEvent)</ID>
     <ID>CyclomaticComplexMethod:SelectBedTime.kt$@Suppress("MagicNumber") @Composable fun SelectBedTime(viewModel: OnboardingViewModel, modifier: Modifier)</ID>
     <ID>CyclomaticComplexMethod:SelectWakeupTime.kt$@Suppress("MagicNumber") @Composable fun SelectWakeupTime(viewModel: OnboardingViewModel, modifier: Modifier)</ID>
     <ID>CyclomaticComplexMethod:WaterReminderViewModel.kt$WaterReminderViewModel$fun onEvent(event: UpsertReminderDialogEvent)</ID>
-    <ID>LongMethod:ADayProgressCard.kt$@OptIn(ExperimentalMaterial3Api::class) @Suppress("MagicNumber") @Composable fun ADayProgressCard( modifier: Modifier, cardBackground: CardColors, onClick: () -&gt; Unit, dayText: String, progress: Double, goal: Double )</ID>
+    <ID>LongMethod:ADayProgressCard.kt$@Suppress("MagicNumber") @Composable fun ADayProgressCard( modifier: Modifier, cardBackground: CardColors, onClick: () -&gt; Unit, dayText: String, progress: Double, goal: Double )</ID>
     <ID>LongMethod:AverageReports.kt$@Suppress("MagicNumber") @Composable fun AverageReports( modifier: Modifier = Modifier, goal: Double, currentWaterUnit: WaterUnit, weeklyAverageProgress: Double, weeklyAverageCompletion: Double, weeklyAverageFrequency: Int )</ID>
     <ID>LongMethod:ChangeAgeDialog.kt$@Suppress("MagicNumber") @Composable fun ChangeAgeDialog( modifier: Modifier = Modifier, age: Int, onCancel: () -&gt; Unit, onConfirm: () -&gt; Unit, onAgeChange: (age: Int) -&gt; Unit, )</ID>
     <ID>LongMethod:ChangeTimeDialog.kt$@Suppress("MagicNumber") @Composable fun ChangeTimeDialog( modifier: Modifier = Modifier, title: String, hour: Int, minute: Int, onCancel: () -&gt; Unit, onConfirm: () -&gt; Unit, onHourChange: (hour: Int) -&gt; Unit, onMinuteChange: (minute: Int) -&gt; Unit )</ID>
@@ -19,7 +20,7 @@
     <ID>LongMethod:DialogRemoveTrackableDrink.kt$@Composable fun DialogRemoveTrackableDrink( modifier: Modifier = Modifier, isDialogShowing: Boolean, onCancel: () -&gt; Unit, onConfirm: () -&gt; Unit )</ID>
     <ID>LongMethod:FilterADayDrinksTest.kt$FilterADayDrinksTest$@BeforeEach fun setUp()</ID>
     <ID>LongMethod:FilterAMonthDrinkTest.kt$FilterAMonthDrinkTest$@BeforeEach fun setUp()</ID>
-    <ID>LongMethod:MainActivity.kt$MainActivity$override fun onCreate(savedInstanceState: Bundle?)</ID>
+    <ID>LongMethod:MainActivity.kt$MainActivity$@OptIn(ExperimentalFoundationApi::class) override fun onCreate(savedInstanceState: Bundle?)</ID>
     <ID>LongMethod:OnBoardingScreen.kt$@Composable fun OnBoardingScreen( snackbarHostState: SnackbarHostState, viewModel: OnboardingViewModel = hiltViewModel(), onProcessFinish: () -&gt; Unit, shouldShowRequestPermissionRationale: (permission: String) -&gt; Boolean, openAppSettings: () -&gt; Unit, openAppSetExactAlarmPermissionSettings: () -&gt; Unit )</ID>
     <ID>LongMethod:OnboardingViewModel.kt$OnboardingViewModel$fun onEvent(event: OnboardingEvent)</ID>
     <ID>LongMethod:ReminderItem.kt$@Suppress("MagicNumber") @Composable fun ReminderItem( modifier: Modifier = Modifier, drinkReminder: DrinkReminder, onClick: (drinkReminder: DrinkReminder) -&gt; Unit, onSwitchCheckChange: (drinkReminder: DrinkReminder, isReminderOn: Boolean) -&gt; Unit, onDeleteReminder: (drinkReminder: DrinkReminder) -&gt; Unit )</ID>
