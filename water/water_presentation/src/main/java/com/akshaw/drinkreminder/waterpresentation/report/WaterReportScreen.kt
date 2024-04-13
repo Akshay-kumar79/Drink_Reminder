@@ -95,6 +95,7 @@ fun WaterReportScreen(
         )
         
         Spacer(modifier = Modifier.height(24.dp))
+        @Suppress("MagicNumber")
         Row(
             modifier = Modifier
                 .fillMaxWidth()

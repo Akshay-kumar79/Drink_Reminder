@@ -37,6 +37,7 @@ fun MainScreen(
                 snackbarHostState = snackbarHostState,
                 onReminderClick = {
                     coroutineScope.launch {
+                        @Suppress("MagicNumber")
                         delay(100)
                         navController.navigate(Route.WaterReminderScreen.route)
                     }
@@ -46,6 +47,7 @@ fun MainScreen(
             1 -> WaterReportScreen(
                 onADayDrinkClick = { date ->
                     coroutineScope.launch {
+                        @Suppress("MagicNumber")
                         delay(100)
                         navController.navigate(Route.WaterADayDrinkScreen.route + "/" + date.format(DateTimeFormatter.ISO_LOCAL_DATE))
                     }

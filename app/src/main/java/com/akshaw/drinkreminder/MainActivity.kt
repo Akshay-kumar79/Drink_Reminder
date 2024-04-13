@@ -62,6 +62,7 @@ class MainActivity : ComponentActivity() {
                     val snackbarHostState = remember { SnackbarHostState() }
                     val navController = rememberNavController()
                     
+                    @Suppress("MagicNumber")
                     val currentBottomNavScreen = rememberPagerState { 3 }
                     
                     Scaffold(
