@@ -1,6 +1,7 @@
 package com.akshaw.drinkreminder.waterpresentation.a_day_drink
 
 import android.view.SoundEffectConstants
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -69,6 +70,7 @@ fun WaterADayDrinkScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier
