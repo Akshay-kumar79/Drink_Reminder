@@ -95,7 +95,19 @@ fun WaterADayDrinkScreen(
                 Text(
                     modifier = Modifier
                         .align(Alignment.Center),
-                    text = "Report",
+                    text = when (viewModel.currentDate) {
+                        LocalDate.now() -> {
+                            "Today"
+                        }
+                        LocalDate.now().minusDays(1) -> {
+                            "Yesterday"
+                        }
+                        else -> {
+                            viewModel.currentDate.format(
+                                DateTimeFormatter.ofPattern("dd LLL, yyyy", Locale.ENGLISH)
+                            )
+                        }
+                    },
                     fontSize = 20.sp,
                     fontFamily = FontFamily(
                         Font(
@@ -111,36 +123,6 @@ fun WaterADayDrinkScreen(
             LazyColumn(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                item {
-                    Box(modifier = Modifier.fillMaxWidth()) {
-                        Text(
-                            modifier = Modifier
-                                .align(Alignment.Center),
-                            text = when (viewModel.currentDate) {
-                                LocalDate.now() -> {
-                                    "Today"
-                                }
-                                LocalDate.now().minusDays(1) -> {
-                                    "Yesterday"
-                                }
-                                else -> {
-                                    viewModel.currentDate.format(
-                                        DateTimeFormatter.ofPattern("dd LLL, yyyy", Locale.ENGLISH)
-                                    )
-                                }
-                            },
-                            fontSize = 14.sp,
-                            fontFamily = FontFamily(
-                                Font(
-                                    R.font.ubuntu_regular,
-                                    FontWeight.Normal
-                                )
-                            ),
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
-                    
-                }
                 
                 items(todayDrinks, key = { it.id }) { drink ->
                     DrinkItem(
