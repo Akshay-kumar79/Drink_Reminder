@@ -39,7 +39,7 @@ kotlinxSerializationJson = "1.5.1"
 
 # Test
 junitJupiter = "5.10.2"
-assertk = "0.26.1"
+assertk = "0.28.1"
 
 [libraries]
 
