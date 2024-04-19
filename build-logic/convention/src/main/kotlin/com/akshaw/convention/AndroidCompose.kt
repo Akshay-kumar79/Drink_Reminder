@@ -5,7 +5,7 @@ import org.gradle.api.Project
 
 @Suppress("UnusedReceiverParameter")
 internal fun Project.configureKotlinAndroidCompose(
-    commonExtension: CommonExtension<*, *, *, *, *>
+    commonExtension: CommonExtension<*, *, *, *, *, *>
 ) {
     commonExtension.apply {
         buildFeaturesCompose()
@@ -13,14 +13,14 @@ internal fun Project.configureKotlinAndroidCompose(
     }
 }
 
-fun CommonExtension<*, *, *, *, *>.buildFeaturesCompose() {
+fun CommonExtension<*, *, *, *, *, *>.buildFeaturesCompose() {
     buildFeatures {
         compose = true
         buildConfig = true
     }
 }
 
-fun CommonExtension<*, *, *, *, *>.composeOptions() {
+fun CommonExtension<*, *, *, *, *, *>.composeOptions() {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.8"
     }
