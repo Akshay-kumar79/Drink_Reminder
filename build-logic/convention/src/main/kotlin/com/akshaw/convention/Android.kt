@@ -1,4 +1,5 @@
 @file:Suppress("unused")
+
 package com.akshaw.convention
 
 import com.android.build.api.dsl.CommonExtension
@@ -12,7 +13,7 @@ import java.io.File
 
 @Suppress("UnusedReceiverParameter")
 internal fun Project.configureKotlinAndroid(
-    commonExtension: CommonExtension<*, *, *, *, *>
+    commonExtension: CommonExtension<*, *, *, *, *, *>
 ) {
     commonExtension.apply {
         commonSdk()
@@ -22,31 +23,31 @@ internal fun Project.configureKotlinAndroid(
     }
 }
 
-fun CommonExtension<*, *, *, *, *>.buildFeatures() {
+fun CommonExtension<*, *, *, *, *, *>.buildFeatures() {
     buildFeatures {
         buildConfig = true
     }
 }
 
-fun CommonExtension<*, *, *, *, *>.commonSdk() {
+fun CommonExtension<*, *, *, *, *, *>.commonSdk() {
     defaultConfig.minSdk = Android.Sdk.MIN
     compileSdk = Android.Sdk.COMPILE
 }
 
-fun CommonExtension<*, *, *, *, *>.compileOptions() {
+fun CommonExtension<*, *, *, *, *, *>.compileOptions() {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
-fun CommonExtension<*, *, *, *, *>.kotlinOptions() {
+fun CommonExtension<*, *, *, *, *, *>.kotlinOptions() {
     (this as ExtensionAware).extensions.configure<KotlinJvmOptions>(Android.Extension.KOTLIN_OPTIONS) {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
-fun CommonExtension<*, *, *, *, *>.packagingOptions() {
+fun CommonExtension<*, *, *, *, *, *>.packagingOptions() {
     packaging {
         resources {
             excludes += mutableSetOf(
@@ -76,7 +77,7 @@ fun BaseAppModuleExtension.appSigningConfigs(project: Project) {
             keyPassword = project.findLocalProperty(Config.LocalProperties.SingingConfig.KEY_PASSWORD).toString()
         }
         
-        create("release"){
+        create("release") {
             storeFile = File(project.findLocalProperty(Config.LocalProperties.SingingConfig.STORE_FILE).toString())
             storePassword = project.findLocalProperty(Config.LocalProperties.SingingConfig.STORE_PASSWORD).toString()
             keyAlias = project.findLocalProperty(Config.LocalProperties.SingingConfig.KEY_ALIAS).toString()
