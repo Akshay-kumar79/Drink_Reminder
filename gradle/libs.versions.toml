@@ -1,8 +1,8 @@
 [versions]
 # Plugin versions
 androidGradlePlugin = "8.3.2"
-kotlinAndroidPlugin = "1.8.22"   # change ksp compatible verision as well when updating kotlin version
-kspPlugin = "1.8.22-1.0.11"
+kotlinAndroidPlugin = "1.9.23"   # change ksp compatible verision as well when updating kotlin version
+kspPlugin = "1.9.23-1.0.20"
 hiltAndroidPlugin = "2.51.1"
 androidJunit5Plugin = "1.10.0.0"
 detektPlugin = "1.23.1"
