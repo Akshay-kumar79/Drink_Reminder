@@ -5,7 +5,7 @@ kotlinAndroidPlugin = "1.9.23"   # change ksp compatible verision as well when u
 kspPlugin = "1.9.23-1.0.20"
 hiltAndroidPlugin = "2.51.1"
 androidJunit5Plugin = "1.10.0.0"
-detektPlugin = "1.23.1"
+detektPlugin = "1.23.6"
 
 # Library versions
 androidXCore = "1.13.0"
