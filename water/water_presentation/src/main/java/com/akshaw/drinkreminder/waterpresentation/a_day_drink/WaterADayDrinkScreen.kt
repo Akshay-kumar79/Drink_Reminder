@@ -131,7 +131,8 @@ fun WaterADayDrinkScreen(
                             .clickable {
         
                             }
-                            .padding(vertical = 14.dp),
+                            .padding(vertical = 14.dp)
+                            .animateItem(),
                         drink = drink,
                         waterUnit = waterUnit,
                         onDeleteClick = {

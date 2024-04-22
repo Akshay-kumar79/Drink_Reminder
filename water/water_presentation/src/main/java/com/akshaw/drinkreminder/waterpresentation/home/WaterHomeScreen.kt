@@ -74,6 +74,7 @@ fun WaterHomeScreen(
                     snackbarHostState.currentSnackbarData?.dismiss()
                     snackbarHostState.showSnackbar(event.message.asString(context))
                 }
+                
                 else -> Unit
             }
         }
@@ -244,12 +245,15 @@ fun WaterHomeScreen(
             
         }
         
-        itemsIndexed(todayDrinks) { _, drink ->
+        itemsIndexed(todayDrinks, key = { _, drink ->
+            drink.id
+        }) { _, drink ->
             DrinkItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {}
-                    .padding(vertical = 14.dp),
+                    .padding(vertical = 14.dp)
+                    .animateItem(),
                 drink = drink,
                 waterUnit = waterUnit,
                 onDeleteClick = {

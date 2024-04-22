@@ -12,7 +12,7 @@ androidXCore = "1.13.0"
 androidxLifecycle = "2.7.0"
 androidxActivityCompose = "1.9.0"
 androidxMaterial3 = "1.1.1"
-androidxComposeUi = "1.6.6"
+androidxComposeUi = "1.7.0-alpha07"
 androidxNavigationCompose = "2.7.7"
 daggerHiltAndroid = "2.51.1"
 daggerHiltNavigationCompose = "1.2.0"
@@ -53,6 +53,7 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxMaterial3" }
 
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "androidxComposeUi" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "androidxComposeUi" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "androidxComposeUi" }
 
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigationCompose" }
