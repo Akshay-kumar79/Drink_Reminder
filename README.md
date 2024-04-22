@@ -71,15 +71,15 @@ Its purpose being, to quickly demonstrate Android, Kotlin and software developme
 
 # Build Variant
 
-## Beta Build
-The first thing that you need to do in order to be able to build and run the beta build variant is to locate the 'local.properties'
+## Beta and Release Setup
+The first thing that you need to do in order to be able to build and run the beta and release build variant is to locate the 'local.properties'
 file (and if it doesn't exist, create it). Then, add the following properties:
 ```
-# Beta Build Singing Configs
-beta.upload.storeFile = <YOUR.STORE.FILE.PATH>
-beta.upload.storePassword = <YOUR.STORE.PASSWORD>
-beta.upload.keyAlias = <YOUR.KEY.ALIAS>
-beta.upload.keyPassword = <YOUR.KEY.PASSWORD>
+# Build Singing Configs
+storeFile = <YOUR.STORE.FILE.PATH>
+storePassword = <YOUR.STORE.PASSWORD>
+keyAlias = <YOUR.KEY.ALIAS>
+keyPassword = <YOUR.KEY.PASSWORD>
 ```
 
 **THANK YOU**
