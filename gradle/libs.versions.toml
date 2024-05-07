@@ -34,7 +34,6 @@ hiltAndroidTesting = "2.51.1"
 junit = "4.13.2"
 kotlin-bom = "1.9.23"
 appcompat = "1.6.1"
-material = "1.11.0"
 kotlinxSerializationJson = "1.6.3"
 
 # Test
@@ -95,7 +94,6 @@ androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "and
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidxComposeUi" }
 kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlin-bom" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
