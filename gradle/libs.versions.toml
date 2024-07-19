@@ -1,7 +1,7 @@
 [versions]
 # Plugin versions
 androidGradlePlugin = "8.3.2"
-kotlinAndroidPlugin = "1.9.23"   # change ksp compatible verision as well when updating kotlin version
+kotlinAndroidPlugin = "1.9.25"   # change ksp compatible verision as well when updating kotlin version
 kspPlugin = "1.9.23-1.0.20"
 hiltAndroidPlugin = "2.51.1"
 androidJunit5Plugin = "1.10.0.0"
@@ -32,7 +32,7 @@ androidxArchCoreTesting = "2.2.0"
 androidxEspressoCore = "3.5.1"
 hiltAndroidTesting = "2.51.1"
 junit = "4.13.2"
-kotlin-bom = "1.9.23"
+kotlin-bom = "1.9.25"
 appcompat = "1.6.1"
 kotlinxSerializationJson = "1.6.3"
 
