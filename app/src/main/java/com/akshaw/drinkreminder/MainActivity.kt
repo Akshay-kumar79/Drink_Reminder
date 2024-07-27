@@ -169,7 +169,7 @@ class MainActivity : ComponentActivity() {
                                 WaterADayDrinkScreen(
                                     snackbarHostState = snackbarHostState,
                                     onBackClicked = {
-                                        navController.popBackStack()
+                                        navController.navigateUp()
                                     }
                                 )
                             }
@@ -190,7 +190,7 @@ class MainActivity : ComponentActivity() {
                                 WaterReminderScreen(
                                     snackbarHostState = snackbarHostState,
                                     onBackClicked = {
-                                        navController.popBackStack()
+                                        navController.navigateUp()
                                     },
                                     shouldShowRequestPermissionRationale = ::shouldShowRequestPermissionRationale,
                                     openAppSettings = ::openAppSettings,
@@ -201,7 +201,7 @@ class MainActivity : ComponentActivity() {
                             composable(route = Route.SettingsFaqScreen.route) {
                                 SettingsFaqScreen(
                                     onBackClicked = {
-                                        navController.popBackStack()
+                                        navController.navigateUp()
                                     }
                                 )
                             }
@@ -211,7 +211,7 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 SettingsBugReportScreen(
                                     onBackClicked = {
-                                        navController.popBackStack()
+                                        navController.navigateUp()
                                     }
                                 )
                             }
