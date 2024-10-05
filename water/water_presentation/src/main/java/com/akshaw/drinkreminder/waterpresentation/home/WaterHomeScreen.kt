@@ -1,5 +1,6 @@
 package com.akshaw.drinkreminder.waterpresentation.home
 
+import android.os.Build.VERSION_CODES.R
 import android.view.SoundEffectConstants
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -21,13 +22,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.akshaw.drinkreminder.core.R
 import com.akshaw.drinkreminder.corecompose.uievents.UiEvent
 import com.akshaw.drinkreminder.corecompose.utils.bounceClick
 import com.akshaw.drinkreminder.waterpresentation.common.components.DialogAddForgottenDrink
 import com.akshaw.drinkreminder.waterpresentation.common.components.DrinkItem
 import com.akshaw.drinkreminder.waterpresentation.home.components.TrackableDrinkSection
 import com.akshaw.drinkreminder.waterpresentation.common.events.DialogAddForgottenDrinkEvent
+import com.akshaw.drinkreminder.waterpresentation.home.components.MyLinearProgressIndicator
+import com.akshaw.drinkreminder.waterpresentation.home.components.TrackableDrinkSections
 import com.akshaw.drinkreminder.waterpresentation.home.events.WaterHomeEvent
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -107,56 +109,34 @@ fun WaterHomeScreen(
                 }
                 
                 Spacer(modifier = Modifier.height(6.dp))
-                Text(
-                    text = "${floor(goal).toInt()} ${waterUnit.text}",
-                    fontSize = 44.sp,
-                    fontFamily = FontFamily(
-                        Font(
-                            R.font.ubuntu_bold,
-                            FontWeight.Bold
-                        )
-                    ),
-                    color = MaterialTheme.colorScheme.onBackground,
+                MyLinearProgressIndicator(
                     modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                )
-                
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "Completed: ${progress.roundToInt()} ${waterUnit.text}",
-                    fontSize = 14.sp,
-                    fontFamily = FontFamily(
-                        Font(
-                            R.font.roboto_medium,
-                            FontWeight.Medium
-                        )
-                    ),
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-                
-                Spacer(modifier = Modifier.height(32.dp))
-                LinearProgressIndicator(
-                    progress = (progress / goal).toFloat(),
-                    modifier = Modifier
-                        .padding(horizontal = 36.dp)
+                        .padding(horizontal = 24.dp)
                         .fillMaxWidth()
-                        .height(8.dp)
-                        .clip(RoundedCornerShape(45.dp))
+                        .height(60.dp),
+                    progress = progress,
+                    goal = goal,
+                    round = 14.dp,
+                    waterUnit = waterUnit
                 )
                 
                 Spacer(modifier = Modifier.height(24.dp))
+//                TrackableDrinkSection(
+//                    modifier = Modifier.fillMaxWidth(),
+//                    context = context,
+//                    viewModel = viewModel,
+//                    trackableDrinks = trackableDrinks,
+//                    selectedTrackableDrink = selectedTrackableDrink,
+//                    waterUnit = waterUnit,
+//                    isAddTrackableDrinkDialogShowing = isAddTrackableDrinkDialogShowing,
+//                    addTrackableDrinkDialogQuantity = addTrackableDrinkDialogQuantity,
+//                    isRemoveTrackableDrinkDialogShowing = isRemoveTrackableDrinkDialogShowing
+//                )
                 
-                TrackableDrinkSection(
-                    modifier = Modifier.fillMaxWidth(),
-                    context = context,
-                    viewModel = viewModel,
-                    trackableDrinks = trackableDrinks,
-                    selectedTrackableDrink = selectedTrackableDrink,
-                    waterUnit = waterUnit,
-                    isAddTrackableDrinkDialogShowing = isAddTrackableDrinkDialogShowing,
-                    addTrackableDrinkDialogQuantity = addTrackableDrinkDialogQuantity,
-                    isRemoveTrackableDrinkDialogShowing = isRemoveTrackableDrinkDialogShowing
+                TrackableDrinkSections(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp)
                 )
                 
                 Spacer(modifier = Modifier.height(24.dp))
